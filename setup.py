@@ -2,9 +2,14 @@ from distutils.core import setup
 from distutils.extension import Extension
 from sys import platform
 import sys, os, struct, shutil
-v = sys.dont_write_bytecode; sys.dont_write_bytecode = 1
-from ctp import __version__, __author__
-sys.dont_write_bytecode = v
+try:
+    v = sys.dont_write_bytecode
+except AttributeError:
+    from ctp import __version__, __author__
+else:
+    sys.dont_write_bytecode = 1
+    from ctp import __version__, __author__
+    sys.dont_write_bytecode = v
 
 BUILD = (
     ('MdApi', 'thostmduserapi'),
