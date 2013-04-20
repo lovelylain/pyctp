@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 __author__ = 'lovelylain'
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 
 __all__ = ['ApiStruct', 'MdApi', 'TraderApi']
 
@@ -277,7 +277,7 @@ class TraderSpi(object):
 
 
 class MdApi(MdSpi):
-    def Create(self, pszFlowPath='', bIsUsingUdp=False):
+    def Create(self, pszFlowPath='', bIsUsingUdp=False, bIsMulticast=False):
         """创建MdApi
         @param pszFlowPath 存贮订阅信息文件的目录，默认为当前目录
         @return 创建出的UserApi
@@ -326,6 +326,11 @@ class MdApi(MdSpi):
         @remark RegisterNameServer优先于RegisterFront
         """
 
+    def RegisterFensUserInfo(self, pFensUserInfo):
+        """注册名字服务器用户信息
+        @param pFensUserInfo：用户信息。
+        """
+
     def SubscribeMarketData(self, pInstrumentIDs):
         """订阅行情。
         @param pInstrumentIDs 合约ID列表
@@ -350,11 +355,10 @@ class MdApi(MdSpi):
 
 
 class TraderApi(TraderSpi):
-    def Create(self, pszFlowPath='', bIsUsingUdp=False):
+    def Create(self, pszFlowPath=''):
         """创建TraderApi
         @param pszFlowPath 存贮订阅信息文件的目录，默认为当前目录
         @return 创建出的UserApi
-        modify for udp marketdata
         """
 
     def Release(self):
@@ -397,6 +401,11 @@ class TraderApi(TraderSpi):
         127.0.0.1:12001”。
         @remark “tcp”代表传输协议，“127.0.0.1”代表服务器地址。”12001”代表服务器端口号。
         @remark RegisterNameServer优先于RegisterFront
+        """
+
+    def RegisterFensUserInfo(self, pFensUserInfo):
+        """注册名字服务器用户信息
+        @param pFensUserInfo：用户信息。
         """
 
     def SubscribePrivateTopic(self, nResumeType):
@@ -637,5 +646,4 @@ def _init(init=_init, MdSpi=MdSpi, TraderSpi=TraderSpi):
         TraderSpi = dict((k,v) for k,v in TraderSpi.__dict__.items() if k.startswith('On'))
 
     f(init)(Module, MdSpi, TraderSpi)
-
 _init()

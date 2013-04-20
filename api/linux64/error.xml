@@ -68,6 +68,7 @@
 	<error id="AUTH_FAILED" value="63" prompt="综合交易平台：客户端认证失败"/>
 	<error id="NOT_AUTHENT" value="64" prompt="综合交易平台：客户端未认证"/>
 	<error id="SWAPORDER_UNSUPPORTED" value="65" prompt="综合交易平台：该合约不支持互换类型报单"/>
+	<error id="LOGIN_FORBIDDEN" value="66" prompt="综合交易平台：连续登录失败次数超限，登录被禁止"/>
 	<!--灾备系统错误代码 -->		
 	<error id="NO_TRADING_RIGHT_IN_SEPC_DR" value="101" prompt="综合交易平台：用户在本系统没有报单权限"/>
 	<error id="NO_DR_NO" value="102" prompt="综合交易平台：系统缺少灾备标示号"/>
@@ -107,6 +108,8 @@
   <error id="ACCOUNTID_ALREADY_REGISTER" value="1032" prompt="银期转账：资金账户已经登记"/>
   <error id="BANKACCOUNT_ALREADY_REGISTER" value="1033" prompt="银期转账：银行账户已经登记"/>
   <error id="DUP_BANK_SERIAL_REDO_OK" value="1034" prompt="银期转账：重复的银行流水,重发成功"/>       
+  <error id="CURRENCYID_NOT_SUPPORTED" value="1035" prompt="银期转账：该币种代码不支持"/>
+  <error id="INVALID_MAC" value="1036" prompt="银期转账：MAC值验证失败"/>
 <!-- add for transfer begin -->
 	<error id="NO_VALID_BANKOFFER_AVAILABLE" value="2000" prompt="综合交易平台：该报盘未连接到银行"/>
 	<error id="PASSWORD_MISMATCH" value="2001" prompt="综合交易平台：资金密码错误"/>

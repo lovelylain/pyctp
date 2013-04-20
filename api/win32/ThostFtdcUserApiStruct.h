@@ -826,6 +826,8 @@ struct CThostFtdcDepthMarketDataField
 	TThostFtdcVolumeType	AskVolume5;
 	///当日均价
 	TThostFtdcPriceType	AveragePrice;
+	///业务日期
+	TThostFtdcDateType	ActionDay;
 };
 
 ///投资者合约交易权限
@@ -1039,6 +1041,8 @@ struct CThostFtdcCurrentTimeField
 	TThostFtdcTimeType	CurrTime;
 	///当前时间（毫秒）
 	TThostFtdcMillisecType	CurrMillisec;
+	///业务日期
+	TThostFtdcDateType	ActionDay;
 };
 
 ///通讯阶段
@@ -1048,6 +1052,8 @@ struct CThostFtdcCommPhaseField
 	TThostFtdcDateType	TradingDay;
 	///通讯时段编号
 	TThostFtdcCommPhaseNoType	CommPhaseNo;
+	///系统编号
+	TThostFtdcSystemIDType	SystemID;
 };
 
 ///登录信息
@@ -2402,6 +2408,8 @@ struct CThostFtdcMarketDataField
 	TThostFtdcTimeType	UpdateTime;
 	///最后修改毫秒
 	TThostFtdcMillisecType	UpdateMillisec;
+	///业务日期
+	TThostFtdcDateType	ActionDay;
 };
 
 ///行情基础属性
@@ -2527,6 +2535,8 @@ struct CThostFtdcMarketDataUpdateTimeField
 	TThostFtdcTimeType	UpdateTime;
 	///最后修改毫秒
 	TThostFtdcMillisecType	UpdateMillisec;
+	///业务日期
+	TThostFtdcDateType	ActionDay;
 };
 
 ///行情交易所代码属性
@@ -5887,6 +5897,53 @@ struct CThostFtdcDRTransferField
 	TThostFtdcBrokerIDType	OrigBrokerID;
 	///目标易用单元代码
 	TThostFtdcBrokerIDType	DestBrokerID;
+};
+
+///Fens用户信息
+struct CThostFtdcFensUserInfoField
+{
+	///经纪公司代码
+	TThostFtdcBrokerIDType	BrokerID;
+	///用户代码
+	TThostFtdcUserIDType	UserID;
+	///登录模式
+	TThostFtdcLoginModeType	LoginMode;
+};
+
+///当前银期所属交易中心
+struct CThostFtdcCurrTransferIdentityField
+{
+	///交易中心代码
+	TThostFtdcDRIdentityIDType	IdentityID;
+};
+
+///禁止登录用户
+struct CThostFtdcLoginForbiddenUserField
+{
+	///经纪公司代码
+	TThostFtdcBrokerIDType	BrokerID;
+	///用户代码
+	TThostFtdcUserIDType	UserID;
+};
+
+///查询禁止登录用户
+struct CThostFtdcQryLoginForbiddenUserField
+{
+	///经纪公司代码
+	TThostFtdcBrokerIDType	BrokerID;
+	///用户代码
+	TThostFtdcUserIDType	UserID;
+};
+
+///UDP组播组信息
+struct CThostFtdcMulticastGroupInfoField
+{
+	///组播组IP地址
+	TThostFtdcIPAddressType	GroupIP;
+	///组播组IP端口
+	TThostFtdcIPPortType	GroupPort;
+	///源地址
+	TThostFtdcIPAddressType	SourceIP;
 };
 
 

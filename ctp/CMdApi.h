@@ -1,5 +1,5 @@
-#ifndef IMDAPI_H
-#define IMDAPI_H
+#ifndef CMDAPI_H
+#define CMDAPI_H
 
 #include <Python.h>
 #include "ThostFtdcMdApi.h"
@@ -14,10 +14,10 @@ static inline void MdSpi_OnRspSubMarketData(PyObject *, CThostFtdcSpecificInstru
 static inline void MdSpi_OnRspUnSubMarketData(PyObject *, CThostFtdcSpecificInstrumentField *, CThostFtdcRspInfoField *, int, bool);
 static inline void MdSpi_OnRtnDepthMarketData(PyObject *, CThostFtdcDepthMarketDataField *);
 
-class IMdSpi : public CThostFtdcMdSpi {
+class CMdSpi : public CThostFtdcMdSpi {
 public:
-	IMdSpi(PyObject *obj):self(obj) {}
-	virtual ~IMdSpi() {}
+	CMdSpi(PyObject *obj):self(obj) {}
+	virtual ~CMdSpi() {}
 
 	virtual void OnFrontConnected() {
 		MdSpi_OnFrontConnected(self);
@@ -59,7 +59,7 @@ private:
 	PyObject *self;
 };
 
-static inline void ReleaseMdApi(CThostFtdcMdApi *api, IMdSpi *spi) {
+static inline void ReleaseMdApi(CThostFtdcMdApi *api, CMdSpi *spi) {
 	if (api) {
 		api->RegisterSpi(NULL);
 #ifndef _WIN32
@@ -70,4 +70,4 @@ static inline void ReleaseMdApi(CThostFtdcMdApi *api, IMdSpi *spi) {
 	}
 }
 
-#endif /* IMDAPI_H */
+#endif /* CMDAPI_H */

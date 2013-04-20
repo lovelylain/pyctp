@@ -1,5 +1,5 @@
-#ifndef ITRADERAPI_H
-#define ITRADERAPI_H
+#ifndef CTRADERAPI_H
+#define CTRADERAPI_H
 
 #include <Python.h>
 #include "ThostFtdcTraderApi.h"
@@ -78,10 +78,10 @@ static inline void TraderSpi_OnRtnOpenAccountByBank(PyObject *, CThostFtdcOpenAc
 static inline void TraderSpi_OnRtnCancelAccountByBank(PyObject *, CThostFtdcCancelAccountField *);
 static inline void TraderSpi_OnRtnChangeAccountByBank(PyObject *, CThostFtdcChangeAccountField *);
 
-class ITraderSpi : public CThostFtdcTraderSpi {
+class CTraderSpi : public CThostFtdcTraderSpi {
 public:
-	ITraderSpi(PyObject *obj):self(obj) {}
-	virtual ~ITraderSpi() {}
+	CTraderSpi(PyObject *obj):self(obj) {}
+	virtual ~CTraderSpi() {}
 
 	virtual void OnFrontConnected() {
 		TraderSpi_OnFrontConnected(self);
@@ -379,7 +379,7 @@ private:
 	PyObject *self;
 };
 
-static inline void ReleaseTraderApi(CThostFtdcTraderApi *api, ITraderSpi *spi) {
+static inline void ReleaseTraderApi(CThostFtdcTraderApi *api, CTraderSpi *spi) {
 	if (api) {
 		api->RegisterSpi(NULL);
 #ifndef _WIN32
@@ -390,4 +390,4 @@ static inline void ReleaseTraderApi(CThostFtdcTraderApi *api, ITraderSpi *spi) {
 	}
 }
 
-#endif /* ITRADERAPI_H */
+#endif /* CTRADERAPI_H */

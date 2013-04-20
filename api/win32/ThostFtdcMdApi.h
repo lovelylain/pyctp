@@ -72,7 +72,7 @@ public:
 	///@param pszFlowPath 存贮订阅信息文件的目录，默认为当前目录
 	///@return 创建出的UserApi
 	///modify for udp marketdata
-	static CThostFtdcMdApi *CreateFtdcMdApi(const char *pszFlowPath = "", const bool bIsUsingUdp=false);
+	static CThostFtdcMdApi *CreateFtdcMdApi(const char *pszFlowPath = "", const bool bIsUsingUdp=false, const bool bIsMulticast=false);
 	
 	///删除接口对象本身
 	///@remark 不再使用本接口对象时,调用该函数删除接口对象
@@ -103,6 +103,10 @@ public:
 	///@remark “tcp”代表传输协议，“127.0.0.1”代表服务器地址。”12001”代表服务器端口号。
 	///@remark RegisterNameServer优先于RegisterFront
 	virtual void RegisterNameServer(char *pszNsAddress) = 0;
+	
+	///注册名字服务器用户信息
+	///@param pFensUserInfo：用户信息。
+	virtual void RegisterFensUserInfo(CThostFtdcFensUserInfoField * pFensUserInfo) = 0;
 	
 	///注册回调接口
 	///@param pSpi 派生自回调接口类的实例

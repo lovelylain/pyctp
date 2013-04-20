@@ -113,6 +113,11 @@ typedef char TThostFtdcExchangeFlagType[2];
 typedef char TThostFtdcMacAddressType[21];
 
 /////////////////////////////////////////////////////////////////////////
+///TFtdcSystemIDType是一个系统编号类型
+/////////////////////////////////////////////////////////////////////////
+typedef char TThostFtdcSystemIDType[21];
+
+/////////////////////////////////////////////////////////////////////////
 ///TFtdcExchangePropertyType是一个交易所属性类型
 /////////////////////////////////////////////////////////////////////////
 ///正常
@@ -166,6 +171,11 @@ typedef char TThostFtdcCommandTypeType[65];
 ///TFtdcIPAddressType是一个IP地址类型
 /////////////////////////////////////////////////////////////////////////
 typedef char TThostFtdcIPAddressType[16];
+
+/////////////////////////////////////////////////////////////////////////
+///TFtdcIPPortType是一个IP端口类型
+/////////////////////////////////////////////////////////////////////////
+typedef int TThostFtdcIPPortType;
 
 /////////////////////////////////////////////////////////////////////////
 ///TFtdcProductInfoType是一个产品信息类型
@@ -1273,6 +1283,8 @@ typedef char TThostFtdcInvestorSettlementParamIDType;
 #define THOST_FTDC_ESPI_CFFEXMinPrepa '6'
 ///郑商所结算方式
 #define THOST_FTDC_ESPI_CZCESettlementType '7'
+///中金所实物交割手续费收取方式
+#define THOST_FTDC_ESPI_CFFEXDelivFee '8'
 
 typedef char TThostFtdcExchangeSettlementParamIDType;
 
@@ -1319,6 +1331,10 @@ typedef char TThostFtdcExchangeSettlementParamIDType;
 #define THOST_FTDC_SPI_FreezeMaxReMain 'r'
 ///手续费相关操作实时上场开关
 #define THOST_FTDC_SPI_IsSync 'A'
+///解除开仓权限限制
+#define THOST_FTDC_SPI_RelieveOpenLimit 'O'
+///是否规范用户才能休眠
+#define THOST_FTDC_SPI_IsStandardFreeze 'X'
 
 typedef char TThostFtdcSystemParamIDType;
 
@@ -1331,6 +1347,16 @@ typedef char TThostFtdcSystemParamIDType;
 #define THOST_FTDC_TPID_RiskMode 'R'
 ///系统风险算法是否全局 0-否 1-是
 #define THOST_FTDC_TPID_RiskModeGlobal 'G'
+///密码加密算法
+#define THOST_FTDC_TPID_modeEncode 'P'
+///价格小数位数参数
+#define THOST_FTDC_TPID_tickMode 'T'
+///用户最大会话数
+#define THOST_FTDC_TPID_SingleUserSessionMaxNum 'S'
+///最大连续登录失败数
+#define THOST_FTDC_TPID_LoginFailMaxNum 'L'
+///是否强制认证
+#define THOST_FTDC_TPID_IsAuthForce 'A'
 
 typedef char TThostFtdcTradeParamIDType;
 
@@ -1875,6 +1901,8 @@ typedef char TThostFtdcIncludeCloseProfitType;
 #define THOST_FTDC_AWT_Enable '0'
 ///受可提比例限制
 #define THOST_FTDC_AWT_Disable '2'
+///无仓不受可提比例限制
+#define THOST_FTDC_AWT_NoHoldEnable '3'
 
 typedef char TThostFtdcAllWithoutTradeType;
 
@@ -3839,26 +3867,7 @@ typedef char TThostFtdcUOAProcessStatusType[3];
 /////////////////////////////////////////////////////////////////////////
 ///TFtdcProcessTypeType是一个流程功能类型类型
 /////////////////////////////////////////////////////////////////////////
-///申请交易编码
-#define THOST_FTDC_PT_ApplyTradingCode '1'
-///撤销交易编码
-#define THOST_FTDC_PT_CancelTradingCode '2'
-///修改身份信息
-#define THOST_FTDC_PT_ModifyIDCard '3'
-///修改一般信息
-#define THOST_FTDC_PT_ModifyNoIDCard '4'
-///交易所开户报备
-#define THOST_FTDC_PT_ExchOpenBak '5'
-///交易所销户报备
-#define THOST_FTDC_PT_ExchCancelBak '6'
-///补报规范资料
-#define THOST_FTDC_PT_StandardAccount '7'
-///账户休眠
-#define THOST_FTDC_PT_FreezeAccount '8'
-///激活休眠账户
-#define THOST_FTDC_PT_ActiveFreezeAccount '9'
-
-typedef char TThostFtdcProcessTypeType;
+typedef char TThostFtdcProcessTypeType[3];
 
 /////////////////////////////////////////////////////////////////////////
 ///TFtdcBusinessTypeType是一个业务类型类型
@@ -4478,6 +4487,11 @@ typedef char TThostFtdcIsSettlementType[2];
 typedef double TThostFtdcCSRCMoneyType;
 
 /////////////////////////////////////////////////////////////////////////
+///TFtdcCSRCPriceType是一个价格类型
+/////////////////////////////////////////////////////////////////////////
+typedef double TThostFtdcCSRCPriceType;
+
+/////////////////////////////////////////////////////////////////////////
 ///TFtdcCommModelNameType是一个手续费率模板名称类型
 /////////////////////////////////////////////////////////////////////////
 typedef char TThostFtdcCommModelNameType[161];
@@ -4722,6 +4736,10 @@ typedef char TThostFtdcCSRCFreezeStatusType[2];
 #define THOST_FTDC_RPT_Freeze '1'
 ///激活休眠户
 #define THOST_FTDC_RPT_FreezeActive '2'
+///开仓权限限制
+#define THOST_FTDC_RPT_OpenLimit '3'
+///解除开仓权限限制
+#define THOST_FTDC_RPT_RelieveOpenLimit '4'
 
 typedef char TThostFtdcRightParamTypeType;
 
@@ -5043,5 +5061,15 @@ typedef char TThostFtdcCloseDealTypeType;
 #define THOST_FTDC_SM_Restore '3'
 
 typedef char TThostFtdcStartModeType;
+
+/////////////////////////////////////////////////////////////////////////
+///TFtdcLoginModeType是一个登录模式类型
+/////////////////////////////////////////////////////////////////////////
+///交易
+#define THOST_FTDC_LM_Trade '0'
+///转账
+#define THOST_FTDC_LM_Transfer '1'
+
+typedef char TThostFtdcLoginModeType;
 
 #endif
