@@ -3,9 +3,9 @@ pyctp
 
 ctp wrapper for python
 
-CTP版本：20120530
+CTP版本：20120530(linux32缺少libthostmduserapi.so)
 
-环境：python2.5 ~ python3.3，Windows或者Linux(linux32缺少libthostmduserapi.so)
+环境：python2.5 ~ python3.3，Windows或者Linux
 
 编译：`python setup.py build`
 

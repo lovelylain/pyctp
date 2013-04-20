@@ -5,8 +5,278 @@ __version__ = '0.1.0'
 
 __all__ = ['ApiStruct', 'MdApi', 'TraderApi']
 
+try: from . import ApiStruct
+except ImportError: ApiStruct = __import__(__name__+'.ApiStruct', None, None, 'x')
 
-class MdApi(object):
+class MdSpi(object):
+    def OnFrontConnected(self):
+        """当客户端与交易后台建立起通信连接时（还未登录前），该方法被调用。"""
+
+    def OnFrontDisconnected(self, nReason):
+        """当客户端与交易后台通信连接断开时，该方法被调用。当发生这个情况后，API会自动重新连接，客户端可不做处理。
+        @param nReason 错误原因
+                0x1001 网络读失败
+                0x1002 网络写失败
+                0x2001 接收心跳超时
+                0x2002 发送心跳失败
+                0x2003 收到错误报文
+        """
+
+    def OnHeartBeatWarning(self, nTimeLapse):
+        """心跳超时警告。当长时间未收到报文时，该方法被调用。
+        @param nTimeLapse 距离上次接收报文的时间
+        """
+
+    def OnRspUserLogin(self, pRspUserLogin, pRspInfo, nRequestID, bIsLast):
+        """登录请求响应"""
+
+    def OnRspUserLogout(self, pUserLogout, pRspInfo, nRequestID, bIsLast):
+        """登出请求响应"""
+
+    def OnRspError(self, pRspInfo, nRequestID, bIsLast):
+        """错误应答"""
+
+    def OnRspSubMarketData(self, pSpecificInstrument, pRspInfo, nRequestID, bIsLast):
+        """订阅行情应答"""
+
+    def OnRspUnSubMarketData(self, pSpecificInstrument, pRspInfo, nRequestID, bIsLast):
+        """取消订阅行情应答"""
+
+    def OnRtnDepthMarketData(self, pDepthMarketData):
+        """深度行情通知"""
+
+
+class TraderSpi(object):
+    def OnFrontConnected(self):
+        """当客户端与交易后台建立起通信连接时（还未登录前），该方法被调用。"""
+
+    def OnFrontDisconnected(self, nReason):
+        """当客户端与交易后台通信连接断开时，该方法被调用。当发生这个情况后，API会自动重新连接，客户端可不做处理。
+        @param nReason 错误原因
+                0x1001 网络读失败
+                0x1002 网络写失败
+                0x2001 接收心跳超时
+                0x2002 发送心跳失败
+                0x2003 收到错误报文
+        """
+
+    def OnHeartBeatWarning(self, nTimeLapse):
+        """心跳超时警告。当长时间未收到报文时，该方法被调用。
+        @param nTimeLapse 距离上次接收报文的时间
+        """
+
+    def OnRspAuthenticate(self, pRspAuthenticate, pRspInfo, nRequestID, bIsLast):
+        """客户端认证响应"""
+
+    def OnRspUserLogin(self, pRspUserLogin, pRspInfo, nRequestID, bIsLast):
+        """登录请求响应"""
+
+    def OnRspUserLogout(self, pUserLogout, pRspInfo, nRequestID, bIsLast):
+        """登出请求响应"""
+
+    def OnRspUserPasswordUpdate(self, pUserPasswordUpdate, pRspInfo, nRequestID, bIsLast):
+        """用户口令更新请求响应"""
+
+    def OnRspTradingAccountPasswordUpdate(self, pTradingAccountPasswordUpdate, pRspInfo, nRequestID, bIsLast):
+        """资金账户口令更新请求响应"""
+
+    def OnRspOrderInsert(self, pInputOrder, pRspInfo, nRequestID, bIsLast):
+        """报单录入请求响应"""
+
+    def OnRspParkedOrderInsert(self, pParkedOrder, pRspInfo, nRequestID, bIsLast):
+        """预埋单录入请求响应"""
+
+    def OnRspParkedOrderAction(self, pParkedOrderAction, pRspInfo, nRequestID, bIsLast):
+        """预埋撤单录入请求响应"""
+
+    def OnRspOrderAction(self, pInputOrderAction, pRspInfo, nRequestID, bIsLast):
+        """报单操作请求响应"""
+
+    def OnRspQueryMaxOrderVolume(self, pQueryMaxOrderVolume, pRspInfo, nRequestID, bIsLast):
+        """查询最大报单数量响应"""
+
+    def OnRspSettlementInfoConfirm(self, pSettlementInfoConfirm, pRspInfo, nRequestID, bIsLast):
+        """投资者结算结果确认响应"""
+
+    def OnRspRemoveParkedOrder(self, pRemoveParkedOrder, pRspInfo, nRequestID, bIsLast):
+        """删除预埋单响应"""
+
+    def OnRspRemoveParkedOrderAction(self, pRemoveParkedOrderAction, pRspInfo, nRequestID, bIsLast):
+        """删除预埋撤单响应"""
+
+    def OnRspQryOrder(self, pOrder, pRspInfo, nRequestID, bIsLast):
+        """请求查询报单响应"""
+
+    def OnRspQryTrade(self, pTrade, pRspInfo, nRequestID, bIsLast):
+        """请求查询成交响应"""
+
+    def OnRspQryInvestorPosition(self, pInvestorPosition, pRspInfo, nRequestID, bIsLast):
+        """请求查询投资者持仓响应"""
+
+    def OnRspQryTradingAccount(self, pTradingAccount, pRspInfo, nRequestID, bIsLast):
+        """请求查询资金账户响应"""
+
+    def OnRspQryInvestor(self, pInvestor, pRspInfo, nRequestID, bIsLast):
+        """请求查询投资者响应"""
+
+    def OnRspQryTradingCode(self, pTradingCode, pRspInfo, nRequestID, bIsLast):
+        """请求查询交易编码响应"""
+
+    def OnRspQryInstrumentMarginRate(self, pInstrumentMarginRate, pRspInfo, nRequestID, bIsLast):
+        """请求查询合约保证金率响应"""
+
+    def OnRspQryInstrumentCommissionRate(self, pInstrumentCommissionRate, pRspInfo, nRequestID, bIsLast):
+        """请求查询合约手续费率响应"""
+
+    def OnRspQryExchange(self, pExchange, pRspInfo, nRequestID, bIsLast):
+        """请求查询交易所响应"""
+
+    def OnRspQryInstrument(self, pInstrument, pRspInfo, nRequestID, bIsLast):
+        """请求查询合约响应"""
+
+    def OnRspQryDepthMarketData(self, pDepthMarketData, pRspInfo, nRequestID, bIsLast):
+        """请求查询行情响应"""
+
+    def OnRspQrySettlementInfo(self, pSettlementInfo, pRspInfo, nRequestID, bIsLast):
+        """请求查询投资者结算结果响应"""
+
+    def OnRspQryTransferBank(self, pTransferBank, pRspInfo, nRequestID, bIsLast):
+        """请求查询转帐银行响应"""
+
+    def OnRspQryInvestorPositionDetail(self, pInvestorPositionDetail, pRspInfo, nRequestID, bIsLast):
+        """请求查询投资者持仓明细响应"""
+
+    def OnRspQryNotice(self, pNotice, pRspInfo, nRequestID, bIsLast):
+        """请求查询客户通知响应"""
+
+    def OnRspQrySettlementInfoConfirm(self, pSettlementInfoConfirm, pRspInfo, nRequestID, bIsLast):
+        """请求查询结算信息确认响应"""
+
+    def OnRspQryInvestorPositionCombineDetail(self, pInvestorPositionCombineDetail, pRspInfo, nRequestID, bIsLast):
+        """请求查询投资者持仓明细响应"""
+
+    def OnRspQryCFMMCTradingAccountKey(self, pCFMMCTradingAccountKey, pRspInfo, nRequestID, bIsLast):
+        """查询保证金监管系统经纪公司资金账户密钥响应"""
+
+    def OnRspQryEWarrantOffset(self, pEWarrantOffset, pRspInfo, nRequestID, bIsLast):
+        """请求查询仓单折抵信息响应"""
+
+    def OnRspQryTransferSerial(self, pTransferSerial, pRspInfo, nRequestID, bIsLast):
+        """请求查询转帐流水响应"""
+
+    def OnRspQryAccountregister(self, pAccountregister, pRspInfo, nRequestID, bIsLast):
+        """请求查询银期签约关系响应"""
+
+    def OnRspError(self, pRspInfo, nRequestID, bIsLast):
+        """错误应答"""
+
+    def OnRtnOrder(self, pOrder):
+        """报单通知"""
+
+    def OnRtnTrade(self, pTrade):
+        """成交通知"""
+
+    def OnErrRtnOrderInsert(self, pInputOrder, pRspInfo):
+        """报单录入错误回报"""
+
+    def OnErrRtnOrderAction(self, pOrderAction, pRspInfo):
+        """报单操作错误回报"""
+
+    def OnRtnInstrumentStatus(self, pInstrumentStatus):
+        """合约交易状态通知"""
+
+    def OnRtnTradingNotice(self, pTradingNoticeInfo):
+        """交易通知"""
+
+    def OnRtnErrorConditionalOrder(self, pErrorConditionalOrder):
+        """提示条件单校验错误"""
+
+    def OnRspQryContractBank(self, pContractBank, pRspInfo, nRequestID, bIsLast):
+        """请求查询签约银行响应"""
+
+    def OnRspQryParkedOrder(self, pParkedOrder, pRspInfo, nRequestID, bIsLast):
+        """请求查询预埋单响应"""
+
+    def OnRspQryParkedOrderAction(self, pParkedOrderAction, pRspInfo, nRequestID, bIsLast):
+        """请求查询预埋撤单响应"""
+
+    def OnRspQryTradingNotice(self, pTradingNotice, pRspInfo, nRequestID, bIsLast):
+        """请求查询交易通知响应"""
+
+    def OnRspQryBrokerTradingParams(self, pBrokerTradingParams, pRspInfo, nRequestID, bIsLast):
+        """请求查询经纪公司交易参数响应"""
+
+    def OnRspQryBrokerTradingAlgos(self, pBrokerTradingAlgos, pRspInfo, nRequestID, bIsLast):
+        """请求查询经纪公司交易算法响应"""
+
+    def OnRtnFromBankToFutureByBank(self, pRspTransfer):
+        """银行发起银行资金转期货通知"""
+
+    def OnRtnFromFutureToBankByBank(self, pRspTransfer):
+        """银行发起期货资金转银行通知"""
+
+    def OnRtnRepealFromBankToFutureByBank(self, pRspRepeal):
+        """银行发起冲正银行转期货通知"""
+
+    def OnRtnRepealFromFutureToBankByBank(self, pRspRepeal):
+        """银行发起冲正期货转银行通知"""
+
+    def OnRtnFromBankToFutureByFuture(self, pRspTransfer):
+        """期货发起银行资金转期货通知"""
+
+    def OnRtnFromFutureToBankByFuture(self, pRspTransfer):
+        """期货发起期货资金转银行通知"""
+
+    def OnRtnRepealFromBankToFutureByFutureManual(self, pRspRepeal):
+        """系统运行时期货端手工发起冲正银行转期货请求，银行处理完毕后报盘发回的通知"""
+
+    def OnRtnRepealFromFutureToBankByFutureManual(self, pRspRepeal):
+        """系统运行时期货端手工发起冲正期货转银行请求，银行处理完毕后报盘发回的通知"""
+
+    def OnRtnQueryBankBalanceByFuture(self, pNotifyQueryAccount):
+        """期货发起查询银行余额通知"""
+
+    def OnErrRtnBankToFutureByFuture(self, pReqTransfer, pRspInfo):
+        """期货发起银行资金转期货错误回报"""
+
+    def OnErrRtnFutureToBankByFuture(self, pReqTransfer, pRspInfo):
+        """期货发起期货资金转银行错误回报"""
+
+    def OnErrRtnRepealBankToFutureByFutureManual(self, pReqRepeal, pRspInfo):
+        """系统运行时期货端手工发起冲正银行转期货错误回报"""
+
+    def OnErrRtnRepealFutureToBankByFutureManual(self, pReqRepeal, pRspInfo):
+        """系统运行时期货端手工发起冲正期货转银行错误回报"""
+
+    def OnErrRtnQueryBankBalanceByFuture(self, pReqQueryAccount, pRspInfo):
+        """期货发起查询银行余额错误回报"""
+
+    def OnRtnRepealFromBankToFutureByFuture(self, pRspRepeal):
+        """期货发起冲正银行转期货请求，银行处理完毕后报盘发回的通知"""
+
+    def OnRtnRepealFromFutureToBankByFuture(self, pRspRepeal):
+        """期货发起冲正期货转银行请求，银行处理完毕后报盘发回的通知"""
+
+    def OnRspFromBankToFutureByFuture(self, pReqTransfer, pRspInfo, nRequestID, bIsLast):
+        """期货发起银行资金转期货应答"""
+
+    def OnRspFromFutureToBankByFuture(self, pReqTransfer, pRspInfo, nRequestID, bIsLast):
+        """期货发起期货资金转银行应答"""
+
+    def OnRspQueryBankAccountMoneyByFuture(self, pReqQueryAccount, pRspInfo, nRequestID, bIsLast):
+        """期货发起查询银行余额应答"""
+
+    def OnRtnOpenAccountByBank(self, pOpenAccount):
+        """银行发起银期开户通知"""
+
+    def OnRtnCancelAccountByBank(self, pCancelAccount):
+        """银行发起银期销户通知"""
+
+    def OnRtnChangeAccountByBank(self, pChangeAccount):
+        """银行发起变更银行账号通知"""
+
+
+class MdApi(MdSpi):
     def Create(self, pszFlowPath='', bIsUsingUdp=False):
         """创建MdApi
         @param pszFlowPath 存贮订阅信息文件的目录，默认为当前目录
@@ -58,16 +328,14 @@ class MdApi(object):
 
     def SubscribeMarketData(self, pInstrumentIDs):
         """订阅行情。
-        @param ppInstrumentID 合约ID
-        @param nCount 要订阅/退订行情的合约个数
+        @param pInstrumentIDs 合约ID列表
         @remark
         """
         return 0
 
     def UnSubscribeMarketData(self, pInstrumentIDs):
         """退订行情。
-        @param ppInstrumentID 合约ID
-        @param nCount 要订阅/退订行情的合约个数
+        @param pInstrumentIDs 合约ID列表
         @remark
         """
         return 0
@@ -81,7 +349,7 @@ class MdApi(object):
         return 0
 
 
-class TraderApi(object):
+class TraderApi(TraderSpi):
     def Create(self, pszFlowPath='', bIsUsingUdp=False):
         """创建TraderApi
         @param pszFlowPath 存贮订阅信息文件的目录，默认为当前目录
@@ -322,282 +590,7 @@ class TraderApi(object):
         return 0
 
 
-def _init(Module=None):
-    global ApiStruct
-    from . import ApiStruct
-
-    def MdSpi():
-        def OnFrontConnected(self):
-            """当客户端与交易后台建立起通信连接时（还未登录前），该方法被调用。"""
-
-        def OnFrontDisconnected(self, nReason):
-            """当客户端与交易后台通信连接断开时，该方法被调用。当发生这个情况后，API会自动重新连接，客户端可不做处理。
-            @param nReason 错误原因
-                    0x1001 网络读失败
-                    0x1002 网络写失败
-                    0x2001 接收心跳超时
-                    0x2002 发送心跳失败
-                    0x2003 收到错误报文
-            """
-
-        def OnHeartBeatWarning(self, nTimeLapse):
-            """心跳超时警告。当长时间未收到报文时，该方法被调用。
-            @param nTimeLapse 距离上次接收报文的时间
-            """
-
-        def OnRspUserLogin(self, pRspUserLogin, pRspInfo, nRequestID, bIsLast):
-            """登录请求响应"""
-
-        def OnRspUserLogout(self, pUserLogout, pRspInfo, nRequestID, bIsLast):
-            """登出请求响应"""
-
-        def OnRspError(self, pRspInfo, nRequestID, bIsLast):
-            """错误应答"""
-
-        def OnRspSubMarketData(self, pSpecificInstrument, pRspInfo, nRequestID, bIsLast):
-            """订阅行情应答"""
-
-        def OnRspUnSubMarketData(self, pSpecificInstrument, pRspInfo, nRequestID, bIsLast):
-            """取消订阅行情应答"""
-
-        def OnRtnDepthMarketData(self, pDepthMarketData):
-            """深度行情通知"""
-
-        return locals()
-
-
-    def TraderSpi():
-        def OnFrontConnected(self):
-            """当客户端与交易后台建立起通信连接时（还未登录前），该方法被调用。"""
-
-        def OnFrontDisconnected(self, nReason):
-            """当客户端与交易后台通信连接断开时，该方法被调用。当发生这个情况后，API会自动重新连接，客户端可不做处理。
-            @param nReason 错误原因
-                    0x1001 网络读失败
-                    0x1002 网络写失败
-                    0x2001 接收心跳超时
-                    0x2002 发送心跳失败
-                    0x2003 收到错误报文
-            """
-
-        def OnHeartBeatWarning(self, nTimeLapse):
-            """心跳超时警告。当长时间未收到报文时，该方法被调用。
-            @param nTimeLapse 距离上次接收报文的时间
-            """
-
-        def OnRspAuthenticate(self, pRspAuthenticate, pRspInfo, nRequestID, bIsLast):
-            """客户端认证响应"""
-
-        def OnRspUserLogin(self, pRspUserLogin, pRspInfo, nRequestID, bIsLast):
-            """登录请求响应"""
-
-        def OnRspUserLogout(self, pUserLogout, pRspInfo, nRequestID, bIsLast):
-            """登出请求响应"""
-
-        def OnRspUserPasswordUpdate(self, pUserPasswordUpdate, pRspInfo, nRequestID, bIsLast):
-            """用户口令更新请求响应"""
-
-        def OnRspTradingAccountPasswordUpdate(self, pTradingAccountPasswordUpdate, pRspInfo, nRequestID, bIsLast):
-            """资金账户口令更新请求响应"""
-
-        def OnRspOrderInsert(self, pInputOrder, pRspInfo, nRequestID, bIsLast):
-            """报单录入请求响应"""
-
-        def OnRspParkedOrderInsert(self, pParkedOrder, pRspInfo, nRequestID, bIsLast):
-            """预埋单录入请求响应"""
-
-        def OnRspParkedOrderAction(self, pParkedOrderAction, pRspInfo, nRequestID, bIsLast):
-            """预埋撤单录入请求响应"""
-
-        def OnRspOrderAction(self, pInputOrderAction, pRspInfo, nRequestID, bIsLast):
-            """报单操作请求响应"""
-
-        def OnRspQueryMaxOrderVolume(self, pQueryMaxOrderVolume, pRspInfo, nRequestID, bIsLast):
-            """查询最大报单数量响应"""
-
-        def OnRspSettlementInfoConfirm(self, pSettlementInfoConfirm, pRspInfo, nRequestID, bIsLast):
-            """投资者结算结果确认响应"""
-
-        def OnRspRemoveParkedOrder(self, pRemoveParkedOrder, pRspInfo, nRequestID, bIsLast):
-            """删除预埋单响应"""
-
-        def OnRspRemoveParkedOrderAction(self, pRemoveParkedOrderAction, pRspInfo, nRequestID, bIsLast):
-            """删除预埋撤单响应"""
-
-        def OnRspQryOrder(self, pOrder, pRspInfo, nRequestID, bIsLast):
-            """请求查询报单响应"""
-
-        def OnRspQryTrade(self, pTrade, pRspInfo, nRequestID, bIsLast):
-            """请求查询成交响应"""
-
-        def OnRspQryInvestorPosition(self, pInvestorPosition, pRspInfo, nRequestID, bIsLast):
-            """请求查询投资者持仓响应"""
-
-        def OnRspQryTradingAccount(self, pTradingAccount, pRspInfo, nRequestID, bIsLast):
-            """请求查询资金账户响应"""
-
-        def OnRspQryInvestor(self, pInvestor, pRspInfo, nRequestID, bIsLast):
-            """请求查询投资者响应"""
-
-        def OnRspQryTradingCode(self, pTradingCode, pRspInfo, nRequestID, bIsLast):
-            """请求查询交易编码响应"""
-
-        def OnRspQryInstrumentMarginRate(self, pInstrumentMarginRate, pRspInfo, nRequestID, bIsLast):
-            """请求查询合约保证金率响应"""
-
-        def OnRspQryInstrumentCommissionRate(self, pInstrumentCommissionRate, pRspInfo, nRequestID, bIsLast):
-            """请求查询合约手续费率响应"""
-
-        def OnRspQryExchange(self, pExchange, pRspInfo, nRequestID, bIsLast):
-            """请求查询交易所响应"""
-
-        def OnRspQryInstrument(self, pInstrument, pRspInfo, nRequestID, bIsLast):
-            """请求查询合约响应"""
-
-        def OnRspQryDepthMarketData(self, pDepthMarketData, pRspInfo, nRequestID, bIsLast):
-            """请求查询行情响应"""
-
-        def OnRspQrySettlementInfo(self, pSettlementInfo, pRspInfo, nRequestID, bIsLast):
-            """请求查询投资者结算结果响应"""
-
-        def OnRspQryTransferBank(self, pTransferBank, pRspInfo, nRequestID, bIsLast):
-            """请求查询转帐银行响应"""
-
-        def OnRspQryInvestorPositionDetail(self, pInvestorPositionDetail, pRspInfo, nRequestID, bIsLast):
-            """请求查询投资者持仓明细响应"""
-
-        def OnRspQryNotice(self, pNotice, pRspInfo, nRequestID, bIsLast):
-            """请求查询客户通知响应"""
-
-        def OnRspQrySettlementInfoConfirm(self, pSettlementInfoConfirm, pRspInfo, nRequestID, bIsLast):
-            """请求查询结算信息确认响应"""
-
-        def OnRspQryInvestorPositionCombineDetail(self, pInvestorPositionCombineDetail, pRspInfo, nRequestID, bIsLast):
-            """请求查询投资者持仓明细响应"""
-
-        def OnRspQryCFMMCTradingAccountKey(self, pCFMMCTradingAccountKey, pRspInfo, nRequestID, bIsLast):
-            """查询保证金监管系统经纪公司资金账户密钥响应"""
-
-        def OnRspQryEWarrantOffset(self, pEWarrantOffset, pRspInfo, nRequestID, bIsLast):
-            """请求查询仓单折抵信息响应"""
-
-        def OnRspQryTransferSerial(self, pTransferSerial, pRspInfo, nRequestID, bIsLast):
-            """请求查询转帐流水响应"""
-
-        def OnRspQryAccountregister(self, pAccountregister, pRspInfo, nRequestID, bIsLast):
-            """请求查询银期签约关系响应"""
-
-        def OnRspError(self, pRspInfo, nRequestID, bIsLast):
-            """错误应答"""
-
-        def OnRtnOrder(self, pOrder):
-            """报单通知"""
-
-        def OnRtnTrade(self, pTrade):
-            """成交通知"""
-
-        def OnErrRtnOrderInsert(self, pInputOrder, pRspInfo):
-            """报单录入错误回报"""
-
-        def OnErrRtnOrderAction(self, pOrderAction, pRspInfo):
-            """报单操作错误回报"""
-
-        def OnRtnInstrumentStatus(self, pInstrumentStatus):
-            """合约交易状态通知"""
-
-        def OnRtnTradingNotice(self, pTradingNoticeInfo):
-            """交易通知"""
-
-        def OnRtnErrorConditionalOrder(self, pErrorConditionalOrder):
-            """提示条件单校验错误"""
-
-        def OnRspQryContractBank(self, pContractBank, pRspInfo, nRequestID, bIsLast):
-            """请求查询签约银行响应"""
-
-        def OnRspQryParkedOrder(self, pParkedOrder, pRspInfo, nRequestID, bIsLast):
-            """请求查询预埋单响应"""
-
-        def OnRspQryParkedOrderAction(self, pParkedOrderAction, pRspInfo, nRequestID, bIsLast):
-            """请求查询预埋撤单响应"""
-
-        def OnRspQryTradingNotice(self, pTradingNotice, pRspInfo, nRequestID, bIsLast):
-            """请求查询交易通知响应"""
-
-        def OnRspQryBrokerTradingParams(self, pBrokerTradingParams, pRspInfo, nRequestID, bIsLast):
-            """请求查询经纪公司交易参数响应"""
-
-        def OnRspQryBrokerTradingAlgos(self, pBrokerTradingAlgos, pRspInfo, nRequestID, bIsLast):
-            """请求查询经纪公司交易算法响应"""
-
-        def OnRtnFromBankToFutureByBank(self, pRspTransfer):
-            """银行发起银行资金转期货通知"""
-
-        def OnRtnFromFutureToBankByBank(self, pRspTransfer):
-            """银行发起期货资金转银行通知"""
-
-        def OnRtnRepealFromBankToFutureByBank(self, pRspRepeal):
-            """银行发起冲正银行转期货通知"""
-
-        def OnRtnRepealFromFutureToBankByBank(self, pRspRepeal):
-            """银行发起冲正期货转银行通知"""
-
-        def OnRtnFromBankToFutureByFuture(self, pRspTransfer):
-            """期货发起银行资金转期货通知"""
-
-        def OnRtnFromFutureToBankByFuture(self, pRspTransfer):
-            """期货发起期货资金转银行通知"""
-
-        def OnRtnRepealFromBankToFutureByFutureManual(self, pRspRepeal):
-            """系统运行时期货端手工发起冲正银行转期货请求，银行处理完毕后报盘发回的通知"""
-
-        def OnRtnRepealFromFutureToBankByFutureManual(self, pRspRepeal):
-            """系统运行时期货端手工发起冲正期货转银行请求，银行处理完毕后报盘发回的通知"""
-
-        def OnRtnQueryBankBalanceByFuture(self, pNotifyQueryAccount):
-            """期货发起查询银行余额通知"""
-
-        def OnErrRtnBankToFutureByFuture(self, pReqTransfer, pRspInfo):
-            """期货发起银行资金转期货错误回报"""
-
-        def OnErrRtnFutureToBankByFuture(self, pReqTransfer, pRspInfo):
-            """期货发起期货资金转银行错误回报"""
-
-        def OnErrRtnRepealBankToFutureByFutureManual(self, pReqRepeal, pRspInfo):
-            """系统运行时期货端手工发起冲正银行转期货错误回报"""
-
-        def OnErrRtnRepealFutureToBankByFutureManual(self, pReqRepeal, pRspInfo):
-            """系统运行时期货端手工发起冲正期货转银行错误回报"""
-
-        def OnErrRtnQueryBankBalanceByFuture(self, pReqQueryAccount, pRspInfo):
-            """期货发起查询银行余额错误回报"""
-
-        def OnRtnRepealFromBankToFutureByFuture(self, pRspRepeal):
-            """期货发起冲正银行转期货请求，银行处理完毕后报盘发回的通知"""
-
-        def OnRtnRepealFromFutureToBankByFuture(self, pRspRepeal):
-            """期货发起冲正期货转银行请求，银行处理完毕后报盘发回的通知"""
-
-        def OnRspFromBankToFutureByFuture(self, pReqTransfer, pRspInfo, nRequestID, bIsLast):
-            """期货发起银行资金转期货应答"""
-
-        def OnRspFromFutureToBankByFuture(self, pReqTransfer, pRspInfo, nRequestID, bIsLast):
-            """期货发起期货资金转银行应答"""
-
-        def OnRspQueryBankAccountMoneyByFuture(self, pReqQueryAccount, pRspInfo, nRequestID, bIsLast):
-            """期货发起查询银行余额应答"""
-
-        def OnRtnOpenAccountByBank(self, pOpenAccount):
-            """银行发起银期开户通知"""
-
-        def OnRtnCancelAccountByBank(self, pCancelAccount):
-            """银行发起银期销户通知"""
-
-        def OnRtnChangeAccountByBank(self, pChangeAccount):
-            """银行发起变更银行账号通知"""
-
-        return locals()
-
-
+def _init(Module, MdSpi, TraderSpi):
     class LazyProperty(object):
         def __get__(self, obj, cls):
             if obj is None: return self
@@ -616,29 +609,33 @@ def _init(Module=None):
     @lazy_property
     def MdApi():
         from ._MdApi import MdApi
-        return type('MdApi', (MdApi,), MdSpi())
+        return type('MdApi', (MdApi,), MdSpi)
 
     @lazy_property
     def TraderApi():
         from ._TraderApi import TraderApi
-        return type('TraderApi', (TraderApi,), TraderSpi())
+        return type('TraderApi', (TraderApi,), TraderSpi)
 
 
-def _init(init=_init):
+def _init(init=_init, MdSpi=MdSpi, TraderSpi=TraderSpi):
     import sys
-    from types import ModuleType, FunctionType
+    from types import ModuleType, FunctionType as F
 
+    f = (lambda f:F(f.__code__,env)) if sys.version_info[0] >= 3 else (lambda f:F(f.func_code,env))
     mod = sys.modules[__name__]; Module = type(mod)
     if Module is ModuleType:
         class Module(ModuleType): pass
-        mod = Module(__name__); env = mod.__dict__
+        mod = Module(__name__); env = mod.__dict__; env['ApiStruct'] = ApiStruct
         env.update((k,v) for k,v in globals().items() if k.startswith('__') and k.endswith('__'))
+        MdSpi = dict((k,f(v)) for k,v in MdSpi.__dict__.items() if k.startswith('On'))
+        TraderSpi = dict((k,f(v)) for k,v in TraderSpi.__dict__.items() if k.startswith('On'))
         sys.modules[__name__] = mod
     else:
         env = mod.__dict__
-        del env['MdApi'], env['TraderApi'], env['_init']
+        for k in ('MdSpi','TraderSpi','MdApi','TraderApi','_init'): del env[k]
+        MdSpi = dict((k,v) for k,v in MdSpi.__dict__.items() if k.startswith('On'))
+        TraderSpi = dict((k,v) for k,v in TraderSpi.__dict__.items() if k.startswith('On'))
 
-    code = init.__code__ if sys.version_info[0] >= 3 else init.func_code
-    FunctionType(code, env, None, (Module,))()
+    f(init)(Module, MdSpi, TraderSpi)
 
 _init()
