@@ -253,7 +253,7 @@
 #include "new"
 #include "stdexcept"
 #include "typeinfo"
-#include "ITraderApi.h"
+#include "CTraderApi.h"
 #ifdef _OPENMP
 #include <omp.h>
 #endif 

@@ -253,7 +253,7 @@
 #include "new"
 #include "stdexcept"
 #include "typeinfo"
-#include "IMdApi.h"
+#include "CMdApi.h"
 #include "stdlib.h"
 #ifdef _OPENMP
 #include <omp.h>
