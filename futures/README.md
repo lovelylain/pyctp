@@ -1,7 +1,7 @@
 pyctp
 =====
 
-ctp wrapper for python
+ctp wrapper for python (期货版)
 
 CTP版本：20130402
 

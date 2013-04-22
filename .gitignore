@@ -2,7 +2,7 @@
 
 # C extensions
 *.so
-ctp/*.dll
+*.dll
 
 # Packages
 *.egg
