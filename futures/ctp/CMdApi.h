@@ -70,4 +70,6 @@ static inline void ReleaseMdApi(CThostFtdcMdApi *api, CMdSpi *spi) {
 	}
 }
 
+static const char *const PY_STRINGS[] = {"from_address", "DepthMarketData", "RspInfo", "RspUserLogin", "SpecificInstrument", "UserLogout"};
+
 #endif /* CMDAPI_H */

@@ -86,4 +86,6 @@ static inline void ReleaseUserApi(CThostFtdcLevel2UserApi *api, CUserSpi *spi) {
 	}
 }
 
+static const char *const PY_STRINGS[] = {"from_address", "Level2MarketData", "NGTSIndex", "RspInfo", "RspUserLogin", "SpecificSecurity", "UserLogout"};
+
 #endif /* CUSERAPI_H */

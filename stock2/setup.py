@@ -1,15 +1,10 @@
 from distutils.core import setup
 from distutils.extension import Extension
 from sys import platform
-import sys, os, struct, shutil
-try:
-    v = sys.dont_write_bytecode
-except AttributeError:
-    from ctp import __version__, __author__
-else:
-    sys.dont_write_bytecode = 1
-    from ctp import __version__, __author__
-    sys.dont_write_bytecode = v
+import re, sys, os, struct, shutil
+fp = open('ctp/__init__.py', 'rb'); data = fp.read().decode('utf-8'); fp.close()
+__version__ = re.search(r"__version__ = '(.+?)'", data).group(1)
+__author__ = re.search(r"__author__ = '(.+?)'", data).group(1)
 
 BUILD = (
     ('MdApi', 'thostmduserapiSSE'),
@@ -22,10 +17,11 @@ include_dirs = ['ctp', api_dir]
 library_dirs = [api_dir]
 ext_modules = []; package_data = []
 for k,v in BUILD:
-    ext_modules.append(Extension(name='ctp._'+k, language='c++',
+    extm = Extension(name='ctp._'+k, language='c++',
         include_dirs=include_dirs, library_dirs=library_dirs,
         libraries=[v], sources=['ctp/%s.cpp'%k],
-    ))
+    )
+    ext_modules.append(extm)
     if platform == 'win32':
         k = '%s.dll'%v
         package_data.append(k)

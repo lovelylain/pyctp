@@ -160,4 +160,6 @@ static inline void ReleaseTraderApi(CZQThostFtdcTraderApi *api, CTraderSpi *spi)
 	}
 }
 
+static const char *const PY_STRINGS[] = {"from_address", "DepthMarketData", "Exchange", "InputOrder", "InputOrderAction", "Instrument", "InstrumentCommissionRate", "InstrumentStatus", "Investor", "InvestorPosition", "InvestorPositionDetail", "Order", "OrderAction", "QueryMaxOrderVolume", "RspAuthenticate", "RspInfo", "RspUserLogin", "Trade", "TradingAccount", "TradingCode", "UserLogout", "UserPasswordUpdate"};
+
 #endif /* CTRADERAPI_H */

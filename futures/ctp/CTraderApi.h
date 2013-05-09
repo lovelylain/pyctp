@@ -390,4 +390,6 @@ static inline void ReleaseTraderApi(CThostFtdcTraderApi *api, CTraderSpi *spi) {
 	}
 }
 
+static const char *const PY_STRINGS[] = {"from_address", "Accountregister", "BrokerTradingAlgos", "BrokerTradingParams", "CFMMCTradingAccountKey", "CancelAccount", "ChangeAccount", "ContractBank", "DepthMarketData", "EWarrantOffset", "ErrorConditionalOrder", "Exchange", "InputOrder", "InputOrderAction", "Instrument", "InstrumentCommissionRate", "InstrumentMarginRate", "InstrumentStatus", "Investor", "InvestorPosition", "InvestorPositionCombineDetail", "InvestorPositionDetail", "Notice", "NotifyQueryAccount", "OpenAccount", "Order", "OrderAction", "ParkedOrder", "ParkedOrderAction", "QueryMaxOrderVolume", "RemoveParkedOrder", "RemoveParkedOrderAction", "ReqQueryAccount", "ReqRepeal", "ReqTransfer", "RspAuthenticate", "RspInfo", "RspRepeal", "RspTransfer", "RspUserLogin", "SettlementInfo", "SettlementInfoConfirm", "Trade", "TradingAccount", "TradingAccountPasswordUpdate", "TradingCode", "TradingNotice", "TradingNoticeInfo", "TransferBank", "TransferSerial", "UserLogout", "UserPasswordUpdate"};
+
 #endif /* CTRADERAPI_H */
