@@ -9,4 +9,4 @@ CTP版本：未知(据说win32版是20120803，linux64貌似略新)
 
 编译：`python setup.py build`
 
-安装：`python setup.py install`或者复制build下的ctp目录到某个sys.path目录(还需复制libthostmduserapiSSE.so、libthosttraderapiSSE.so和liblevel2userapi.so到/usr/lib等目录)。
+安装：`python setup.py install`或者复制build下的ctp目录到某个sys.path目录。
