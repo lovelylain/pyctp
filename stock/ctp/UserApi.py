@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import as UserSpi
+
 __all__ = ['UserApiStruct', 'UserApi']
 
 class UserSpi(object):
@@ -119,7 +121,7 @@ class UserApi(UserSpi):
         return 0
 
 
-from . import UserApiStruct
+UserApiStruct = __import__(__name__.rsplit('.',1)[0]+'.UserApiStruct', None, None, 'x')
 from ._UserApi import UserApi
 
 UserSpi = dict((k,v) for k,v in UserSpi.__dict__.items() if k.startswith('On'))

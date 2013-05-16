@@ -1,5 +1,4 @@
 import os, shutil, sys
-from distutils.core import setup
 from distutils.util import get_platform
 
 TASKS = (
@@ -31,7 +30,7 @@ def install():
     sys.stderr.write('Please copy "%s" manually.\n' % build_dir)
 
 def main():
-    if len(sys.argv) == 2:
+    if len(sys.argv) >= 2:
         if sys.argv[1] == 'build': return build()
         elif sys.argv[1] == 'install': return install()
     sys.stderr.write('usage: setup.py build\n')

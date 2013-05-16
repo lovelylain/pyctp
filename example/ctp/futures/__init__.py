@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import as _init
+
 __author__ = 'lovelylain'
 __version__ = '0.1.1'
 
 __all__ = ['ApiStruct', 'MdApi', 'TraderApi']
 
-try: from . import ApiStruct
-except ImportError: ApiStruct = __import__(__name__+'.ApiStruct', None, None, 'x')
+ApiStruct = __import__(__name__+'.ApiStruct', None, None, 'x')
 
 class MdSpi(object):
     def OnFrontConnected(self):

@@ -22,7 +22,7 @@ ext_modules = []; package_data = []
 for k,v in BUILD:
     extm = Extension(name='ctp._'+k, language='c++',
         include_dirs=include_dirs, library_dirs=library_dirs,
-        libraries=[v], sources=[PREFIX+'ctp/%s.cpp'%k],
+        libraries=[v], sources=['ctp/%s.cpp'%k],
     )
     ext_modules.append(extm)
     if platform == 'win32':
