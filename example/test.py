@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import hashlib, os, sys, tempfile, time
-from ctp.futures import ApiStruct, MdApi, TraderApi
+from ctp.futures import ApiStruct, MdApi
 
 class MyMdApi(MdApi):
     def __init__(self, brokerID, userID, password, instrumentIDs):
