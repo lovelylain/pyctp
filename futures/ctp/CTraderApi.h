@@ -390,6 +390,70 @@ static inline void ReleaseTraderApi(CThostFtdcTraderApi *api, CTraderSpi *spi) {
 	}
 }
 
-static const char *const PY_STRINGS[] = {"from_address", "Accountregister", "BrokerTradingAlgos", "BrokerTradingParams", "CFMMCTradingAccountKey", "CancelAccount", "ChangeAccount", "ContractBank", "DepthMarketData", "EWarrantOffset", "ErrorConditionalOrder", "Exchange", "InputOrder", "InputOrderAction", "Instrument", "InstrumentCommissionRate", "InstrumentMarginRate", "InstrumentStatus", "Investor", "InvestorPosition", "InvestorPositionCombineDetail", "InvestorPositionDetail", "Notice", "NotifyQueryAccount", "OpenAccount", "Order", "OrderAction", "ParkedOrder", "ParkedOrderAction", "QueryMaxOrderVolume", "RemoveParkedOrder", "RemoveParkedOrderAction", "ReqQueryAccount", "ReqRepeal", "ReqTransfer", "RspAuthenticate", "RspInfo", "RspRepeal", "RspTransfer", "RspUserLogin", "SettlementInfo", "SettlementInfoConfirm", "Trade", "TradingAccount", "TradingAccountPasswordUpdate", "TradingCode", "TradingNotice", "TradingNoticeInfo", "TransferBank", "TransferSerial", "UserLogout", "UserPasswordUpdate"};
+#define CheckMemory(p) (p || PyErr_NoMemory())
+#if PY_MAJOR_VERSION < 3
+#define XStr PyString_FromString
+#else
+#define XStr PyUnicode_FromString
+#endif
+
+#define S_dot "."
+#define S_ApiStruct ".ApiStruct"
+#define S___name__ "__name__"
+#define S_rpartition "rpartition"
+#define S_ctypes "ctypes"
+#define S_addressof "addressof"
+#define S_from_address "from_address"
+#define S_Accountregister "Accountregister"
+#define S_BrokerTradingAlgos "BrokerTradingAlgos"
+#define S_BrokerTradingParams "BrokerTradingParams"
+#define S_CFMMCTradingAccountKey "CFMMCTradingAccountKey"
+#define S_CancelAccount "CancelAccount"
+#define S_ChangeAccount "ChangeAccount"
+#define S_ContractBank "ContractBank"
+#define S_DepthMarketData "DepthMarketData"
+#define S_EWarrantOffset "EWarrantOffset"
+#define S_ErrorConditionalOrder "ErrorConditionalOrder"
+#define S_Exchange "Exchange"
+#define S_InputOrder "InputOrder"
+#define S_InputOrderAction "InputOrderAction"
+#define S_Instrument "Instrument"
+#define S_InstrumentCommissionRate "InstrumentCommissionRate"
+#define S_InstrumentMarginRate "InstrumentMarginRate"
+#define S_InstrumentStatus "InstrumentStatus"
+#define S_Investor "Investor"
+#define S_InvestorPosition "InvestorPosition"
+#define S_InvestorPositionCombineDetail "InvestorPositionCombineDetail"
+#define S_InvestorPositionDetail "InvestorPositionDetail"
+#define S_Notice "Notice"
+#define S_NotifyQueryAccount "NotifyQueryAccount"
+#define S_OpenAccount "OpenAccount"
+#define S_Order "Order"
+#define S_OrderAction "OrderAction"
+#define S_ParkedOrder "ParkedOrder"
+#define S_ParkedOrderAction "ParkedOrderAction"
+#define S_QueryMaxOrderVolume "QueryMaxOrderVolume"
+#define S_RemoveParkedOrder "RemoveParkedOrder"
+#define S_RemoveParkedOrderAction "RemoveParkedOrderAction"
+#define S_ReqQueryAccount "ReqQueryAccount"
+#define S_ReqRepeal "ReqRepeal"
+#define S_ReqTransfer "ReqTransfer"
+#define S_RspAuthenticate "RspAuthenticate"
+#define S_RspInfo "RspInfo"
+#define S_RspRepeal "RspRepeal"
+#define S_RspTransfer "RspTransfer"
+#define S_RspUserLogin "RspUserLogin"
+#define S_SettlementInfo "SettlementInfo"
+#define S_SettlementInfoConfirm "SettlementInfoConfirm"
+#define S_Trade "Trade"
+#define S_TradingAccount "TradingAccount"
+#define S_TradingAccountPasswordUpdate "TradingAccountPasswordUpdate"
+#define S_TradingCode "TradingCode"
+#define S_TradingNotice "TradingNotice"
+#define S_TradingNoticeInfo "TradingNoticeInfo"
+#define S_TransferBank "TransferBank"
+#define S_TransferSerial "TransferSerial"
+#define S_UserLogout "UserLogout"
+#define S_UserPasswordUpdate "UserPasswordUpdate"
 
 #endif /* CTRADERAPI_H */

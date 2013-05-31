@@ -165,6 +165,41 @@ static inline void ReleaseTraderApi(CZQThostFtdcTraderApi *api, CTraderSpi *spi)
 	}
 }
 
-static const char *const PY_STRINGS[] = {"from_address", "DepthMarketData", "Exchange", "InputOrder", "InputOrderAction", "Instrument", "InstrumentCommissionRate", "InstrumentStatus", "Investor", "InvestorPosition", "InvestorPositionDetail", "Order", "OrderAction", "QueryMaxOrderVolume", "RspAuthenticate", "RspInfo", "RspUserLogin", "Trade", "TradingAccount", "TradingAccountPasswordUpdate", "TradingCode", "UserLogout", "UserPasswordUpdate"};
+#define CheckMemory(p) (p || PyErr_NoMemory())
+#if PY_MAJOR_VERSION < 3
+#define XStr PyString_FromString
+#else
+#define XStr PyUnicode_FromString
+#endif
+
+#define S_dot "."
+#define S_ApiStruct ".ApiStruct"
+#define S___name__ "__name__"
+#define S_rpartition "rpartition"
+#define S_ctypes "ctypes"
+#define S_addressof "addressof"
+#define S_from_address "from_address"
+#define S_DepthMarketData "DepthMarketData"
+#define S_Exchange "Exchange"
+#define S_InputOrder "InputOrder"
+#define S_InputOrderAction "InputOrderAction"
+#define S_Instrument "Instrument"
+#define S_InstrumentCommissionRate "InstrumentCommissionRate"
+#define S_InstrumentStatus "InstrumentStatus"
+#define S_Investor "Investor"
+#define S_InvestorPosition "InvestorPosition"
+#define S_InvestorPositionDetail "InvestorPositionDetail"
+#define S_Order "Order"
+#define S_OrderAction "OrderAction"
+#define S_QueryMaxOrderVolume "QueryMaxOrderVolume"
+#define S_RspAuthenticate "RspAuthenticate"
+#define S_RspInfo "RspInfo"
+#define S_RspUserLogin "RspUserLogin"
+#define S_Trade "Trade"
+#define S_TradingAccount "TradingAccount"
+#define S_TradingAccountPasswordUpdate "TradingAccountPasswordUpdate"
+#define S_TradingCode "TradingCode"
+#define S_UserLogout "UserLogout"
+#define S_UserPasswordUpdate "UserPasswordUpdate"
 
 #endif /* CTRADERAPI_H */

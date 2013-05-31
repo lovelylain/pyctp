@@ -86,6 +86,25 @@ static inline void ReleaseUserApi(CThostFtdcLevel2UserApi *api, CUserSpi *spi) {
 	}
 }
 
-static const char *const PY_STRINGS[] = {"from_address", "Level2MarketData", "NGTSIndex", "RspInfo", "RspUserLogin", "SpecificSecurity", "UserLogout"};
+#define CheckMemory(p) (p || PyErr_NoMemory())
+#if PY_MAJOR_VERSION < 3
+#define XStr PyString_FromString
+#else
+#define XStr PyUnicode_FromString
+#endif
+
+#define S_dot "."
+#define S_ApiStruct ".ApiStruct"
+#define S___name__ "__name__"
+#define S_rpartition "rpartition"
+#define S_ctypes "ctypes"
+#define S_addressof "addressof"
+#define S_from_address "from_address"
+#define S_Level2MarketData "Level2MarketData"
+#define S_NGTSIndex "NGTSIndex"
+#define S_RspInfo "RspInfo"
+#define S_RspUserLogin "RspUserLogin"
+#define S_SpecificSecurity "SpecificSecurity"
+#define S_UserLogout "UserLogout"
 
 #endif /* CUSERAPI_H */

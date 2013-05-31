@@ -70,6 +70,24 @@ static inline void ReleaseMdApi(CThostFtdcMdApi *api, CMdSpi *spi) {
 	}
 }
 
-static const char *const PY_STRINGS[] = {"from_address", "DepthMarketData", "RspInfo", "RspUserLogin", "SpecificInstrument", "UserLogout"};
+#define CheckMemory(p) (p || PyErr_NoMemory())
+#if PY_MAJOR_VERSION < 3
+#define XStr PyString_FromString
+#else
+#define XStr PyUnicode_FromString
+#endif
+
+#define S_dot "."
+#define S_ApiStruct ".ApiStruct"
+#define S___name__ "__name__"
+#define S_rpartition "rpartition"
+#define S_ctypes "ctypes"
+#define S_addressof "addressof"
+#define S_from_address "from_address"
+#define S_DepthMarketData "DepthMarketData"
+#define S_RspInfo "RspInfo"
+#define S_RspUserLogin "RspUserLogin"
+#define S_SpecificInstrument "SpecificInstrument"
+#define S_UserLogout "UserLogout"
 
 #endif /* CMDAPI_H */
