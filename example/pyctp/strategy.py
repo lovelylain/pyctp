@@ -12,7 +12,7 @@
 
 import logging
 
-import UserApiType as utype
+from ctp.futures import ApiStruct as utype
 
 
 from base import *
@@ -41,7 +41,7 @@ class Order(object):
         self.mytime = mytime
         ##衍生
         self.instrument = position.instrument
-        self.direction = utype.THOST_FTDC_D_Buy if position.strategy.direction==LONG else utype.THOST_FTDC_D_Sell
+        self.direction = utype.D_Buy if position.strategy.direction==LONG else utype.D_Sell
         ##操作类型
         assert action_type == XOPEN,u'操作类型必须是开仓'
         self.action_type = action_type
@@ -127,7 +127,7 @@ class Order(object):
         return self.stopers[0].valid_length if len(self.stopers)>0 else 0   #只取第一个
 
     def get_stop_direction(self):
-        return utype.THOST_FTDC_D_Sell if self.direction == utype.THOST_FTDC_D_Buy else utype.THOST_FTDC_D_Buy
+        return utype.D_Sell if self.direction == utype.D_Buy else utype.D_Buy
         #return self.stopers[0].direction if len(self.stopers)>0 else EMPTY  #只取第一个
 
 
@@ -138,7 +138,7 @@ class Order(object):
     def __str__(self):
         return u'Order_A: 合约=%s,开仓策略=%s,方向=%s,目标数=%s,开仓数=%s,状态=%s' % (self.instrument.name,
                 self.get_strategy_name(),
-                u'多' if self.direction==utype.THOST_FTDC_D_Buy else u'空',
+                u'多' if self.direction==utype.D_Buy else u'空',
                 self.volume,
                 self.opened_volume,
                 u'已撤' if self.cancelled else u'未撤',

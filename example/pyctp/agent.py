@@ -132,25 +132,22 @@ import thread
 import threading
 import bisect
 
-from base import *
-from dac import ATR,ATR1,STREND,STREND1,MA,MA1,MACD,MACD1,date2week
-import hreader
+from .base import *
+from .dac import ATR,ATR1,STREND,STREND1,MA,MA1,MACD,MACD1,date2week
+from . import hreader
 
-import UserApiStruct as ustruct
-import UserApiType as utype
-from MdApi import MdApi, MdSpi
-from TraderApi import TraderApi, TraderSpi  
+from ctp.futures import ApiStruct, MdApi, TraderApi
 
-import config
-import strategy
+from . import config
+from . import strategy
 
 #日内最后交易时间，超过为越界
 LAST_TRADE_TIME = 1515
 
 #数据定义中唯一一个enum
-THOST_TERT_RESTART  = 0
-THOST_TERT_RESUME   = 1
-THOST_TERT_QUICK    = 2
+THOST_TERT_RESTART  = ApiStruct.TERT_RESTART
+THOST_TERT_RESUME   = ApiStruct.TERT_RESUME
+THOST_TERT_QUICK    = ApiStruct.TERT_QUICK
 
 NFUNC = lambda data:None    #空函数桩
 
@@ -193,7 +190,7 @@ INSTS_SAVE = [  #已经废掉
 dir_py2ctp = lambda dir : '0' if dir == LONG else '1'
 
 
-class MdSpiDelegate(MdSpi):
+class MdSpiDelegate(MdApi):
     '''
         将行情信息转发到Agent
         并自行处理杂务
@@ -217,6 +214,7 @@ class MdSpiDelegate(MdSpi):
         ##必须在每日重新连接时初始化它. 这一点用到了生产行情服务器收盘后关闭的特点(模拟的不关闭)
         MdSpiDelegate.last_map = dict([(id,0) for id in instruments])
         self.last_day = 0
+        agent.add_mdapi(self)
 
     def checkErrorRspInfo(self, info):
         if info.ErrorID !=0:
@@ -234,8 +232,8 @@ class MdSpiDelegate(MdSpi):
         self.user_login(self.broker_id, self.investor_id, self.passwd)
 
     def user_login(self, broker_id, investor_id, passwd):
-        req = ustruct.ReqUserLogin(BrokerID=broker_id, UserID=investor_id, Password=passwd)
-        r=self.api.ReqUserLogin(req,self.agent.inc_request_id())
+        req = ApiStruct.ReqUserLogin(BrokerID=broker_id, UserID=investor_id, Password=passwd)
+        r=self.ReqUserLogin(req,self.agent.inc_request_id())
 
     def OnRspUserLogin(self, userlogin, info, rid, is_last):
         self.logger.info(u'MD:user login,info:%s,rid:%s,is_last:%s' % (info,rid,is_last))
@@ -246,11 +244,11 @@ class MdSpiDelegate(MdSpi):
             self.agent.day_switch(scur_day)
             MdSpiDelegate.last_map = dict([(id,0) for id in self.instruments])
         if is_last and not self.checkErrorRspInfo(info):
-            self.logger.info(u"MD:get today's trading day:%s" % repr(self.api.GetTradingDay()))
+            self.logger.info(u"MD:get today's trading day:%s" % repr(self.GetTradingDay()))
             self.subscribe_market_data(self.instruments)
 
     def subscribe_market_data(self, instruments):
-        self.api.SubscribeMarketData(list(instruments))
+        self.SubscribeMarketData(list(instruments))
 
     def OnRtnDepthMarketData(self, depth_market_data):
         #print depth_market_data.BidPrice1,depth_market_data.BidVolume1,depth_market_data.AskPrice1,depth_market_data.AskVolume1,depth_market_data.LastPrice,depth_market_data.Volume,depth_market_data.UpdateTime,depth_market_data.UpdateMillisec,depth_market_data.InstrumentID
@@ -326,7 +324,7 @@ class MdSpiDelegate(MdSpi):
             self.logger.warning(u'MD:%s 行情数据转换错误:%s,updateTime="%s",msec="%s",tday="%s"' % (market_data.InstrumentID,str(inst),market_data.UpdateTime,market_data.UpdateMillisec,market_data.TradingDay))
         return rev
 
-class TraderSpiDelegate(TraderSpi):
+class TraderSpiDelegate(TraderApi):
     '''
         将服务器回应转发到Agent
         并自行处理杂务
@@ -366,8 +364,8 @@ class TraderSpiDelegate(TraderSpi):
         self.logger.info(u'TD:trader front disconnected,reason=%s' % (nReason,))
 
     def user_login(self, broker_id, investor_id, passwd):
-        req = ustruct.ReqUserLogin(BrokerID=broker_id, UserID=investor_id, Password=passwd)
-        r=self.api.ReqUserLogin(req,self.agent.inc_request_id())
+        req = ApiStruct.ReqUserLogin(BrokerID=broker_id, UserID=investor_id, Password=passwd)
+        r=self.ReqUserLogin(req,self.agent.inc_request_id())
 
     def OnRspUserLogin(self, pRspUserLogin, pRspInfo, nRequestID, bIsLast):
         self.logger.info(u'TD:trader login')
@@ -381,7 +379,7 @@ class TraderSpiDelegate(TraderSpi):
         self.logger.info(u'TD:trader login success')
         self.agent.login_success(pRspUserLogin.FrontID,pRspUserLogin.SessionID,pRspUserLogin.MaxOrderRef)
         #self.settlementInfoConfirm()
-        self.agent.set_trading_day(self.api.GetTradingDay())
+        self.agent.set_trading_day(self.GetTradingDay())
         #self.query_settlement_info()
         self.query_settlement_confirm() 
 
@@ -412,21 +410,21 @@ class TraderSpiDelegate(TraderSpi):
             2011-3-1 确认每天未确认前查询确认情况时,返回的响应中pSettlementInfoConfirm为空指针
             并且妥善处理空指针之后,仍然有问题,在其中查询结算单无动静
         '''
-        req = ustruct.QrySettlementInfoConfirm(BrokerID=self.broker_id,InvestorID=self.investor_id)
-        self.api.ReqQrySettlementInfoConfirm(req,self.agent.inc_request_id())
+        req = ApiStruct.QrySettlementInfoConfirm(BrokerID=self.broker_id,InvestorID=self.investor_id)
+        self.ReqQrySettlementInfoConfirm(req,self.agent.inc_request_id())
 
     def query_settlement_info(self):
         #不填日期表示取上一天结算单,并在响应函数中确认
         self.logger.info(u'TD:取上一日结算单信息并确认,BrokerID=%s,investorID=%s' % (self.broker_id,self.investor_id))
-        req = ustruct.QrySettlementInfo(BrokerID=self.broker_id,InvestorID=self.investor_id,TradingDay=u'')
+        req = ApiStruct.QrySettlementInfo(BrokerID=self.broker_id,InvestorID=self.investor_id,TradingDay=u'')
         #print req.BrokerID,req.InvestorID,req.TradingDay
         time.sleep(1)
-        self.api.ReqQrySettlementInfo(req,self.agent.inc_request_id())
+        self.ReqQrySettlementInfo(req,self.agent.inc_request_id())
 
     def confirm_settlement_info(self):
         self.logger.info(u'TD-CSI:准备确认结算单')
-        req = ustruct.SettlementInfoConfirm(BrokerID=self.broker_id,InvestorID=self.investor_id)
-        self.api.ReqSettlementInfoConfirm(req,self.agent.inc_request_id())
+        req = ApiStruct.SettlementInfoConfirm(BrokerID=self.broker_id,InvestorID=self.investor_id)
+        self.ReqSettlementInfoConfirm(req,self.agent.inc_request_id())
 
     def OnRspQrySettlementInfo(self, pSettlementInfo, pRspInfo, nRequestID, bIsLast):
         '''请求查询投资者结算信息响应'''
@@ -792,6 +790,7 @@ class Agent(AbsAgent):
         AbsAgent.__init__(self)
         ##计时, 用来激发队列
         ##
+        self.mdapis = []
         self.trader = trader
         #self.trader.myagent = self
         #if trader != None:
@@ -850,6 +849,9 @@ class Agent(AbsAgent):
 
     def init_init(self):    #init中的init,用于子类的处理
         pass
+
+    def add_mdapi(self, api):
+        self.mdapis.append(api)
 
     def set_spi(self,spi):
         self.spi = spi
@@ -917,14 +919,14 @@ class Agent(AbsAgent):
     def fetch_trading_account(self):
         #获取资金帐户
         logging.info(u'A:获取资金帐户..')
-        req = ustruct.QryTradingAccount(BrokerID=self.cuser.broker_id, InvestorID=self.cuser.investor_id)
+        req = ApiStruct.QryTradingAccount(BrokerID=self.cuser.broker_id, InvestorID=self.cuser.investor_id)
         r=self.trader.ReqQryTradingAccount(req,self.inc_request_id())
         #logging.info(u'A:查询资金账户, 函数发出返回值:%s' % r)
 
     def fetch_investor_position(self,instrument_id):
         #获取合约的当前持仓
         logging.info(u'A:获取合约%s的当前持仓..' % (instrument_id,))
-        req = ustruct.QryInvestorPosition(BrokerID=self.cuser.broker_id, InvestorID=self.cuser.investor_id,InstrumentID=instrument_id)
+        req = ApiStruct.QryInvestorPosition(BrokerID=self.cuser.broker_id, InvestorID=self.cuser.investor_id,InstrumentID=instrument_id)
         r=self.trader.ReqQryInvestorPosition(req,self.inc_request_id())
         #logging.info(u'A:查询持仓, 函数发出返回值:%s' % rP)
     
@@ -933,21 +935,21 @@ class Agent(AbsAgent):
             获取合约的当前持仓明细，目前没用
         '''
         logging.info(u'A:获取合约%s的当前持仓..' % (instrument_id,))
-        req = ustruct.QryInvestorPositionDetail(BrokerID=self.cuser.broker_id, InvestorID=self.cuser.investor_id,InstrumentID=instrument_id)
+        req = ApiStruct.QryInvestorPositionDetail(BrokerID=self.cuser.broker_id, InvestorID=self.cuser.investor_id,InstrumentID=instrument_id)
         r=self.trader.ReqQryInvestorPositionDetail(req,self.inc_request_id())
         #logging.info(u'A:查询持仓, 函数发出返回值:%s' % r)
 
     def fetch_instrument_marginrate(self,instrument_id):
-        req = ustruct.QryInstrumentMarginRate(BrokerID=self.cuser.broker_id,
+        req = ApiStruct.QryInstrumentMarginRate(BrokerID=self.cuser.broker_id,
                         InvestorID=self.cuser.investor_id,
                         InstrumentID=instrument_id,
-                        HedgeFlag = utype.THOST_FTDC_HF_Speculation
+                        HedgeFlag = ApiStruct.HF_Speculation
                 )
         r = self.trader.ReqQryInstrumentMarginRate(req,self.inc_request_id())
         logging.info(u'A:查询保证金率, 函数发出返回值:%s' % r)
 
     def fetch_instrument(self,instrument_id):
-        req = ustruct.QryInstrument(
+        req = ApiStruct.QryInstrument(
                         InstrumentID=instrument_id,
                 )
         time.sleep(1)
@@ -957,7 +959,7 @@ class Agent(AbsAgent):
     def fetch_instruments_by_exchange(self,exchange_id):
         '''不能单独用exchange_id,因此没有意义
         '''
-        req = ustruct.QryInstrument(
+        req = ApiStruct.QryInstrument(
                         ExchangeID=exchange_id,
                 )
         r = self.trader.ReqQryInstrument(req,self.inc_request_id())
@@ -967,12 +969,12 @@ class Agent(AbsAgent):
     def RtnTick(self,ctick):#行情处理主循环
         #logging.info(u'AR_A:cur_tick=%s' % (self.tick,))
         #print u'in my lock, close长度:%s,ma_5长度:%s\n' %(len(self.instruments[ctick.instrument].data.sclose),len(self.instruments[ctick.instrument].data.ma_5))
-        if self.trader != None and not self.trader.myspi.is_logged:
+        if self.trader != None and not self.trader.is_logged:
             logging.info(u'trader not logging,try login.......')
-            self.trader.myspi.login()
+            self.trader.login()
         elif not self.isSettlementInfoConfirmed: #结算单未确认
             logging.info(u'结算单未确认.....')
-            self.trader.myspi.confirm_settlement_info()
+            self.trader.confirm_settlement_info()
         inst = ctick.instrument
         if not self.prepare_tick(ctick):    #非法ticks数据
             #print 'invalid ticks'
@@ -1335,31 +1337,31 @@ class Agent(AbsAgent):
         ''' 
             发出下单指令
         '''
-        req = ustruct.InputOrder(
+        req = ApiStruct.InputOrder(
                 InstrumentID = order.instrument,
                 Direction = order.direction,
                 OrderRef = str(order.order_ref),
                 LimitPrice = order.price,   #有个疑问，double类型如何保证舍入舍出，在服务器端取整?
                 VolumeTotalOriginal = order.volume,
-                OrderPriceType = utype.THOST_FTDC_OPT_LimitPrice,
+                OrderPriceType = ApiStruct.OPT_LimitPrice,
                 
                 BrokerID = self.cuser.broker_id,
                 InvestorID = self.cuser.investor_id,
-                CombOffsetFlag = utype.THOST_FTDC_OF_Open,         #开仓 5位字符,但是只用到第0位
-                CombHedgeFlag = utype.THOST_FTDC_HF_Speculation,   #投机 5位字符,但是只用到第0位
+                CombOffsetFlag = ApiStruct.OF_Open,         #开仓 5位字符,但是只用到第0位
+                CombHedgeFlag = ApiStruct.HF_Speculation,   #投机 5位字符,但是只用到第0位
 
-                VolumeCondition = utype.THOST_FTDC_VC_AV,
+                VolumeCondition = ApiStruct.VC_AV,
                 MinVolume = 1,  #这个作用有点不确定,有的文档设成0了
-                ForceCloseReason = utype.THOST_FTDC_FCC_NotForceClose,
+                ForceCloseReason = ApiStruct.FCC_NotForceClose,
                 IsAutoSuspend = 1,
                 UserForceClose = 0,
-                TimeCondition = utype.THOST_FTDC_TC_GFD,
+                TimeCondition = ApiStruct.TC_GFD,
             )
-        logging.info(u'下单: instrument=%s,方向=%s,数量=%s,价格=%s' % (order.instrument,u'多' if order.direction==utype.THOST_FTDC_D_Buy else u'空',order.volume,order.price))
+        logging.info(u'下单: instrument=%s,方向=%s,数量=%s,价格=%s' % (order.instrument,u'多' if order.direction==ApiStruct.D_Buy else u'空',order.volume,order.price))
         r = self.trader.ReqOrderInsert(req,self.inc_request_id())
 
-    #def close_position(self,order,CombOffsetFlag = utype.THOST_FTDC_OF_Close): #Close==CloseYesterday
-    def close_position(self,order,CombOffsetFlag = utype.THOST_FTDC_OF_CloseToday):
+    #def close_position(self,order,CombOffsetFlag = ApiStruct.OF_Close): #Close==CloseYesterday
+    def close_position(self,order,CombOffsetFlag = ApiStruct.OF_CloseToday):
         ''' 
             发出平仓指令. 默认平今仓
             是平今还是平昨，可以通过order的mytime解决
@@ -1368,9 +1370,9 @@ class Agent(AbsAgent):
         sday = sorder.mytime/1000000    #MMDD
         cday = self.scur_day % 10000    #MMDD
         logging.info(u'平仓: sday=%s,cday=%s' % (sday,cday))
-        cos_flag = utype.THOST_FTDC_OF_CloseToday if sday >= cday else utype.THOST_FTDC_OF_Close    #sday>cday只会在模拟中出现，否则就是穿越了
+        cos_flag = ApiStruct.OF_CloseToday if sday >= cday else ApiStruct.OF_Close    #sday>cday只会在模拟中出现，否则就是穿越了
 
-        req = ustruct.InputOrder(
+        req = ApiStruct.InputOrder(
                 InstrumentID = order.instrument,
                 Direction = order.direction,
                 OrderRef = str(order.order_ref),
@@ -1378,18 +1380,18 @@ class Agent(AbsAgent):
                 VolumeTotalOriginal = order.volume,
                 #CombOffsetFlag = CombOffsetFlag,
                 CombOffsetFlag = cos_flag,
-                OrderPriceType = utype.THOST_FTDC_OPT_LimitPrice,
+                OrderPriceType = ApiStruct.OPT_LimitPrice,
                 
                 BrokerID = self.cuser.broker_id,
                 InvestorID = self.cuser.investor_id,
-                CombHedgeFlag = utype.THOST_FTDC_HF_Speculation,   #投机 5位字符,但是只用到第0位
+                CombHedgeFlag = ApiStruct.HF_Speculation,   #投机 5位字符,但是只用到第0位
 
-                VolumeCondition = utype.THOST_FTDC_VC_AV,
+                VolumeCondition = ApiStruct.VC_AV,
                 MinVolume = 1,  #TODO:这个有点不确定. 需要测试确认
-                ForceCloseReason = utype.THOST_FTDC_FCC_NotForceClose,
+                ForceCloseReason = ApiStruct.FCC_NotForceClose,
                 IsAutoSuspend = 1,
                 UserForceClose = 0,
-                TimeCondition = utype.THOST_FTDC_TC_GFD,
+                TimeCondition = ApiStruct.TC_GFD,
             )
         r = self.trader.ReqOrderInsert(req,self.inc_request_id())
 
@@ -1399,14 +1401,14 @@ class Agent(AbsAgent):
         '''
         #print 'in cancel command'
         logging.info(u'A_CC:取消命令')
-        req = ustruct.InputOrderAction(
+        req = ApiStruct.InputOrderAction(
                 InstrumentID = command.instrument,
                 OrderRef = str(command.order_ref),
                 BrokerID = self.cuser.broker_id,
                 InvestorID = self.cuser.investor_id,
                 FrontID = self.front_id,
                 SessionID = self.session_id,
-                ActionFlag = utype.THOST_FTDC_AF_Delete,
+                ActionFlag = ApiStruct.AF_Delete,
                 #OrderActionRef = self.inc_order_ref()  #没用,不关心这个，每次撤单成功都需要去查资金
             )
         r = self.trader.ReqOrderAction(req,self.inc_request_id())
@@ -1513,7 +1515,7 @@ class Agent(AbsAgent):
         '''
         #print str(sorder)
         logging.info(u'成交/撤单回报:%s' % (str(sorder,)))
-        if sorder.OrderStatus == utype.THOST_FTDC_OST_Canceled or sorder.OrderStatus == utype.THOST_FTDC_OST_PartTradedNotQueueing:   #完整撤单或部成部撤
+        if sorder.OrderStatus == ApiStruct.OST_Canceled or sorder.OrderStatus == ApiStruct.OST_PartTradedNotQueueing:   #完整撤单或部成部撤
             logging.info(u'撤单, 撤销开/平仓单')
             ##查询可用资金
             self.put_command(self.get_tick()+1,self.fetch_trading_account)
@@ -1551,13 +1553,13 @@ class Agent(AbsAgent):
         logging.info(u'agent 持仓:%s' % str(position))
         if position != None:    
             cur_position = self.instruments[position.InstrumentID].position
-            if position.PosiDirection == utype.THOST_FTDC_PD_Long:
-                if position.PositionDate == utype.THOST_FTDC_PSD_Today:
+            if position.PosiDirection == ApiStruct.PD_Long:
+                if position.PositionDate == ApiStruct.PSD_Today:
                     cur_position.clong = position.Position  #TodayPosition
                 else:
                     cur_position.hlong = position.Position  #YdPosition
             else:#空头
-                if position.PositionDate == utype.THOST_FTDC_PSD_Today:
+                if position.PositionDate == ApiStruct.PSD_Today:
                     cur_position.cshort = position.Position #TodayPosition
                 else:
                     cur_position.hshort = position.Position #YdPosition
@@ -1646,14 +1648,14 @@ class SaveAgent(Agent):
 
 
 def make_user(my_agent,hq_user,name='data'):
-    user = MdApi.CreateMdApi(name)
     #print my_agent.instruments
-    user.RegisterSpi(MdSpiDelegate(instruments=my_agent.instruments, 
+    user = MdSpiDelegate(instruments=my_agent.instruments, 
                              broker_id=hq_user.broker_id,
                              investor_id= hq_user.investor_id,
                              passwd= hq_user.passwd,
                              agent = my_agent,
-                    ))
+                    )
+    user.Create(name)
     user.RegisterFront(hq_user.port)
     
     user.Init()
@@ -1699,17 +1701,15 @@ def save(base_name='base.ini',strategy_name='strategy.ini',base='Base',strategy=
     strategy_cfg = config.parse_strategy(strategy_name,strategy)
  
     ctrader = cfg.traders.values()[0]
-    trader = TraderApi.CreateTraderApi(ctrader.name)
-    t_agent = SaveAgent(trader,ctrader,[],strategy_cfg)
+    t_agent = SaveAgent(None,ctrader,[],strategy_cfg)
     
-    myspi = TraderSpiDelegate(instruments=t_agent.instruments, 
+    t_agent.trader = trader = TraderSpiDelegate(instruments=t_agent.instruments, 
                              broker_id=ctrader.broker_id,
                              investor_id= ctrader.investor_id,
                              passwd= ctrader.passwd,
                              agent = t_agent,
                        )
-    trader.RegisterSpi(myspi)
-    trader.myspi = myspi
+    trader.Create(ctrader.name)
     trader.SubscribePublicTopic(THOST_TERT_QUICK)
     trader.SubscribePrivateTopic(THOST_TERT_QUICK)
     trader.RegisterFront(ctrader.port)
@@ -1736,8 +1736,6 @@ def save2():
 def create_trader(name='base.ini',base='Base',sname='strategy.ini',t2order=t2order_if):
     logging.basicConfig(filename="ctp_trade.log",level=logging.DEBUG,format='%(name)s:%(funcName)s:%(lineno)d:%(asctime)s %(levelname)s %(message)s')
     
-    trader = TraderApi.CreateTraderApi("trader")
-    
     strategy_cfg = config.parse_strategy(name=sname)
     cfg = config.parse_base(name,base)
 
@@ -1746,15 +1744,14 @@ def create_trader(name='base.ini',base='Base',sname='strategy.ini',t2order=t2ord
     logging.info(u'broker_id=%s,investor_id=%s,passwd=%s' % (cuser.broker_id,cuser.investor_id,cuser.passwd))
 
     instruments = list(strategy_cfg.traces_raw)
-    myagent = Agent(trader,cuser,instruments,strategy_cfg,t2order=t2order) 
-    myspi = TraderSpiDelegate(instruments=myagent.instruments, 
+    myagent = Agent(None,cuser,instruments,strategy_cfg,t2order=t2order) 
+    myagent.trader = trader = TraderSpiDelegate(instruments=myagent.instruments, 
                              broker_id=cuser.broker_id,
                              investor_id= cuser.investor_id,
                              passwd= cuser.passwd,
                              agent = myagent,
                        )
-    trader.RegisterSpi(myspi)
-    trader.myspi = myspi
+    trader.Create('trader')
     trader.SubscribePublicTopic(THOST_TERT_QUICK)
     trader.SubscribePrivateTopic(THOST_TERT_QUICK)
     trader.RegisterFront(cuser.port)
@@ -1774,22 +1771,19 @@ def trade_test_main(name='base.ini',base='Base'):
     logging.basicConfig(filename="ctp_trade.log",level=logging.DEBUG,format='%(name)s:%(funcName)s:%(lineno)d:%(asctime)s %(levelname)s %(message)s')
     
 
-    trader = TraderApi.CreateTraderApi("trader")
-
     cfg = config.parse_base(name,base)
 
     cuser = cfg.traders.values()[0]
     
     #cuser = c.SQ_TRADER2
-    my_agent = Agent(trader,cuser,INSTS,{})
-    myspi = TraderSpiDelegate(instruments=my_agent.instruments, 
+    my_agent = Agent(None,cuser,INSTS,{})
+    my_agent.trader = trader = TraderSpiDelegate(instruments=my_agent.instruments, 
                              broker_id=cuser.broker_id,
                              investor_id= cuser.investor_id,
                              passwd= cuser.passwd,
                              agent = my_agent,
                        )
-    trader.RegisterSpi(myspi)
-    trader.myspi = myspi
+    trader.Create('trader')
     trader.SubscribePublicTopic(THOST_TERT_QUICK)
     trader.SubscribePrivateTopic(THOST_TERT_QUICK)
     trader.RegisterFront(cuser.port)

@@ -10,7 +10,7 @@ from collections import (
         deque,
     )
 
-from base import (
+from .base import (
         BaseObject,
         fcustom,
         indicator,
@@ -18,7 +18,7 @@ from base import (
         t2order_if,
     )
 
-from dac import (
+from .dac import (
         XBASE,  #100
         CBASE,  #XBASE*XBASE,用于XATR
         FBASE,  #10

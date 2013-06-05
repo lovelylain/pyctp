@@ -2,7 +2,7 @@
 
 import unittest
 
-from dac import *
+from ..dac import *
 
 class ModuleTest(unittest.TestCase):
 

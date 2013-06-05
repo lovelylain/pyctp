@@ -5,8 +5,8 @@ import time
 import logging
 
 
-from base import *
-from dac import date2week
+from .base import *
+from .dac import date2week
 
 #logger = logging.getLogger('ctp.hreader')    
 

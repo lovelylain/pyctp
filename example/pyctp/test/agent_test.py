@@ -2,7 +2,7 @@
 
 import unittest
 
-from agent import *
+from ..agent import *
 
 class ModuleTest(unittest.TestCase):
     pass

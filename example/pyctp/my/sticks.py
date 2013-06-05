@@ -10,9 +10,9 @@
 import time
 import logging
 
-import base
-import dac
-import hreader
+from .. import base
+from .. import dac
+from .. import hreader
 
 TUP = 1
 TDOWN = -1

@@ -1,8 +1,8 @@
 #-*- coding:utf-8 -*-
 
-from base import *
-import ctp_mock
-import agent
+from ..base import *
+from .. import ctp_mock
+from .. import agent
 
 
 '''
@@ -28,3 +28,10 @@ def trade_mock(t2order = t2order_mock):
     return ctp_mock.comp_real2(base_name='demo_base.ini',base='Base_Mock',strategy_name='demo_strategy_trade.ini',t2order=t2order)
 
 
+def d_demo():
+    from .demo import main
+    main()
+
+def t_demo():
+    from .tdemo import main
+    main()

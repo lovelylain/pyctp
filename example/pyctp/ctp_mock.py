@@ -19,27 +19,26 @@ TODO:   为真实起见，在mock中采用Command模式
 import time
 import logging
 
-import hreader
-import agent
-import config
-import strategy
+from . import hreader
+from . import agent
+from . import config
+from . import strategy
 
-import UserApiStruct as ustruct
-import UserApiType as utype
+from ctp.futures import ApiStruct
 
-from base import *
+from .base import *
 
 class TraderMock(object):
     def __init__(self,myagent):
         self.myagent = myagent
         self.available = 1000000    #初始100W
-        self.myspi = BaseObject(is_logged=True,confirm_settlement_info=self.confirm_settlement_info)
+        # self.myspi = BaseObject(is_logged=True,confirm_settlement_info=self.confirm_settlement_info)
 
     def ReqOrderInsert(self, order, request_id):
         '''报单录入请求, 需要调用成交函数'''
         logging.info(u'报单')
         oid = order.OrderRef
-        trade = ustruct.Trade(
+        trade = ApiStruct.Trade(
                     InstrumentID = order.InstrumentID,
                     Direction=order.Direction,
                     Price = order.LimitPrice,
@@ -51,26 +50,26 @@ class TraderMock(object):
                     OrderLocalID = oid,
                     TradeTime = time.strftime('%H%M%S'),#只有备案作用
                 )
-        if order.CombOffsetFlag == utype.THOST_FTDC_OF_Open:#开仓. 为方便起见,假设都是股指
+        if order.CombOffsetFlag == ApiStruct.OF_Open:#开仓. 为方便起见,假设都是股指
             self.available -= order.LimitPrice * 300 * 0.17
         else:
             self.available += order.LimitPrice * 300 * 0.17
         fl_open = strategy.MAX_OPEN_OVERFLOW * 0.2
         fl_close = strategy.MAX_CLOSE_OVERFLOW * 0.2
-        if order.CombOffsetFlag == utype.THOST_FTDC_OF_Open:
-            trade.Price += -fl_open if order.Direction == utype.THOST_FTDC_D_Buy else fl_open
+        if order.CombOffsetFlag == ApiStruct.OF_Open:
+            trade.Price += -fl_open if order.Direction == ApiStruct.D_Buy else fl_open
         else:
-            trade.Price += -fl_close if order.Direction == utype.THOST_FTDC_D_Buy else fl_close
+            trade.Price += -fl_close if order.Direction == ApiStruct.D_Buy else fl_close
         self.myagent.rtn_trade(trade)
 
     def ReqOrderAction(self, corder, request_id):
         '''撤单请求'''
         #print u'in cancel'
         oid = corder.OrderRef
-        rorder = ustruct.Order(
+        rorder = ApiStruct.Order(
                     InstrumentID = corder.InstrumentID,
                     OrderRef = corder.OrderRef,
-                    OrderStatus = utype.THOST_FTDC_OST_Canceled,
+                    OrderStatus = ApiStruct.OST_Canceled,
                 )
         #self.myagent.rtn_order(rorder)
         self.myagent.err_order_action(rorder.OrderRef,rorder.InstrumentID,u'26',u'测试撤单--报单已成交')

@@ -1,35 +1,20 @@
 #-*- coding:utf-8 -*-
 
-'''
-主执行文件
-    以后考虑把MAX_VOLUME和STRATEGY配置移到配置文件中
-'''
+import sys, time
+from pyctp.my import entry
 
-from base import *
-from strategy import *
-
-#设定合约的策略
-
-#[总最大持仓量,策略1,策略2...]
-STRATEGY = {
-        'IF1104':(  1,#总最大持仓量=1
-                    STRATEGY(opener=day_long_break,
-                            closer=datr_long_stoper,
-                            open_volume=1,
-                            max_holding=1),
-                    STRATEGY(opener=day_short_break,
-                            closer=datr_short_stoper,
-                            open_volume=1,
-                            max_holding=1),
-                )
-        }
-
-#####
-import agent
-
-def main():
-    pass
-
+from ctp.futures import ApiStruct
+ApiStruct.BaseStruct.__str__ = lambda self: '[%s]' % ', '.join(
+    '%s=%s'%(k,getattr(self,k)) for k,t in self._fields_)
+# oenc, oerr = ctypes.set_conversion_mode('gbk','ignore')
+reload(sys); sys.setdefaultencoding('gbk')
 
 if __name__=="__main__":
-    main()
+    try:
+        agent = getattr(entry, sys.argv[1])()
+        try:
+            while 1: time.sleep(1)
+        except KeyboardInterrupt:
+            agent.mdapis = []; agent.trader = None
+    except (IndexError, AttributeError):
+        print 'Usage: %s [save_demo|trade_demo|trade_mock|d_demo|t_demo]' % sys.argv[0]

@@ -13,7 +13,7 @@ import sys
 import functools
 
 import logging
-import lib.decorator as decorator
+from .lib import decorator
 from inspect import (
             getargspec,
         )

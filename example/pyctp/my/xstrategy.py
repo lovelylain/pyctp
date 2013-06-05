@@ -3,9 +3,9 @@
 import logging
 import math
 
-from base import *
-from strategy import *
-import dac
+from ..base import *
+from ..strategy import *
+from .. import dac
 
 '''
 为保证atrd1的准确性，必须用手工连续的最长历史数据来计算月数据

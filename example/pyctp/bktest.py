@@ -19,10 +19,10 @@ import logging
 import time
 
 
-from base import *
-import hreader
-import strategy
-from dac2 import *
+from .base import *
+from . import hreader
+from . import strategy
+from .dac2 import *
 
 LENGTH_THRESHOLD = 25000    #主力合约的ticks阈值超过
 

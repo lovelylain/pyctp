@@ -2,7 +2,7 @@
 
 import unittest
 
-from hreader import *
+from ..hreader import *
 
 class PREPARER_INST_Test(unittest.TestCase):
     def test_pd(self):

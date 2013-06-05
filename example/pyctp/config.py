@@ -2,7 +2,7 @@
 
 import ConfigParser
 
-import base
+from . import base
 import operator
 import strategy
 
