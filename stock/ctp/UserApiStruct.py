@@ -433,7 +433,7 @@ class NGTSIndex(BaseStruct): #Level2指数行情
     )
 
 def _init(export=_init):
-    env = globals()
+    env = globals(); del env['_init']
     for k in list(env):
         if k not in export: del env[k]
 _init()

@@ -2430,14 +2430,10 @@ def GetRetCodeInfo(retCode):
     return '', ''
 
 def _init():
-    import sys
     from ._talib import _talib as lib
 
     ENV = globals(); del ENV['_init']
     version, info, range = lib.GetLibInfo()
-    if sys.version_info[0] >= 3:
-        version = version.decode('utf-8')
-        info = dict((k.decode('utf-8'), [i.decode('utf-8') for i in v]) for k,v in info.items())
     names = []; any(names.extend((i,'%s_Lookback'%i)) for v in info.values() for i in v)
     names.append('GetRetCodeInfo')
     ENV.update(TA_VERSION=version, TA_FUNCS=info, __all__=names)
