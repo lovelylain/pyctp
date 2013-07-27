@@ -1,57 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import as UserSpi
+from __future__ import absolute_import as _init
 
 __all__ = ['UserApiStruct', 'UserApi']
 
-class UserSpi(object):
-    def OnFrontConnected(self):
-        """当客户端与交易后台建立起通信连接时（还未登录前），该方法被调用。"""
+if 0: from . import UserApiStruct
+UserApiStruct = __import__(__name__.rsplit('.',1)[0]+'.UserApiStruct', None, None, 'x')
 
-    def OnFrontDisconnected(self, nReason):
-        """当客户端与交易后台通信连接断开时，该方法被调用。当发生这个情况后，API会自动重新连接，客户端可不做处理。
-        @param nReason 错误原因
-                0x1001 网络读失败
-                0x1002 网络写失败
-                0x2001 接收心跳超时
-                0x2002 发送心跳失败
-                0x2003 收到错误报文
-        """
-
-    def OnHeartBeatWarning(self, nTimeLapse):
-        """心跳超时警告。当长时间未收到报文时，该方法被调用。
-        @param nTimeLapse 距离上次接收报文的时间
-        """
-
-    def OnRspUserLogin(self, pRspUserLogin, pRspInfo, nRequestID, bIsLast):
-        """登录请求响应"""
-
-    def OnRspUserLogout(self, pUserLogout, pRspInfo, nRequestID, bIsLast):
-        """登出请求响应"""
-
-    def OnRspError(self, pRspInfo, nRequestID, bIsLast):
-        """错误应答"""
-
-    def OnRspSubLevel2MarketData(self, pSpecificSecurity, pRspInfo, nRequestID, bIsLast):
-        """订阅Level2行情应答"""
-
-    def OnRspUnSubLevel2MarketData(self, pSpecificSecurity, pRspInfo, nRequestID, bIsLast):
-        """取消订阅Level2行情应答"""
-
-    def OnRspSubNGTSIndex(self, pSpecificSecurity, pRspInfo, nRequestID, bIsLast):
-        """订阅Level2指数行情应答"""
-
-    def OnRspUnSubNGTSIndex(self, pSpecificSecurity, pRspInfo, nRequestID, bIsLast):
-        """取消订阅Level2指数行情应答"""
-
-    def OnRtnLevel2MarketData(self, pLevel2MarketData):
-        """Level2行情通知"""
-
-    def OnRtnNGTSIndex(self, pNGTSIndex):
-        """Level2指数行情通知"""
-
-
-class UserApi(UserSpi):
+class UserApi(object):
     def Create(self, pszFlowPath='', bIsUsingUdp=False):
         """创建UserApi
         @param pszFlowPath 存贮订阅信息文件的目录，默认为当前目录
@@ -120,10 +76,52 @@ class UserApi(UserSpi):
         """登出请求"""
         return 0
 
+    def OnFrontConnected(self):
+        """当客户端与交易后台建立起通信连接时（还未登录前），该方法被调用。"""
 
-UserApiStruct = __import__(__name__.rsplit('.',1)[0]+'.UserApiStruct', None, None, 'x')
+    def OnFrontDisconnected(self, nReason):
+        """当客户端与交易后台通信连接断开时，该方法被调用。当发生这个情况后，API会自动重新连接，客户端可不做处理。
+        @param nReason 错误原因
+                0x1001 网络读失败
+                0x1002 网络写失败
+                0x2001 接收心跳超时
+                0x2002 发送心跳失败
+                0x2003 收到错误报文
+        """
+
+    def OnHeartBeatWarning(self, nTimeLapse):
+        """心跳超时警告。当长时间未收到报文时，该方法被调用。
+        @param nTimeLapse 距离上次接收报文的时间
+        """
+
+    def OnRspUserLogin(self, pRspUserLogin, pRspInfo, nRequestID, bIsLast):
+        """登录请求响应"""
+
+    def OnRspUserLogout(self, pUserLogout, pRspInfo, nRequestID, bIsLast):
+        """登出请求响应"""
+
+    def OnRspError(self, pRspInfo, nRequestID, bIsLast):
+        """错误应答"""
+
+    def OnRspSubLevel2MarketData(self, pSpecificSecurity, pRspInfo, nRequestID, bIsLast):
+        """订阅Level2行情应答"""
+
+    def OnRspUnSubLevel2MarketData(self, pSpecificSecurity, pRspInfo, nRequestID, bIsLast):
+        """取消订阅Level2行情应答"""
+
+    def OnRspSubNGTSIndex(self, pSpecificSecurity, pRspInfo, nRequestID, bIsLast):
+        """订阅Level2指数行情应答"""
+
+    def OnRspUnSubNGTSIndex(self, pSpecificSecurity, pRspInfo, nRequestID, bIsLast):
+        """取消订阅Level2指数行情应答"""
+
+    def OnRtnLevel2MarketData(self, pLevel2MarketData):
+        """Level2行情通知"""
+
+    def OnRtnNGTSIndex(self, pNGTSIndex):
+        """Level2指数行情通知"""
+
+_init = dict((k,v) for k,v in UserApi.__dict__.items() if k.startswith('On'))
 from ._UserApi import UserApi
-
-UserSpi = dict((k,v) for k,v in UserSpi.__dict__.items() if k.startswith('On'))
-UserApi = type('UserApi', (UserApi,), UserSpi)
-del UserSpi
+UserApi = type('UserApi', (UserApi,), _init)
+del _init

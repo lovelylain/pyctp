@@ -3,143 +3,13 @@
 from __future__ import absolute_import as _init
 
 __author__ = 'lovelylain'
-__version__ = '0.1.1'
+__version__ = '0.2.0'
 
 __all__ = ['ApiStruct', 'MdApi', 'TraderApi']
 
-ApiStruct = __import__(__name__+'.ApiStruct', None, None, 'x')
+if 0: from . import ApiStruct
 
-class MdSpi(object):
-    def OnFrontConnected(self):
-        """当客户端与交易后台建立起通信连接时（还未登录前），该方法被调用。"""
-
-    def OnFrontDisconnected(self, nReason):
-        """当客户端与交易后台通信连接断开时，该方法被调用。当发生这个情况后，API会自动重新连接，客户端可不做处理。
-        @param nReason 错误原因
-                0x1001 网络读失败
-                0x1002 网络写失败
-                0x2001 接收心跳超时
-                0x2002 发送心跳失败
-                0x2003 收到错误报文
-        """
-
-    def OnHeartBeatWarning(self, nTimeLapse):
-        """心跳超时警告。当长时间未收到报文时，该方法被调用。
-        @param nTimeLapse 距离上次接收报文的时间
-        """
-
-    def OnRspUserLogin(self, pRspUserLogin, pRspInfo, nRequestID, bIsLast):
-        """登录请求响应"""
-
-    def OnRspUserLogout(self, pUserLogout, pRspInfo, nRequestID, bIsLast):
-        """登出请求响应"""
-
-    def OnRspError(self, pRspInfo, nRequestID, bIsLast):
-        """错误应答"""
-
-    def OnRspSubMarketData(self, pSpecificInstrument, pRspInfo, nRequestID, bIsLast):
-        """订阅行情应答"""
-
-    def OnRspUnSubMarketData(self, pSpecificInstrument, pRspInfo, nRequestID, bIsLast):
-        """取消订阅行情应答"""
-
-    def OnRtnDepthMarketData(self, pDepthMarketData):
-        """深度行情通知"""
-
-
-class TraderSpi(object):
-    def OnFrontConnected(self):
-        """当客户端与交易后台建立起通信连接时（还未登录前），该方法被调用。"""
-
-    def OnFrontDisconnected(self, nReason):
-        """当客户端与交易后台通信连接断开时，该方法被调用。当发生这个情况后，API会自动重新连接，客户端可不做处理。
-        @param nReason 错误原因
-                0x1001 网络读失败
-                0x1002 网络写失败
-                0x2001 接收心跳超时
-                0x2002 发送心跳失败
-                0x2003 收到错误报文
-        """
-
-    def OnHeartBeatWarning(self, nTimeLapse):
-        """心跳超时警告。当长时间未收到报文时，该方法被调用。
-        @param nTimeLapse 距离上次接收报文的时间
-        """
-
-    def OnRspAuthenticate(self, pRspAuthenticate, pRspInfo, nRequestID, bIsLast):
-        """客户端认证响应"""
-
-    def OnRspUserLogin(self, pRspUserLogin, pRspInfo, nRequestID, bIsLast):
-        """登录请求响应"""
-
-    def OnRspUserLogout(self, pUserLogout, pRspInfo, nRequestID, bIsLast):
-        """登出请求响应"""
-
-    def OnRspUserPasswordUpdate(self, pUserPasswordUpdate, pRspInfo, nRequestID, bIsLast):
-        """用户口令更新请求响应"""
-
-    def OnRspOrderInsert(self, pInputOrder, pRspInfo, nRequestID, bIsLast):
-        """报单录入请求响应"""
-
-    def OnRspOrderAction(self, pInputOrderAction, pRspInfo, nRequestID, bIsLast):
-        """报单操作请求响应"""
-
-    def OnRspQueryMaxOrderVolume(self, pQueryMaxOrderVolume, pRspInfo, nRequestID, bIsLast):
-        """查询最大报单数量响应"""
-
-    def OnRspQryOrder(self, pOrder, pRspInfo, nRequestID, bIsLast):
-        """请求查询报单响应"""
-
-    def OnRspQryTrade(self, pTrade, pRspInfo, nRequestID, bIsLast):
-        """请求查询成交响应"""
-
-    def OnRspQryInvestorPosition(self, pInvestorPosition, pRspInfo, nRequestID, bIsLast):
-        """请求查询投资者持仓响应"""
-
-    def OnRspQryTradingAccount(self, pTradingAccount, pRspInfo, nRequestID, bIsLast):
-        """请求查询资金账户响应"""
-
-    def OnRspQryInvestor(self, pInvestor, pRspInfo, nRequestID, bIsLast):
-        """请求查询投资者响应"""
-
-    def OnRspQryTradingCode(self, pTradingCode, pRspInfo, nRequestID, bIsLast):
-        """请求查询交易编码响应"""
-
-    def OnRspQryInstrumentCommissionRate(self, pInstrumentCommissionRate, pRspInfo, nRequestID, bIsLast):
-        """请求查询合约手续费率响应"""
-
-    def OnRspQryExchange(self, pExchange, pRspInfo, nRequestID, bIsLast):
-        """请求查询交易所响应"""
-
-    def OnRspQryInstrument(self, pInstrument, pRspInfo, nRequestID, bIsLast):
-        """请求查询合约响应"""
-
-    def OnRspQryDepthMarketData(self, pDepthMarketData, pRspInfo, nRequestID, bIsLast):
-        """请求查询行情响应"""
-
-    def OnRspQryInvestorPositionDetail(self, pInvestorPositionDetail, pRspInfo, nRequestID, bIsLast):
-        """请求查询投资者持仓明细响应"""
-
-    def OnRspError(self, pRspInfo, nRequestID, bIsLast):
-        """错误应答"""
-
-    def OnRtnOrder(self, pOrder):
-        """报单通知"""
-
-    def OnRtnTrade(self, pTrade):
-        """成交通知"""
-
-    def OnErrRtnOrderInsert(self, pInputOrder, pRspInfo):
-        """报单录入错误回报"""
-
-    def OnErrRtnOrderAction(self, pOrderAction, pRspInfo):
-        """报单操作错误回报"""
-
-    def OnRtnInstrumentStatus(self, pInstrumentStatus):
-        """合约交易状态通知"""
-
-
-class MdApi(MdSpi):
+class MdApi(object):
     def Create(self, pszFlowPath='', bIsUsingUdp=False):
         """创建MdApi
         @param pszFlowPath 存贮订阅信息文件的目录，默认为当前目录
@@ -201,8 +71,44 @@ class MdApi(MdSpi):
         """登出请求"""
         return 0
 
+    def OnFrontConnected(self):
+        """当客户端与交易后台建立起通信连接时（还未登录前），该方法被调用。"""
 
-class TraderApi(TraderSpi):
+    def OnFrontDisconnected(self, nReason):
+        """当客户端与交易后台通信连接断开时，该方法被调用。当发生这个情况后，API会自动重新连接，客户端可不做处理。
+        @param nReason 错误原因
+                0x1001 网络读失败
+                0x1002 网络写失败
+                0x2001 接收心跳超时
+                0x2002 发送心跳失败
+                0x2003 收到错误报文
+        """
+
+    def OnHeartBeatWarning(self, nTimeLapse):
+        """心跳超时警告。当长时间未收到报文时，该方法被调用。
+        @param nTimeLapse 距离上次接收报文的时间
+        """
+
+    def OnRspUserLogin(self, pRspUserLogin, pRspInfo, nRequestID, bIsLast):
+        """登录请求响应"""
+
+    def OnRspUserLogout(self, pUserLogout, pRspInfo, nRequestID, bIsLast):
+        """登出请求响应"""
+
+    def OnRspError(self, pRspInfo, nRequestID, bIsLast):
+        """错误应答"""
+
+    def OnRspSubMarketData(self, pSpecificInstrument, pRspInfo, nRequestID, bIsLast):
+        """订阅行情应答"""
+
+    def OnRspUnSubMarketData(self, pSpecificInstrument, pRspInfo, nRequestID, bIsLast):
+        """取消订阅行情应答"""
+
+    def OnRtnDepthMarketData(self, pDepthMarketData):
+        """深度行情通知"""
+
+
+class TraderApi(object):
     def Create(self, pszFlowPath='', bIsUsingUdp=False):
         """创建TraderApi
         @param pszFlowPath 存贮订阅信息文件的目录，默认为当前目录
@@ -332,8 +238,100 @@ class TraderApi(TraderSpi):
         """请求查询投资者持仓明细"""
         return 0
 
+    def OnFrontConnected(self):
+        """当客户端与交易后台建立起通信连接时（还未登录前），该方法被调用。"""
+
+    def OnFrontDisconnected(self, nReason):
+        """当客户端与交易后台通信连接断开时，该方法被调用。当发生这个情况后，API会自动重新连接，客户端可不做处理。
+        @param nReason 错误原因
+                0x1001 网络读失败
+                0x1002 网络写失败
+                0x2001 接收心跳超时
+                0x2002 发送心跳失败
+                0x2003 收到错误报文
+        """
+
+    def OnHeartBeatWarning(self, nTimeLapse):
+        """心跳超时警告。当长时间未收到报文时，该方法被调用。
+        @param nTimeLapse 距离上次接收报文的时间
+        """
+
+    def OnRspAuthenticate(self, pRspAuthenticate, pRspInfo, nRequestID, bIsLast):
+        """客户端认证响应"""
+
+    def OnRspUserLogin(self, pRspUserLogin, pRspInfo, nRequestID, bIsLast):
+        """登录请求响应"""
+
+    def OnRspUserLogout(self, pUserLogout, pRspInfo, nRequestID, bIsLast):
+        """登出请求响应"""
+
+    def OnRspUserPasswordUpdate(self, pUserPasswordUpdate, pRspInfo, nRequestID, bIsLast):
+        """用户口令更新请求响应"""
+
+    def OnRspOrderInsert(self, pInputOrder, pRspInfo, nRequestID, bIsLast):
+        """报单录入请求响应"""
+
+    def OnRspOrderAction(self, pInputOrderAction, pRspInfo, nRequestID, bIsLast):
+        """报单操作请求响应"""
+
+    def OnRspQueryMaxOrderVolume(self, pQueryMaxOrderVolume, pRspInfo, nRequestID, bIsLast):
+        """查询最大报单数量响应"""
+
+    def OnRspQryOrder(self, pOrder, pRspInfo, nRequestID, bIsLast):
+        """请求查询报单响应"""
+
+    def OnRspQryTrade(self, pTrade, pRspInfo, nRequestID, bIsLast):
+        """请求查询成交响应"""
+
+    def OnRspQryInvestorPosition(self, pInvestorPosition, pRspInfo, nRequestID, bIsLast):
+        """请求查询投资者持仓响应"""
+
+    def OnRspQryTradingAccount(self, pTradingAccount, pRspInfo, nRequestID, bIsLast):
+        """请求查询资金账户响应"""
+
+    def OnRspQryInvestor(self, pInvestor, pRspInfo, nRequestID, bIsLast):
+        """请求查询投资者响应"""
+
+    def OnRspQryTradingCode(self, pTradingCode, pRspInfo, nRequestID, bIsLast):
+        """请求查询交易编码响应"""
+
+    def OnRspQryInstrumentCommissionRate(self, pInstrumentCommissionRate, pRspInfo, nRequestID, bIsLast):
+        """请求查询合约手续费率响应"""
+
+    def OnRspQryExchange(self, pExchange, pRspInfo, nRequestID, bIsLast):
+        """请求查询交易所响应"""
+
+    def OnRspQryInstrument(self, pInstrument, pRspInfo, nRequestID, bIsLast):
+        """请求查询合约响应"""
+
+    def OnRspQryDepthMarketData(self, pDepthMarketData, pRspInfo, nRequestID, bIsLast):
+        """请求查询行情响应"""
+
+    def OnRspQryInvestorPositionDetail(self, pInvestorPositionDetail, pRspInfo, nRequestID, bIsLast):
+        """请求查询投资者持仓明细响应"""
+
+    def OnRspError(self, pRspInfo, nRequestID, bIsLast):
+        """错误应答"""
+
+    def OnRtnOrder(self, pOrder):
+        """报单通知"""
+
+    def OnRtnTrade(self, pTrade):
+        """成交通知"""
+
+    def OnErrRtnOrderInsert(self, pInputOrder, pRspInfo):
+        """报单录入错误回报"""
+
+    def OnErrRtnOrderAction(self, pOrderAction, pRspInfo):
+        """报单操作错误回报"""
+
+    def OnRtnInstrumentStatus(self, pInstrumentStatus):
+        """合约交易状态通知"""
+
 
 def _init(Module, MdSpi, TraderSpi):
+    globals()['ApiStruct'] = __import__(__name__+'.ApiStruct', None, None, 'x')
+
     class LazyProperty(object):
         def __get__(self, obj, cls):
             if obj is None: return self
@@ -360,7 +358,7 @@ def _init(Module, MdSpi, TraderSpi):
         return type('TraderApi', (TraderApi,), TraderSpi)
 
 
-def _init(init=_init, MdSpi=MdSpi, TraderSpi=TraderSpi):
+def _init(init=_init, MdSpi=MdApi, TraderSpi=TraderApi):
     import sys
     from types import ModuleType, FunctionType as F
 
@@ -368,14 +366,14 @@ def _init(init=_init, MdSpi=MdSpi, TraderSpi=TraderSpi):
     mod = sys.modules[__name__]; Module = type(mod)
     if Module is ModuleType:
         class Module(ModuleType): pass
-        mod = Module(__name__); env = mod.__dict__; env['ApiStruct'] = ApiStruct
+        mod = Module(__name__); env = mod.__dict__
         env.update((k,v) for k,v in globals().items() if k.startswith('__') and k.endswith('__'))
         MdSpi = dict((k,f(v)) for k,v in MdSpi.__dict__.items() if k.startswith('On'))
         TraderSpi = dict((k,f(v)) for k,v in TraderSpi.__dict__.items() if k.startswith('On'))
         sys.modules[__name__] = mod
     else:
         env = mod.__dict__
-        for k in ('MdSpi','TraderSpi','MdApi','TraderApi','_init'): del env[k]
+        for k in ('MdApi','TraderApi','_init'): del env[k]
         MdSpi = dict((k,v) for k,v in MdSpi.__dict__.items() if k.startswith('On'))
         TraderSpi = dict((k,v) for k,v in TraderSpi.__dict__.items() if k.startswith('On'))
 
