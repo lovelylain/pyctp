@@ -2431,15 +2431,14 @@ def GetRetCodeInfo(retCode):
 
 def _init():
     from ._talib import _talib as lib
-
     ENV = globals(); del ENV['_init']
-    version, info, range = lib.GetLibInfo()
-    names = []; any(names.extend((i,'%s_Lookback'%i)) for v in info.values() for i in v)
+    version, info, range = lib.GetLibInfo(); names = []
+    any(names.extend((i,'%s_Lookback'%i)) for v in info.values() for i in v)
     names.append('GetRetCodeInfo')
-    ENV.update(TA_VERSION=version, TA_FUNCS=info, __all__=names)
+    ENV.update(TA_VERSION=version, TA_FUNCS=info)
     ENV.update((k, getattr(lib, k)) for k in names)
     Range = 'INT_MIN', 'INT_MAX', 'INT_DEFAULT', 'REAL_MIN', 'REAL_MAX', 'REAL_DEFAULT'
-    names.extend(Range); ENV.update(zip(Range, range))
+    ENV.update(zip(Range, range))
     MAType = 'MA_S', 'MA_E', 'MA_W', 'MA_DE', 'MA_TE', 'MA_TRI', 'MA_KA', 'MA_MA', 'MA_T3'
-    names.extend(MAType); ENV.update((v,i) for i,v in enumerate(MAType))
+    ENV.update((v,i) for i,v in enumerate(MAType))
 _init()

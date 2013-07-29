@@ -369,6 +369,7 @@ class NGTSIndex(BaseStruct): #Level2指数行情
         self.TotalVolumeTraded = 'TLargeVolume' #参与计算相应指数的交易数量（手）, double
 
 def _init():
+    import sys
     from ctypes import c_char, c_short, c_int, c_double, Structure
     T = {}; G = globals(); del G['_init']
 
@@ -444,4 +445,7 @@ def _init():
             G[cls.__name__] = type(cls.__name__, (Base,), {'_fields_':tuple(self.fields)})
     builder = builder()
     for cls in Structs: builder.build(cls)
+    if sys.version_info[0] >= 3:
+        for k,v in G.items():
+            if isinstance(v, str) and len(v) == 1 and '_' in k[1:-1]: G[k] = v.encode('latin-1')
 _init()

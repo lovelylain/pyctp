@@ -4270,7 +4270,10 @@ def _init():
             G[cls.__name__] = type(cls.__name__, (Base,), {'_fields_':tuple(self.fields)})
     builder = builder()
     for cls in Structs: builder.build(cls)
-    if sys.version_info[0] < 3:
+    if sys.version_info[0] >= 3:
+        for k,v in G.items():
+            if isinstance(v, str) and len(v) == 1 and '_' in k[1:-1]: G[k] = v.encode('latin-1')
+    else:
         for k in error:
             if not isinstance(k, str): error[k] = error[k].decode('utf-8')
 _init()
