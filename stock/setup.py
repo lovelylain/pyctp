@@ -11,7 +11,7 @@ PREFIX = ''
 BUILD = (
     ('MdApi', 'thostmduserapiSSE'),
     ('TraderApi', 'thosttraderapiSSE'),
-    ('UserApi', 'level2userapi'),
+    ('Level2Api', 'level2userapi'),
 )
 
 if platform != 'win32': platform = 'linux' + str(struct.calcsize('P') * 8)

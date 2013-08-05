@@ -2,12 +2,12 @@
 
 from __future__ import absolute_import as _init
 
-__all__ = ['UserApiStruct', 'UserApi']
+__all__ = ['Level2ApiStruct', 'Level2Api']
 
-if 0: from . import UserApiStruct
-UserApiStruct = __import__(__name__.rsplit('.',1)[0]+'.UserApiStruct', None, None, 'x')
+if 0: from . import Level2ApiStruct
+Level2ApiStruct = __import__(__name__.rsplit('.',1)[0]+'.Level2ApiStruct', None, None, 'x')
 
-class UserApi(object):
+class Level2Api(object):
     def Create(self, pszFlowPath='', bIsUsingUdp=False):
         """创建UserApi
         @param pszFlowPath 存贮订阅信息文件的目录，默认为当前目录
@@ -121,7 +121,9 @@ class UserApi(object):
     def OnRtnNGTSIndex(self, pNGTSIndex):
         """Level2指数行情通知"""
 
-_init = dict((k,v) for k,v in UserApi.__dict__.items() if k.startswith('On'))
-from ._UserApi import UserApi
-UserApi = type('UserApi', (UserApi,), _init)
-del _init
+def _init(Level2Spi=Level2Api):
+    G = globals(); del G['_init']
+    Level2Spi = dict((k,v) for k,v in Level2Spi.__dict__.items() if k.startswith('On'))
+    from ._Level2Api import _init, Level2Api; _init(Level2ApiStruct)
+    G['Level2Api'] = type('Level2Api', (Level2Api,), Level2Spi)
+_init()

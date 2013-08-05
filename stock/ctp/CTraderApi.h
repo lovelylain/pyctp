@@ -193,17 +193,35 @@ static inline void ReleaseTraderApi(CZQThostFtdcTraderApi *api, CTraderSpi *spi)
 	}
 }
 
+static PyObject *_init(PyObject *, PyObject *);
+static PyMethodDef _init_method = {"_init", _init, METH_O, NULL};
+
 #define CheckMemory(p) (p || PyErr_NoMemory())
 #if PY_MAJOR_VERSION < 3
 #define XStr PyString_FromString
+#define XFixSysModules()
 #else
 #define XStr PyUnicode_FromString
+#define XFixSysModules() \
+	do { \
+		PyObject *n = PyDict_GetItemString(PyModule_GetDict(__pyx_m), "__name__"); \
+		if (n) n = PyUnicode_AsEncodedString(n, "ascii", NULL); \
+		if (n) { \
+			const char *name = PyBytes_AS_STRING(n); \
+			PyObject *m = PyImport_GetModuleDict(); \
+			if (name && m) { \
+				if (strcmp(name, __Pyx_MODULE_NAME) != 0 && \
+					PyDict_GetItemString(m, __Pyx_MODULE_NAME) == __pyx_m) \
+					PyDict_DelItemString(m, __Pyx_MODULE_NAME); \
+				if (!PyDict_GetItemString(m, name)) \
+					PyDict_SetItemString(m, name, __pyx_m); \
+			} \
+			Py_DECREF(n); \
+		} \
+	} while (0)
 #endif
 
-#define S_dot "."
-#define S_ApiStruct ".ApiStruct"
 #define S___name__ "__name__"
-#define S_rpartition "rpartition"
 #define S_ctypes "ctypes"
 #define S_addressof "addressof"
 #define S_from_address "from_address"

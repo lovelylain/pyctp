@@ -532,25 +532,6 @@ struct __pyx_obj_3ctp_10_TraderApi_TraderApi {
 #endif 
 #define __Pyx_CLEAR(r) do { PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);} while(0)
 #define __Pyx_XCLEAR(r) do { if((r) != NULL) {PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);}} while(0)
-#define __Pyx_GetItemInt(o, i, size, to_py_func, is_list, wraparound, boundscheck) \
-    (((size) <= sizeof(Py_ssize_t)) ? \
-    __Pyx_GetItemInt_Fast(o, i, is_list, wraparound, boundscheck) : \
-    __Pyx_GetItemInt_Generic(o, to_py_func(i)))
-#define __Pyx_GetItemInt_List(o, i, size, to_py_func, is_list, wraparound, boundscheck) \
-    (((size) <= sizeof(Py_ssize_t)) ? \
-    __Pyx_GetItemInt_List_Fast(o, i, wraparound, boundscheck) : \
-    __Pyx_GetItemInt_Generic(o, to_py_func(i)))
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck);
-#define __Pyx_GetItemInt_Tuple(o, i, size, to_py_func, is_list, wraparound, boundscheck) \
-    (((size) <= sizeof(Py_ssize_t)) ? \
-    __Pyx_GetItemInt_Tuple_Fast(o, i, wraparound, boundscheck) : \
-    __Pyx_GetItemInt_Generic(o, to_py_func(i)))
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck);
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
-                                                     int is_list, int wraparound, int boundscheck);
 static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name); 
 static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[], \
     PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args, \
@@ -698,7 +679,6 @@ static PyObject *__pyx_v_3ctp_10_TraderApi_ApiStruct_TransferBank = 0;
 static PyObject *__pyx_v_3ctp_10_TraderApi_ApiStruct_TransferSerial = 0;
 static PyObject *__pyx_v_3ctp_10_TraderApi_ApiStruct_UserLogout = 0;
 static PyObject *__pyx_v_3ctp_10_TraderApi_ApiStruct_UserPasswordUpdate = 0;
-static PyObject *__pyx_f_3ctp_10_TraderApi__init(void); 
 static void __pyx_f_3ctp_10_TraderApi_TraderApi_Release(struct __pyx_obj_3ctp_10_TraderApi_TraderApi *); 
 #define __Pyx_MODULE_NAME "ctp._TraderApi"
 int __pyx_module_is_main_ctp___TraderApi = 0;
@@ -997,21 +977,19 @@ static PyObject *__pyx_n_s__pReqUserLogin;
 static PyObject *__pyx_n_s__pUserLogout;
 static PyObject *__pyx_n_s__pUserPasswordUpdate;
 static PyObject *__pyx_n_s__pszFlowPath;
-static PyObject *__pyx_f_3ctp_10_TraderApi__init(void) {
-  PyObject *__pyx_v_m = NULL;
+PyObject *_init(CYTHON_UNUSED PyObject *__pyx_v_self, PyObject *__pyx_v_m) {
   PyObject *__pyx_v_fa = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_init", 0);
   __pyx_t_1 = PyImport_ImportModule(S_ctypes); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_t_1, S_addressof); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_t_1, S_addressof); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_addressof);
@@ -1019,563 +997,528 @@ static PyObject *__pyx_f_3ctp_10_TraderApi__init(void) {
   __Pyx_GIVEREF(__pyx_t_2);
   __pyx_v_3ctp_10_TraderApi_ApiStruct_addressof = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = ((PyObject *)__pyx_m);
-  __Pyx_INCREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_t_2, S___name__); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = XStr(S_from_address); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_v_fa = __pyx_t_2;
+  __pyx_t_2 = 0;
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_Accountregister); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_t_1, S_rpartition); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = XStr(S_dot); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Accountregister);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Accountregister);
   __Pyx_GIVEREF(__pyx_t_1);
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_Accountregister = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = PyObject_Call(__pyx_t_2, ((PyObject *)__pyx_t_3), NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(((PyObject *)__pyx_t_3)); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_1, 0, sizeof(long), PyInt_FromLong, 0, 0, 1); if (!__pyx_t_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = XStr(S_ApiStruct); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyNumber_Add(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_Import(__pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_m = __pyx_t_1;
-  __pyx_t_1 = 0;
-  __pyx_t_1 = XStr(S_from_address); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_fa = __pyx_t_1;
-  __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_Accountregister); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_BrokerTradingAlgos); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Accountregister);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Accountregister);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_BrokerTradingAlgos);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_BrokerTradingAlgos);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_Accountregister = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_BrokerTradingAlgos = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_BrokerTradingAlgos); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_BrokerTradingParams); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_BrokerTradingAlgos);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_BrokerTradingAlgos);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_BrokerTradingParams);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_BrokerTradingParams);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_BrokerTradingAlgos = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_BrokerTradingParams = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_BrokerTradingParams); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_CFMMCTradingAccountKey); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_BrokerTradingParams);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_BrokerTradingParams);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_CFMMCTradingAccountKey);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_CFMMCTradingAccountKey);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_BrokerTradingParams = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_CFMMCTradingAccountKey = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_CFMMCTradingAccountKey); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_CancelAccount); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_CFMMCTradingAccountKey);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_CFMMCTradingAccountKey);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_CancelAccount);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_CancelAccount);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_CFMMCTradingAccountKey = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_CancelAccount = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_CancelAccount); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_ChangeAccount); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_CancelAccount);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_CancelAccount);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ChangeAccount);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ChangeAccount);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_CancelAccount = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_ChangeAccount = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_ChangeAccount); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_ContractBank); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ChangeAccount);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ChangeAccount);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ContractBank);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ContractBank);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_ChangeAccount = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_ContractBank = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_ContractBank); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_DepthMarketData); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ContractBank);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ContractBank);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_DepthMarketData);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_DepthMarketData);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_ContractBank = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_DepthMarketData = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_DepthMarketData); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_EWarrantOffset); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_DepthMarketData);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_DepthMarketData);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_EWarrantOffset);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_EWarrantOffset);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_DepthMarketData = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_EWarrantOffset = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_EWarrantOffset); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_ErrorConditionalOrder); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_EWarrantOffset);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_EWarrantOffset);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ErrorConditionalOrder);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ErrorConditionalOrder);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_EWarrantOffset = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_ErrorConditionalOrder = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_ErrorConditionalOrder); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_Exchange); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ErrorConditionalOrder);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ErrorConditionalOrder);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Exchange);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Exchange);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_ErrorConditionalOrder = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_Exchange = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_Exchange); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_InputOrder); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Exchange);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Exchange);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InputOrder);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InputOrder);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_Exchange = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_InputOrder = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_InputOrder); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_InputOrderAction); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InputOrder);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InputOrder);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InputOrderAction);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InputOrderAction);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_InputOrder = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_InputOrderAction = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_InputOrderAction); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_Instrument); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InputOrderAction);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InputOrderAction);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Instrument);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Instrument);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_InputOrderAction = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_Instrument = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_Instrument); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_InstrumentCommissionRate); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Instrument);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Instrument);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InstrumentCommissionRate);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InstrumentCommissionRate);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_Instrument = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_InstrumentCommissionRate = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_InstrumentCommissionRate); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_InstrumentMarginRate); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InstrumentCommissionRate);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InstrumentCommissionRate);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InstrumentMarginRate);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InstrumentMarginRate);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_InstrumentCommissionRate = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_InstrumentMarginRate = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_InstrumentMarginRate); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_InstrumentStatus); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InstrumentMarginRate);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InstrumentMarginRate);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InstrumentStatus);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InstrumentStatus);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_InstrumentMarginRate = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_InstrumentStatus = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_InstrumentStatus); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_Investor); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InstrumentStatus);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InstrumentStatus);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Investor);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Investor);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_InstrumentStatus = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_Investor = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_Investor); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_InvestorPosition); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Investor);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Investor);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InvestorPosition);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InvestorPosition);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_Investor = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_InvestorPosition = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_InvestorPosition); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_InvestorPositionCombineDetail); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InvestorPosition);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InvestorPosition);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InvestorPositionCombineDetail);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InvestorPositionCombineDetail);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_InvestorPosition = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_InvestorPositionCombineDetail = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_InvestorPositionCombineDetail); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_InvestorPositionDetail); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InvestorPositionCombineDetail);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InvestorPositionCombineDetail);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InvestorPositionDetail);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InvestorPositionDetail);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_InvestorPositionCombineDetail = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_InvestorPositionDetail = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_InvestorPositionDetail); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_Notice); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InvestorPositionDetail);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_InvestorPositionDetail);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Notice);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Notice);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_InvestorPositionDetail = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_Notice = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_Notice); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_NotifyQueryAccount); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Notice);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Notice);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_NotifyQueryAccount);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_NotifyQueryAccount);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_Notice = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_NotifyQueryAccount = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_NotifyQueryAccount); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_OpenAccount); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_NotifyQueryAccount);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_NotifyQueryAccount);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_OpenAccount);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_OpenAccount);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_NotifyQueryAccount = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_OpenAccount = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_OpenAccount); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_Order); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_OpenAccount);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_OpenAccount);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Order);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Order);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_OpenAccount = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_Order = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_Order); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_OrderAction); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Order);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Order);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_OrderAction);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_OrderAction);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_Order = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_OrderAction = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_OrderAction); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_ParkedOrder); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_OrderAction);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_OrderAction);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ParkedOrder);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ParkedOrder);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_OrderAction = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_ParkedOrder = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_ParkedOrder); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_ParkedOrderAction); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ParkedOrder);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ParkedOrder);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ParkedOrderAction);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ParkedOrderAction);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_ParkedOrder = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_ParkedOrderAction = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_ParkedOrderAction); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_QueryMaxOrderVolume); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ParkedOrderAction);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ParkedOrderAction);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_QueryMaxOrderVolume);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_QueryMaxOrderVolume);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_ParkedOrderAction = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_QueryMaxOrderVolume = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_QueryMaxOrderVolume); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_RemoveParkedOrder); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_QueryMaxOrderVolume);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_QueryMaxOrderVolume);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RemoveParkedOrder);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RemoveParkedOrder);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_QueryMaxOrderVolume = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_RemoveParkedOrder = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_RemoveParkedOrder); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_RemoveParkedOrderAction); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RemoveParkedOrder);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RemoveParkedOrder);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RemoveParkedOrderAction);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RemoveParkedOrderAction);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_RemoveParkedOrder = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_RemoveParkedOrderAction = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_RemoveParkedOrderAction); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 41; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_ReqQueryAccount); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 41; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 41; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RemoveParkedOrderAction);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RemoveParkedOrderAction);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ReqQueryAccount);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ReqQueryAccount);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_RemoveParkedOrderAction = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_ReqQueryAccount = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_ReqQueryAccount); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_ReqRepeal); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ReqQueryAccount);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ReqQueryAccount);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ReqRepeal);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ReqRepeal);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_ReqQueryAccount = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_ReqRepeal = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_ReqRepeal); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_ReqTransfer); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ReqRepeal);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ReqRepeal);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ReqTransfer);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ReqTransfer);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_ReqRepeal = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_ReqTransfer = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_ReqTransfer); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 44; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_RspAuthenticate); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 44; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 44; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ReqTransfer);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_ReqTransfer);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RspAuthenticate);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RspAuthenticate);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_ReqTransfer = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_RspAuthenticate = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_RspAuthenticate); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 45; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_RspInfo); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 45; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 45; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RspAuthenticate);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RspAuthenticate);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RspInfo);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RspInfo);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_RspAuthenticate = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_RspInfo = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_RspInfo); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_RspRepeal); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RspInfo);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RspInfo);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RspRepeal);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RspRepeal);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_RspInfo = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_RspRepeal = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_RspRepeal); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 47; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_RspTransfer); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 47; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 47; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RspRepeal);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RspRepeal);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RspTransfer);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RspTransfer);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_RspRepeal = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_RspTransfer = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_RspTransfer); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_RspUserLogin); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RspTransfer);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RspTransfer);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RspUserLogin);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RspUserLogin);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_RspTransfer = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_RspUserLogin = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_RspUserLogin); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_SettlementInfo); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RspUserLogin);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_RspUserLogin);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_SettlementInfo);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_SettlementInfo);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_RspUserLogin = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_SettlementInfo = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_SettlementInfo); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_SettlementInfoConfirm); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_SettlementInfo);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_SettlementInfo);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_SettlementInfoConfirm);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_SettlementInfoConfirm);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_SettlementInfo = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_SettlementInfoConfirm = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_SettlementInfoConfirm); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_Trade); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_SettlementInfoConfirm);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_SettlementInfoConfirm);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Trade);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Trade);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_SettlementInfoConfirm = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_Trade = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_Trade); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_TradingAccount); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Trade);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_Trade);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TradingAccount);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TradingAccount);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_Trade = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_TradingAccount = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_TradingAccount); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 53; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_TradingAccountPasswordUpdate); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 53; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 53; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TradingAccount);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TradingAccount);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TradingAccountPasswordUpdate);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TradingAccountPasswordUpdate);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_TradingAccount = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_TradingAccountPasswordUpdate = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_TradingAccountPasswordUpdate); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_TradingCode); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TradingAccountPasswordUpdate);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TradingAccountPasswordUpdate);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TradingCode);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TradingCode);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_TradingAccountPasswordUpdate = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_TradingCode = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_TradingCode); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_TradingNotice); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TradingCode);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TradingCode);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TradingNotice);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TradingNotice);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_TradingCode = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_TradingNotice = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_TradingNotice); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 56; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_TradingNoticeInfo); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 56; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 56; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TradingNotice);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TradingNotice);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TradingNoticeInfo);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TradingNoticeInfo);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_TradingNotice = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_TradingNoticeInfo = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_TradingNoticeInfo); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_TransferBank); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TradingNoticeInfo);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TradingNoticeInfo);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TransferBank);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TransferBank);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_TradingNoticeInfo = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_TransferBank = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_TransferBank); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_TransferSerial); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TransferBank);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TransferBank);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TransferSerial);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TransferSerial);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_TransferBank = __pyx_t_1;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_TransferSerial = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_TransferSerial); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_UserLogout); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TransferSerial);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_TransferSerial);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_UserLogout);
+  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_UserLogout);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_TransferSerial = __pyx_t_2;
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_UserLogout = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_UserLogout); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_UserPasswordUpdate); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_UserLogout);
-  __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_UserLogout);
-  __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_UserLogout = __pyx_t_1;
-  __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_UserPasswordUpdate); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 61; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 61; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_XGOTREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_UserPasswordUpdate);
   __Pyx_DECREF(__pyx_v_3ctp_10_TraderApi_ApiStruct_UserPasswordUpdate);
-  __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_10_TraderApi_ApiStruct_UserPasswordUpdate = __pyx_t_2;
-  __pyx_t_2 = 0;
+  __Pyx_GIVEREF(__pyx_t_1);
+  __pyx_v_3ctp_10_TraderApi_ApiStruct_UserPasswordUpdate = __pyx_t_1;
+  __pyx_t_1 = 0;
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
   __Pyx_AddTraceback("ctp._TraderApi._init", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_m);
   __Pyx_XDECREF(__pyx_v_fa);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -13185,6 +13128,8 @@ PyMODINIT_FUNC PyInit__TraderApi(void)
 #endif
 {
   PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_t_3;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -13301,16 +13246,22 @@ PyMODINIT_FUNC PyInit__TraderApi(void)
   if (PyType_Ready(&__pyx_type_3ctp_10_TraderApi_TraderApi) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (__Pyx_SetAttrString(__pyx_m, "TraderApi", (PyObject *)&__pyx_type_3ctp_10_TraderApi_TraderApi) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_ptype_3ctp_10_TraderApi_TraderApi = &__pyx_type_3ctp_10_TraderApi_TraderApi;
-  __pyx_t_1 = __pyx_f_3ctp_10_TraderApi__init(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  XFixSysModules();
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_m, S___name__); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyCFunction_NewEx((&_init_method), NULL, __pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(((PyObject *)__pyx_t_1));
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s____test__, ((PyObject *)__pyx_t_1)) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(((PyObject *)__pyx_t_1)); __pyx_t_1 = 0;
+  __pyx_t_3 = PyObject_SetAttrString(__pyx_m, _init_method.ml_name, __pyx_t_2); if (unlikely(__pyx_t_3 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(((PyObject *)__pyx_t_2));
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s____test__, ((PyObject *)__pyx_t_2)) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(((PyObject *)__pyx_t_2)); __pyx_t_2 = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
   if (__pyx_m) {
     __Pyx_AddTraceback("init ctp._TraderApi", __pyx_clineno, __pyx_lineno, __pyx_filename);
     Py_DECREF(__pyx_m); __pyx_m = 0;
@@ -13340,83 +13291,6 @@ end:
     return (__Pyx_RefNannyAPIStruct *)r;
 }
 #endif 
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
-    PyObject *r;
-    if (!j) return NULL;
-    r = PyObject_GetItem(o, j);
-    Py_DECREF(j);
-    return r;
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck) {
-#if CYTHON_COMPILING_IN_CPYTHON
-    if (wraparound & unlikely(i < 0)) i += PyList_GET_SIZE(o);
-    if ((!boundscheck) || likely((0 <= i) & (i < PyList_GET_SIZE(o)))) {
-        PyObject *r = PyList_GET_ITEM(o, i);
-        Py_INCREF(r);
-        return r;
-    }
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-#else
-    return PySequence_GetItem(o, i);
-#endif
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck) {
-#if CYTHON_COMPILING_IN_CPYTHON
-    if (wraparound & unlikely(i < 0)) i += PyTuple_GET_SIZE(o);
-    if ((!boundscheck) || likely((0 <= i) & (i < PyTuple_GET_SIZE(o)))) {
-        PyObject *r = PyTuple_GET_ITEM(o, i);
-        Py_INCREF(r);
-        return r;
-    }
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-#else
-    return PySequence_GetItem(o, i);
-#endif
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
-                                                     int is_list, int wraparound, int boundscheck) {
-#if CYTHON_COMPILING_IN_CPYTHON
-    if (is_list || PyList_CheckExact(o)) {
-        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyList_GET_SIZE(o);
-        if ((!boundscheck) || (likely((n >= 0) & (n < PyList_GET_SIZE(o))))) {
-            PyObject *r = PyList_GET_ITEM(o, n);
-            Py_INCREF(r);
-            return r;
-        }
-    }
-    else if (PyTuple_CheckExact(o)) {
-        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyTuple_GET_SIZE(o);
-        if ((!boundscheck) || likely((n >= 0) & (n < PyTuple_GET_SIZE(o)))) {
-            PyObject *r = PyTuple_GET_ITEM(o, n);
-            Py_INCREF(r);
-            return r;
-        }
-    } else {
-        PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
-        if (likely(m && m->sq_item)) {
-            if (wraparound && unlikely(i < 0) && likely(m->sq_length)) {
-                Py_ssize_t l = m->sq_length(o);
-                if (likely(l >= 0)) {
-                    i += l;
-                } else {
-                    if (PyErr_ExceptionMatches(PyExc_OverflowError))
-                        PyErr_Clear();
-                    else
-                        return NULL;
-                }
-            }
-            return m->sq_item(o, i);
-        }
-    }
-#else
-    if (is_list || PySequence_Check(o)) {
-        return PySequence_GetItem(o, i);
-    }
-#endif
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-}
 static void __Pyx_RaiseDoubleKeywordsError(
     const char* func_name,
     PyObject* kw_name)

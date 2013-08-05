@@ -616,12 +616,12 @@ def _init(Module, MdSpi, TraderSpi):
 
     @lazy_property
     def MdApi():
-        from ._MdApi import MdApi
+        from ._MdApi import _init, MdApi; _init(ApiStruct)
         return type('MdApi', (MdApi,), MdSpi)
 
     @lazy_property
     def TraderApi():
-        from ._TraderApi import TraderApi
+        from ._TraderApi import _init, TraderApi; _init(ApiStruct)
         return type('TraderApi', (TraderApi,), TraderSpi)
 
 

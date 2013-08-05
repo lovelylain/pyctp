@@ -297,8 +297,8 @@ static CYTHON_INLINE float __PYX_NAN() {
 #define _USE_MATH_DEFINES
 #endif
 #include <math.h>
-#define __PYX_HAVE__ctp___UserApi
-#define __PYX_HAVE_API__ctp___UserApi
+#define __PYX_HAVE__ctp___Level2Api
+#define __PYX_HAVE_API__ctp___Level2Api
 #include "ThostFtdcLevel2UserApiDataType.h"
 #include "ThostFtdcLevel2UserApiStruct.h"
 #include "string.h"
@@ -307,7 +307,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "new"
 #include "stdexcept"
 #include "typeinfo"
-#include "CUserApi.h"
+#include "CLevel2Api.h"
 #ifdef _OPENMP
 #include <omp.h>
 #endif 
@@ -471,13 +471,13 @@ static int __pyx_clineno = 0;
 static const char * __pyx_cfilenm= __FILE__;
 static const char *__pyx_filename;
 static const char *__pyx_f[] = {
-  "UserApi.pyx",
+  "Level2Api.pyx",
 };
-struct __pyx_obj_3ctp_8_UserApi_UserApi;
-struct __pyx_obj_3ctp_8_UserApi_UserApi {
+struct __pyx_obj_3ctp_10_Level2Api_Level2Api;
+struct __pyx_obj_3ctp_10_Level2Api_Level2Api {
   PyObject_HEAD
   CThostFtdcLevel2UserApi *api;
-  CUserSpi *spi;
+  CLevel2Spi *spi;
 };
 #ifndef CYTHON_REFNANNY
   #define CYTHON_REFNANNY 0
@@ -532,25 +532,6 @@ struct __pyx_obj_3ctp_8_UserApi_UserApi {
 #endif 
 #define __Pyx_CLEAR(r) do { PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);} while(0)
 #define __Pyx_XCLEAR(r) do { if((r) != NULL) {PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);}} while(0)
-#define __Pyx_GetItemInt(o, i, size, to_py_func, is_list, wraparound, boundscheck) \
-    (((size) <= sizeof(Py_ssize_t)) ? \
-    __Pyx_GetItemInt_Fast(o, i, is_list, wraparound, boundscheck) : \
-    __Pyx_GetItemInt_Generic(o, to_py_func(i)))
-#define __Pyx_GetItemInt_List(o, i, size, to_py_func, is_list, wraparound, boundscheck) \
-    (((size) <= sizeof(Py_ssize_t)) ? \
-    __Pyx_GetItemInt_List_Fast(o, i, wraparound, boundscheck) : \
-    __Pyx_GetItemInt_Generic(o, to_py_func(i)))
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck);
-#define __Pyx_GetItemInt_Tuple(o, i, size, to_py_func, is_list, wraparound, boundscheck) \
-    (((size) <= sizeof(Py_ssize_t)) ? \
-    __Pyx_GetItemInt_Tuple_Fast(o, i, wraparound, boundscheck) : \
-    __Pyx_GetItemInt_Generic(o, to_py_func(i)))
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck);
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
-                                                     int is_list, int wraparound, int boundscheck);
 static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name); 
 static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[], \
     PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args, \
@@ -645,34 +626,33 @@ static void __pyx_insert_code_object(int code_line, PyCodeObject* code_object);
 static void __Pyx_AddTraceback(const char *funcname, int c_line,
                                int py_line, const char *filename); 
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t); 
-static PyTypeObject *__pyx_ptype_3ctp_8_UserApi_UserApi = 0;
-static PyObject *__pyx_v_3ctp_8_UserApi_ApiStruct_addressof = 0;
-static PyObject *__pyx_v_3ctp_8_UserApi_ApiStruct_Level2MarketData = 0;
-static PyObject *__pyx_v_3ctp_8_UserApi_ApiStruct_NGTSIndex = 0;
-static PyObject *__pyx_v_3ctp_8_UserApi_ApiStruct_RspInfo = 0;
-static PyObject *__pyx_v_3ctp_8_UserApi_ApiStruct_RspUserLogin = 0;
-static PyObject *__pyx_v_3ctp_8_UserApi_ApiStruct_SpecificSecurity = 0;
-static PyObject *__pyx_v_3ctp_8_UserApi_ApiStruct_UserLogout = 0;
-static PyObject *__pyx_f_3ctp_8_UserApi__init(void); 
-static void __pyx_f_3ctp_8_UserApi_UserApi_Release(struct __pyx_obj_3ctp_8_UserApi_UserApi *); 
-#define __Pyx_MODULE_NAME "ctp._UserApi"
-int __pyx_module_is_main_ctp___UserApi = 0;
-static void __pyx_pf_3ctp_8_UserApi_7UserApi___dealloc__(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self); 
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_2Alive(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self); 
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_4Create(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self, const char *__pyx_v_pszFlowPath, bool __pyx_v_bIsUsingUdp, CYTHON_UNUSED bool __pyx_v_bIsMulticast); 
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_6Release(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self); 
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_8Init(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self); 
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_10Join(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self); 
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_12GetTradingDay(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self); 
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_14RegisterFront(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self, char *__pyx_v_pszFrontAddress); 
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_16SubscribePublicTopic(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self, enum THOST_TE_RESUME_TYPE __pyx_v_nResumeType); 
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_18SubscribeLevel2MarketData(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self, PyObject *__pyx_v_pSecurityList, int __pyx_v_nCount); 
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_20UnSubscribeLevel2MarketData(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self, PyObject *__pyx_v_pSecurityList, int __pyx_v_nCount); 
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_22SubscribeNGTSIndex(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self, PyObject *__pyx_v_pSecurityList, int __pyx_v_nCount); 
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_24UnSubscribeNGTSIndex(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self, PyObject *__pyx_v_pSecurityList, int __pyx_v_nCount); 
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_26ReqUserLogin(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self, PyObject *__pyx_v_pReqUserLogin, int __pyx_v_nRequestID); 
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_28ReqUserLogout(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self, PyObject *__pyx_v_pUserLogout, int __pyx_v_nRequestID); 
-static PyObject *__pyx_tp_new_3ctp_8_UserApi_UserApi(PyTypeObject *t, PyObject *a, PyObject *k); 
+static PyTypeObject *__pyx_ptype_3ctp_10_Level2Api_Level2Api = 0;
+static PyObject *__pyx_v_3ctp_10_Level2Api_ApiStruct_addressof = 0;
+static PyObject *__pyx_v_3ctp_10_Level2Api_ApiStruct_Level2MarketData = 0;
+static PyObject *__pyx_v_3ctp_10_Level2Api_ApiStruct_NGTSIndex = 0;
+static PyObject *__pyx_v_3ctp_10_Level2Api_ApiStruct_RspInfo = 0;
+static PyObject *__pyx_v_3ctp_10_Level2Api_ApiStruct_RspUserLogin = 0;
+static PyObject *__pyx_v_3ctp_10_Level2Api_ApiStruct_SpecificSecurity = 0;
+static PyObject *__pyx_v_3ctp_10_Level2Api_ApiStruct_UserLogout = 0;
+static void __pyx_f_3ctp_10_Level2Api_Level2Api_Release(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *); 
+#define __Pyx_MODULE_NAME "ctp._Level2Api"
+int __pyx_module_is_main_ctp___Level2Api = 0;
+static void __pyx_pf_3ctp_10_Level2Api_9Level2Api___dealloc__(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self); 
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_2Alive(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self); 
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_4Create(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self, const char *__pyx_v_pszFlowPath, bool __pyx_v_bIsUsingUdp, CYTHON_UNUSED bool __pyx_v_bIsMulticast); 
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_6Release(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self); 
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_8Init(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self); 
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_10Join(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self); 
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_12GetTradingDay(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self); 
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_14RegisterFront(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self, char *__pyx_v_pszFrontAddress); 
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_16SubscribePublicTopic(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self, enum THOST_TE_RESUME_TYPE __pyx_v_nResumeType); 
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_18SubscribeLevel2MarketData(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self, PyObject *__pyx_v_pSecurityList, int __pyx_v_nCount); 
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_20UnSubscribeLevel2MarketData(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self, PyObject *__pyx_v_pSecurityList, int __pyx_v_nCount); 
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_22SubscribeNGTSIndex(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self, PyObject *__pyx_v_pSecurityList, int __pyx_v_nCount); 
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_24UnSubscribeNGTSIndex(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self, PyObject *__pyx_v_pSecurityList, int __pyx_v_nCount); 
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_26ReqUserLogin(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self, PyObject *__pyx_v_pReqUserLogin, int __pyx_v_nRequestID); 
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_28ReqUserLogout(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self, PyObject *__pyx_v_pUserLogout, int __pyx_v_nRequestID); 
+static PyObject *__pyx_tp_new_3ctp_10_Level2Api_Level2Api(PyTypeObject *t, PyObject *a, PyObject *k); 
 static char __pyx_k_1[] = "";
 static char __pyx_k_2[] = "OnRspSubLevel2MarketData";
 static char __pyx_k_3[] = "OnRspUnSubLevel2MarketData";
@@ -718,171 +698,134 @@ static PyObject *__pyx_n_s__pReqUserLogin;
 static PyObject *__pyx_n_s__pSecurityList;
 static PyObject *__pyx_n_s__pUserLogout;
 static PyObject *__pyx_n_s__pszFlowPath;
-static PyObject *__pyx_f_3ctp_8_UserApi__init(void) {
-  PyObject *__pyx_v_m = NULL;
+PyObject *_init(CYTHON_UNUSED PyObject *__pyx_v_self, PyObject *__pyx_v_m) {
   PyObject *__pyx_v_fa = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_init", 0);
   __pyx_t_1 = PyImport_ImportModule(S_ctypes); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_t_1, S_addressof); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_t_1, S_addressof); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_8_UserApi_ApiStruct_addressof);
-  __Pyx_DECREF(__pyx_v_3ctp_8_UserApi_ApiStruct_addressof);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_Level2Api_ApiStruct_addressof);
+  __Pyx_DECREF(__pyx_v_3ctp_10_Level2Api_ApiStruct_addressof);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_8_UserApi_ApiStruct_addressof = __pyx_t_2;
+  __pyx_v_3ctp_10_Level2Api_ApiStruct_addressof = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = ((PyObject *)__pyx_m);
-  __Pyx_INCREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_t_2, S___name__); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = XStr(S_from_address); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_v_fa = __pyx_t_2;
+  __pyx_t_2 = 0;
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_Level2MarketData); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_t_1, S_rpartition); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = XStr(S_dot); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_Level2Api_ApiStruct_Level2MarketData);
+  __Pyx_DECREF(__pyx_v_3ctp_10_Level2Api_ApiStruct_Level2MarketData);
   __Pyx_GIVEREF(__pyx_t_1);
+  __pyx_v_3ctp_10_Level2Api_ApiStruct_Level2MarketData = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = PyObject_Call(__pyx_t_2, ((PyObject *)__pyx_t_3), NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(((PyObject *)__pyx_t_3)); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_1, 0, sizeof(long), PyInt_FromLong, 0, 0, 1); if (!__pyx_t_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = XStr(S_ApiStruct); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyNumber_Add(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_Import(__pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_m = __pyx_t_1;
-  __pyx_t_1 = 0;
-  __pyx_t_1 = XStr(S_from_address); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_fa = __pyx_t_1;
-  __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_Level2MarketData); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_NGTSIndex); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_8_UserApi_ApiStruct_Level2MarketData);
-  __Pyx_DECREF(__pyx_v_3ctp_8_UserApi_ApiStruct_Level2MarketData);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_Level2Api_ApiStruct_NGTSIndex);
+  __Pyx_DECREF(__pyx_v_3ctp_10_Level2Api_ApiStruct_NGTSIndex);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_8_UserApi_ApiStruct_Level2MarketData = __pyx_t_2;
+  __pyx_v_3ctp_10_Level2Api_ApiStruct_NGTSIndex = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_NGTSIndex); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_RspInfo); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_8_UserApi_ApiStruct_NGTSIndex);
-  __Pyx_DECREF(__pyx_v_3ctp_8_UserApi_ApiStruct_NGTSIndex);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_Level2Api_ApiStruct_RspInfo);
+  __Pyx_DECREF(__pyx_v_3ctp_10_Level2Api_ApiStruct_RspInfo);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_8_UserApi_ApiStruct_NGTSIndex = __pyx_t_1;
+  __pyx_v_3ctp_10_Level2Api_ApiStruct_RspInfo = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_RspInfo); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_RspUserLogin); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_8_UserApi_ApiStruct_RspInfo);
-  __Pyx_DECREF(__pyx_v_3ctp_8_UserApi_ApiStruct_RspInfo);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_Level2Api_ApiStruct_RspUserLogin);
+  __Pyx_DECREF(__pyx_v_3ctp_10_Level2Api_ApiStruct_RspUserLogin);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_8_UserApi_ApiStruct_RspInfo = __pyx_t_2;
+  __pyx_v_3ctp_10_Level2Api_ApiStruct_RspUserLogin = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_RspUserLogin); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetAttrString(__pyx_v_m, S_SpecificSecurity); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_8_UserApi_ApiStruct_RspUserLogin);
-  __Pyx_DECREF(__pyx_v_3ctp_8_UserApi_ApiStruct_RspUserLogin);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_Level2Api_ApiStruct_SpecificSecurity);
+  __Pyx_DECREF(__pyx_v_3ctp_10_Level2Api_ApiStruct_SpecificSecurity);
   __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_8_UserApi_ApiStruct_RspUserLogin = __pyx_t_1;
+  __pyx_v_3ctp_10_Level2Api_ApiStruct_SpecificSecurity = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetAttrString(__pyx_v_m, S_SpecificSecurity); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_v_m, S_UserLogout); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_GetAttr(__pyx_t_1, __pyx_v_fa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_8_UserApi_ApiStruct_SpecificSecurity);
-  __Pyx_DECREF(__pyx_v_3ctp_8_UserApi_ApiStruct_SpecificSecurity);
+  __Pyx_XGOTREF(__pyx_v_3ctp_10_Level2Api_ApiStruct_UserLogout);
+  __Pyx_DECREF(__pyx_v_3ctp_10_Level2Api_ApiStruct_UserLogout);
   __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_v_3ctp_8_UserApi_ApiStruct_SpecificSecurity = __pyx_t_2;
+  __pyx_v_3ctp_10_Level2Api_ApiStruct_UserLogout = __pyx_t_2;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_GetAttrString(__pyx_v_m, S_UserLogout); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyObject_GetAttr(__pyx_t_2, __pyx_v_fa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_XGOTREF(__pyx_v_3ctp_8_UserApi_ApiStruct_UserLogout);
-  __Pyx_DECREF(__pyx_v_3ctp_8_UserApi_ApiStruct_UserLogout);
-  __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_v_3ctp_8_UserApi_ApiStruct_UserLogout = __pyx_t_1;
-  __pyx_t_1 = 0;
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("ctp._UserApi._init", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api._init", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_m);
   __Pyx_XDECREF(__pyx_v_fa);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static void __pyx_f_3ctp_8_UserApi_UserApi_Release(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self) {
+static void __pyx_f_3ctp_10_Level2Api_Level2Api_Release(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self) {
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("UserApi_Release", 0);
-  ReleaseUserApi(__pyx_v_self->api, __pyx_v_self->spi);
+  __Pyx_RefNannySetupContext("Level2Api_Release", 0);
+  ReleaseLevel2Api(__pyx_v_self->api, __pyx_v_self->spi);
   __pyx_v_self->api = NULL;
   __pyx_v_self->spi = NULL;
   __Pyx_RefNannyFinishContext();
 }
-static void __pyx_pw_3ctp_8_UserApi_7UserApi_1__dealloc__(PyObject *__pyx_v_self); 
-static void __pyx_pw_3ctp_8_UserApi_7UserApi_1__dealloc__(PyObject *__pyx_v_self) {
+static void __pyx_pw_3ctp_10_Level2Api_9Level2Api_1__dealloc__(PyObject *__pyx_v_self); 
+static void __pyx_pw_3ctp_10_Level2Api_9Level2Api_1__dealloc__(PyObject *__pyx_v_self) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__dealloc__ (wrapper)", 0);
-  __pyx_pf_3ctp_8_UserApi_7UserApi___dealloc__(((struct __pyx_obj_3ctp_8_UserApi_UserApi *)__pyx_v_self));
+  __pyx_pf_3ctp_10_Level2Api_9Level2Api___dealloc__(((struct __pyx_obj_3ctp_10_Level2Api_Level2Api *)__pyx_v_self));
   __Pyx_RefNannyFinishContext();
 }
-static void __pyx_pf_3ctp_8_UserApi_7UserApi___dealloc__(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self) {
+static void __pyx_pf_3ctp_10_Level2Api_9Level2Api___dealloc__(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__dealloc__", 0);
-  __pyx_f_3ctp_8_UserApi_UserApi_Release(__pyx_v_self);
+  __pyx_f_3ctp_10_Level2Api_Level2Api_Release(__pyx_v_self);
   __Pyx_RefNannyFinishContext();
 }
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_3Alive(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); 
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_3Alive(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_3Alive(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); 
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_3Alive(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("Alive (wrapper)", 0);
-  __pyx_r = __pyx_pf_3ctp_8_UserApi_7UserApi_2Alive(((struct __pyx_obj_3ctp_8_UserApi_UserApi *)__pyx_v_self));
+  __pyx_r = __pyx_pf_3ctp_10_Level2Api_9Level2Api_2Alive(((struct __pyx_obj_3ctp_10_Level2Api_Level2Api *)__pyx_v_self));
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_2Alive(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self) {
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_2Alive(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -917,15 +860,15 @@ static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_2Alive(struct __pyx_obj_3ctp_8
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("ctp._UserApi.UserApi.Alive", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Api.Alive", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_5Create(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); 
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_5Create(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_5Create(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); 
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_5Create(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   const char *__pyx_v_pszFlowPath;
   bool __pyx_v_bIsUsingUdp;
   CYTHON_UNUSED bool __pyx_v_bIsMulticast;
@@ -998,15 +941,15 @@ static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_5Create(PyObject *__pyx_v_self
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("Create", 0, 0, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("ctp._UserApi.UserApi.Create", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Api.Create", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_3ctp_8_UserApi_7UserApi_4Create(((struct __pyx_obj_3ctp_8_UserApi_UserApi *)__pyx_v_self), __pyx_v_pszFlowPath, __pyx_v_bIsUsingUdp, __pyx_v_bIsMulticast);
+  __pyx_r = __pyx_pf_3ctp_10_Level2Api_9Level2Api_4Create(((struct __pyx_obj_3ctp_10_Level2Api_Level2Api *)__pyx_v_self), __pyx_v_pszFlowPath, __pyx_v_bIsUsingUdp, __pyx_v_bIsMulticast);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_4Create(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self, const char *__pyx_v_pszFlowPath, bool __pyx_v_bIsUsingUdp, CYTHON_UNUSED bool __pyx_v_bIsMulticast) {
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_4Create(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self, const char *__pyx_v_pszFlowPath, bool __pyx_v_bIsUsingUdp, CYTHON_UNUSED bool __pyx_v_bIsMulticast) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -1035,42 +978,42 @@ static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_4Create(struct __pyx_obj_3ctp_
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("ctp._UserApi.UserApi.Create", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Api.Create", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_7Release(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); 
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_7Release(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_7Release(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); 
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_7Release(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("Release (wrapper)", 0);
-  __pyx_r = __pyx_pf_3ctp_8_UserApi_7UserApi_6Release(((struct __pyx_obj_3ctp_8_UserApi_UserApi *)__pyx_v_self));
+  __pyx_r = __pyx_pf_3ctp_10_Level2Api_9Level2Api_6Release(((struct __pyx_obj_3ctp_10_Level2Api_Level2Api *)__pyx_v_self));
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_6Release(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self) {
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_6Release(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("Release", 0);
-  __pyx_f_3ctp_8_UserApi_UserApi_Release(__pyx_v_self);
+  __pyx_f_3ctp_10_Level2Api_Level2Api_Release(__pyx_v_self);
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_9Init(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); 
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_9Init(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_9Init(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); 
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_9Init(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("Init (wrapper)", 0);
-  __pyx_r = __pyx_pf_3ctp_8_UserApi_7UserApi_8Init(((struct __pyx_obj_3ctp_8_UserApi_UserApi *)__pyx_v_self));
+  __pyx_r = __pyx_pf_3ctp_10_Level2Api_9Level2Api_8Init(((struct __pyx_obj_3ctp_10_Level2Api_Level2Api *)__pyx_v_self));
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_8Init(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self) {
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_8Init(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -1095,30 +1038,30 @@ static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_8Init(struct __pyx_obj_3ctp_8_
     goto __pyx_L3;
   }
   __pyx_L3:;
-  __pyx_v_self->spi = new CUserSpi(((PyObject *)__pyx_v_self));
+  __pyx_v_self->spi = new CLevel2Spi(((PyObject *)__pyx_v_self));
   __pyx_t_4 = CheckMemory(__pyx_v_self->spi); if (unlikely(__pyx_t_4 == 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->api->RegisterSpi(__pyx_v_self->spi);
   __pyx_v_self->api->Init();
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("ctp._UserApi.UserApi.Init", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Api.Init", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_11Join(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); 
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_11Join(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_11Join(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); 
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_11Join(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("Join (wrapper)", 0);
-  __pyx_r = __pyx_pf_3ctp_8_UserApi_7UserApi_10Join(((struct __pyx_obj_3ctp_8_UserApi_UserApi *)__pyx_v_self));
+  __pyx_r = __pyx_pf_3ctp_10_Level2Api_9Level2Api_10Join(((struct __pyx_obj_3ctp_10_Level2Api_Level2Api *)__pyx_v_self));
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_10Join(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self) {
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_10Join(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self) {
   int __pyx_v_ret;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -1160,23 +1103,23 @@ static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_10Join(struct __pyx_obj_3ctp_8
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("ctp._UserApi.UserApi.Join", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Api.Join", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_13GetTradingDay(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); 
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_13GetTradingDay(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_13GetTradingDay(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); 
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_13GetTradingDay(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("GetTradingDay (wrapper)", 0);
-  __pyx_r = __pyx_pf_3ctp_8_UserApi_7UserApi_12GetTradingDay(((struct __pyx_obj_3ctp_8_UserApi_UserApi *)__pyx_v_self));
+  __pyx_r = __pyx_pf_3ctp_10_Level2Api_9Level2Api_12GetTradingDay(((struct __pyx_obj_3ctp_10_Level2Api_Level2Api *)__pyx_v_self));
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_12GetTradingDay(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self) {
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_12GetTradingDay(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self) {
   const char *__pyx_v_ret;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -1218,15 +1161,15 @@ static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_12GetTradingDay(struct __pyx_o
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("ctp._UserApi.UserApi.GetTradingDay", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Api.GetTradingDay", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_15RegisterFront(PyObject *__pyx_v_self, PyObject *__pyx_arg_pszFrontAddress); 
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_15RegisterFront(PyObject *__pyx_v_self, PyObject *__pyx_arg_pszFrontAddress) {
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_15RegisterFront(PyObject *__pyx_v_self, PyObject *__pyx_arg_pszFrontAddress); 
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_15RegisterFront(PyObject *__pyx_v_self, PyObject *__pyx_arg_pszFrontAddress) {
   char *__pyx_v_pszFrontAddress;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -1239,15 +1182,15 @@ static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_15RegisterFront(PyObject *__py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
-  __Pyx_AddTraceback("ctp._UserApi.UserApi.RegisterFront", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Api.RegisterFront", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_3ctp_8_UserApi_7UserApi_14RegisterFront(((struct __pyx_obj_3ctp_8_UserApi_UserApi *)__pyx_v_self), ((char *)__pyx_v_pszFrontAddress));
+  __pyx_r = __pyx_pf_3ctp_10_Level2Api_9Level2Api_14RegisterFront(((struct __pyx_obj_3ctp_10_Level2Api_Level2Api *)__pyx_v_self), ((char *)__pyx_v_pszFrontAddress));
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_14RegisterFront(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self, char *__pyx_v_pszFrontAddress) {
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_14RegisterFront(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self, char *__pyx_v_pszFrontAddress) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -1267,8 +1210,8 @@ static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_14RegisterFront(struct __pyx_o
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_17SubscribePublicTopic(PyObject *__pyx_v_self, PyObject *__pyx_arg_nResumeType); 
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_17SubscribePublicTopic(PyObject *__pyx_v_self, PyObject *__pyx_arg_nResumeType) {
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_17SubscribePublicTopic(PyObject *__pyx_v_self, PyObject *__pyx_arg_nResumeType); 
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_17SubscribePublicTopic(PyObject *__pyx_v_self, PyObject *__pyx_arg_nResumeType) {
   enum THOST_TE_RESUME_TYPE __pyx_v_nResumeType;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -1281,15 +1224,15 @@ static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_17SubscribePublicTopic(PyObjec
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
-  __Pyx_AddTraceback("ctp._UserApi.UserApi.SubscribePublicTopic", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Api.SubscribePublicTopic", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_3ctp_8_UserApi_7UserApi_16SubscribePublicTopic(((struct __pyx_obj_3ctp_8_UserApi_UserApi *)__pyx_v_self), ((enum THOST_TE_RESUME_TYPE)__pyx_v_nResumeType));
+  __pyx_r = __pyx_pf_3ctp_10_Level2Api_9Level2Api_16SubscribePublicTopic(((struct __pyx_obj_3ctp_10_Level2Api_Level2Api *)__pyx_v_self), ((enum THOST_TE_RESUME_TYPE)__pyx_v_nResumeType));
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_16SubscribePublicTopic(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self, enum THOST_TE_RESUME_TYPE __pyx_v_nResumeType) {
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_16SubscribePublicTopic(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self, enum THOST_TE_RESUME_TYPE __pyx_v_nResumeType) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -1309,8 +1252,8 @@ static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_16SubscribePublicTopic(struct 
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_19SubscribeLevel2MarketData(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); 
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_19SubscribeLevel2MarketData(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_19SubscribeLevel2MarketData(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); 
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_19SubscribeLevel2MarketData(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_pSecurityList = 0;
   int __pyx_v_nCount;
   int __pyx_lineno = 0;
@@ -1358,15 +1301,15 @@ static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_19SubscribeLevel2MarketData(Py
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("SubscribeLevel2MarketData", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("ctp._UserApi.UserApi.SubscribeLevel2MarketData", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Api.SubscribeLevel2MarketData", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_3ctp_8_UserApi_7UserApi_18SubscribeLevel2MarketData(((struct __pyx_obj_3ctp_8_UserApi_UserApi *)__pyx_v_self), __pyx_v_pSecurityList, __pyx_v_nCount);
+  __pyx_r = __pyx_pf_3ctp_10_Level2Api_9Level2Api_18SubscribeLevel2MarketData(((struct __pyx_obj_3ctp_10_Level2Api_Level2Api *)__pyx_v_self), __pyx_v_pSecurityList, __pyx_v_nCount);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_18SubscribeLevel2MarketData(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self, PyObject *__pyx_v_pSecurityList, int __pyx_v_nCount) {
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_18SubscribeLevel2MarketData(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self, PyObject *__pyx_v_pSecurityList, int __pyx_v_nCount) {
   size_t __pyx_v_address;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -1391,7 +1334,7 @@ static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_18SubscribeLevel2MarketData(st
   __Pyx_INCREF(__pyx_v_pSecurityList);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_pSecurityList);
   __Pyx_GIVEREF(__pyx_v_pSecurityList);
-  __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_8_UserApi_ApiStruct_addressof, ((PyObject *)__pyx_t_2), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_10_Level2Api_ApiStruct_addressof, ((PyObject *)__pyx_t_2), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(((PyObject *)__pyx_t_2)); __pyx_t_2 = 0;
   __pyx_t_4 = __Pyx_PyInt_AsSize_t(__pyx_t_3); if (unlikely((__pyx_t_4 == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -1422,15 +1365,15 @@ static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_18SubscribeLevel2MarketData(st
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("ctp._UserApi.UserApi.SubscribeLevel2MarketData", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Api.SubscribeLevel2MarketData", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_21UnSubscribeLevel2MarketData(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); 
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_21UnSubscribeLevel2MarketData(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_21UnSubscribeLevel2MarketData(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); 
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_21UnSubscribeLevel2MarketData(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_pSecurityList = 0;
   int __pyx_v_nCount;
   int __pyx_lineno = 0;
@@ -1478,15 +1421,15 @@ static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_21UnSubscribeLevel2MarketData(
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("UnSubscribeLevel2MarketData", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("ctp._UserApi.UserApi.UnSubscribeLevel2MarketData", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Api.UnSubscribeLevel2MarketData", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_3ctp_8_UserApi_7UserApi_20UnSubscribeLevel2MarketData(((struct __pyx_obj_3ctp_8_UserApi_UserApi *)__pyx_v_self), __pyx_v_pSecurityList, __pyx_v_nCount);
+  __pyx_r = __pyx_pf_3ctp_10_Level2Api_9Level2Api_20UnSubscribeLevel2MarketData(((struct __pyx_obj_3ctp_10_Level2Api_Level2Api *)__pyx_v_self), __pyx_v_pSecurityList, __pyx_v_nCount);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_20UnSubscribeLevel2MarketData(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self, PyObject *__pyx_v_pSecurityList, int __pyx_v_nCount) {
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_20UnSubscribeLevel2MarketData(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self, PyObject *__pyx_v_pSecurityList, int __pyx_v_nCount) {
   size_t __pyx_v_address;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -1511,7 +1454,7 @@ static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_20UnSubscribeLevel2MarketData(
   __Pyx_INCREF(__pyx_v_pSecurityList);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_pSecurityList);
   __Pyx_GIVEREF(__pyx_v_pSecurityList);
-  __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_8_UserApi_ApiStruct_addressof, ((PyObject *)__pyx_t_2), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 88; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_10_Level2Api_ApiStruct_addressof, ((PyObject *)__pyx_t_2), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 88; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(((PyObject *)__pyx_t_2)); __pyx_t_2 = 0;
   __pyx_t_4 = __Pyx_PyInt_AsSize_t(__pyx_t_3); if (unlikely((__pyx_t_4 == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 88; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -1542,15 +1485,15 @@ static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_20UnSubscribeLevel2MarketData(
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("ctp._UserApi.UserApi.UnSubscribeLevel2MarketData", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Api.UnSubscribeLevel2MarketData", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_23SubscribeNGTSIndex(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); 
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_23SubscribeNGTSIndex(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_23SubscribeNGTSIndex(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); 
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_23SubscribeNGTSIndex(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_pSecurityList = 0;
   int __pyx_v_nCount;
   int __pyx_lineno = 0;
@@ -1598,15 +1541,15 @@ static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_23SubscribeNGTSIndex(PyObject 
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("SubscribeNGTSIndex", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("ctp._UserApi.UserApi.SubscribeNGTSIndex", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Api.SubscribeNGTSIndex", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_3ctp_8_UserApi_7UserApi_22SubscribeNGTSIndex(((struct __pyx_obj_3ctp_8_UserApi_UserApi *)__pyx_v_self), __pyx_v_pSecurityList, __pyx_v_nCount);
+  __pyx_r = __pyx_pf_3ctp_10_Level2Api_9Level2Api_22SubscribeNGTSIndex(((struct __pyx_obj_3ctp_10_Level2Api_Level2Api *)__pyx_v_self), __pyx_v_pSecurityList, __pyx_v_nCount);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_22SubscribeNGTSIndex(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self, PyObject *__pyx_v_pSecurityList, int __pyx_v_nCount) {
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_22SubscribeNGTSIndex(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self, PyObject *__pyx_v_pSecurityList, int __pyx_v_nCount) {
   size_t __pyx_v_address;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -1631,7 +1574,7 @@ static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_22SubscribeNGTSIndex(struct __
   __Pyx_INCREF(__pyx_v_pSecurityList);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_pSecurityList);
   __Pyx_GIVEREF(__pyx_v_pSecurityList);
-  __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_8_UserApi_ApiStruct_addressof, ((PyObject *)__pyx_t_2), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_10_Level2Api_ApiStruct_addressof, ((PyObject *)__pyx_t_2), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(((PyObject *)__pyx_t_2)); __pyx_t_2 = 0;
   __pyx_t_4 = __Pyx_PyInt_AsSize_t(__pyx_t_3); if (unlikely((__pyx_t_4 == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -1662,15 +1605,15 @@ static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_22SubscribeNGTSIndex(struct __
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("ctp._UserApi.UserApi.SubscribeNGTSIndex", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Api.SubscribeNGTSIndex", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_25UnSubscribeNGTSIndex(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); 
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_25UnSubscribeNGTSIndex(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_25UnSubscribeNGTSIndex(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); 
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_25UnSubscribeNGTSIndex(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_pSecurityList = 0;
   int __pyx_v_nCount;
   int __pyx_lineno = 0;
@@ -1718,15 +1661,15 @@ static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_25UnSubscribeNGTSIndex(PyObjec
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("UnSubscribeNGTSIndex", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("ctp._UserApi.UserApi.UnSubscribeNGTSIndex", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Api.UnSubscribeNGTSIndex", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_3ctp_8_UserApi_7UserApi_24UnSubscribeNGTSIndex(((struct __pyx_obj_3ctp_8_UserApi_UserApi *)__pyx_v_self), __pyx_v_pSecurityList, __pyx_v_nCount);
+  __pyx_r = __pyx_pf_3ctp_10_Level2Api_9Level2Api_24UnSubscribeNGTSIndex(((struct __pyx_obj_3ctp_10_Level2Api_Level2Api *)__pyx_v_self), __pyx_v_pSecurityList, __pyx_v_nCount);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_24UnSubscribeNGTSIndex(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self, PyObject *__pyx_v_pSecurityList, int __pyx_v_nCount) {
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_24UnSubscribeNGTSIndex(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self, PyObject *__pyx_v_pSecurityList, int __pyx_v_nCount) {
   size_t __pyx_v_address;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -1751,7 +1694,7 @@ static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_24UnSubscribeNGTSIndex(struct 
   __Pyx_INCREF(__pyx_v_pSecurityList);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_pSecurityList);
   __Pyx_GIVEREF(__pyx_v_pSecurityList);
-  __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_8_UserApi_ApiStruct_addressof, ((PyObject *)__pyx_t_2), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_10_Level2Api_ApiStruct_addressof, ((PyObject *)__pyx_t_2), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(((PyObject *)__pyx_t_2)); __pyx_t_2 = 0;
   __pyx_t_4 = __Pyx_PyInt_AsSize_t(__pyx_t_3); if (unlikely((__pyx_t_4 == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -1782,15 +1725,15 @@ static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_24UnSubscribeNGTSIndex(struct 
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("ctp._UserApi.UserApi.UnSubscribeNGTSIndex", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Api.UnSubscribeNGTSIndex", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_27ReqUserLogin(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); 
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_27ReqUserLogin(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_27ReqUserLogin(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); 
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_27ReqUserLogin(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_pReqUserLogin = 0;
   int __pyx_v_nRequestID;
   int __pyx_lineno = 0;
@@ -1838,15 +1781,15 @@ static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_27ReqUserLogin(PyObject *__pyx
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("ReqUserLogin", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("ctp._UserApi.UserApi.ReqUserLogin", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Api.ReqUserLogin", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_3ctp_8_UserApi_7UserApi_26ReqUserLogin(((struct __pyx_obj_3ctp_8_UserApi_UserApi *)__pyx_v_self), __pyx_v_pReqUserLogin, __pyx_v_nRequestID);
+  __pyx_r = __pyx_pf_3ctp_10_Level2Api_9Level2Api_26ReqUserLogin(((struct __pyx_obj_3ctp_10_Level2Api_Level2Api *)__pyx_v_self), __pyx_v_pReqUserLogin, __pyx_v_nRequestID);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_26ReqUserLogin(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self, PyObject *__pyx_v_pReqUserLogin, int __pyx_v_nRequestID) {
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_26ReqUserLogin(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self, PyObject *__pyx_v_pReqUserLogin, int __pyx_v_nRequestID) {
   size_t __pyx_v_address;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -1871,7 +1814,7 @@ static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_26ReqUserLogin(struct __pyx_ob
   __Pyx_INCREF(__pyx_v_pReqUserLogin);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_pReqUserLogin);
   __Pyx_GIVEREF(__pyx_v_pReqUserLogin);
-  __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_8_UserApi_ApiStruct_addressof, ((PyObject *)__pyx_t_2), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_10_Level2Api_ApiStruct_addressof, ((PyObject *)__pyx_t_2), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(((PyObject *)__pyx_t_2)); __pyx_t_2 = 0;
   __pyx_t_4 = __Pyx_PyInt_AsSize_t(__pyx_t_3); if (unlikely((__pyx_t_4 == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -1902,15 +1845,15 @@ static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_26ReqUserLogin(struct __pyx_ob
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("ctp._UserApi.UserApi.ReqUserLogin", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Api.ReqUserLogin", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_29ReqUserLogout(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); 
-static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_29ReqUserLogout(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_29ReqUserLogout(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); 
+static PyObject *__pyx_pw_3ctp_10_Level2Api_9Level2Api_29ReqUserLogout(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_pUserLogout = 0;
   int __pyx_v_nRequestID;
   int __pyx_lineno = 0;
@@ -1958,15 +1901,15 @@ static PyObject *__pyx_pw_3ctp_8_UserApi_7UserApi_29ReqUserLogout(PyObject *__py
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("ReqUserLogout", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("ctp._UserApi.UserApi.ReqUserLogout", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Api.ReqUserLogout", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_3ctp_8_UserApi_7UserApi_28ReqUserLogout(((struct __pyx_obj_3ctp_8_UserApi_UserApi *)__pyx_v_self), __pyx_v_pUserLogout, __pyx_v_nRequestID);
+  __pyx_r = __pyx_pf_3ctp_10_Level2Api_9Level2Api_28ReqUserLogout(((struct __pyx_obj_3ctp_10_Level2Api_Level2Api *)__pyx_v_self), __pyx_v_pUserLogout, __pyx_v_nRequestID);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_28ReqUserLogout(struct __pyx_obj_3ctp_8_UserApi_UserApi *__pyx_v_self, PyObject *__pyx_v_pUserLogout, int __pyx_v_nRequestID) {
+static PyObject *__pyx_pf_3ctp_10_Level2Api_9Level2Api_28ReqUserLogout(struct __pyx_obj_3ctp_10_Level2Api_Level2Api *__pyx_v_self, PyObject *__pyx_v_pUserLogout, int __pyx_v_nRequestID) {
   size_t __pyx_v_address;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -1991,7 +1934,7 @@ static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_28ReqUserLogout(struct __pyx_o
   __Pyx_INCREF(__pyx_v_pUserLogout);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_pUserLogout);
   __Pyx_GIVEREF(__pyx_v_pUserLogout);
-  __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_8_UserApi_ApiStruct_addressof, ((PyObject *)__pyx_t_2), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_10_Level2Api_ApiStruct_addressof, ((PyObject *)__pyx_t_2), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(((PyObject *)__pyx_t_2)); __pyx_t_2 = 0;
   __pyx_t_4 = __Pyx_PyInt_AsSize_t(__pyx_t_3); if (unlikely((__pyx_t_4 == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -2022,14 +1965,14 @@ static PyObject *__pyx_pf_3ctp_8_UserApi_7UserApi_28ReqUserLogout(struct __pyx_o
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("ctp._UserApi.UserApi.ReqUserLogout", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Api.ReqUserLogout", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-int UserSpi_OnFrontConnected(PyObject *__pyx_v_self) {
+int Level2Spi_OnFrontConnected(PyObject *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2037,7 +1980,7 @@ int UserSpi_OnFrontConnected(PyObject *__pyx_v_self) {
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("UserSpi_OnFrontConnected", 0);
+  __Pyx_RefNannySetupContext("Level2Spi_OnFrontConnected", 0);
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s__OnFrontConnected); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyObject_Call(__pyx_t_1, ((PyObject *)__pyx_empty_tuple), NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -2051,13 +1994,13 @@ int UserSpi_OnFrontConnected(PyObject *__pyx_v_self) {
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("ctp._UserApi.UserSpi_OnFrontConnected", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Spi_OnFrontConnected", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-int UserSpi_OnFrontDisconnected(PyObject *__pyx_v_self, int __pyx_v_nReason) {
+int Level2Spi_OnFrontDisconnected(PyObject *__pyx_v_self, int __pyx_v_nReason) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2066,7 +2009,7 @@ int UserSpi_OnFrontDisconnected(PyObject *__pyx_v_self, int __pyx_v_nReason) {
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("UserSpi_OnFrontDisconnected", 0);
+  __Pyx_RefNannySetupContext("Level2Spi_OnFrontDisconnected", 0);
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s__OnFrontDisconnected); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyInt_FromLong(__pyx_v_nReason); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -2089,13 +2032,13 @@ int UserSpi_OnFrontDisconnected(PyObject *__pyx_v_self, int __pyx_v_nReason) {
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("ctp._UserApi.UserSpi_OnFrontDisconnected", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Spi_OnFrontDisconnected", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-int UserSpi_OnHeartBeatWarning(PyObject *__pyx_v_self, int __pyx_v_nTimeLapse) {
+int Level2Spi_OnHeartBeatWarning(PyObject *__pyx_v_self, int __pyx_v_nTimeLapse) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2104,7 +2047,7 @@ int UserSpi_OnHeartBeatWarning(PyObject *__pyx_v_self, int __pyx_v_nTimeLapse) {
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("UserSpi_OnHeartBeatWarning", 0);
+  __Pyx_RefNannySetupContext("Level2Spi_OnHeartBeatWarning", 0);
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s__OnHeartBeatWarning); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyInt_FromLong(__pyx_v_nTimeLapse); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -2127,13 +2070,13 @@ int UserSpi_OnHeartBeatWarning(PyObject *__pyx_v_self, int __pyx_v_nTimeLapse) {
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("ctp._UserApi.UserSpi_OnHeartBeatWarning", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Spi_OnHeartBeatWarning", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-int UserSpi_OnRspUserLogin(PyObject *__pyx_v_self, struct CThostFtdcRspUserLoginField *__pyx_v_pRspUserLogin, struct CThostFtdcRspInfoField *__pyx_v_pRspInfo, int __pyx_v_nRequestID, bool __pyx_v_bIsLast) {
+int Level2Spi_OnRspUserLogin(PyObject *__pyx_v_self, struct CThostFtdcRspUserLoginField *__pyx_v_pRspUserLogin, struct CThostFtdcRspInfoField *__pyx_v_pRspInfo, int __pyx_v_nRequestID, bool __pyx_v_bIsLast) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2145,7 +2088,7 @@ int UserSpi_OnRspUserLogin(PyObject *__pyx_v_self, struct CThostFtdcRspUserLogin
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("UserSpi_OnRspUserLogin", 0);
+  __Pyx_RefNannySetupContext("Level2Spi_OnRspUserLogin", 0);
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s__OnRspUserLogin); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (((__pyx_v_pRspUserLogin == NULL) != 0)) {
@@ -2159,7 +2102,7 @@ int UserSpi_OnRspUserLogin(PyObject *__pyx_v_self, struct CThostFtdcRspUserLogin
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_8_UserApi_ApiStruct_RspUserLogin, ((PyObject *)__pyx_t_4), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_10_Level2Api_ApiStruct_RspUserLogin, ((PyObject *)__pyx_t_4), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(((PyObject *)__pyx_t_4)); __pyx_t_4 = 0;
     __pyx_t_2 = __pyx_t_3;
@@ -2176,7 +2119,7 @@ int UserSpi_OnRspUserLogin(PyObject *__pyx_v_self, struct CThostFtdcRspUserLogin
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_4);
     __pyx_t_4 = 0;
-    __pyx_t_4 = PyObject_Call(__pyx_v_3ctp_8_UserApi_ApiStruct_RspInfo, ((PyObject *)__pyx_t_5), NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyObject_Call(__pyx_v_3ctp_10_Level2Api_ApiStruct_RspInfo, ((PyObject *)__pyx_t_5), NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(((PyObject *)__pyx_t_5)); __pyx_t_5 = 0;
     __pyx_t_3 = __pyx_t_4;
@@ -2216,13 +2159,13 @@ int UserSpi_OnRspUserLogin(PyObject *__pyx_v_self, struct CThostFtdcRspUserLogin
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("ctp._UserApi.UserSpi_OnRspUserLogin", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Spi_OnRspUserLogin", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-int UserSpi_OnRspUserLogout(PyObject *__pyx_v_self, struct CThostFtdcUserLogoutField *__pyx_v_pUserLogout, struct CThostFtdcRspInfoField *__pyx_v_pRspInfo, int __pyx_v_nRequestID, bool __pyx_v_bIsLast) {
+int Level2Spi_OnRspUserLogout(PyObject *__pyx_v_self, struct CThostFtdcUserLogoutField *__pyx_v_pUserLogout, struct CThostFtdcRspInfoField *__pyx_v_pRspInfo, int __pyx_v_nRequestID, bool __pyx_v_bIsLast) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2234,7 +2177,7 @@ int UserSpi_OnRspUserLogout(PyObject *__pyx_v_self, struct CThostFtdcUserLogoutF
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("UserSpi_OnRspUserLogout", 0);
+  __Pyx_RefNannySetupContext("Level2Spi_OnRspUserLogout", 0);
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s__OnRspUserLogout); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (((__pyx_v_pUserLogout == NULL) != 0)) {
@@ -2248,7 +2191,7 @@ int UserSpi_OnRspUserLogout(PyObject *__pyx_v_self, struct CThostFtdcUserLogoutF
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_8_UserApi_ApiStruct_UserLogout, ((PyObject *)__pyx_t_4), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_10_Level2Api_ApiStruct_UserLogout, ((PyObject *)__pyx_t_4), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(((PyObject *)__pyx_t_4)); __pyx_t_4 = 0;
     __pyx_t_2 = __pyx_t_3;
@@ -2265,7 +2208,7 @@ int UserSpi_OnRspUserLogout(PyObject *__pyx_v_self, struct CThostFtdcUserLogoutF
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_4);
     __pyx_t_4 = 0;
-    __pyx_t_4 = PyObject_Call(__pyx_v_3ctp_8_UserApi_ApiStruct_RspInfo, ((PyObject *)__pyx_t_5), NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyObject_Call(__pyx_v_3ctp_10_Level2Api_ApiStruct_RspInfo, ((PyObject *)__pyx_t_5), NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(((PyObject *)__pyx_t_5)); __pyx_t_5 = 0;
     __pyx_t_3 = __pyx_t_4;
@@ -2305,13 +2248,13 @@ int UserSpi_OnRspUserLogout(PyObject *__pyx_v_self, struct CThostFtdcUserLogoutF
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("ctp._UserApi.UserSpi_OnRspUserLogout", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Spi_OnRspUserLogout", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-int UserSpi_OnRspError(PyObject *__pyx_v_self, struct CThostFtdcRspInfoField *__pyx_v_pRspInfo, int __pyx_v_nRequestID, bool __pyx_v_bIsLast) {
+int Level2Spi_OnRspError(PyObject *__pyx_v_self, struct CThostFtdcRspInfoField *__pyx_v_pRspInfo, int __pyx_v_nRequestID, bool __pyx_v_bIsLast) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2322,7 +2265,7 @@ int UserSpi_OnRspError(PyObject *__pyx_v_self, struct CThostFtdcRspInfoField *__
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("UserSpi_OnRspError", 0);
+  __Pyx_RefNannySetupContext("Level2Spi_OnRspError", 0);
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s__OnRspError); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (((__pyx_v_pRspInfo == NULL) != 0)) {
@@ -2336,7 +2279,7 @@ int UserSpi_OnRspError(PyObject *__pyx_v_self, struct CThostFtdcRspInfoField *__
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_8_UserApi_ApiStruct_RspInfo, ((PyObject *)__pyx_t_4), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_10_Level2Api_ApiStruct_RspInfo, ((PyObject *)__pyx_t_4), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(((PyObject *)__pyx_t_4)); __pyx_t_4 = 0;
     __pyx_t_2 = __pyx_t_3;
@@ -2372,13 +2315,13 @@ int UserSpi_OnRspError(PyObject *__pyx_v_self, struct CThostFtdcRspInfoField *__
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("ctp._UserApi.UserSpi_OnRspError", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Spi_OnRspError", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-int UserSpi_OnRspSubLevel2MarketData(PyObject *__pyx_v_self, struct CThostFtdcSpecificSecurityField *__pyx_v_pSpecificSecurity, struct CThostFtdcRspInfoField *__pyx_v_pRspInfo, int __pyx_v_nRequestID, bool __pyx_v_bIsLast) {
+int Level2Spi_OnRspSubLevel2MarketData(PyObject *__pyx_v_self, struct CThostFtdcSpecificSecurityField *__pyx_v_pSpecificSecurity, struct CThostFtdcRspInfoField *__pyx_v_pRspInfo, int __pyx_v_nRequestID, bool __pyx_v_bIsLast) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2390,7 +2333,7 @@ int UserSpi_OnRspSubLevel2MarketData(PyObject *__pyx_v_self, struct CThostFtdcSp
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("UserSpi_OnRspSubLevel2MarketData", 0);
+  __Pyx_RefNannySetupContext("Level2Spi_OnRspSubLevel2MarketData", 0);
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 146; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (((__pyx_v_pSpecificSecurity == NULL) != 0)) {
@@ -2404,7 +2347,7 @@ int UserSpi_OnRspSubLevel2MarketData(PyObject *__pyx_v_self, struct CThostFtdcSp
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_8_UserApi_ApiStruct_SpecificSecurity, ((PyObject *)__pyx_t_4), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 146; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_10_Level2Api_ApiStruct_SpecificSecurity, ((PyObject *)__pyx_t_4), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 146; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(((PyObject *)__pyx_t_4)); __pyx_t_4 = 0;
     __pyx_t_2 = __pyx_t_3;
@@ -2421,7 +2364,7 @@ int UserSpi_OnRspSubLevel2MarketData(PyObject *__pyx_v_self, struct CThostFtdcSp
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_4);
     __pyx_t_4 = 0;
-    __pyx_t_4 = PyObject_Call(__pyx_v_3ctp_8_UserApi_ApiStruct_RspInfo, ((PyObject *)__pyx_t_5), NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 146; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyObject_Call(__pyx_v_3ctp_10_Level2Api_ApiStruct_RspInfo, ((PyObject *)__pyx_t_5), NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 146; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(((PyObject *)__pyx_t_5)); __pyx_t_5 = 0;
     __pyx_t_3 = __pyx_t_4;
@@ -2461,13 +2404,13 @@ int UserSpi_OnRspSubLevel2MarketData(PyObject *__pyx_v_self, struct CThostFtdcSp
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("ctp._UserApi.UserSpi_OnRspSubLevel2MarketData", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Spi_OnRspSubLevel2MarketData", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-int UserSpi_OnRspUnSubLevel2MarketData(PyObject *__pyx_v_self, struct CThostFtdcSpecificSecurityField *__pyx_v_pSpecificSecurity, struct CThostFtdcRspInfoField *__pyx_v_pRspInfo, int __pyx_v_nRequestID, bool __pyx_v_bIsLast) {
+int Level2Spi_OnRspUnSubLevel2MarketData(PyObject *__pyx_v_self, struct CThostFtdcSpecificSecurityField *__pyx_v_pSpecificSecurity, struct CThostFtdcRspInfoField *__pyx_v_pRspInfo, int __pyx_v_nRequestID, bool __pyx_v_bIsLast) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2479,7 +2422,7 @@ int UserSpi_OnRspUnSubLevel2MarketData(PyObject *__pyx_v_self, struct CThostFtdc
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("UserSpi_OnRspUnSubLevel2MarketData", 0);
+  __Pyx_RefNannySetupContext("Level2Spi_OnRspUnSubLevel2MarketData", 0);
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (((__pyx_v_pSpecificSecurity == NULL) != 0)) {
@@ -2493,7 +2436,7 @@ int UserSpi_OnRspUnSubLevel2MarketData(PyObject *__pyx_v_self, struct CThostFtdc
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_8_UserApi_ApiStruct_SpecificSecurity, ((PyObject *)__pyx_t_4), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_10_Level2Api_ApiStruct_SpecificSecurity, ((PyObject *)__pyx_t_4), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(((PyObject *)__pyx_t_4)); __pyx_t_4 = 0;
     __pyx_t_2 = __pyx_t_3;
@@ -2510,7 +2453,7 @@ int UserSpi_OnRspUnSubLevel2MarketData(PyObject *__pyx_v_self, struct CThostFtdc
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_4);
     __pyx_t_4 = 0;
-    __pyx_t_4 = PyObject_Call(__pyx_v_3ctp_8_UserApi_ApiStruct_RspInfo, ((PyObject *)__pyx_t_5), NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyObject_Call(__pyx_v_3ctp_10_Level2Api_ApiStruct_RspInfo, ((PyObject *)__pyx_t_5), NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(((PyObject *)__pyx_t_5)); __pyx_t_5 = 0;
     __pyx_t_3 = __pyx_t_4;
@@ -2550,13 +2493,13 @@ int UserSpi_OnRspUnSubLevel2MarketData(PyObject *__pyx_v_self, struct CThostFtdc
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("ctp._UserApi.UserSpi_OnRspUnSubLevel2MarketData", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Spi_OnRspUnSubLevel2MarketData", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-int UserSpi_OnRspSubNGTSIndex(PyObject *__pyx_v_self, struct CThostFtdcSpecificSecurityField *__pyx_v_pSpecificSecurity, struct CThostFtdcRspInfoField *__pyx_v_pRspInfo, int __pyx_v_nRequestID, bool __pyx_v_bIsLast) {
+int Level2Spi_OnRspSubNGTSIndex(PyObject *__pyx_v_self, struct CThostFtdcSpecificSecurityField *__pyx_v_pSpecificSecurity, struct CThostFtdcRspInfoField *__pyx_v_pRspInfo, int __pyx_v_nRequestID, bool __pyx_v_bIsLast) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2568,7 +2511,7 @@ int UserSpi_OnRspSubNGTSIndex(PyObject *__pyx_v_self, struct CThostFtdcSpecificS
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("UserSpi_OnRspSubNGTSIndex", 0);
+  __Pyx_RefNannySetupContext("Level2Spi_OnRspSubNGTSIndex", 0);
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s__OnRspSubNGTSIndex); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (((__pyx_v_pSpecificSecurity == NULL) != 0)) {
@@ -2582,7 +2525,7 @@ int UserSpi_OnRspSubNGTSIndex(PyObject *__pyx_v_self, struct CThostFtdcSpecificS
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_8_UserApi_ApiStruct_SpecificSecurity, ((PyObject *)__pyx_t_4), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_10_Level2Api_ApiStruct_SpecificSecurity, ((PyObject *)__pyx_t_4), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(((PyObject *)__pyx_t_4)); __pyx_t_4 = 0;
     __pyx_t_2 = __pyx_t_3;
@@ -2599,7 +2542,7 @@ int UserSpi_OnRspSubNGTSIndex(PyObject *__pyx_v_self, struct CThostFtdcSpecificS
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_4);
     __pyx_t_4 = 0;
-    __pyx_t_4 = PyObject_Call(__pyx_v_3ctp_8_UserApi_ApiStruct_RspInfo, ((PyObject *)__pyx_t_5), NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyObject_Call(__pyx_v_3ctp_10_Level2Api_ApiStruct_RspInfo, ((PyObject *)__pyx_t_5), NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(((PyObject *)__pyx_t_5)); __pyx_t_5 = 0;
     __pyx_t_3 = __pyx_t_4;
@@ -2639,13 +2582,13 @@ int UserSpi_OnRspSubNGTSIndex(PyObject *__pyx_v_self, struct CThostFtdcSpecificS
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("ctp._UserApi.UserSpi_OnRspSubNGTSIndex", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Spi_OnRspSubNGTSIndex", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-int UserSpi_OnRspUnSubNGTSIndex(PyObject *__pyx_v_self, struct CThostFtdcSpecificSecurityField *__pyx_v_pSpecificSecurity, struct CThostFtdcRspInfoField *__pyx_v_pRspInfo, int __pyx_v_nRequestID, bool __pyx_v_bIsLast) {
+int Level2Spi_OnRspUnSubNGTSIndex(PyObject *__pyx_v_self, struct CThostFtdcSpecificSecurityField *__pyx_v_pSpecificSecurity, struct CThostFtdcRspInfoField *__pyx_v_pRspInfo, int __pyx_v_nRequestID, bool __pyx_v_bIsLast) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2657,7 +2600,7 @@ int UserSpi_OnRspUnSubNGTSIndex(PyObject *__pyx_v_self, struct CThostFtdcSpecifi
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("UserSpi_OnRspUnSubNGTSIndex", 0);
+  __Pyx_RefNannySetupContext("Level2Spi_OnRspUnSubNGTSIndex", 0);
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s__OnRspUnSubNGTSIndex); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (((__pyx_v_pSpecificSecurity == NULL) != 0)) {
@@ -2671,7 +2614,7 @@ int UserSpi_OnRspUnSubNGTSIndex(PyObject *__pyx_v_self, struct CThostFtdcSpecifi
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_8_UserApi_ApiStruct_SpecificSecurity, ((PyObject *)__pyx_t_4), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_10_Level2Api_ApiStruct_SpecificSecurity, ((PyObject *)__pyx_t_4), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(((PyObject *)__pyx_t_4)); __pyx_t_4 = 0;
     __pyx_t_2 = __pyx_t_3;
@@ -2688,7 +2631,7 @@ int UserSpi_OnRspUnSubNGTSIndex(PyObject *__pyx_v_self, struct CThostFtdcSpecifi
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_4);
     __pyx_t_4 = 0;
-    __pyx_t_4 = PyObject_Call(__pyx_v_3ctp_8_UserApi_ApiStruct_RspInfo, ((PyObject *)__pyx_t_5), NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyObject_Call(__pyx_v_3ctp_10_Level2Api_ApiStruct_RspInfo, ((PyObject *)__pyx_t_5), NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(((PyObject *)__pyx_t_5)); __pyx_t_5 = 0;
     __pyx_t_3 = __pyx_t_4;
@@ -2728,13 +2671,13 @@ int UserSpi_OnRspUnSubNGTSIndex(PyObject *__pyx_v_self, struct CThostFtdcSpecifi
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("ctp._UserApi.UserSpi_OnRspUnSubNGTSIndex", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Spi_OnRspUnSubNGTSIndex", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-int UserSpi_OnRtnLevel2MarketData(PyObject *__pyx_v_self, struct CThostFtdcLevel2MarketDataField *__pyx_v_pLevel2MarketData) {
+int Level2Spi_OnRtnLevel2MarketData(PyObject *__pyx_v_self, struct CThostFtdcLevel2MarketDataField *__pyx_v_pLevel2MarketData) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2744,7 +2687,7 @@ int UserSpi_OnRtnLevel2MarketData(PyObject *__pyx_v_self, struct CThostFtdcLevel
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("UserSpi_OnRtnLevel2MarketData", 0);
+  __Pyx_RefNannySetupContext("Level2Spi_OnRtnLevel2MarketData", 0);
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (((__pyx_v_pLevel2MarketData == NULL) != 0)) {
@@ -2758,7 +2701,7 @@ int UserSpi_OnRtnLevel2MarketData(PyObject *__pyx_v_self, struct CThostFtdcLevel
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_8_UserApi_ApiStruct_Level2MarketData, ((PyObject *)__pyx_t_4), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_10_Level2Api_ApiStruct_Level2MarketData, ((PyObject *)__pyx_t_4), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(((PyObject *)__pyx_t_4)); __pyx_t_4 = 0;
     __pyx_t_2 = __pyx_t_3;
@@ -2783,13 +2726,13 @@ int UserSpi_OnRtnLevel2MarketData(PyObject *__pyx_v_self, struct CThostFtdcLevel
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("ctp._UserApi.UserSpi_OnRtnLevel2MarketData", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Spi_OnRtnLevel2MarketData", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-int UserSpi_OnRtnNGTSIndex(PyObject *__pyx_v_self, struct CThostFtdcNGTSIndexField *__pyx_v_pNGTSIndex) {
+int Level2Spi_OnRtnNGTSIndex(PyObject *__pyx_v_self, struct CThostFtdcNGTSIndexField *__pyx_v_pNGTSIndex) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2799,7 +2742,7 @@ int UserSpi_OnRtnNGTSIndex(PyObject *__pyx_v_self, struct CThostFtdcNGTSIndexFie
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("UserSpi_OnRtnNGTSIndex", 0);
+  __Pyx_RefNannySetupContext("Level2Spi_OnRtnNGTSIndex", 0);
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s__OnRtnNGTSIndex); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 166; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (((__pyx_v_pNGTSIndex == NULL) != 0)) {
@@ -2813,7 +2756,7 @@ int UserSpi_OnRtnNGTSIndex(PyObject *__pyx_v_self, struct CThostFtdcNGTSIndexFie
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_8_UserApi_ApiStruct_NGTSIndex, ((PyObject *)__pyx_t_4), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 166; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyObject_Call(__pyx_v_3ctp_10_Level2Api_ApiStruct_NGTSIndex, ((PyObject *)__pyx_t_4), NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 166; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(((PyObject *)__pyx_t_4)); __pyx_t_4 = 0;
     __pyx_t_2 = __pyx_t_3;
@@ -2838,53 +2781,53 @@ int UserSpi_OnRtnNGTSIndex(PyObject *__pyx_v_self, struct CThostFtdcNGTSIndexFie
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("ctp._UserApi.UserSpi_OnRtnNGTSIndex", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ctp._Level2Api.Level2Spi_OnRtnNGTSIndex", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_tp_new_3ctp_8_UserApi_UserApi(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
+static PyObject *__pyx_tp_new_3ctp_10_Level2Api_Level2Api(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
   PyObject *o;
   o = (*t->tp_alloc)(t, 0);
   if (unlikely(!o)) return 0;
   return o;
 }
-static void __pyx_tp_dealloc_3ctp_8_UserApi_UserApi(PyObject *o) {
+static void __pyx_tp_dealloc_3ctp_10_Level2Api_Level2Api(PyObject *o) {
   {
     PyObject *etype, *eval, *etb;
     PyErr_Fetch(&etype, &eval, &etb);
     ++Py_REFCNT(o);
-    __pyx_pw_3ctp_8_UserApi_7UserApi_1__dealloc__(o);
+    __pyx_pw_3ctp_10_Level2Api_9Level2Api_1__dealloc__(o);
     if (PyErr_Occurred()) PyErr_WriteUnraisable(o);
     --Py_REFCNT(o);
     PyErr_Restore(etype, eval, etb);
   }
   (*Py_TYPE(o)->tp_free)(o);
 }
-static PyMethodDef __pyx_methods_3ctp_8_UserApi_UserApi[] = {
-  {__Pyx_NAMESTR("Alive"), (PyCFunction)__pyx_pw_3ctp_8_UserApi_7UserApi_3Alive, METH_NOARGS, __Pyx_DOCSTR(0)},
-  {__Pyx_NAMESTR("Create"), (PyCFunction)__pyx_pw_3ctp_8_UserApi_7UserApi_5Create, METH_VARARGS|METH_KEYWORDS, __Pyx_DOCSTR(0)},
-  {__Pyx_NAMESTR("Release"), (PyCFunction)__pyx_pw_3ctp_8_UserApi_7UserApi_7Release, METH_NOARGS, __Pyx_DOCSTR(0)},
-  {__Pyx_NAMESTR("Init"), (PyCFunction)__pyx_pw_3ctp_8_UserApi_7UserApi_9Init, METH_NOARGS, __Pyx_DOCSTR(0)},
-  {__Pyx_NAMESTR("Join"), (PyCFunction)__pyx_pw_3ctp_8_UserApi_7UserApi_11Join, METH_NOARGS, __Pyx_DOCSTR(0)},
-  {__Pyx_NAMESTR("GetTradingDay"), (PyCFunction)__pyx_pw_3ctp_8_UserApi_7UserApi_13GetTradingDay, METH_NOARGS, __Pyx_DOCSTR(0)},
-  {__Pyx_NAMESTR("RegisterFront"), (PyCFunction)__pyx_pw_3ctp_8_UserApi_7UserApi_15RegisterFront, METH_O, __Pyx_DOCSTR(0)},
-  {__Pyx_NAMESTR("SubscribePublicTopic"), (PyCFunction)__pyx_pw_3ctp_8_UserApi_7UserApi_17SubscribePublicTopic, METH_O, __Pyx_DOCSTR(0)},
-  {__Pyx_NAMESTR("SubscribeLevel2MarketData"), (PyCFunction)__pyx_pw_3ctp_8_UserApi_7UserApi_19SubscribeLevel2MarketData, METH_VARARGS|METH_KEYWORDS, __Pyx_DOCSTR(0)},
-  {__Pyx_NAMESTR("UnSubscribeLevel2MarketData"), (PyCFunction)__pyx_pw_3ctp_8_UserApi_7UserApi_21UnSubscribeLevel2MarketData, METH_VARARGS|METH_KEYWORDS, __Pyx_DOCSTR(0)},
-  {__Pyx_NAMESTR("SubscribeNGTSIndex"), (PyCFunction)__pyx_pw_3ctp_8_UserApi_7UserApi_23SubscribeNGTSIndex, METH_VARARGS|METH_KEYWORDS, __Pyx_DOCSTR(0)},
-  {__Pyx_NAMESTR("UnSubscribeNGTSIndex"), (PyCFunction)__pyx_pw_3ctp_8_UserApi_7UserApi_25UnSubscribeNGTSIndex, METH_VARARGS|METH_KEYWORDS, __Pyx_DOCSTR(0)},
-  {__Pyx_NAMESTR("ReqUserLogin"), (PyCFunction)__pyx_pw_3ctp_8_UserApi_7UserApi_27ReqUserLogin, METH_VARARGS|METH_KEYWORDS, __Pyx_DOCSTR(0)},
-  {__Pyx_NAMESTR("ReqUserLogout"), (PyCFunction)__pyx_pw_3ctp_8_UserApi_7UserApi_29ReqUserLogout, METH_VARARGS|METH_KEYWORDS, __Pyx_DOCSTR(0)},
+static PyMethodDef __pyx_methods_3ctp_10_Level2Api_Level2Api[] = {
+  {__Pyx_NAMESTR("Alive"), (PyCFunction)__pyx_pw_3ctp_10_Level2Api_9Level2Api_3Alive, METH_NOARGS, __Pyx_DOCSTR(0)},
+  {__Pyx_NAMESTR("Create"), (PyCFunction)__pyx_pw_3ctp_10_Level2Api_9Level2Api_5Create, METH_VARARGS|METH_KEYWORDS, __Pyx_DOCSTR(0)},
+  {__Pyx_NAMESTR("Release"), (PyCFunction)__pyx_pw_3ctp_10_Level2Api_9Level2Api_7Release, METH_NOARGS, __Pyx_DOCSTR(0)},
+  {__Pyx_NAMESTR("Init"), (PyCFunction)__pyx_pw_3ctp_10_Level2Api_9Level2Api_9Init, METH_NOARGS, __Pyx_DOCSTR(0)},
+  {__Pyx_NAMESTR("Join"), (PyCFunction)__pyx_pw_3ctp_10_Level2Api_9Level2Api_11Join, METH_NOARGS, __Pyx_DOCSTR(0)},
+  {__Pyx_NAMESTR("GetTradingDay"), (PyCFunction)__pyx_pw_3ctp_10_Level2Api_9Level2Api_13GetTradingDay, METH_NOARGS, __Pyx_DOCSTR(0)},
+  {__Pyx_NAMESTR("RegisterFront"), (PyCFunction)__pyx_pw_3ctp_10_Level2Api_9Level2Api_15RegisterFront, METH_O, __Pyx_DOCSTR(0)},
+  {__Pyx_NAMESTR("SubscribePublicTopic"), (PyCFunction)__pyx_pw_3ctp_10_Level2Api_9Level2Api_17SubscribePublicTopic, METH_O, __Pyx_DOCSTR(0)},
+  {__Pyx_NAMESTR("SubscribeLevel2MarketData"), (PyCFunction)__pyx_pw_3ctp_10_Level2Api_9Level2Api_19SubscribeLevel2MarketData, METH_VARARGS|METH_KEYWORDS, __Pyx_DOCSTR(0)},
+  {__Pyx_NAMESTR("UnSubscribeLevel2MarketData"), (PyCFunction)__pyx_pw_3ctp_10_Level2Api_9Level2Api_21UnSubscribeLevel2MarketData, METH_VARARGS|METH_KEYWORDS, __Pyx_DOCSTR(0)},
+  {__Pyx_NAMESTR("SubscribeNGTSIndex"), (PyCFunction)__pyx_pw_3ctp_10_Level2Api_9Level2Api_23SubscribeNGTSIndex, METH_VARARGS|METH_KEYWORDS, __Pyx_DOCSTR(0)},
+  {__Pyx_NAMESTR("UnSubscribeNGTSIndex"), (PyCFunction)__pyx_pw_3ctp_10_Level2Api_9Level2Api_25UnSubscribeNGTSIndex, METH_VARARGS|METH_KEYWORDS, __Pyx_DOCSTR(0)},
+  {__Pyx_NAMESTR("ReqUserLogin"), (PyCFunction)__pyx_pw_3ctp_10_Level2Api_9Level2Api_27ReqUserLogin, METH_VARARGS|METH_KEYWORDS, __Pyx_DOCSTR(0)},
+  {__Pyx_NAMESTR("ReqUserLogout"), (PyCFunction)__pyx_pw_3ctp_10_Level2Api_9Level2Api_29ReqUserLogout, METH_VARARGS|METH_KEYWORDS, __Pyx_DOCSTR(0)},
   {0, 0, 0, 0}
 };
-static PyTypeObject __pyx_type_3ctp_8_UserApi_UserApi = {
+static PyTypeObject __pyx_type_3ctp_10_Level2Api_Level2Api = {
   PyVarObject_HEAD_INIT(0, 0)
-  __Pyx_NAMESTR("ctp._UserApi.UserApi"), 
-  sizeof(struct __pyx_obj_3ctp_8_UserApi_UserApi), 
+  __Pyx_NAMESTR("ctp._Level2Api.Level2Api"), 
+  sizeof(struct __pyx_obj_3ctp_10_Level2Api_Level2Api), 
   0, 
-  __pyx_tp_dealloc_3ctp_8_UserApi_UserApi, 
+  __pyx_tp_dealloc_3ctp_10_Level2Api_Level2Api, 
   0, 
   0, 
   0, 
@@ -2911,7 +2854,7 @@ static PyTypeObject __pyx_type_3ctp_8_UserApi_UserApi = {
   0, 
   0, 
   0, 
-  __pyx_methods_3ctp_8_UserApi_UserApi, 
+  __pyx_methods_3ctp_10_Level2Api_Level2Api, 
   0, 
   0, 
   0, 
@@ -2921,7 +2864,7 @@ static PyTypeObject __pyx_type_3ctp_8_UserApi_UserApi = {
   0, 
   0, 
   0, 
-  __pyx_tp_new_3ctp_8_UserApi_UserApi, 
+  __pyx_tp_new_3ctp_10_Level2Api_Level2Api, 
   0, 
   0, 
   0, 
@@ -2944,7 +2887,7 @@ static struct PyModuleDef __pyx_moduledef = {
   #else
     PyModuleDef_HEAD_INIT,
   #endif
-    __Pyx_NAMESTR("_UserApi"),
+    __Pyx_NAMESTR("_Level2Api"),
     0, 
     -1, 
     __pyx_methods ,
@@ -2995,14 +2938,16 @@ static int __Pyx_InitGlobals(void) {
   return -1;
 }
 #if PY_MAJOR_VERSION < 3
-PyMODINIT_FUNC init_UserApi(void); 
-PyMODINIT_FUNC init_UserApi(void)
+PyMODINIT_FUNC init_Level2Api(void); 
+PyMODINIT_FUNC init_Level2Api(void)
 #else
-PyMODINIT_FUNC PyInit__UserApi(void); 
-PyMODINIT_FUNC PyInit__UserApi(void)
+PyMODINIT_FUNC PyInit__Level2Api(void); 
+PyMODINIT_FUNC PyInit__Level2Api(void)
 #endif
 {
   PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_t_3;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -3016,7 +2961,7 @@ PyMODINIT_FUNC PyInit__UserApi(void)
           Py_FatalError("failed to import 'refnanny' module");
   }
   #endif
-  __Pyx_RefNannySetupContext("PyMODINIT_FUNC PyInit__UserApi(void)", 0);
+  __Pyx_RefNannySetupContext("PyMODINIT_FUNC PyInit__Level2Api(void)", 0);
   if ( __Pyx_check_binary_version() < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_empty_tuple = PyTuple_New(0); if (unlikely(!__pyx_empty_tuple)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_empty_bytes = PyBytes_FromStringAndSize("", 0); if (unlikely(!__pyx_empty_bytes)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -3035,7 +2980,7 @@ PyMODINIT_FUNC PyInit__UserApi(void)
   #endif
   #endif
   #if PY_MAJOR_VERSION < 3
-  __pyx_m = Py_InitModule4(__Pyx_NAMESTR("_UserApi"), __pyx_methods, 0, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
+  __pyx_m = Py_InitModule4(__Pyx_NAMESTR("_Level2Api"), __pyx_methods, 0, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
   #else
   __pyx_m = PyModule_Create(&__pyx_moduledef);
   #endif
@@ -3045,8 +2990,8 @@ PyMODINIT_FUNC PyInit__UserApi(void)
   #if PY_MAJOR_VERSION >= 3
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    if (!PyDict_GetItemString(modules, "ctp._UserApi")) {
-      if (unlikely(PyDict_SetItemString(modules, "ctp._UserApi", __pyx_m) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (!PyDict_GetItemString(modules, "ctp._Level2Api")) {
+      if (unlikely(PyDict_SetItemString(modules, "ctp._Level2Api", __pyx_m) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
   }
   #endif
@@ -3059,36 +3004,42 @@ PyMODINIT_FUNC PyInit__UserApi(void)
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
   if (__Pyx_init_sys_getdefaultencoding_params() < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   #endif
-  if (__pyx_module_is_main_ctp___UserApi) {
+  if (__pyx_module_is_main_ctp___Level2Api) {
     if (__Pyx_SetAttrString(__pyx_m, "__name__", __pyx_n_s____main__) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   }
   if (unlikely(__Pyx_InitCachedBuiltins() < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (unlikely(__Pyx_InitCachedConstants() < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_v_3ctp_8_UserApi_ApiStruct_addressof = Py_None; Py_INCREF(Py_None);
-  __pyx_v_3ctp_8_UserApi_ApiStruct_Level2MarketData = Py_None; Py_INCREF(Py_None);
-  __pyx_v_3ctp_8_UserApi_ApiStruct_NGTSIndex = Py_None; Py_INCREF(Py_None);
-  __pyx_v_3ctp_8_UserApi_ApiStruct_RspInfo = Py_None; Py_INCREF(Py_None);
-  __pyx_v_3ctp_8_UserApi_ApiStruct_RspUserLogin = Py_None; Py_INCREF(Py_None);
-  __pyx_v_3ctp_8_UserApi_ApiStruct_SpecificSecurity = Py_None; Py_INCREF(Py_None);
-  __pyx_v_3ctp_8_UserApi_ApiStruct_UserLogout = Py_None; Py_INCREF(Py_None);
-  if (PyType_Ready(&__pyx_type_3ctp_8_UserApi_UserApi) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (__Pyx_SetAttrString(__pyx_m, "UserApi", (PyObject *)&__pyx_type_3ctp_8_UserApi_UserApi) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_ptype_3ctp_8_UserApi_UserApi = &__pyx_type_3ctp_8_UserApi_UserApi;
-  __pyx_t_1 = __pyx_f_3ctp_8_UserApi__init(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_3ctp_10_Level2Api_ApiStruct_addressof = Py_None; Py_INCREF(Py_None);
+  __pyx_v_3ctp_10_Level2Api_ApiStruct_Level2MarketData = Py_None; Py_INCREF(Py_None);
+  __pyx_v_3ctp_10_Level2Api_ApiStruct_NGTSIndex = Py_None; Py_INCREF(Py_None);
+  __pyx_v_3ctp_10_Level2Api_ApiStruct_RspInfo = Py_None; Py_INCREF(Py_None);
+  __pyx_v_3ctp_10_Level2Api_ApiStruct_RspUserLogin = Py_None; Py_INCREF(Py_None);
+  __pyx_v_3ctp_10_Level2Api_ApiStruct_SpecificSecurity = Py_None; Py_INCREF(Py_None);
+  __pyx_v_3ctp_10_Level2Api_ApiStruct_UserLogout = Py_None; Py_INCREF(Py_None);
+  if (PyType_Ready(&__pyx_type_3ctp_10_Level2Api_Level2Api) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_SetAttrString(__pyx_m, "Level2Api", (PyObject *)&__pyx_type_3ctp_10_Level2Api_Level2Api) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_3ctp_10_Level2Api_Level2Api = &__pyx_type_3ctp_10_Level2Api_Level2Api;
+  XFixSysModules();
+  __pyx_t_1 = PyObject_GetAttrString(__pyx_m, S___name__); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyCFunction_NewEx((&_init_method), NULL, __pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(((PyObject *)__pyx_t_1));
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s____test__, ((PyObject *)__pyx_t_1)) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(((PyObject *)__pyx_t_1)); __pyx_t_1 = 0;
+  __pyx_t_3 = PyObject_SetAttrString(__pyx_m, _init_method.ml_name, __pyx_t_2); if (unlikely(__pyx_t_3 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(((PyObject *)__pyx_t_2));
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s____test__, ((PyObject *)__pyx_t_2)) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(((PyObject *)__pyx_t_2)); __pyx_t_2 = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
   if (__pyx_m) {
-    __Pyx_AddTraceback("init ctp._UserApi", __pyx_clineno, __pyx_lineno, __pyx_filename);
+    __Pyx_AddTraceback("init ctp._Level2Api", __pyx_clineno, __pyx_lineno, __pyx_filename);
     Py_DECREF(__pyx_m); __pyx_m = 0;
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init ctp._UserApi");
+    PyErr_SetString(PyExc_ImportError, "init ctp._Level2Api");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -3113,83 +3064,6 @@ end:
     return (__Pyx_RefNannyAPIStruct *)r;
 }
 #endif 
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
-    PyObject *r;
-    if (!j) return NULL;
-    r = PyObject_GetItem(o, j);
-    Py_DECREF(j);
-    return r;
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck) {
-#if CYTHON_COMPILING_IN_CPYTHON
-    if (wraparound & unlikely(i < 0)) i += PyList_GET_SIZE(o);
-    if ((!boundscheck) || likely((0 <= i) & (i < PyList_GET_SIZE(o)))) {
-        PyObject *r = PyList_GET_ITEM(o, i);
-        Py_INCREF(r);
-        return r;
-    }
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-#else
-    return PySequence_GetItem(o, i);
-#endif
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck) {
-#if CYTHON_COMPILING_IN_CPYTHON
-    if (wraparound & unlikely(i < 0)) i += PyTuple_GET_SIZE(o);
-    if ((!boundscheck) || likely((0 <= i) & (i < PyTuple_GET_SIZE(o)))) {
-        PyObject *r = PyTuple_GET_ITEM(o, i);
-        Py_INCREF(r);
-        return r;
-    }
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-#else
-    return PySequence_GetItem(o, i);
-#endif
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
-                                                     int is_list, int wraparound, int boundscheck) {
-#if CYTHON_COMPILING_IN_CPYTHON
-    if (is_list || PyList_CheckExact(o)) {
-        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyList_GET_SIZE(o);
-        if ((!boundscheck) || (likely((n >= 0) & (n < PyList_GET_SIZE(o))))) {
-            PyObject *r = PyList_GET_ITEM(o, n);
-            Py_INCREF(r);
-            return r;
-        }
-    }
-    else if (PyTuple_CheckExact(o)) {
-        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyTuple_GET_SIZE(o);
-        if ((!boundscheck) || likely((n >= 0) & (n < PyTuple_GET_SIZE(o)))) {
-            PyObject *r = PyTuple_GET_ITEM(o, n);
-            Py_INCREF(r);
-            return r;
-        }
-    } else {
-        PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
-        if (likely(m && m->sq_item)) {
-            if (wraparound && unlikely(i < 0) && likely(m->sq_length)) {
-                Py_ssize_t l = m->sq_length(o);
-                if (likely(l >= 0)) {
-                    i += l;
-                } else {
-                    if (PyErr_ExceptionMatches(PyExc_OverflowError))
-                        PyErr_Clear();
-                    else
-                        return NULL;
-                }
-            }
-            return m->sq_item(o, i);
-        }
-    }
-#else
-    if (is_list || PySequence_Check(o)) {
-        return PySequence_GetItem(o, i);
-    }
-#endif
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-}
 static void __Pyx_RaiseDoubleKeywordsError(
     const char* func_name,
     PyObject* kw_name)
