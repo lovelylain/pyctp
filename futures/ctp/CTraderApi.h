@@ -1,8 +1,8 @@
 #ifndef CTRADERAPI_H
 #define CTRADERAPI_H
 
-#include <Python.h>
-#include <pythread.h>
+#include "Python.h"
+#include "pythread.h"
 #include "ThostFtdcTraderApi.h"
 
 static inline int TraderSpi_OnFrontConnected(PyObject *);

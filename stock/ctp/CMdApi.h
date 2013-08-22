@@ -1,8 +1,8 @@
 #ifndef CMDAPI_H
 #define CMDAPI_H
 
-#include <Python.h>
-#include <pythread.h>
+#include "Python.h"
+#include "pythread.h"
 #include "ThostFtdcMdApiSSE.h"
 
 static inline int MdSpi_OnFrontConnected(PyObject *);

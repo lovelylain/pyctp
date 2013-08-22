@@ -1,8 +1,8 @@
 #ifndef CLEVEL2API_H
 #define CLEVEL2API_H
 
-#include <Python.h>
-#include <pythread.h>
+#include "Python.h"
+#include "pythread.h"
 #include "ThostFtdcLevel2UserApi.h"
 
 _USING_LEVEL2_NS_
