@@ -15,7 +15,7 @@ class TAFunc(object):
     @classmethod
     def C(cls, *a, **kw):
         """C(cls, *a, **kw) -> (outNBElement, outputs...)
-        calculate result on all inputs and return result
+        calculate result on all inputs and return the result
         """
         self = cls(*a, **kw)
         return (self(self.size, 0),) + self.outputs

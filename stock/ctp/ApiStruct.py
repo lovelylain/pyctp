@@ -778,7 +778,7 @@ T['VirementAvailAbility'] = 'char' #有效标志
 VAA_NoAvailAbility = '0' #未确认
 VAA_AvailAbility = '1' #有效
 VAA_Repeal = '2' #冲正
-T['VirementTradeCode'] = 'char' #交易代码
+T['VirementTradeCode'] = 'char[7]' #交易代码
 VTC_BankBankToFuture = '102001' #银行发起银行资金转期货
 VTC_BankFutureToBank = '102002' #银行发起期货资金转银行
 VTC_FutureBankToFuture = '202001' #期货发起银行资金转期货
@@ -1246,7 +1246,7 @@ T['MonthBillTradeSum'] = 'char' #结算单月报成交汇总方式
 MBTS_ByInstrument = '0' #同日同合约
 MBTS_ByDayInsPrc = '1' #同日同合约同价格
 MBTS_ByDayIns = '2' #同合约
-T['FBTTradeCodeEnum'] = 'char' #银期交易代码枚举
+T['FBTTradeCodeEnum'] = 'char[7]' #银期交易代码枚举
 FTC_BankLaunchBankToBroker = '102001' #银行发起银行转期货
 FTC_BrokerLaunchBankToBroker = '202001' #期货发起银行转期货
 FTC_BankLaunchBrokerToBank = '102002' #银行发起期货转银行
@@ -4327,7 +4327,7 @@ def _init():
     for cls in Structs: builder.build(cls)
     if sys.version_info[0] >= 3:
         for k,v in G.items():
-            if isinstance(v, str) and len(v) == 1 and '_' in k[1:-1]: G[k] = v.encode('latin-1')
+            if isinstance(v, str) and '_' in k[1:-1]: G[k] = v.encode('latin-1')
     else:
         for k in error:
             if not isinstance(k, str): error[k] = error[k].decode('utf-8')
