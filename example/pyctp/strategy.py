@@ -15,8 +15,8 @@ import logging
 from ctp.futures import ApiStruct as utype
 
 
-from base import *
-from dac import CBASE
+from .base import *
+from .dac import CBASE
 
 
 ##策略类

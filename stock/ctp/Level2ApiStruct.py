@@ -438,18 +438,31 @@ def _init():
         if v not in D:
             m = match(v).groups(); D[v] = D[m[0]] * int(m[1])
         T[k] = D[v]
+    if sys.version_info[0] >= 3:
+        for k,v in G.items():
+            if isinstance(v, str) and '_' in k[1:-1]: G[k] = v.encode('latin-1')
+    edvs = {}
     Structs = [v for v in G.values() if isinstance(v,type) and issubclass(v,Base)]
     from .ApiStruct import BaseStruct as Base
     class builder(object):
         def __setattr__(self, fn, ft):
-            self.fields.append((fn, T[ft or fn]))
+            ft = ft or fn
+            if ft in edvs: self.enums.append((len(self.fields), fn, edvs[ft]))
+            self.fields.append((fn, T[ft]))
         def build(self, cls):
+            self.__dict__['enums'] = []
             self.__dict__['fields'] = []
             cls.__dict__['__init__'](self)
-            G[cls.__name__] = type(cls.__name__, (Base,), {'_fields_':tuple(self.fields)})
+            d = {'_fields_': tuple(self.fields)}
+            if self.enums:
+                enums = tuple(self.enums)
+                def __init__(self, *args, **kwargs):
+                    c = len(args)
+                    for i,n,d in enums:
+                        if i >= c: kwargs.setdefault(n, d)
+                    Base.__init__(self, *args, **kwargs)
+                d['__init__'] = __init__
+            G[cls.__name__] = type(cls.__name__, (Base,), d)
     builder = builder()
     for cls in Structs: builder.build(cls)
-    if sys.version_info[0] >= 3:
-        for k,v in G.items():
-            if isinstance(v, str) and '_' in k[1:-1]: G[k] = v.encode('latin-1')
 _init()

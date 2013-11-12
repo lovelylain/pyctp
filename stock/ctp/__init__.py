@@ -3,7 +3,7 @@
 from __future__ import absolute_import as _init
 
 __author__ = 'lovelylain'
-__version__ = '0.2.0'
+__version__ = '0.2.1'
 
 __all__ = ['ApiStruct', 'MdApi', 'TraderApi']
 

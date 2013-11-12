@@ -4,7 +4,7 @@ import ConfigParser
 
 from . import base
 import operator
-import strategy
+from . import strategy
 
 CONFIG_PATH = 'config/'
 

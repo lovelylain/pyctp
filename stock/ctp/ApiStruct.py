@@ -1496,7 +1496,7 @@ class TransferHeader(BaseStruct): #银期转帐报文头
         self.RequestID = '' #请求编号，N/A, int
 
 class TransferBankToFutureReq(BaseStruct): #银行资金转期货请求，TradeCode=202001
-    def __init__(self, FutureAccount='', FuturePwdFlag='', FutureAccPwd='', TradeAmt=0.0, CustFee=0.0, CurrencyCode=''):
+    def __init__(self, FutureAccount='', FuturePwdFlag=FPWD_UnCheck, FutureAccPwd='', TradeAmt=0.0, CustFee=0.0, CurrencyCode=''):
         self.FutureAccount = 'AccountID' #期货资金账户, char[15]
         self.FuturePwdFlag = '' #密码标志, char
         self.FutureAccPwd = '' #密码, char[17]
@@ -1514,7 +1514,7 @@ class TransferBankToFutureRsp(BaseStruct): #银行资金转期货请求响应
         self.CurrencyCode = '' #币种, char[4]
 
 class TransferFutureToBankReq(BaseStruct): #期货资金转银行请求，TradeCode=202002
-    def __init__(self, FutureAccount='', FuturePwdFlag='', FutureAccPwd='', TradeAmt=0.0, CustFee=0.0, CurrencyCode=''):
+    def __init__(self, FutureAccount='', FuturePwdFlag=FPWD_UnCheck, FutureAccPwd='', TradeAmt=0.0, CustFee=0.0, CurrencyCode=''):
         self.FutureAccount = 'AccountID' #期货资金账户, char[15]
         self.FuturePwdFlag = '' #密码标志, char
         self.FutureAccPwd = '' #密码, char[17]
@@ -1532,7 +1532,7 @@ class TransferFutureToBankRsp(BaseStruct): #期货资金转银行请求响应
         self.CurrencyCode = '' #币种, char[4]
 
 class TransferQryBankReq(BaseStruct): #查询银行资金请求，TradeCode=204002
-    def __init__(self, FutureAccount='', FuturePwdFlag='', FutureAccPwd='', CurrencyCode=''):
+    def __init__(self, FutureAccount='', FuturePwdFlag=FPWD_UnCheck, FutureAccPwd='', CurrencyCode=''):
         self.FutureAccount = 'AccountID' #期货资金账户, char[15]
         self.FuturePwdFlag = '' #密码标志, char
         self.FutureAccPwd = '' #密码, char[17]
@@ -1553,7 +1553,7 @@ class TransferQryDetailReq(BaseStruct): #查询银行交易明细请求，TradeC
         self.FutureAccount = 'AccountID' #期货资金账户, char[15]
 
 class TransferQryDetailRsp(BaseStruct): #查询银行交易明细请求响应
-    def __init__(self, TradeDate='', TradeTime='', TradeCode='', FutureSerial=0, FutureID='', FutureAccount='', BankSerial=0, BankID='', BankBrchID='', BankAccount='', CertCode='', CurrencyCode='', TxAmount=0.0, Flag=''):
+    def __init__(self, TradeDate='', TradeTime='', TradeCode='', FutureSerial=0, FutureID='', FutureAccount='', BankSerial=0, BankID='', BankBrchID='', BankAccount='', CertCode='', CurrencyCode='', TxAmount=0.0, Flag=TVF_Invalid):
         self.TradeDate = 'Date' #交易日期, char[9]
         self.TradeTime = '' #交易时间, char[9]
         self.TradeCode = '' #交易代码, char[7]
@@ -1575,13 +1575,13 @@ class RspInfo(BaseStruct): #响应信息
         self.ErrorMsg = '' #错误信息, char[81]
 
 class Exchange(BaseStruct): #交易所
-    def __init__(self, ExchangeID='', ExchangeName='', ExchangeProperty=''):
+    def __init__(self, ExchangeID='', ExchangeName='', ExchangeProperty=EXP_Normal):
         self.ExchangeID = '' #交易所代码, char[9]
         self.ExchangeName = '' #交易所名称, char[31]
         self.ExchangeProperty = '' #交易所属性, char
 
 class Product(BaseStruct): #产品
-    def __init__(self, ProductID='', ProductName='', ExchangeID='', ProductClass='', VolumeMultiple=0, PriceTick=0.0, MaxMarketOrderVolume=0, MinMarketOrderVolume=0, MaxLimitOrderVolume=0, MinLimitOrderVolume=0, PositionType='', PositionDateType='', EFTMinTradeVolume=0):
+    def __init__(self, ProductID='', ProductName='', ExchangeID='', ProductClass=PC_Futures, VolumeMultiple=0, PriceTick=0.0, MaxMarketOrderVolume=0, MinMarketOrderVolume=0, MaxLimitOrderVolume=0, MinLimitOrderVolume=0, PositionType=PT_Net, PositionDateType=PDT_UseHistory, EFTMinTradeVolume=0):
         self.ProductID = 'InstrumentID' #产品代码, char[31]
         self.ProductName = '' #产品名称, char[21]
         self.ExchangeID = '' #交易所代码, char[9]
@@ -1597,7 +1597,7 @@ class Product(BaseStruct): #产品
         self.EFTMinTradeVolume = 'Volume' #ETF最小交易单位, int
 
 class Instrument(BaseStruct): #合约
-    def __init__(self, InstrumentID='', ExchangeID='', InstrumentName='', ExchangeInstID='', ProductID='', ProductClass='', DeliveryYear=0, DeliveryMonth=0, MaxMarketOrderVolume=0, MinMarketOrderVolume=0, MaxLimitOrderVolume=0, MinLimitOrderVolume=0, VolumeMultiple=0, PriceTick=0.0, CreateDate='', OpenDate='', ExpireDate='', StartDelivDate='', EndDelivDate='', InstLifePhase='', IsTrading=0, PositionType='', PositionDateType='', OrderCanBeWithdraw=0, MinBuyVolume=0, MinSellVolume=0, RightModelID=''):
+    def __init__(self, InstrumentID='', ExchangeID='', InstrumentName='', ExchangeInstID='', ProductID='', ProductClass=PC_Futures, DeliveryYear=0, DeliveryMonth=0, MaxMarketOrderVolume=0, MinMarketOrderVolume=0, MaxLimitOrderVolume=0, MinLimitOrderVolume=0, VolumeMultiple=0, PriceTick=0.0, CreateDate='', OpenDate='', ExpireDate='', StartDelivDate='', EndDelivDate='', InstLifePhase=IP_NotStart, IsTrading=0, PositionType=PT_Net, PositionDateType=PDT_UseHistory, OrderCanBeWithdraw=0, MinBuyVolume=0, MinSellVolume=0, RightModelID=''):
         self.InstrumentID = '' #合约代码, char[31]
         self.ExchangeID = '' #交易所代码, char[9]
         self.InstrumentName = '' #合约名称, char[21]
@@ -1644,7 +1644,7 @@ class Trader(BaseStruct): #交易所交易员
         self.BranchID = '' #营业部编号, char[9]
 
 class Investor(BaseStruct): #投资者
-    def __init__(self, InvestorID='', BrokerID='', InvestorGroupID='', InvestorName='', IdentifiedCardType='', IdentifiedCardNo='', IsActive=0, Telephone='', Address='', OpenDate='', Mobile='', SHBranchID='', SZBranchID='', IsCreditAccount=0):
+    def __init__(self, InvestorID='', BrokerID='', InvestorGroupID='', InvestorName='', IdentifiedCardType=ICT_EID, IdentifiedCardNo='', IsActive=0, Telephone='', Address='', OpenDate='', Mobile='', SHBranchID='', SZBranchID='', IsCreditAccount=0):
         self.InvestorID = '' #投资者代码, char[15]
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorGroupID = 'InvestorID' #投资者分组代码, char[15]
@@ -1683,7 +1683,7 @@ class SuperUser(BaseStruct): #管理用户
         self.IsActive = 'Bool' #是否活跃, int
 
 class SuperUserFunction(BaseStruct): #管理用户功能权限
-    def __init__(self, UserID='', FunctionCode=''):
+    def __init__(self, UserID='', FunctionCode=FC_DataAsync):
         self.UserID = '' #用户代码, char[16]
         self.FunctionCode = '' #功能代码, char
 
@@ -1742,7 +1742,7 @@ class TradingAccount(BaseStruct): #资金账户
         self.BondRepurchaseValue = 'Money' #国债回购占用资金, double
 
 class InvestorPosition(BaseStruct): #投资者持仓
-    def __init__(self, InstrumentID='', BrokerID='', InvestorID='', PosiDirection='', HedgeFlag='', PositionDate='', YdPosition=0, Position=0, LongFrozen=0, ShortFrozen=0, LongFrozenAmount=0.0, ShortFrozenAmount=0.0, OpenVolume=0, CloseVolume=0, OpenAmount=0.0, CloseAmount=0.0, PositionCost=0.0, FrozenCash=0.0, CashIn=0.0, Commission=0.0, CloseProfit=0.0, PositionProfit=0.0, PreSettlementPrice=0.0, SettlementPrice=0.0, TradingDay='', SettlementID=0, OpenCost=0.0, ExchangeMargin=0.0, TodayPosition=0, TransferFee=0.0, StampTax=0.0, TodayPurRedVolume=0, ConversionRate=0.0, ConversionAmount=0.0, MarginTradeVolume=0, MarginTradeAmount=0.0, MarginTradeFrozenVolume=0, MarginTradeFrozenAmount=0.0, MarginTradeConversionAmount=0.0, ShortSellVolume=0, ShortSellAmount=0.0, ShortSellConversionAmount=0.0, ShortSellFrozenVolume=0, ShortSellFrozenAmount=0.0, StockValue=0.0, ExchangeID='', TodayMTPosition=0, TodaySSPosition=0, SSStockValue=0.0):
+    def __init__(self, InstrumentID='', BrokerID='', InvestorID='', PosiDirection=PD_Net, HedgeFlag=HF_Speculation, PositionDate=PSD_Today, YdPosition=0, Position=0, LongFrozen=0, ShortFrozen=0, LongFrozenAmount=0.0, ShortFrozenAmount=0.0, OpenVolume=0, CloseVolume=0, OpenAmount=0.0, CloseAmount=0.0, PositionCost=0.0, FrozenCash=0.0, CashIn=0.0, Commission=0.0, CloseProfit=0.0, PositionProfit=0.0, PreSettlementPrice=0.0, SettlementPrice=0.0, TradingDay='', SettlementID=0, OpenCost=0.0, ExchangeMargin=0.0, TodayPosition=0, TransferFee=0.0, StampTax=0.0, TodayPurRedVolume=0, ConversionRate=0.0, ConversionAmount=0.0, MarginTradeVolume=0, MarginTradeAmount=0.0, MarginTradeFrozenVolume=0, MarginTradeFrozenAmount=0.0, MarginTradeConversionAmount=0.0, ShortSellVolume=0, ShortSellAmount=0.0, ShortSellConversionAmount=0.0, ShortSellFrozenVolume=0, ShortSellFrozenAmount=0.0, StockValue=0.0, ExchangeID='', TodayMTPosition=0, TodaySSPosition=0, SSStockValue=0.0):
         self.InstrumentID = '' #合约代码, char[31]
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[15]
@@ -1794,7 +1794,7 @@ class InvestorPosition(BaseStruct): #投资者持仓
         self.SSStockValue = 'Money' #融券总市值, double
 
 class InstrumentMarginRate(BaseStruct): #合约保证金率
-    def __init__(self, InstrumentID='', InvestorRange='', BrokerID='', InvestorID='', HedgeFlag='', LongMarginRatioByMoney=0.0, LongMarginRatioByVolume=0.0, ShortMarginRatioByMoney=0.0, ShortMarginRatioByVolume=0.0, IsRelative=0):
+    def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', HedgeFlag=HF_Speculation, LongMarginRatioByMoney=0.0, LongMarginRatioByVolume=0.0, ShortMarginRatioByMoney=0.0, ShortMarginRatioByVolume=0.0, IsRelative=0):
         self.InstrumentID = '' #合约代码, char[31]
         self.InvestorRange = '' #投资者范围, char
         self.BrokerID = '' #经纪公司代码, char[11]
@@ -1807,7 +1807,7 @@ class InstrumentMarginRate(BaseStruct): #合约保证金率
         self.IsRelative = 'Bool' #是否相对交易所收取, int
 
 class InstrumentCommissionRate(BaseStruct): #合约手续费率
-    def __init__(self, InstrumentID='', InvestorRange='', BrokerID='', InvestorID='', Direction='', StampTaxRateByMoney=0.0, StampTaxRateByVolume=0.0, TransferFeeRateByMoney=0.0, TransferFeeRateByVolume=0.0, TradeFeeByMoney=0.0, TradeFeeByVolume=0.0, MarginByMoney=0.0, MinTradeFee=0.0):
+    def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', Direction=D_Buy, StampTaxRateByMoney=0.0, StampTaxRateByVolume=0.0, TransferFeeRateByMoney=0.0, TransferFeeRateByVolume=0.0, TradeFeeByMoney=0.0, TradeFeeByVolume=0.0, MarginByMoney=0.0, MinTradeFee=0.0):
         self.InstrumentID = '' #合约代码, char[31]
         self.InvestorRange = '' #投资者范围, char
         self.BrokerID = '' #经纪公司代码, char[11]
@@ -1869,7 +1869,7 @@ class DepthMarketData(BaseStruct): #深度行情
         self.AveragePrice = 'Price' #当日均价, double
 
 class InstrumentTradingRight(BaseStruct): #投资者合约交易权限
-    def __init__(self, InstrumentID='', InvestorRange='', BrokerID='', InvestorID='', Direction='', TradingRight='', ExchangeID='', InstrumentRange=''):
+    def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', Direction=D_Buy, TradingRight=TR_Allow, ExchangeID='', InstrumentRange=INR_All):
         self.InstrumentID = '' #合约代码, char[31]
         self.InvestorRange = '' #投资者范围, char
         self.BrokerID = '' #经纪公司代码, char[11]
@@ -1880,7 +1880,7 @@ class InstrumentTradingRight(BaseStruct): #投资者合约交易权限
         self.InstrumentRange = '' #股票权限分类, char
 
 class BrokerUser(BaseStruct): #经纪公司用户
-    def __init__(self, BrokerID='', UserID='', UserName='', UserType='', IsActive=0, IsUsingOTP=0):
+    def __init__(self, BrokerID='', UserID='', UserName='', UserType=UT_Investor, IsActive=0, IsUsingOTP=0):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.UserID = '' #用户代码, char[16]
         self.UserName = '' #用户名称, char[81]
@@ -1895,13 +1895,13 @@ class BrokerUserPassword(BaseStruct): #经纪公司用户口令
         self.Password = '' #密码, char[41]
 
 class BrokerUserFunction(BaseStruct): #经纪公司用户功能权限
-    def __init__(self, BrokerID='', UserID='', BrokerFunctionCode=''):
+    def __init__(self, BrokerID='', UserID='', BrokerFunctionCode=BFC_ForceUserLogout):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.UserID = '' #用户代码, char[16]
         self.BrokerFunctionCode = '' #经纪公司功能代码, char
 
 class TraderOffer(BaseStruct): #交易所交易员报盘机
-    def __init__(self, ExchangeID='', TraderID='', ParticipantID='', Password='', InstallID=0, OrderLocalID='', TraderConnectStatus='', ConnectRequestDate='', ConnectRequestTime='', LastReportDate='', LastReportTime='', ConnectDate='', ConnectTime='', StartDate='', StartTime='', TradingDay='', BrokerID='', BranchID=''):
+    def __init__(self, ExchangeID='', TraderID='', ParticipantID='', Password='', InstallID=0, OrderLocalID='', TraderConnectStatus=TCS_NotConnected, ConnectRequestDate='', ConnectRequestTime='', LastReportDate='', LastReportTime='', ConnectDate='', ConnectTime='', StartDate='', StartTime='', TradingDay='', BrokerID='', BranchID=''):
         self.ExchangeID = '' #交易所代码, char[9]
         self.TraderID = '' #交易所交易员代码, char[21]
         self.ParticipantID = '' #会员代码, char[11]
@@ -1931,7 +1931,7 @@ class SettlementInfo(BaseStruct): #投资者结算结果
         self.Content = '' #消息正文, char[501]
 
 class InstrumentMarginRateAdjust(BaseStruct): #合约保证金率调整
-    def __init__(self, InstrumentID='', InvestorRange='', BrokerID='', InvestorID='', HedgeFlag='', LongMarginRatioByMoney=0.0, LongMarginRatioByVolume=0.0, ShortMarginRatioByMoney=0.0, ShortMarginRatioByVolume=0.0, IsRelative=0):
+    def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', HedgeFlag=HF_Speculation, LongMarginRatioByMoney=0.0, LongMarginRatioByVolume=0.0, ShortMarginRatioByMoney=0.0, ShortMarginRatioByVolume=0.0, IsRelative=0):
         self.InstrumentID = '' #合约代码, char[31]
         self.InvestorRange = '' #投资者范围, char
         self.BrokerID = '' #经纪公司代码, char[11]
@@ -1944,7 +1944,7 @@ class InstrumentMarginRateAdjust(BaseStruct): #合约保证金率调整
         self.IsRelative = 'Bool' #是否相对交易所收取, int
 
 class ExchangeMarginRate(BaseStruct): #交易所保证金率
-    def __init__(self, BrokerID='', InstrumentID='', HedgeFlag='', LongMarginRatioByMoney=0.0, LongMarginRatioByVolume=0.0, ShortMarginRatioByMoney=0.0, ShortMarginRatioByVolume=0.0):
+    def __init__(self, BrokerID='', InstrumentID='', HedgeFlag=HF_Speculation, LongMarginRatioByMoney=0.0, LongMarginRatioByVolume=0.0, ShortMarginRatioByMoney=0.0, ShortMarginRatioByVolume=0.0):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InstrumentID = '' #合约代码, char[31]
         self.HedgeFlag = '' #投机套保标志, char
@@ -1954,7 +1954,7 @@ class ExchangeMarginRate(BaseStruct): #交易所保证金率
         self.ShortMarginRatioByVolume = 'Money' #空头保证金费, double
 
 class ExchangeMarginRateAdjust(BaseStruct): #交易所保证金率调整
-    def __init__(self, BrokerID='', InstrumentID='', HedgeFlag='', LongMarginRatioByMoney=0.0, LongMarginRatioByVolume=0.0, ShortMarginRatioByMoney=0.0, ShortMarginRatioByVolume=0.0, ExchLongMarginRatioByMoney=0.0, ExchLongMarginRatioByVolume=0.0, ExchShortMarginRatioByMoney=0.0, ExchShortMarginRatioByVolume=0.0, NoLongMarginRatioByMoney=0.0, NoLongMarginRatioByVolume=0.0, NoShortMarginRatioByMoney=0.0, NoShortMarginRatioByVolume=0.0):
+    def __init__(self, BrokerID='', InstrumentID='', HedgeFlag=HF_Speculation, LongMarginRatioByMoney=0.0, LongMarginRatioByVolume=0.0, ShortMarginRatioByMoney=0.0, ShortMarginRatioByVolume=0.0, ExchLongMarginRatioByMoney=0.0, ExchLongMarginRatioByVolume=0.0, ExchShortMarginRatioByMoney=0.0, ExchShortMarginRatioByVolume=0.0, NoLongMarginRatioByMoney=0.0, NoLongMarginRatioByVolume=0.0, NoShortMarginRatioByMoney=0.0, NoShortMarginRatioByVolume=0.0):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InstrumentID = '' #合约代码, char[31]
         self.HedgeFlag = '' #投机套保标志, char
@@ -2026,7 +2026,7 @@ class UserPasswordUpdate(BaseStruct): #用户口令变更
         self.NewPassword = 'Password' #新的口令, char[41]
 
 class InputOrder(BaseStruct): #输入报单
-    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', OrderRef='', UserID='', ExchangeID='', OrderPriceType='', Direction='', CombOffsetFlag='', CombHedgeFlag='', LimitPrice='', VolumeTotalOriginal=0, TimeCondition='', GTDDate='', VolumeCondition='', MinVolume=0, ContingentCondition='', StopPrice=0.0, ForceCloseReason='', IsAutoSuspend=0, BusinessUnit='', RequestID=0, UserForceClose=0):
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', OrderRef='', UserID='', ExchangeID='', OrderPriceType=OPT_AnyPrice, Direction=D_Buy, CombOffsetFlag='', CombHedgeFlag='', LimitPrice='', VolumeTotalOriginal=0, TimeCondition=TC_IOC, GTDDate='', VolumeCondition=VC_AV, MinVolume=0, ContingentCondition=CC_Immediately, StopPrice=0.0, ForceCloseReason=FCC_NotForceClose, IsAutoSuspend=0, BusinessUnit='', RequestID=0, UserForceClose=0):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[15]
         self.InstrumentID = '' #合约代码, char[31]
@@ -2052,7 +2052,7 @@ class InputOrder(BaseStruct): #输入报单
         self.UserForceClose = 'Bool' #用户强评标志, int
 
 class Order(BaseStruct): #报单
-    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', OrderRef='', UserID='', ExchangeID='', OrderPriceType='', Direction='', CombOffsetFlag='', CombHedgeFlag='', LimitPrice='', VolumeTotalOriginal=0, TimeCondition='', GTDDate='', VolumeCondition='', MinVolume=0, ContingentCondition='', StopPrice=0.0, ForceCloseReason='', IsAutoSuspend=0, BusinessUnit='', RequestID=0, OrderLocalID='', ParticipantID='', ClientID='', ExchangeInstID='', TraderID='', InstallID=0, OrderSubmitStatus='', NotifySequence=0, TradingDay='', SettlementID=0, OrderSysID='', OrderSource='', OrderStatus='', OrderType='', VolumeTraded=0, VolumeTotal=0, InsertDate='', InsertTime='', ActiveTime='', SuspendTime='', UpdateTime='', CancelTime='', ActiveTraderID='', ClearingPartID='', SequenceNo=0, FrontID=0, SessionID=0, UserProductInfo='', StatusMsg='', UserForceClose=0, ActiveUserID='', BrokerOrderSeq=0, RelativeOrderSysID='', BranchID='', TradeAmount=0.0, IsETF=0, AccountID=''):
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', OrderRef='', UserID='', ExchangeID='', OrderPriceType=OPT_AnyPrice, Direction=D_Buy, CombOffsetFlag='', CombHedgeFlag='', LimitPrice='', VolumeTotalOriginal=0, TimeCondition=TC_IOC, GTDDate='', VolumeCondition=VC_AV, MinVolume=0, ContingentCondition=CC_Immediately, StopPrice=0.0, ForceCloseReason=FCC_NotForceClose, IsAutoSuspend=0, BusinessUnit='', RequestID=0, OrderLocalID='', ParticipantID='', ClientID='', ExchangeInstID='', TraderID='', InstallID=0, OrderSubmitStatus=OSS_InsertSubmitted, NotifySequence=0, TradingDay='', SettlementID=0, OrderSysID='', OrderSource=OSRC_Participant, OrderStatus=OST_AllTraded, OrderType=ORDT_Normal, VolumeTraded=0, VolumeTotal=0, InsertDate='', InsertTime='', ActiveTime='', SuspendTime='', UpdateTime='', CancelTime='', ActiveTraderID='', ClearingPartID='', SequenceNo=0, FrontID=0, SessionID=0, UserProductInfo='', StatusMsg='', UserForceClose=0, ActiveUserID='', BrokerOrderSeq=0, RelativeOrderSysID='', BranchID='', TradeAmount=0.0, IsETF=0, AccountID=''):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[15]
         self.InstrumentID = '' #合约代码, char[31]
@@ -2114,7 +2114,7 @@ class Order(BaseStruct): #报单
         self.AccountID = '' #资金帐号, char[15]
 
 class ExchangeOrder(BaseStruct): #交易所报单
-    def __init__(self, ExchangeID='', OrderPriceType='', Direction='', CombOffsetFlag='', CombHedgeFlag='', LimitPrice='', VolumeTotalOriginal=0, TimeCondition='', GTDDate='', VolumeCondition='', MinVolume=0, ContingentCondition='', StopPrice=0.0, ForceCloseReason='', IsAutoSuspend=0, BusinessUnit='', RequestID=0, OrderLocalID='', ParticipantID='', ClientID='', ExchangeInstID='', TraderID='', InstallID=0, OrderSubmitStatus='', NotifySequence=0, TradingDay='', SettlementID=0, OrderSysID='', OrderSource='', OrderStatus='', OrderType='', VolumeTraded=0, VolumeTotal=0, InsertDate='', InsertTime='', ActiveTime='', SuspendTime='', UpdateTime='', CancelTime='', ActiveTraderID='', ClearingPartID='', SequenceNo=0, BranchID=''):
+    def __init__(self, ExchangeID='', OrderPriceType=OPT_AnyPrice, Direction=D_Buy, CombOffsetFlag='', CombHedgeFlag='', LimitPrice='', VolumeTotalOriginal=0, TimeCondition=TC_IOC, GTDDate='', VolumeCondition=VC_AV, MinVolume=0, ContingentCondition=CC_Immediately, StopPrice=0.0, ForceCloseReason=FCC_NotForceClose, IsAutoSuspend=0, BusinessUnit='', RequestID=0, OrderLocalID='', ParticipantID='', ClientID='', ExchangeInstID='', TraderID='', InstallID=0, OrderSubmitStatus=OSS_InsertSubmitted, NotifySequence=0, TradingDay='', SettlementID=0, OrderSysID='', OrderSource=OSRC_Participant, OrderStatus=OST_AllTraded, OrderType=ORDT_Normal, VolumeTraded=0, VolumeTotal=0, InsertDate='', InsertTime='', ActiveTime='', SuspendTime='', UpdateTime='', CancelTime='', ActiveTraderID='', ClearingPartID='', SequenceNo=0, BranchID=''):
         self.ExchangeID = '' #交易所代码, char[9]
         self.OrderPriceType = '' #报单价格条件, char
         self.Direction = '' #买卖方向, char
@@ -2170,7 +2170,7 @@ class ExchangeOrderInsertError(BaseStruct): #交易所报单插入失败
         self.ErrorMsg = '' #错误信息, char[81]
 
 class InputOrderAction(BaseStruct): #输入报单操作
-    def __init__(self, BrokerID='', InvestorID='', OrderActionRef=0, OrderRef='', RequestID=0, FrontID=0, SessionID=0, ExchangeID='', ActionFlag='', LimitPrice=0.0, VolumeChange=0, UserID='', InstrumentID='', TraderID='', OrderLocalID=''):
+    def __init__(self, BrokerID='', InvestorID='', OrderActionRef=0, OrderRef='', RequestID=0, FrontID=0, SessionID=0, ExchangeID='', ActionFlag=AF_Delete, LimitPrice=0.0, VolumeChange=0, UserID='', InstrumentID='', TraderID='', OrderLocalID=''):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[15]
         self.OrderActionRef = '' #报单操作引用, int
@@ -2188,7 +2188,7 @@ class InputOrderAction(BaseStruct): #输入报单操作
         self.OrderLocalID = '' #本地报单编号, char[13]
 
 class OrderAction(BaseStruct): #报单操作
-    def __init__(self, BrokerID='', InvestorID='', OrderActionRef=0, OrderRef='', RequestID=0, FrontID=0, SessionID=0, ExchangeID='', ActionFlag='', LimitPrice=0.0, VolumeChange=0, ActionDate='', ActionTime='', TraderID='', InstallID=0, OrderLocalID='', ActionLocalID='', ParticipantID='', ClientID='', BusinessUnit='', OrderActionStatus='', UserID='', BranchID='', StatusMsg='', InstrumentID=''):
+    def __init__(self, BrokerID='', InvestorID='', OrderActionRef=0, OrderRef='', RequestID=0, FrontID=0, SessionID=0, ExchangeID='', ActionFlag=AF_Delete, LimitPrice=0.0, VolumeChange=0, ActionDate='', ActionTime='', TraderID='', InstallID=0, OrderLocalID='', ActionLocalID='', ParticipantID='', ClientID='', BusinessUnit='', OrderActionStatus=OAS_Submitted, UserID='', BranchID='', StatusMsg='', InstrumentID=''):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[15]
         self.OrderActionRef = '' #报单操作引用, int
@@ -2216,7 +2216,7 @@ class OrderAction(BaseStruct): #报单操作
         self.InstrumentID = '' #合约代码, char[31]
 
 class ExchangeOrderAction(BaseStruct): #交易所报单操作
-    def __init__(self, ExchangeID='', ActionFlag='', LimitPrice=0.0, VolumeChange=0, ActionDate='', ActionTime='', TraderID='', InstallID=0, OrderLocalID='', ActionLocalID='', ParticipantID='', ClientID='', BusinessUnit='', OrderActionStatus='', UserID='', BranchID=''):
+    def __init__(self, ExchangeID='', ActionFlag=AF_Delete, LimitPrice=0.0, VolumeChange=0, ActionDate='', ActionTime='', TraderID='', InstallID=0, OrderLocalID='', ActionLocalID='', ParticipantID='', ClientID='', BusinessUnit='', OrderActionStatus=OAS_Submitted, UserID='', BranchID=''):
         self.ExchangeID = '' #交易所代码, char[9]
         self.ActionFlag = '' #操作标志, char
         self.LimitPrice = 'Price' #价格, double
@@ -2246,7 +2246,7 @@ class ExchangeOrderActionError(BaseStruct): #交易所报单操作失败
         self.ErrorMsg = '' #错误信息, char[81]
 
 class ExchangeTrade(BaseStruct): #交易所成交
-    def __init__(self, ExchangeID='', TradeID='', Direction='', OrderSysID='', ParticipantID='', ClientID='', TradingRole='', ExchangeInstID='', OffsetFlag='', HedgeFlag='', Price='', Volume=0, TradeDate='', TradeTime='', TradeType='', PriceSource='', TraderID='', OrderLocalID='', ClearingPartID='', BusinessUnit='', SequenceNo=0):
+    def __init__(self, ExchangeID='', TradeID='', Direction=D_Buy, OrderSysID='', ParticipantID='', ClientID='', TradingRole=ER_Broker, ExchangeInstID='', OffsetFlag=OF_Open, HedgeFlag=HF_Speculation, Price='', Volume=0, TradeDate='', TradeTime='', TradeType=TRDT_Common, PriceSource=PSRC_LastPrice, TraderID='', OrderLocalID='', ClearingPartID='', BusinessUnit='', SequenceNo=0):
         self.ExchangeID = '' #交易所代码, char[9]
         self.TradeID = '' #成交编号, char[21]
         self.Direction = '' #买卖方向, char
@@ -2270,7 +2270,7 @@ class ExchangeTrade(BaseStruct): #交易所成交
         self.SequenceNo = '' #序号, int
 
 class Trade(BaseStruct): #成交
-    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', OrderRef='', UserID='', ExchangeID='', TradeID='', Direction='', OrderSysID='', ParticipantID='', ClientID='', TradingRole='', ExchangeInstID='', OffsetFlag='', HedgeFlag='', Price='', Volume=0, TradeDate='', TradeTime='', TradeType='', PriceSource='', TraderID='', OrderLocalID='', ClearingPartID='', BusinessUnit='', SequenceNo=0, TradingDay='', SettlementID=0, BrokerOrderSeq=0):
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', OrderRef='', UserID='', ExchangeID='', TradeID='', Direction=D_Buy, OrderSysID='', ParticipantID='', ClientID='', TradingRole=ER_Broker, ExchangeInstID='', OffsetFlag=OF_Open, HedgeFlag=HF_Speculation, Price='', Volume=0, TradeDate='', TradeTime='', TradeType=TRDT_Common, PriceSource=PSRC_LastPrice, TraderID='', OrderLocalID='', ClearingPartID='', BusinessUnit='', SequenceNo=0, TradingDay='', SettlementID=0, BrokerOrderSeq=0):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[15]
         self.InstrumentID = '' #合约代码, char[31]
@@ -2316,7 +2316,7 @@ class UserSession(BaseStruct): #用户会话
         self.MacAddress = '' #Mac地址, char[21]
 
 class QueryMaxOrderVolume(BaseStruct): #查询最大报单数量
-    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', Direction='', OffsetFlag='', HedgeFlag='', MaxVolume=0):
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', Direction=D_Buy, OffsetFlag=OF_Open, HedgeFlag=HF_Speculation, MaxVolume=0):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[15]
         self.InstrumentID = '' #合约代码, char[31]
@@ -2345,7 +2345,7 @@ class BrokerSync(BaseStruct): #经纪公司同步
         self.BrokerID = '' #经纪公司代码, char[11]
 
 class SyncingInvestor(BaseStruct): #正在同步中的投资者
-    def __init__(self, InvestorID='', BrokerID='', InvestorGroupID='', InvestorName='', IdentifiedCardType='', IdentifiedCardNo='', IsActive=0, Telephone='', Address='', OpenDate='', Mobile='', SHBranchID='', SZBranchID='', IsCreditAccount=0):
+    def __init__(self, InvestorID='', BrokerID='', InvestorGroupID='', InvestorName='', IdentifiedCardType=ICT_EID, IdentifiedCardNo='', IsActive=0, Telephone='', Address='', OpenDate='', Mobile='', SHBranchID='', SZBranchID='', IsCreditAccount=0):
         self.InvestorID = '' #投资者代码, char[15]
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorGroupID = 'InvestorID' #投资者分组代码, char[15]
@@ -2424,7 +2424,7 @@ class SyncingTradingAccount(BaseStruct): #正在同步中的交易账号
         self.BondRepurchaseValue = 'Money' #国债回购占用资金, double
 
 class SyncingInvestorPosition(BaseStruct): #正在同步中的投资者持仓
-    def __init__(self, InstrumentID='', BrokerID='', InvestorID='', PosiDirection='', HedgeFlag='', PositionDate='', YdPosition=0, Position=0, LongFrozen=0, ShortFrozen=0, LongFrozenAmount=0.0, ShortFrozenAmount=0.0, OpenVolume=0, CloseVolume=0, OpenAmount=0.0, CloseAmount=0.0, PositionCost=0.0, FrozenCash=0.0, CashIn=0.0, Commission=0.0, CloseProfit=0.0, PositionProfit=0.0, PreSettlementPrice=0.0, SettlementPrice=0.0, TradingDay='', SettlementID=0, OpenCost=0.0, ExchangeMargin=0.0, TodayPosition=0, TransferFee=0.0, StampTax=0.0, TodayPurRedVolume=0, ConversionRate=0.0, ConversionAmount=0.0, MarginTradeVolume=0, MarginTradeAmount=0.0, MarginTradeFrozenVolume=0, MarginTradeFrozenAmount=0.0, MarginTradeConversionAmount=0.0, ShortSellVolume=0, ShortSellAmount=0.0, ShortSellConversionAmount=0.0, ShortSellFrozenVolume=0, ShortSellFrozenAmount=0.0, StockValue=0.0, ExchangeID='', TodayMTPosition=0, TodaySSPosition=0, SSStockValue=0.0):
+    def __init__(self, InstrumentID='', BrokerID='', InvestorID='', PosiDirection=PD_Net, HedgeFlag=HF_Speculation, PositionDate=PSD_Today, YdPosition=0, Position=0, LongFrozen=0, ShortFrozen=0, LongFrozenAmount=0.0, ShortFrozenAmount=0.0, OpenVolume=0, CloseVolume=0, OpenAmount=0.0, CloseAmount=0.0, PositionCost=0.0, FrozenCash=0.0, CashIn=0.0, Commission=0.0, CloseProfit=0.0, PositionProfit=0.0, PreSettlementPrice=0.0, SettlementPrice=0.0, TradingDay='', SettlementID=0, OpenCost=0.0, ExchangeMargin=0.0, TodayPosition=0, TransferFee=0.0, StampTax=0.0, TodayPurRedVolume=0, ConversionRate=0.0, ConversionAmount=0.0, MarginTradeVolume=0, MarginTradeAmount=0.0, MarginTradeFrozenVolume=0, MarginTradeFrozenAmount=0.0, MarginTradeConversionAmount=0.0, ShortSellVolume=0, ShortSellAmount=0.0, ShortSellConversionAmount=0.0, ShortSellFrozenVolume=0, ShortSellFrozenAmount=0.0, StockValue=0.0, ExchangeID='', TodayMTPosition=0, TodaySSPosition=0, SSStockValue=0.0):
         self.InstrumentID = '' #合约代码, char[31]
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[15]
@@ -2476,7 +2476,7 @@ class SyncingInvestorPosition(BaseStruct): #正在同步中的投资者持仓
         self.SSStockValue = 'Money' #融券总市值, double
 
 class SyncingInstrumentMarginRate(BaseStruct): #正在同步中的合约保证金率
-    def __init__(self, InstrumentID='', InvestorRange='', BrokerID='', InvestorID='', HedgeFlag='', LongMarginRatioByMoney=0.0, LongMarginRatioByVolume=0.0, ShortMarginRatioByMoney=0.0, ShortMarginRatioByVolume=0.0, IsRelative=0):
+    def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', HedgeFlag=HF_Speculation, LongMarginRatioByMoney=0.0, LongMarginRatioByVolume=0.0, ShortMarginRatioByMoney=0.0, ShortMarginRatioByVolume=0.0, IsRelative=0):
         self.InstrumentID = '' #合约代码, char[31]
         self.InvestorRange = '' #投资者范围, char
         self.BrokerID = '' #经纪公司代码, char[11]
@@ -2489,7 +2489,7 @@ class SyncingInstrumentMarginRate(BaseStruct): #正在同步中的合约保证�
         self.IsRelative = 'Bool' #是否相对交易所收取, int
 
 class SyncingInstrumentCommissionRate(BaseStruct): #正在同步中的合约手续费率
-    def __init__(self, InstrumentID='', InvestorRange='', BrokerID='', InvestorID='', Direction='', StampTaxRateByMoney=0.0, StampTaxRateByVolume=0.0, TransferFeeRateByMoney=0.0, TransferFeeRateByVolume=0.0, TradeFeeByMoney=0.0, TradeFeeByVolume=0.0, MarginByMoney=0.0, MinTradeFee=0.0):
+    def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', Direction=D_Buy, StampTaxRateByMoney=0.0, StampTaxRateByVolume=0.0, TransferFeeRateByMoney=0.0, TransferFeeRateByVolume=0.0, TradeFeeByMoney=0.0, TradeFeeByVolume=0.0, MarginByMoney=0.0, MinTradeFee=0.0):
         self.InstrumentID = '' #合约代码, char[31]
         self.InvestorRange = '' #投资者范围, char
         self.BrokerID = '' #经纪公司代码, char[11]
@@ -2505,7 +2505,7 @@ class SyncingInstrumentCommissionRate(BaseStruct): #正在同步中的合约手�
         self.MinTradeFee = 'Price' #最小过户费, double
 
 class SyncingInstrumentTradingRight(BaseStruct): #正在同步中的合约交易权限
-    def __init__(self, InstrumentID='', InvestorRange='', BrokerID='', InvestorID='', Direction='', TradingRight='', ExchangeID='', InstrumentRange=''):
+    def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', Direction=D_Buy, TradingRight=TR_Allow, ExchangeID='', InstrumentRange=INR_All):
         self.InstrumentID = '' #合约代码, char[31]
         self.InvestorRange = '' #投资者范围, char
         self.BrokerID = '' #经纪公司代码, char[11]
@@ -2563,7 +2563,7 @@ class QryInvestorGroup(BaseStruct): #查询交易编码
         self.BrokerID = '' #经纪公司代码, char[11]
 
 class QryInstrumentMarginRate(BaseStruct): #查询交易编码
-    def __init__(self, ExchangeID='', BrokerID='', InvestorID='', InstrumentID='', HedgeFlag=''):
+    def __init__(self, ExchangeID='', BrokerID='', InvestorID='', InstrumentID='', HedgeFlag=HF_Speculation):
         self.ExchangeID = '' #交易所代码, char[9]
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[15]
@@ -2800,7 +2800,7 @@ class SpecificInstrument(BaseStruct): #指定的合约
         self.ExchangeID = '' #交易所代码, char[9]
 
 class InstrumentStatus(BaseStruct): #合约状态
-    def __init__(self, ExchangeID='', ExchangeInstID='', SettlementGroupID='', InstrumentID='', InstrumentStatus='', TradingSegmentSN=0, EnterTime='', EnterReason=''):
+    def __init__(self, ExchangeID='', ExchangeInstID='', SettlementGroupID='', InstrumentID='', InstrumentStatus=IS_BeforeTrading, TradingSegmentSN=0, EnterTime='', EnterReason=IER_Automatic):
         self.ExchangeID = '' #交易所代码, char[9]
         self.ExchangeInstID = '' #合约在交易所的代码, char[31]
         self.SettlementGroupID = '' #结算组代码, char[9]
@@ -2822,14 +2822,14 @@ class InvestorAccount(BaseStruct): #投资者账户
         self.AccountID = '' #投资者帐号, char[15]
 
 class PositionProfitAlgorithm(BaseStruct): #浮动盈亏算法
-    def __init__(self, BrokerID='', AccountID='', Algorithm='', Memo=''):
+    def __init__(self, BrokerID='', AccountID='', Algorithm=AG_All, Memo=''):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.AccountID = '' #投资者帐号, char[15]
         self.Algorithm = '' #盈亏算法, char
         self.Memo = '' #备注, char[161]
 
 class Discount(BaseStruct): #会员资金折扣
-    def __init__(self, BrokerID='', InvestorRange='', InvestorID='', Discount=0.0):
+    def __init__(self, BrokerID='', InvestorRange=IR_All, InvestorID='', Discount=0.0):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorRange = '' #投资者范围, char
         self.InvestorID = '' #投资者代码, char[15]
@@ -2854,7 +2854,7 @@ class QryInvestorPositionDetail(BaseStruct): #查询投资者持仓明细
         self.InstrumentID = '' #合约代码, char[31]
 
 class InvestorPositionDetail(BaseStruct): #投资者持仓明细
-    def __init__(self, InstrumentID='', BrokerID='', InvestorID='', HedgeFlag='', Direction='', OpenDate='', TradeID='', Volume=0, OpenPrice=0.0, TradingDay='', SettlementID=0, TradeType='', ExchangeID='', Margin=0.0, ExchMargin=0.0, LastSettlementPrice=0.0, SettlementPrice=0.0, CloseVolume=0, CloseAmount=0.0, TransferFee=0.0, StampTax=0.0, Commission=0.0, Amount=0.0):
+    def __init__(self, InstrumentID='', BrokerID='', InvestorID='', HedgeFlag=HF_Speculation, Direction=D_Buy, OpenDate='', TradeID='', Volume=0, OpenPrice=0.0, TradingDay='', SettlementID=0, TradeType=TRDT_Common, ExchangeID='', Margin=0.0, ExchMargin=0.0, LastSettlementPrice=0.0, SettlementPrice=0.0, CloseVolume=0, CloseAmount=0.0, TransferFee=0.0, StampTax=0.0, Commission=0.0, Amount=0.0):
         self.InstrumentID = '' #合约代码, char[31]
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[15]
@@ -2886,7 +2886,7 @@ class TradingAccountPassword(BaseStruct): #资金账户口令域
         self.Password = '' #密码, char[41]
 
 class MDTraderOffer(BaseStruct): #交易所行情报盘机
-    def __init__(self, ExchangeID='', TraderID='', ParticipantID='', Password='', InstallID=0, OrderLocalID='', TraderConnectStatus='', ConnectRequestDate='', ConnectRequestTime='', LastReportDate='', LastReportTime='', ConnectDate='', ConnectTime='', StartDate='', StartTime='', TradingDay='', BrokerID='', BranchID=''):
+    def __init__(self, ExchangeID='', TraderID='', ParticipantID='', Password='', InstallID=0, OrderLocalID='', TraderConnectStatus=TCS_NotConnected, ConnectRequestDate='', ConnectRequestTime='', LastReportDate='', LastReportTime='', ConnectDate='', ConnectTime='', StartDate='', StartTime='', TradingDay='', BrokerID='', BranchID=''):
         self.ExchangeID = '' #交易所代码, char[9]
         self.TraderID = '' #交易所交易员代码, char[21]
         self.ParticipantID = '' #会员代码, char[11]
@@ -2923,7 +2923,7 @@ class Notice(BaseStruct): #客户通知
         self.SequenceLabel = '' #经纪公司通知内容序列号, char[2]
 
 class UserRight(BaseStruct): #用户权限
-    def __init__(self, BrokerID='', UserID='', UserRightType='', IsForbidden=0):
+    def __init__(self, BrokerID='', UserID='', UserRightType=URT_Logon, IsForbidden=0):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.UserID = '' #用户代码, char[16]
         self.UserRightType = '' #客户权限类型, char
@@ -2939,7 +2939,7 @@ class LoadSettlementInfo(BaseStruct): #装载结算信息
         self.BrokerID = '' #经纪公司代码, char[11]
 
 class BrokerWithdrawAlgorithm(BaseStruct): #经纪公司可提资金算法表
-    def __init__(self, BrokerID='', WithdrawAlgorithm='', UsingRatio=0.0, IncludeCloseProfit='', AllWithoutTrade='', AvailIncludeCloseProfit='', IsBrokerUserEvent=0):
+    def __init__(self, BrokerID='', WithdrawAlgorithm=AG_All, UsingRatio=0.0, IncludeCloseProfit=ICP_Include, AllWithoutTrade=AWT_Enable, AvailIncludeCloseProfit=ICP_Include, IsBrokerUserEvent=0):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.WithdrawAlgorithm = 'Algorithm' #可提资金算法, char
         self.UsingRatio = 'Ratio' #资金使用率, double
@@ -2973,7 +2973,7 @@ class QrySyncStatus(BaseStruct): #查询组合合约分腿
         self.TradingDay = 'Date' #交易日, char[9]
 
 class CombinationLeg(BaseStruct): #组合交易合约的单腿
-    def __init__(self, CombInstrumentID='', LegID=0, LegInstrumentID='', Direction='', LegMultiple=0, ImplyLevel=0):
+    def __init__(self, CombInstrumentID='', LegID=0, LegInstrumentID='', Direction=D_Buy, LegMultiple=0, ImplyLevel=0):
         self.CombInstrumentID = 'InstrumentID' #组合合约代码, char[31]
         self.LegID = '' #单腿编号, int
         self.LegInstrumentID = 'InstrumentID' #单腿合约代码, char[31]
@@ -2982,7 +2982,7 @@ class CombinationLeg(BaseStruct): #组合交易合约的单腿
         self.ImplyLevel = '' #派生层数, int
 
 class SyncStatus(BaseStruct): #数据同步状态
-    def __init__(self, TradingDay='', DataSyncStatus=''):
+    def __init__(self, TradingDay='', DataSyncStatus=DS_Asynchronous):
         self.TradingDay = 'Date' #交易日, char[9]
         self.DataSyncStatus = '' #数据同步状态, char
 
@@ -2992,7 +2992,7 @@ class QryLinkMan(BaseStruct): #查询联系人
         self.InvestorID = '' #投资者代码, char[15]
 
 class LinkMan(BaseStruct): #联系人
-    def __init__(self, BrokerID='', InvestorID='', PersonType='', IdentifiedCardType='', IdentifiedCardNo='', PersonName='', Telephone='', Address='', ZipCode='', Priority=0):
+    def __init__(self, BrokerID='', InvestorID='', PersonType=PST_Order, IdentifiedCardType=ICT_EID, IdentifiedCardNo='', PersonName='', Telephone='', Address='', ZipCode='', Priority=0):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[15]
         self.PersonType = '' #联系人类型, char
@@ -3005,13 +3005,13 @@ class LinkMan(BaseStruct): #联系人
         self.Priority = '' #优先级, int
 
 class QryBrokerUserEvent(BaseStruct): #查询经纪公司用户事件
-    def __init__(self, BrokerID='', UserID='', UserEventType=''):
+    def __init__(self, BrokerID='', UserID='', UserEventType=UET_All):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.UserID = '' #用户代码, char[16]
         self.UserEventType = '' #用户事件类型, char
 
 class BrokerUserEvent(BaseStruct): #查询经纪公司用户事件
-    def __init__(self, BrokerID='', UserID='', UserEventType='', EventSequenceNo=0, EventDate='', EventTime='', UserEventInfo='', InvestorID='', InstrumentID=''):
+    def __init__(self, BrokerID='', UserID='', UserEventType=UET_All, EventSequenceNo=0, EventDate='', EventTime='', UserEventInfo='', InvestorID='', InstrumentID=''):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.UserID = '' #用户代码, char[16]
         self.UserEventType = '' #用户事件类型, char
@@ -3036,7 +3036,7 @@ class ContractBank(BaseStruct): #查询签约银行响应
         self.BankName = '' #银行名称, char[101]
 
 class InvestorPositionCombineDetail(BaseStruct): #投资者组合持仓明细
-    def __init__(self, TradingDay='', OpenDate='', ExchangeID='', SettlementID=0, BrokerID='', InvestorID='', ComTradeID='', TradeID='', InstrumentID='', HedgeFlag='', Direction='', TotalAmt=0, Margin=0.0, ExchMargin=0.0, MarginRateByMoney=0.0, MarginRateByVolume=0.0, LegID=0, LegMultiple=0, CombInstrumentID=''):
+    def __init__(self, TradingDay='', OpenDate='', ExchangeID='', SettlementID=0, BrokerID='', InvestorID='', ComTradeID='', TradeID='', InstrumentID='', HedgeFlag=HF_Speculation, Direction=D_Buy, TotalAmt=0, Margin=0.0, ExchMargin=0.0, MarginRateByMoney=0.0, MarginRateByVolume=0.0, LegID=0, LegMultiple=0, CombInstrumentID=''):
         self.TradingDay = 'Date' #交易日, char[9]
         self.OpenDate = 'Date' #开仓日期, char[9]
         self.ExchangeID = '' #交易所代码, char[9]
@@ -3058,7 +3058,7 @@ class InvestorPositionCombineDetail(BaseStruct): #投资者组合持仓明细
         self.CombInstrumentID = 'InstrumentID' #组合持仓合约编码, char[31]
 
 class ParkedOrder(BaseStruct): #预埋单
-    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', OrderRef='', UserID='', ExchangeID='', OrderPriceType='', Direction='', CombOffsetFlag='', CombHedgeFlag='', LimitPrice='', VolumeTotalOriginal=0, TimeCondition='', GTDDate='', VolumeCondition='', MinVolume=0, ContingentCondition='', StopPrice=0.0, ForceCloseReason='', IsAutoSuspend=0, BusinessUnit='', RequestID=0, UserForceClose=0, ParkedOrderID='', UserType='', Status='', ErrorID=0, ErrorMsg=''):
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', OrderRef='', UserID='', ExchangeID='', OrderPriceType=OPT_AnyPrice, Direction=D_Buy, CombOffsetFlag='', CombHedgeFlag='', LimitPrice='', VolumeTotalOriginal=0, TimeCondition=TC_IOC, GTDDate='', VolumeCondition=VC_AV, MinVolume=0, ContingentCondition=CC_Immediately, StopPrice=0.0, ForceCloseReason=FCC_NotForceClose, IsAutoSuspend=0, BusinessUnit='', RequestID=0, UserForceClose=0, ParkedOrderID='', UserType=UT_Investor, Status=PAOS_NotSend, ErrorID=0, ErrorMsg=''):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[15]
         self.InstrumentID = '' #合约代码, char[31]
@@ -3089,7 +3089,7 @@ class ParkedOrder(BaseStruct): #预埋单
         self.ErrorMsg = '' #错误信息, char[81]
 
 class ParkedOrderAction(BaseStruct): #输入预埋单操作
-    def __init__(self, BrokerID='', InvestorID='', OrderActionRef=0, OrderRef='', RequestID=0, FrontID=0, SessionID=0, ExchangeID='', ActionFlag='', LimitPrice=0.0, VolumeChange=0, UserID='', InstrumentID='', ParkedOrderActionID='', UserType='', Status='', ErrorID=0, ErrorMsg=''):
+    def __init__(self, BrokerID='', InvestorID='', OrderActionRef=0, OrderRef='', RequestID=0, FrontID=0, SessionID=0, ExchangeID='', ActionFlag=AF_Delete, LimitPrice=0.0, VolumeChange=0, UserID='', InstrumentID='', ParkedOrderActionID='', UserType=UT_Investor, Status=PAOS_NotSend, ErrorID=0, ErrorMsg=''):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[15]
         self.OrderActionRef = '' #报单操作引用, int
@@ -3136,7 +3136,7 @@ class RemoveParkedOrderAction(BaseStruct): #删除预埋撤单
         self.ParkedOrderActionID = '' #预埋撤单编号, char[13]
 
 class InvestorWithdrawAlgorithm(BaseStruct): #经纪公司可提资金算法表
-    def __init__(self, BrokerID='', InvestorRange='', InvestorID='', UsingRatio=0.0):
+    def __init__(self, BrokerID='', InvestorRange=IR_All, InvestorID='', UsingRatio=0.0):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorRange = '' #投资者范围, char
         self.InvestorID = '' #投资者代码, char[15]
@@ -3176,7 +3176,7 @@ class TradingNoticeInfo(BaseStruct): #用户事件通知信息
         self.SequenceNo = '' #序列号, int
 
 class TradingNotice(BaseStruct): #用户事件通知
-    def __init__(self, BrokerID='', InvestorRange='', InvestorID='', SequenceSeries=0, UserID='', SendTime='', SequenceNo=0, FieldContent=''):
+    def __init__(self, BrokerID='', InvestorRange=IR_All, InvestorID='', SequenceSeries=0, UserID='', SendTime='', SequenceNo=0, FieldContent=''):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorRange = '' #投资者范围, char
         self.InvestorID = '' #投资者代码, char[15]
@@ -3197,7 +3197,7 @@ class QryErrOrder(BaseStruct): #查询错误报单
         self.InvestorID = '' #投资者代码, char[15]
 
 class ErrOrder(BaseStruct): #错误报单
-    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', OrderRef='', UserID='', ExchangeID='', OrderPriceType='', Direction='', CombOffsetFlag='', CombHedgeFlag='', LimitPrice='', VolumeTotalOriginal=0, TimeCondition='', GTDDate='', VolumeCondition='', MinVolume=0, ContingentCondition='', StopPrice=0.0, ForceCloseReason='', IsAutoSuspend=0, BusinessUnit='', RequestID=0, UserForceClose=0, ErrorID=0, ErrorMsg=''):
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', OrderRef='', UserID='', ExchangeID='', OrderPriceType=OPT_AnyPrice, Direction=D_Buy, CombOffsetFlag='', CombHedgeFlag='', LimitPrice='', VolumeTotalOriginal=0, TimeCondition=TC_IOC, GTDDate='', VolumeCondition=VC_AV, MinVolume=0, ContingentCondition=CC_Immediately, StopPrice=0.0, ForceCloseReason=FCC_NotForceClose, IsAutoSuspend=0, BusinessUnit='', RequestID=0, UserForceClose=0, ErrorID=0, ErrorMsg=''):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[15]
         self.InstrumentID = '' #合约代码, char[31]
@@ -3225,7 +3225,7 @@ class ErrOrder(BaseStruct): #错误报单
         self.ErrorMsg = '' #错误信息, char[81]
 
 class ErrorConditionalOrder(BaseStruct): #查询错误报单操作
-    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', OrderRef='', UserID='', ExchangeID='', OrderPriceType='', Direction='', CombOffsetFlag='', CombHedgeFlag='', LimitPrice='', VolumeTotalOriginal=0, TimeCondition='', GTDDate='', VolumeCondition='', MinVolume=0, ContingentCondition='', StopPrice=0.0, ForceCloseReason='', IsAutoSuspend=0, BusinessUnit='', RequestID=0, OrderLocalID='', ParticipantID='', ClientID='', ExchangeInstID='', TraderID='', InstallID=0, OrderSubmitStatus='', NotifySequence=0, TradingDay='', SettlementID=0, OrderSysID='', OrderSource='', OrderStatus='', OrderType='', VolumeTraded=0, VolumeTotal=0, InsertDate='', InsertTime='', ActiveTime='', SuspendTime='', UpdateTime='', CancelTime='', ActiveTraderID='', ClearingPartID='', SequenceNo=0, FrontID=0, SessionID=0, UserProductInfo='', StatusMsg='', UserForceClose=0, ActiveUserID='', BrokerOrderSeq=0, RelativeOrderSysID='', BranchID='', TradeAmount=0.0, IsETF=0, AccountID='', ErrorID=0, ErrorMsg=''):
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', OrderRef='', UserID='', ExchangeID='', OrderPriceType=OPT_AnyPrice, Direction=D_Buy, CombOffsetFlag='', CombHedgeFlag='', LimitPrice='', VolumeTotalOriginal=0, TimeCondition=TC_IOC, GTDDate='', VolumeCondition=VC_AV, MinVolume=0, ContingentCondition=CC_Immediately, StopPrice=0.0, ForceCloseReason=FCC_NotForceClose, IsAutoSuspend=0, BusinessUnit='', RequestID=0, OrderLocalID='', ParticipantID='', ClientID='', ExchangeInstID='', TraderID='', InstallID=0, OrderSubmitStatus=OSS_InsertSubmitted, NotifySequence=0, TradingDay='', SettlementID=0, OrderSysID='', OrderSource=OSRC_Participant, OrderStatus=OST_AllTraded, OrderType=ORDT_Normal, VolumeTraded=0, VolumeTotal=0, InsertDate='', InsertTime='', ActiveTime='', SuspendTime='', UpdateTime='', CancelTime='', ActiveTraderID='', ClearingPartID='', SequenceNo=0, FrontID=0, SessionID=0, UserProductInfo='', StatusMsg='', UserForceClose=0, ActiveUserID='', BrokerOrderSeq=0, RelativeOrderSysID='', BranchID='', TradeAmount=0.0, IsETF=0, AccountID='', ErrorID=0, ErrorMsg=''):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[15]
         self.InstrumentID = '' #合约代码, char[31]
@@ -3294,7 +3294,7 @@ class QryErrOrderAction(BaseStruct): #查询错误报单操作
         self.InvestorID = '' #投资者代码, char[15]
 
 class ErrOrderAction(BaseStruct): #错误报单操作
-    def __init__(self, BrokerID='', InvestorID='', OrderActionRef=0, OrderRef='', RequestID=0, FrontID=0, SessionID=0, ExchangeID='', ActionFlag='', LimitPrice=0.0, VolumeChange=0, ActionDate='', ActionTime='', TraderID='', InstallID=0, OrderLocalID='', ActionLocalID='', ParticipantID='', ClientID='', BusinessUnit='', OrderActionStatus='', UserID='', BranchID='', StatusMsg='', InstrumentID='', ErrorID=0, ErrorMsg=''):
+    def __init__(self, BrokerID='', InvestorID='', OrderActionRef=0, OrderRef='', RequestID=0, FrontID=0, SessionID=0, ExchangeID='', ActionFlag=AF_Delete, LimitPrice=0.0, VolumeChange=0, ActionDate='', ActionTime='', TraderID='', InstallID=0, OrderLocalID='', ActionLocalID='', ParticipantID='', ClientID='', BusinessUnit='', OrderActionStatus=OAS_Submitted, UserID='', BranchID='', StatusMsg='', InstrumentID='', ErrorID=0, ErrorMsg=''):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[15]
         self.OrderActionRef = '' #报单操作引用, int
@@ -3328,13 +3328,13 @@ class QryExchangeSequence(BaseStruct): #查询交易所状态
         self.ExchangeID = '' #交易所代码, char[9]
 
 class ExchangeSequence(BaseStruct): #交易所状态
-    def __init__(self, ExchangeID='', SequenceNo=0, MarketStatus=''):
+    def __init__(self, ExchangeID='', SequenceNo=0, MarketStatus=IS_BeforeTrading):
         self.ExchangeID = '' #交易所代码, char[9]
         self.SequenceNo = '' #序号, int
         self.MarketStatus = 'InstrumentStatus' #合约交易状态, char
 
 class QueryMaxOrderVolumeWithPrice(BaseStruct): #根据价格查询最大报单数量
-    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', Direction='', OffsetFlag='', HedgeFlag='', MaxVolume=0, Price=0.0):
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', Direction=D_Buy, OffsetFlag=OF_Open, HedgeFlag=HF_Speculation, MaxVolume=0, Price=0.0):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[15]
         self.InstrumentID = '' #合约代码, char[31]
@@ -3350,7 +3350,7 @@ class QryBrokerTradingParams(BaseStruct): #查询经纪公司交易参数
         self.InvestorID = '' #投资者代码, char[15]
 
 class BrokerTradingParams(BaseStruct): #经纪公司交易参数
-    def __init__(self, BrokerID='', InvestorID='', MarginPriceType='', Algorithm='', AvailIncludeCloseProfit=''):
+    def __init__(self, BrokerID='', InvestorID='', MarginPriceType=MPT_PreSettlementPrice, Algorithm=AG_All, AvailIncludeCloseProfit=ICP_Include):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[15]
         self.MarginPriceType = '' #保证金价格类型, char
@@ -3364,7 +3364,7 @@ class QryBrokerTradingAlgos(BaseStruct): #查询经纪公司交易算法
         self.InstrumentID = '' #合约代码, char[31]
 
 class BrokerTradingAlgos(BaseStruct): #经纪公司交易算法
-    def __init__(self, BrokerID='', ExchangeID='', InstrumentID='', HandlePositionAlgoID='', FindMarginRateAlgoID='', HandleTradingAccountAlgoID=''):
+    def __init__(self, BrokerID='', ExchangeID='', InstrumentID='', HandlePositionAlgoID=HPA_Base, FindMarginRateAlgoID=FMRA_Base, HandleTradingAccountAlgoID=HTAA_Base):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.ExchangeID = '' #交易所代码, char[9]
         self.InstrumentID = '' #合约代码, char[31]
@@ -3398,7 +3398,7 @@ class QryCFMMCBrokerKey(BaseStruct): #查询保证金监管系统经纪公司密
         self.BrokerID = '' #经纪公司代码, char[11]
 
 class CFMMCBrokerKey(BaseStruct): #保证金监管系统经纪公司密钥
-    def __init__(self, BrokerID='', ParticipantID='', CreateDate='', CreateTime='', KeyID=0, CurrentKey='', KeyKind=''):
+    def __init__(self, BrokerID='', ParticipantID='', CreateDate='', CreateTime='', KeyID=0, CurrentKey='', KeyKind=CFMMCKK_REQUEST):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.ParticipantID = '' #经纪公司统一编码, char[11]
         self.CreateDate = 'Date' #密钥生成日期, char[9]
@@ -3421,7 +3421,7 @@ class QryCFMMCTradingAccountKey(BaseStruct): #请求查询保证金监管系统�
         self.InvestorID = '' #投资者代码, char[15]
 
 class BrokerUserOTPParam(BaseStruct): #用户动态令牌参数
-    def __init__(self, BrokerID='', UserID='', OTPVendorsID='', SerialNumber='', AuthKey='', LastDrift=0, LastSuccess=0, OTPType=''):
+    def __init__(self, BrokerID='', UserID='', OTPVendorsID='', SerialNumber='', AuthKey='', LastDrift=0, LastSuccess=0, OTPType=OTP_NONE):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.UserID = '' #用户代码, char[16]
         self.OTPVendorsID = '' #动态令牌提供商, char[2]
@@ -3432,7 +3432,7 @@ class BrokerUserOTPParam(BaseStruct): #用户动态令牌参数
         self.OTPType = '' #动态令牌类型, char
 
 class ManualSyncBrokerUserOTP(BaseStruct): #手工同步用户动态令牌
-    def __init__(self, BrokerID='', UserID='', OTPType='', FirstOTP='', SecondOTP=''):
+    def __init__(self, BrokerID='', UserID='', OTPType=OTP_NONE, FirstOTP='', SecondOTP=''):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.UserID = '' #用户代码, char[16]
         self.OTPType = '' #动态令牌类型, char
@@ -3440,7 +3440,7 @@ class ManualSyncBrokerUserOTP(BaseStruct): #手工同步用户动态令牌
         self.SecondOTP = 'Password' #第二个动态密码, char[41]
 
 class ReqOpenAccount(BaseStruct): #转帐开户请求
-    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment='', SessionID=0, CustomerName='', IdCardType='', IdentifiedCardNo='', Gender='', CountryCode='', CustType='', Address='', ZipCode='', Telephone='', MobilePhone='', Fax='', EMail='', MoneyAccountStatus='', BankAccount='', BankPassWord='', AccountID='', Password='', InstallID=0, VerifyCertNoFlag='', CurrencyID='', CashExchangeCode='', Digest='', BankAccType='', DeviceID='', BankSecuAccType='', BrokerIDByBank='', BankSecuAcc='', BankPwdFlag='', SecuPwdFlag='', OperNo='', TID=0):
+    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment=LF_Yes, SessionID=0, CustomerName='', IdCardType=ICT_EID, IdentifiedCardNo='', Gender=GD_Unknown, CountryCode='', CustType=CUSTT_Person, Address='', ZipCode='', Telephone='', MobilePhone='', Fax='', EMail='', MoneyAccountStatus=MAS_Normal, BankAccount='', BankPassWord='', AccountID='', Password='', InstallID=0, VerifyCertNoFlag=YNI_Yes, CurrencyID='', CashExchangeCode=CEC_Exchange, Digest='', BankAccType=BAT_BankBook, DeviceID='', BankSecuAccType=BAT_BankBook, BrokerIDByBank='', BankSecuAcc='', BankPwdFlag=BPWDF_NoCheck, SecuPwdFlag=BPWDF_NoCheck, OperNo='', TID=0):
         self.TradeCode = '' #业务功能码, char[7]
         self.BankID = '' #银行代码, char[4]
         self.BankBranchID = 'BankBrchID' #银行分支机构代码, char[5]
@@ -3486,7 +3486,7 @@ class ReqOpenAccount(BaseStruct): #转帐开户请求
         self.TID = '' #交易ID, int
 
 class ReqCancelAccount(BaseStruct): #转帐销户请求
-    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment='', SessionID=0, CustomerName='', IdCardType='', IdentifiedCardNo='', Gender='', CountryCode='', CustType='', Address='', ZipCode='', Telephone='', MobilePhone='', Fax='', EMail='', MoneyAccountStatus='', BankAccount='', BankPassWord='', AccountID='', Password='', InstallID=0, VerifyCertNoFlag='', CurrencyID='', CashExchangeCode='', Digest='', BankAccType='', DeviceID='', BankSecuAccType='', BrokerIDByBank='', BankSecuAcc='', BankPwdFlag='', SecuPwdFlag='', OperNo='', TID=0):
+    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment=LF_Yes, SessionID=0, CustomerName='', IdCardType=ICT_EID, IdentifiedCardNo='', Gender=GD_Unknown, CountryCode='', CustType=CUSTT_Person, Address='', ZipCode='', Telephone='', MobilePhone='', Fax='', EMail='', MoneyAccountStatus=MAS_Normal, BankAccount='', BankPassWord='', AccountID='', Password='', InstallID=0, VerifyCertNoFlag=YNI_Yes, CurrencyID='', CashExchangeCode=CEC_Exchange, Digest='', BankAccType=BAT_BankBook, DeviceID='', BankSecuAccType=BAT_BankBook, BrokerIDByBank='', BankSecuAcc='', BankPwdFlag=BPWDF_NoCheck, SecuPwdFlag=BPWDF_NoCheck, OperNo='', TID=0):
         self.TradeCode = '' #业务功能码, char[7]
         self.BankID = '' #银行代码, char[4]
         self.BankBranchID = 'BankBrchID' #银行分支机构代码, char[5]
@@ -3532,7 +3532,7 @@ class ReqCancelAccount(BaseStruct): #转帐销户请求
         self.TID = '' #交易ID, int
 
 class ReqChangeAccount(BaseStruct): #变更银行账户请求
-    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment='', SessionID=0, CustomerName='', IdCardType='', IdentifiedCardNo='', Gender='', CountryCode='', CustType='', Address='', ZipCode='', Telephone='', MobilePhone='', Fax='', EMail='', MoneyAccountStatus='', BankAccount='', BankPassWord='', NewBankAccount='', NewBankPassWord='', AccountID='', Password='', BankAccType='', InstallID=0, VerifyCertNoFlag='', CurrencyID='', BrokerIDByBank='', BankPwdFlag='', SecuPwdFlag='', TID=0, Digest=''):
+    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment=LF_Yes, SessionID=0, CustomerName='', IdCardType=ICT_EID, IdentifiedCardNo='', Gender=GD_Unknown, CountryCode='', CustType=CUSTT_Person, Address='', ZipCode='', Telephone='', MobilePhone='', Fax='', EMail='', MoneyAccountStatus=MAS_Normal, BankAccount='', BankPassWord='', NewBankAccount='', NewBankPassWord='', AccountID='', Password='', BankAccType=BAT_BankBook, InstallID=0, VerifyCertNoFlag=YNI_Yes, CurrencyID='', BrokerIDByBank='', BankPwdFlag=BPWDF_NoCheck, SecuPwdFlag=BPWDF_NoCheck, TID=0, Digest=''):
         self.TradeCode = '' #业务功能码, char[7]
         self.BankID = '' #银行代码, char[4]
         self.BankBranchID = 'BankBrchID' #银行分支机构代码, char[5]
@@ -3575,7 +3575,7 @@ class ReqChangeAccount(BaseStruct): #变更银行账户请求
         self.Digest = '' #摘要, char[36]
 
 class ReqTransfer(BaseStruct): #转账请求
-    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment='', SessionID=0, CustomerName='', IdCardType='', IdentifiedCardNo='', CustType='', BankAccount='', BankPassWord='', AccountID='', Password='', InstallID=0, FutureSerial=0, UserID='', VerifyCertNoFlag='', CurrencyID='', TradeAmount=0.0, FutureFetchAmount=0.0, FeePayFlag='', CustFee=0.0, BrokerFee=0.0, Message='', Digest='', BankAccType='', DeviceID='', BankSecuAccType='', BrokerIDByBank='', BankSecuAcc='', BankPwdFlag='', SecuPwdFlag='', OperNo='', RequestID=0, TID=0, TransferStatus=''):
+    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment=LF_Yes, SessionID=0, CustomerName='', IdCardType=ICT_EID, IdentifiedCardNo='', CustType=CUSTT_Person, BankAccount='', BankPassWord='', AccountID='', Password='', InstallID=0, FutureSerial=0, UserID='', VerifyCertNoFlag=YNI_Yes, CurrencyID='', TradeAmount=0.0, FutureFetchAmount=0.0, FeePayFlag=FPF_BEN, CustFee=0.0, BrokerFee=0.0, Message='', Digest='', BankAccType=BAT_BankBook, DeviceID='', BankSecuAccType=BAT_BankBook, BrokerIDByBank='', BankSecuAcc='', BankPwdFlag=BPWDF_NoCheck, SecuPwdFlag=BPWDF_NoCheck, OperNo='', RequestID=0, TID=0, TransferStatus=TRFS_Normal):
         self.TradeCode = '' #业务功能码, char[7]
         self.BankID = '' #银行代码, char[4]
         self.BankBranchID = 'BankBrchID' #银行分支机构代码, char[5]
@@ -3621,7 +3621,7 @@ class ReqTransfer(BaseStruct): #转账请求
         self.TransferStatus = '' #转账交易状态, char
 
 class RspTransfer(BaseStruct): #银行发起银行资金转期货响应
-    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment='', SessionID=0, CustomerName='', IdCardType='', IdentifiedCardNo='', CustType='', BankAccount='', BankPassWord='', AccountID='', Password='', InstallID=0, FutureSerial=0, UserID='', VerifyCertNoFlag='', CurrencyID='', TradeAmount=0.0, FutureFetchAmount=0.0, FeePayFlag='', CustFee=0.0, BrokerFee=0.0, Message='', Digest='', BankAccType='', DeviceID='', BankSecuAccType='', BrokerIDByBank='', BankSecuAcc='', BankPwdFlag='', SecuPwdFlag='', OperNo='', RequestID=0, TID=0, TransferStatus='', ErrorID=0, ErrorMsg=''):
+    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment=LF_Yes, SessionID=0, CustomerName='', IdCardType=ICT_EID, IdentifiedCardNo='', CustType=CUSTT_Person, BankAccount='', BankPassWord='', AccountID='', Password='', InstallID=0, FutureSerial=0, UserID='', VerifyCertNoFlag=YNI_Yes, CurrencyID='', TradeAmount=0.0, FutureFetchAmount=0.0, FeePayFlag=FPF_BEN, CustFee=0.0, BrokerFee=0.0, Message='', Digest='', BankAccType=BAT_BankBook, DeviceID='', BankSecuAccType=BAT_BankBook, BrokerIDByBank='', BankSecuAcc='', BankPwdFlag=BPWDF_NoCheck, SecuPwdFlag=BPWDF_NoCheck, OperNo='', RequestID=0, TID=0, TransferStatus=TRFS_Normal, ErrorID=0, ErrorMsg=''):
         self.TradeCode = '' #业务功能码, char[7]
         self.BankID = '' #银行代码, char[4]
         self.BankBranchID = 'BankBrchID' #银行分支机构代码, char[5]
@@ -3669,7 +3669,7 @@ class RspTransfer(BaseStruct): #银行发起银行资金转期货响应
         self.ErrorMsg = '' #错误信息, char[81]
 
 class ReqRepeal(BaseStruct): #冲正请求
-    def __init__(self, RepealTimeInterval=0, RepealedTimes=0, BankRepealFlag='', BrokerRepealFlag='', PlateRepealSerial=0, BankRepealSerial='', FutureRepealSerial=0, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment='', SessionID=0, CustomerName='', IdCardType='', IdentifiedCardNo='', CustType='', BankAccount='', BankPassWord='', AccountID='', Password='', InstallID=0, FutureSerial=0, UserID='', VerifyCertNoFlag='', CurrencyID='', TradeAmount=0.0, FutureFetchAmount=0.0, FeePayFlag='', CustFee=0.0, BrokerFee=0.0, Message='', Digest='', BankAccType='', DeviceID='', BankSecuAccType='', BrokerIDByBank='', BankSecuAcc='', BankPwdFlag='', SecuPwdFlag='', OperNo='', RequestID=0, TID=0, TransferStatus=''):
+    def __init__(self, RepealTimeInterval=0, RepealedTimes=0, BankRepealFlag=BRF_BankNotNeedRepeal, BrokerRepealFlag=BRORF_BrokerNotNeedRepeal, PlateRepealSerial=0, BankRepealSerial='', FutureRepealSerial=0, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment=LF_Yes, SessionID=0, CustomerName='', IdCardType=ICT_EID, IdentifiedCardNo='', CustType=CUSTT_Person, BankAccount='', BankPassWord='', AccountID='', Password='', InstallID=0, FutureSerial=0, UserID='', VerifyCertNoFlag=YNI_Yes, CurrencyID='', TradeAmount=0.0, FutureFetchAmount=0.0, FeePayFlag=FPF_BEN, CustFee=0.0, BrokerFee=0.0, Message='', Digest='', BankAccType=BAT_BankBook, DeviceID='', BankSecuAccType=BAT_BankBook, BrokerIDByBank='', BankSecuAcc='', BankPwdFlag=BPWDF_NoCheck, SecuPwdFlag=BPWDF_NoCheck, OperNo='', RequestID=0, TID=0, TransferStatus=TRFS_Normal):
         self.RepealTimeInterval = '' #冲正时间间隔, int
         self.RepealedTimes = '' #已经冲正次数, int
         self.BankRepealFlag = '' #银行冲正标志, char
@@ -3722,7 +3722,7 @@ class ReqRepeal(BaseStruct): #冲正请求
         self.TransferStatus = '' #转账交易状态, char
 
 class RspRepeal(BaseStruct): #冲正响应
-    def __init__(self, RepealTimeInterval=0, RepealedTimes=0, BankRepealFlag='', BrokerRepealFlag='', PlateRepealSerial=0, BankRepealSerial='', FutureRepealSerial=0, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment='', SessionID=0, CustomerName='', IdCardType='', IdentifiedCardNo='', CustType='', BankAccount='', BankPassWord='', AccountID='', Password='', InstallID=0, FutureSerial=0, UserID='', VerifyCertNoFlag='', CurrencyID='', TradeAmount=0.0, FutureFetchAmount=0.0, FeePayFlag='', CustFee=0.0, BrokerFee=0.0, Message='', Digest='', BankAccType='', DeviceID='', BankSecuAccType='', BrokerIDByBank='', BankSecuAcc='', BankPwdFlag='', SecuPwdFlag='', OperNo='', RequestID=0, TID=0, TransferStatus='', ErrorID=0, ErrorMsg=''):
+    def __init__(self, RepealTimeInterval=0, RepealedTimes=0, BankRepealFlag=BRF_BankNotNeedRepeal, BrokerRepealFlag=BRORF_BrokerNotNeedRepeal, PlateRepealSerial=0, BankRepealSerial='', FutureRepealSerial=0, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment=LF_Yes, SessionID=0, CustomerName='', IdCardType=ICT_EID, IdentifiedCardNo='', CustType=CUSTT_Person, BankAccount='', BankPassWord='', AccountID='', Password='', InstallID=0, FutureSerial=0, UserID='', VerifyCertNoFlag=YNI_Yes, CurrencyID='', TradeAmount=0.0, FutureFetchAmount=0.0, FeePayFlag=FPF_BEN, CustFee=0.0, BrokerFee=0.0, Message='', Digest='', BankAccType=BAT_BankBook, DeviceID='', BankSecuAccType=BAT_BankBook, BrokerIDByBank='', BankSecuAcc='', BankPwdFlag=BPWDF_NoCheck, SecuPwdFlag=BPWDF_NoCheck, OperNo='', RequestID=0, TID=0, TransferStatus=TRFS_Normal, ErrorID=0, ErrorMsg=''):
         self.RepealTimeInterval = '' #冲正时间间隔, int
         self.RepealedTimes = '' #已经冲正次数, int
         self.BankRepealFlag = '' #银行冲正标志, char
@@ -3777,7 +3777,7 @@ class RspRepeal(BaseStruct): #冲正响应
         self.ErrorMsg = '' #错误信息, char[81]
 
 class ReqQueryAccount(BaseStruct): #查询账户信息请求
-    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment='', SessionID=0, CustomerName='', IdCardType='', IdentifiedCardNo='', CustType='', BankAccount='', BankPassWord='', AccountID='', Password='', FutureSerial=0, InstallID=0, UserID='', VerifyCertNoFlag='', CurrencyID='', Digest='', BankAccType='', DeviceID='', BankSecuAccType='', BrokerIDByBank='', BankSecuAcc='', BankPwdFlag='', SecuPwdFlag='', OperNo='', RequestID=0, TID=0):
+    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment=LF_Yes, SessionID=0, CustomerName='', IdCardType=ICT_EID, IdentifiedCardNo='', CustType=CUSTT_Person, BankAccount='', BankPassWord='', AccountID='', Password='', FutureSerial=0, InstallID=0, UserID='', VerifyCertNoFlag=YNI_Yes, CurrencyID='', Digest='', BankAccType=BAT_BankBook, DeviceID='', BankSecuAccType=BAT_BankBook, BrokerIDByBank='', BankSecuAcc='', BankPwdFlag=BPWDF_NoCheck, SecuPwdFlag=BPWDF_NoCheck, OperNo='', RequestID=0, TID=0):
         self.TradeCode = '' #业务功能码, char[7]
         self.BankID = '' #银行代码, char[4]
         self.BankBranchID = 'BankBrchID' #银行分支机构代码, char[5]
@@ -3816,7 +3816,7 @@ class ReqQueryAccount(BaseStruct): #查询账户信息请求
         self.TID = '' #交易ID, int
 
 class RspQueryAccount(BaseStruct): #查询账户信息响应
-    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment='', SessionID=0, CustomerName='', IdCardType='', IdentifiedCardNo='', CustType='', BankAccount='', BankPassWord='', AccountID='', Password='', FutureSerial=0, InstallID=0, UserID='', VerifyCertNoFlag='', CurrencyID='', Digest='', BankAccType='', DeviceID='', BankSecuAccType='', BrokerIDByBank='', BankSecuAcc='', BankPwdFlag='', SecuPwdFlag='', OperNo='', RequestID=0, TID=0, BankUseAmount=0.0, BankFetchAmount=0.0):
+    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment=LF_Yes, SessionID=0, CustomerName='', IdCardType=ICT_EID, IdentifiedCardNo='', CustType=CUSTT_Person, BankAccount='', BankPassWord='', AccountID='', Password='', FutureSerial=0, InstallID=0, UserID='', VerifyCertNoFlag=YNI_Yes, CurrencyID='', Digest='', BankAccType=BAT_BankBook, DeviceID='', BankSecuAccType=BAT_BankBook, BrokerIDByBank='', BankSecuAcc='', BankPwdFlag=BPWDF_NoCheck, SecuPwdFlag=BPWDF_NoCheck, OperNo='', RequestID=0, TID=0, BankUseAmount=0.0, BankFetchAmount=0.0):
         self.TradeCode = '' #业务功能码, char[7]
         self.BankID = '' #银行代码, char[4]
         self.BankBranchID = 'BankBrchID' #银行分支机构代码, char[5]
@@ -3857,7 +3857,7 @@ class RspQueryAccount(BaseStruct): #查询账户信息响应
         self.BankFetchAmount = 'TradeAmount' #银行可取金额, double
 
 class FutureSignIO(BaseStruct): #期商签到签退
-    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment='', SessionID=0, InstallID=0, UserID='', Digest='', CurrencyID='', DeviceID='', BrokerIDByBank='', OperNo='', RequestID=0, TID=0):
+    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment=LF_Yes, SessionID=0, InstallID=0, UserID='', Digest='', CurrencyID='', DeviceID='', BrokerIDByBank='', OperNo='', RequestID=0, TID=0):
         self.TradeCode = '' #业务功能码, char[7]
         self.BankID = '' #银行代码, char[4]
         self.BankBranchID = 'BankBrchID' #银行分支机构代码, char[5]
@@ -3881,7 +3881,7 @@ class FutureSignIO(BaseStruct): #期商签到签退
         self.TID = '' #交易ID, int
 
 class RspFutureSignIn(BaseStruct): #期商签到响应
-    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment='', SessionID=0, InstallID=0, UserID='', Digest='', CurrencyID='', DeviceID='', BrokerIDByBank='', OperNo='', RequestID=0, TID=0, ErrorID=0, ErrorMsg='', PinKey='', MacKey=''):
+    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment=LF_Yes, SessionID=0, InstallID=0, UserID='', Digest='', CurrencyID='', DeviceID='', BrokerIDByBank='', OperNo='', RequestID=0, TID=0, ErrorID=0, ErrorMsg='', PinKey='', MacKey=''):
         self.TradeCode = '' #业务功能码, char[7]
         self.BankID = '' #银行代码, char[4]
         self.BankBranchID = 'BankBrchID' #银行分支机构代码, char[5]
@@ -3909,7 +3909,7 @@ class RspFutureSignIn(BaseStruct): #期商签到响应
         self.MacKey = 'PasswordKey' #MAC密钥, char[129]
 
 class ReqFutureSignOut(BaseStruct): #期商签退请求
-    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment='', SessionID=0, InstallID=0, UserID='', Digest='', CurrencyID='', DeviceID='', BrokerIDByBank='', OperNo='', RequestID=0, TID=0):
+    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment=LF_Yes, SessionID=0, InstallID=0, UserID='', Digest='', CurrencyID='', DeviceID='', BrokerIDByBank='', OperNo='', RequestID=0, TID=0):
         self.TradeCode = '' #业务功能码, char[7]
         self.BankID = '' #银行代码, char[4]
         self.BankBranchID = 'BankBrchID' #银行分支机构代码, char[5]
@@ -3933,7 +3933,7 @@ class ReqFutureSignOut(BaseStruct): #期商签退请求
         self.TID = '' #交易ID, int
 
 class RspFutureSignOut(BaseStruct): #期商签退响应
-    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment='', SessionID=0, InstallID=0, UserID='', Digest='', CurrencyID='', DeviceID='', BrokerIDByBank='', OperNo='', RequestID=0, TID=0, ErrorID=0, ErrorMsg=''):
+    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment=LF_Yes, SessionID=0, InstallID=0, UserID='', Digest='', CurrencyID='', DeviceID='', BrokerIDByBank='', OperNo='', RequestID=0, TID=0, ErrorID=0, ErrorMsg=''):
         self.TradeCode = '' #业务功能码, char[7]
         self.BankID = '' #银行代码, char[4]
         self.BankBranchID = 'BankBrchID' #银行分支机构代码, char[5]
@@ -3959,7 +3959,7 @@ class RspFutureSignOut(BaseStruct): #期商签退响应
         self.ErrorMsg = '' #错误信息, char[81]
 
 class ReqQueryTradeResultBySerial(BaseStruct): #查询指定流水号的交易结果请求
-    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment='', SessionID=0, Reference=0, RefrenceIssureType='', RefrenceIssure='', CustomerName='', IdCardType='', IdentifiedCardNo='', CustType='', BankAccount='', BankPassWord='', AccountID='', Password='', CurrencyID='', TradeAmount=0.0, Digest=''):
+    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment=LF_Yes, SessionID=0, Reference=0, RefrenceIssureType=TS_Bank, RefrenceIssure='', CustomerName='', IdCardType=ICT_EID, IdentifiedCardNo='', CustType=CUSTT_Person, BankAccount='', BankPassWord='', AccountID='', Password='', CurrencyID='', TradeAmount=0.0, Digest=''):
         self.TradeCode = '' #业务功能码, char[7]
         self.BankID = '' #银行代码, char[4]
         self.BankBranchID = 'BankBrchID' #银行分支机构代码, char[5]
@@ -3988,7 +3988,7 @@ class ReqQueryTradeResultBySerial(BaseStruct): #查询指定流水号的交易�
         self.Digest = '' #摘要, char[36]
 
 class RspQueryTradeResultBySerial(BaseStruct): #查询指定流水号的交易结果响应
-    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment='', SessionID=0, ErrorID=0, ErrorMsg='', Reference=0, RefrenceIssureType='', RefrenceIssure='', OriginReturnCode='', OriginDescrInfoForReturnCode='', BankAccount='', BankPassWord='', AccountID='', Password='', CurrencyID='', TradeAmount=0.0, Digest=''):
+    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment=LF_Yes, SessionID=0, ErrorID=0, ErrorMsg='', Reference=0, RefrenceIssureType=TS_Bank, RefrenceIssure='', OriginReturnCode='', OriginDescrInfoForReturnCode='', BankAccount='', BankPassWord='', AccountID='', Password='', CurrencyID='', TradeAmount=0.0, Digest=''):
         self.TradeCode = '' #业务功能码, char[7]
         self.BankID = '' #银行代码, char[4]
         self.BankBranchID = 'BankBrchID' #银行分支机构代码, char[5]
@@ -4017,7 +4017,7 @@ class RspQueryTradeResultBySerial(BaseStruct): #查询指定流水号的交易�
         self.Digest = '' #摘要, char[36]
 
 class ReqDayEndFileReady(BaseStruct): #日终文件就绪请求
-    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment='', SessionID=0, FileBusinessCode='', Digest=''):
+    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment=LF_Yes, SessionID=0, FileBusinessCode=FBC_Others, Digest=''):
         self.TradeCode = '' #业务功能码, char[7]
         self.BankID = '' #银行代码, char[4]
         self.BankBranchID = 'BankBrchID' #银行分支机构代码, char[5]
@@ -4039,7 +4039,7 @@ class ReturnResult(BaseStruct): #返回结果
         self.DescrInfoForReturnCode = '' #返回码描述, char[129]
 
 class VerifyFuturePassword(BaseStruct): #验证期货资金密码
-    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment='', SessionID=0, AccountID='', Password='', BankAccount='', BankPassWord='', InstallID=0, TID=0):
+    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment=LF_Yes, SessionID=0, AccountID='', Password='', BankAccount='', BankPassWord='', InstallID=0, TID=0):
         self.TradeCode = '' #业务功能码, char[7]
         self.BankID = '' #银行代码, char[4]
         self.BankBranchID = 'BankBrchID' #银行分支机构代码, char[5]
@@ -4060,14 +4060,14 @@ class VerifyFuturePassword(BaseStruct): #验证期货资金密码
         self.TID = '' #交易ID, int
 
 class VerifyCustInfo(BaseStruct): #验证客户信息
-    def __init__(self, CustomerName='', IdCardType='', IdentifiedCardNo='', CustType=''):
+    def __init__(self, CustomerName='', IdCardType=ICT_EID, IdentifiedCardNo='', CustType=CUSTT_Person):
         self.CustomerName = 'IndividualName' #客户姓名, char[51]
         self.IdCardType = '' #证件类型, char
         self.IdentifiedCardNo = '' #证件号码, char[51]
         self.CustType = '' #客户类型, char
 
 class VerifyFuturePasswordAndCustInfo(BaseStruct): #验证期货资金密码和客户信息
-    def __init__(self, CustomerName='', IdCardType='', IdentifiedCardNo='', CustType='', AccountID='', Password=''):
+    def __init__(self, CustomerName='', IdCardType=ICT_EID, IdentifiedCardNo='', CustType=CUSTT_Person, AccountID='', Password=''):
         self.CustomerName = 'IndividualName' #客户姓名, char[51]
         self.IdCardType = '' #证件类型, char
         self.IdentifiedCardNo = '' #证件号码, char[51]
@@ -4086,7 +4086,7 @@ class DepositResultInform(BaseStruct): #验证期货资金密码和客户信息
         self.DescrInfoForReturnCode = '' #返回码描述, char[129]
 
 class ReqSyncKey(BaseStruct): #交易核心向银期报盘发出密钥同步请求
-    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment='', SessionID=0, InstallID=0, UserID='', Message='', DeviceID='', BrokerIDByBank='', OperNo='', RequestID=0, TID=0):
+    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment=LF_Yes, SessionID=0, InstallID=0, UserID='', Message='', DeviceID='', BrokerIDByBank='', OperNo='', RequestID=0, TID=0):
         self.TradeCode = '' #业务功能码, char[7]
         self.BankID = '' #银行代码, char[4]
         self.BankBranchID = 'BankBrchID' #银行分支机构代码, char[5]
@@ -4109,7 +4109,7 @@ class ReqSyncKey(BaseStruct): #交易核心向银期报盘发出密钥同步请�
         self.TID = '' #交易ID, int
 
 class RspSyncKey(BaseStruct): #交易核心向银期报盘发出密钥同步响应
-    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment='', SessionID=0, InstallID=0, UserID='', Message='', DeviceID='', BrokerIDByBank='', OperNo='', RequestID=0, TID=0, ErrorID=0, ErrorMsg=''):
+    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment=LF_Yes, SessionID=0, InstallID=0, UserID='', Message='', DeviceID='', BrokerIDByBank='', OperNo='', RequestID=0, TID=0, ErrorID=0, ErrorMsg=''):
         self.TradeCode = '' #业务功能码, char[7]
         self.BankID = '' #银行代码, char[4]
         self.BankBranchID = 'BankBrchID' #银行分支机构代码, char[5]
@@ -4134,7 +4134,7 @@ class RspSyncKey(BaseStruct): #交易核心向银期报盘发出密钥同步响�
         self.ErrorMsg = '' #错误信息, char[81]
 
 class NotifyQueryAccount(BaseStruct): #查询账户信息通知
-    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment='', SessionID=0, CustomerName='', IdCardType='', IdentifiedCardNo='', CustType='', BankAccount='', BankPassWord='', AccountID='', Password='', FutureSerial=0, InstallID=0, UserID='', VerifyCertNoFlag='', CurrencyID='', Digest='', BankAccType='', DeviceID='', BankSecuAccType='', BrokerIDByBank='', BankSecuAcc='', BankPwdFlag='', SecuPwdFlag='', OperNo='', RequestID=0, TID=0, BankUseAmount=0.0, BankFetchAmount=0.0, ErrorID=0, ErrorMsg=''):
+    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment=LF_Yes, SessionID=0, CustomerName='', IdCardType=ICT_EID, IdentifiedCardNo='', CustType=CUSTT_Person, BankAccount='', BankPassWord='', AccountID='', Password='', FutureSerial=0, InstallID=0, UserID='', VerifyCertNoFlag=YNI_Yes, CurrencyID='', Digest='', BankAccType=BAT_BankBook, DeviceID='', BankSecuAccType=BAT_BankBook, BrokerIDByBank='', BankSecuAcc='', BankPwdFlag=BPWDF_NoCheck, SecuPwdFlag=BPWDF_NoCheck, OperNo='', RequestID=0, TID=0, BankUseAmount=0.0, BankFetchAmount=0.0, ErrorID=0, ErrorMsg=''):
         self.TradeCode = '' #业务功能码, char[7]
         self.BankID = '' #银行代码, char[4]
         self.BankBranchID = 'BankBrchID' #银行分支机构代码, char[5]
@@ -4177,7 +4177,7 @@ class NotifyQueryAccount(BaseStruct): #查询账户信息通知
         self.ErrorMsg = '' #错误信息, char[81]
 
 class TransferSerial(BaseStruct): #银期转账交易流水表
-    def __init__(self, PlateSerial=0, TradeDate='', TradingDay='', TradeTime='', TradeCode='', SessionID=0, BankID='', BankBranchID='', BankAccType='', BankAccount='', BankSerial='', BrokerID='', BrokerBranchID='', FutureAccType='', AccountID='', InvestorID='', FutureSerial=0, IdCardType='', IdentifiedCardNo='', CurrencyID='', TradeAmount=0.0, CustFee=0.0, BrokerFee=0.0, AvailabilityFlag='', OperatorCode='', BankNewAccount='', ErrorID=0, ErrorMsg=''):
+    def __init__(self, PlateSerial=0, TradeDate='', TradingDay='', TradeTime='', TradeCode='', SessionID=0, BankID='', BankBranchID='', BankAccType=BAT_BankBook, BankAccount='', BankSerial='', BrokerID='', BrokerBranchID='', FutureAccType=FAT_BankBook, AccountID='', InvestorID='', FutureSerial=0, IdCardType=ICT_EID, IdentifiedCardNo='', CurrencyID='', TradeAmount=0.0, CustFee=0.0, BrokerFee=0.0, AvailabilityFlag=AVAF_Invalid, OperatorCode='', BankNewAccount='', ErrorID=0, ErrorMsg=''):
         self.PlateSerial = '' #平台流水号, int
         self.TradeDate = '' #交易发起方日期, char[9]
         self.TradingDay = 'Date' #交易日期, char[9]
@@ -4214,7 +4214,7 @@ class QryTransferSerial(BaseStruct): #请求查询转帐流水
         self.BankID = '' #银行编码, char[4]
 
 class NotifyFutureSignIn(BaseStruct): #期商签到通知
-    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment='', SessionID=0, InstallID=0, UserID='', Digest='', CurrencyID='', DeviceID='', BrokerIDByBank='', OperNo='', RequestID=0, TID=0, ErrorID=0, ErrorMsg='', PinKey='', MacKey=''):
+    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment=LF_Yes, SessionID=0, InstallID=0, UserID='', Digest='', CurrencyID='', DeviceID='', BrokerIDByBank='', OperNo='', RequestID=0, TID=0, ErrorID=0, ErrorMsg='', PinKey='', MacKey=''):
         self.TradeCode = '' #业务功能码, char[7]
         self.BankID = '' #银行代码, char[4]
         self.BankBranchID = 'BankBrchID' #银行分支机构代码, char[5]
@@ -4242,7 +4242,7 @@ class NotifyFutureSignIn(BaseStruct): #期商签到通知
         self.MacKey = 'PasswordKey' #MAC密钥, char[129]
 
 class NotifyFutureSignOut(BaseStruct): #期商签退通知
-    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment='', SessionID=0, InstallID=0, UserID='', Digest='', CurrencyID='', DeviceID='', BrokerIDByBank='', OperNo='', RequestID=0, TID=0, ErrorID=0, ErrorMsg=''):
+    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment=LF_Yes, SessionID=0, InstallID=0, UserID='', Digest='', CurrencyID='', DeviceID='', BrokerIDByBank='', OperNo='', RequestID=0, TID=0, ErrorID=0, ErrorMsg=''):
         self.TradeCode = '' #业务功能码, char[7]
         self.BankID = '' #银行代码, char[4]
         self.BankBranchID = 'BankBrchID' #银行分支机构代码, char[5]
@@ -4268,7 +4268,7 @@ class NotifyFutureSignOut(BaseStruct): #期商签退通知
         self.ErrorMsg = '' #错误信息, char[81]
 
 class NotifySyncKey(BaseStruct): #交易核心向银期报盘发出密钥同步处理结果的通知
-    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment='', SessionID=0, InstallID=0, UserID='', Message='', DeviceID='', BrokerIDByBank='', OperNo='', RequestID=0, TID=0, ErrorID=0, ErrorMsg=''):
+    def __init__(self, TradeCode='', BankID='', BankBranchID='', BrokerID='', BrokerBranchID='', TradeDate='', TradeTime='', BankSerial='', TradingDay='', PlateSerial=0, LastFragment=LF_Yes, SessionID=0, InstallID=0, UserID='', Message='', DeviceID='', BrokerIDByBank='', OperNo='', RequestID=0, TID=0, ErrorID=0, ErrorMsg=''):
         self.TradeCode = '' #业务功能码, char[7]
         self.BankID = '' #银行代码, char[4]
         self.BankBranchID = 'BankBrchID' #银行分支机构代码, char[5]
@@ -4311,6 +4311,13 @@ def _init():
         if v not in D:
             m = match(v).groups(); D[v] = D[m[0]] * int(m[1])
         T[k] = D[v]
+    if sys.version_info[0] >= 3:
+        for k,v in G.items():
+            if isinstance(v, str) and '_' in k[1:-1]: G[k] = v.encode('latin-1')
+    else:
+        for k in error:
+            if not isinstance(k, str): error[k] = error[k].decode('utf-8')
+    edvs = {'ContingentCondition':CC_Immediately, 'TradeType':TRDT_Common, 'AllWithoutTrade':AWT_Enable, 'InstrumentRange':INR_All, 'TradingRight':TR_Allow, 'UserRightType':URT_Logon, 'InstitutionType':TS_Bank, 'FindMarginRateAlgoID':FMRA_Base, 'HedgeFlag':HF_Speculation, 'TraderConnectStatus':TCS_NotConnected, 'CustType':CUSTT_Person, 'PositionType':PT_Net, 'ProductClass':PC_Futures, 'OrderPriceType':OPT_AnyPrice, 'ParkedOrderStatus':PAOS_NotSend, 'PositionDateType':PDT_UseHistory, 'HandlePositionAlgoID':HPA_Base, 'Direction':D_Buy, 'OffsetFlag':OF_Open, 'PosiDirection':PD_Net, 'YesNoIndicator':YNI_Yes, 'PersonType':PST_Order, 'ExchangeProperty':EXP_Normal, 'UserType':UT_Investor, 'TimeCondition':TC_IOC, 'OrderStatus':OST_AllTraded, 'ActionFlag':AF_Delete, 'OrderSubmitStatus':OSS_InsertSubmitted, 'DataSyncStatus':DS_Asynchronous, 'TransferValidFlag':TVF_Invalid, 'AvailabilityFlag':AVAF_Invalid, 'InstStatusEnterReason':IER_Automatic, 'PositionDate':PSD_Today, 'Algorithm':AG_All, 'ForceCloseReason':FCC_NotForceClose, 'OrderType':ORDT_Normal, 'FeePayFlag':FPF_BEN, 'FuturePwdFlag':FPWD_UnCheck, 'Gender':GD_Unknown, 'FunctionCode':FC_DataAsync, 'OrderSource':OSRC_Participant, 'CashExchangeCode':CEC_Exchange, 'BrokerRepealFlag':BRORF_BrokerNotNeedRepeal, 'InstrumentStatus':IS_BeforeTrading, 'BankRepealFlag':BRF_BankNotNeedRepeal, 'HandleTradingAccountAlgoID':HTAA_Base, 'IdCardType':ICT_EID, 'MarginPriceType':MPT_PreSettlementPrice, 'FileBusinessCode':FBC_Others, 'IncludeCloseProfit':ICP_Include, 'CFMMCKeyKind':CFMMCKK_REQUEST, 'BankAccType':BAT_BankBook, 'LastFragment':LF_Yes, 'InstLifePhase':IP_NotStart, 'FutureAccType':FAT_BankBook, 'PwdFlag':BPWDF_NoCheck, 'VolumeCondition':VC_AV, 'MoneyAccountStatus':MAS_Normal, 'OTPType':OTP_NONE, 'UserEventType':UET_All, 'InvestorRange':IR_All, 'TransferStatus':TRFS_Normal, 'PriceSource':PSRC_LastPrice, 'TradingRole':ER_Broker, 'BrokerFunctionCode':BFC_ForceUserLogout, 'OrderActionStatus':OAS_Submitted}
     Structs = [v for v in G.values() if isinstance(v,type) and issubclass(v,Base)]
     Base = G['BaseStruct'] = type('BaseStruct', (Structure,), dict((k,v)
             for k,v in Base.__dict__.items() if
@@ -4318,17 +4325,23 @@ def _init():
             not (k.startswith('__') and k.endswith('__'))))
     class builder(object):
         def __setattr__(self, fn, ft):
-            self.fields.append((fn, T[ft or fn]))
+            ft = ft or fn
+            if ft in edvs: self.enums.append((len(self.fields), fn, edvs[ft]))
+            self.fields.append((fn, T[ft]))
         def build(self, cls):
+            self.__dict__['enums'] = []
             self.__dict__['fields'] = []
             cls.__dict__['__init__'](self)
-            G[cls.__name__] = type(cls.__name__, (Base,), {'_fields_':tuple(self.fields)})
+            d = {'_fields_': tuple(self.fields)}
+            if self.enums:
+                enums = tuple(self.enums)
+                def __init__(self, *args, **kwargs):
+                    c = len(args)
+                    for i,n,d in enums:
+                        if i >= c: kwargs.setdefault(n, d)
+                    Base.__init__(self, *args, **kwargs)
+                d['__init__'] = __init__
+            G[cls.__name__] = type(cls.__name__, (Base,), d)
     builder = builder()
     for cls in Structs: builder.build(cls)
-    if sys.version_info[0] >= 3:
-        for k,v in G.items():
-            if isinstance(v, str) and '_' in k[1:-1]: G[k] = v.encode('latin-1')
-    else:
-        for k in error:
-            if not isinstance(k, str): error[k] = error[k].decode('utf-8')
 _init()

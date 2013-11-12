@@ -331,7 +331,7 @@ def tmin(source,covered): #最近len个数据的max值
 
 
 ###包装类
-from base import *
+from .base import *
 def ATR(data):
     '''
         计算ATR序列

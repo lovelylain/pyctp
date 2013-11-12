@@ -597,7 +597,7 @@ class T_SHORT_MOVING_STOPER2(strategy.SHORT_STOPER):
 
 
 
-from my.mydac import AVENERGY
+from .my.mydac import AVENERGY
 class T_SHORT_SPREAD_STOPER(strategy.SHORT_STOPER):
     def __init__(self,data,bline,max_overflow=strategy.MAX_CLOSE_OVERFLOW,valid_length=strategy.STOP_VALID_LENGTH,opened=None,tick_base=2,base_lost=10,mtime=3):
         strategy.SHORT_STOPER.__init__(self,data,bline)
