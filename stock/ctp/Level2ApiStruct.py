@@ -440,7 +440,7 @@ def _init():
         T[k] = D[v]
     if sys.version_info[0] >= 3:
         for k,v in G.items():
-            if isinstance(v, str) and '_' in k[1:-1]: G[k] = v.encode('latin-1')
+            if isinstance(v, str) and k[1:-1].count('_') == 1: G[k] = v.encode('latin-1')
     edvs = {}
     Structs = [v for v in G.values() if isinstance(v,type) and issubclass(v,Base)]
     from .ApiStruct import BaseStruct as Base
@@ -457,9 +457,9 @@ def _init():
             if self.enums:
                 enums = tuple(self.enums)
                 def __init__(self, *args, **kwargs):
-                    c = len(args)
+                    c = len(args); setdefault = kwargs.setdefault
                     for i,n,d in enums:
-                        if i >= c: kwargs.setdefault(n, d)
+                        if i >= c: setdefault(n, d)
                     Base.__init__(self, *args, **kwargs)
                 d['__init__'] = __init__
             G[cls.__name__] = type(cls.__name__, (Base,), d)
