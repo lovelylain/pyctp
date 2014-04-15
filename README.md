@@ -5,7 +5,7 @@ ctp wrapper for python
 
 简介
 -----
-（仅仅只是）对于CTP API的Python封装
+（仅仅只是）对于CTP API的Python封装（使用时遇到问题可以在Issues中反馈，但不要咨询实际的交易事项，因为我没实践过）
 
 CTP版本：futures目录是期货版（包括win32、linux32、linux64），stock目录是linux64股票版，stock2目录是win32股票版
 
