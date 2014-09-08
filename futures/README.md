@@ -3,9 +3,9 @@ pyctp
 
 ctp wrapper for python (期货版)
 
-CTP版本：20130402
+CTP版本：v6.2.5_20140811
 
-环境：python2.5 ~ python3.3，Windows或者Linux
+环境：python2.5 ~ python3.4，Windows或者Linux
 
 编译：`python setup.py build`
 

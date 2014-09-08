@@ -3,6 +3,7 @@ from distutils.util import get_platform
 
 TASKS = (
     ('futures', None, 'ctp'),
+    ('option', None, 'ctp'),
     ('stock2' if sys.platform == 'win32' else 'stock', 'stock', 'ctp'),
 )
 

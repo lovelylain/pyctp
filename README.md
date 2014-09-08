@@ -7,11 +7,11 @@ ctp wrapper for python
 -----
 （仅仅只是）对于CTP API的Python封装（使用时遇到问题可以在Issues中反馈，但不要咨询实际的交易事项，因为我没实践过）
 
-CTP版本：futures目录是期货版（包括win32、linux32、linux64），stock目录是linux64股票版，stock2目录是win32股票版
+CTP版本：futures目录是期货版（包括win32、linux32、linux64），option目录是期权版（包括win32、linux32、linux64），stock目录是linux64股票版，stock2目录是win32股票版
 
-环境：python2.5 ~ python3.3，Windows或者Linux
+环境：python2.5 ~ python3.4，Windows或者Linux
 
-编译：在本目录或者分别进入futures、stock/stock2目录执行`python setup.py build`
+编译：在本目录或者分别进入futures、option、stock/stock2目录执行`python setup.py build`
 
 安装：
 在本目录编译后复制build/lib.xxx-x.x目录下的ctp目录到site-packages目录：
@@ -21,7 +21,7 @@ from ctp.futures import ApiStruct, MdApi, TraderApi
 # 通过以下方式使用股票版API
 from ctp.stock import ApiStruct, MdApi, TraderApi
 ```
-或者进入futures或stock/stock2子目录`python setup.py build`编译后`python setup.py install`安装：
+或者进入futures或option、stock/stock2子目录`python setup.py build`编译后`python setup.py install`安装：
 ```python
 # 通过以下方式使用期货/股票版API
 from ctp import ApiStruct, MdApi, TraderApi

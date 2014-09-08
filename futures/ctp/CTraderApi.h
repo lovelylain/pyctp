@@ -30,6 +30,7 @@ static inline int TraderSpi_OnRspQryTradingCode(PyObject *, CThostFtdcTradingCod
 static inline int TraderSpi_OnRspQryInstrumentMarginRate(PyObject *, CThostFtdcInstrumentMarginRateField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspQryInstrumentCommissionRate(PyObject *, CThostFtdcInstrumentCommissionRateField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspQryExchange(PyObject *, CThostFtdcExchangeField *, CThostFtdcRspInfoField *, int, bool);
+static inline int TraderSpi_OnRspQryProduct(PyObject *, CThostFtdcProductField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspQryInstrument(PyObject *, CThostFtdcInstrumentField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspQryDepthMarketData(PyObject *, CThostFtdcDepthMarketDataField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspQrySettlementInfo(PyObject *, CThostFtdcSettlementInfoField *, CThostFtdcRspInfoField *, int, bool);
@@ -40,6 +41,11 @@ static inline int TraderSpi_OnRspQrySettlementInfoConfirm(PyObject *, CThostFtdc
 static inline int TraderSpi_OnRspQryInvestorPositionCombineDetail(PyObject *, CThostFtdcInvestorPositionCombineDetailField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspQryCFMMCTradingAccountKey(PyObject *, CThostFtdcCFMMCTradingAccountKeyField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspQryEWarrantOffset(PyObject *, CThostFtdcEWarrantOffsetField *, CThostFtdcRspInfoField *, int, bool);
+static inline int TraderSpi_OnRspQryInvestorProductGroupMargin(PyObject *, CThostFtdcInvestorProductGroupMarginField *, CThostFtdcRspInfoField *, int, bool);
+static inline int TraderSpi_OnRspQryExchangeMarginRate(PyObject *, CThostFtdcExchangeMarginRateField *, CThostFtdcRspInfoField *, int, bool);
+static inline int TraderSpi_OnRspQryExchangeMarginRateAdjust(PyObject *, CThostFtdcExchangeMarginRateAdjustField *, CThostFtdcRspInfoField *, int, bool);
+static inline int TraderSpi_OnRspQryExchangeRate(PyObject *, CThostFtdcExchangeRateField *, CThostFtdcRspInfoField *, int, bool);
+static inline int TraderSpi_OnRspQrySecAgentACIDMap(PyObject *, CThostFtdcSecAgentACIDMapField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspQryTransferSerial(PyObject *, CThostFtdcTransferSerialField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspQryAccountregister(PyObject *, CThostFtdcAccountregisterField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspError(PyObject *, CThostFtdcRspInfoField *, int, bool);
@@ -50,12 +56,14 @@ static inline int TraderSpi_OnErrRtnOrderAction(PyObject *, CThostFtdcOrderActio
 static inline int TraderSpi_OnRtnInstrumentStatus(PyObject *, CThostFtdcInstrumentStatusField *);
 static inline int TraderSpi_OnRtnTradingNotice(PyObject *, CThostFtdcTradingNoticeInfoField *);
 static inline int TraderSpi_OnRtnErrorConditionalOrder(PyObject *, CThostFtdcErrorConditionalOrderField *);
+static inline int TraderSpi_OnRtnCFMMCTradingAccountToken(PyObject *, CThostFtdcCFMMCTradingAccountTokenField *);
 static inline int TraderSpi_OnRspQryContractBank(PyObject *, CThostFtdcContractBankField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspQryParkedOrder(PyObject *, CThostFtdcParkedOrderField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspQryParkedOrderAction(PyObject *, CThostFtdcParkedOrderActionField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspQryTradingNotice(PyObject *, CThostFtdcTradingNoticeField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspQryBrokerTradingParams(PyObject *, CThostFtdcBrokerTradingParamsField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspQryBrokerTradingAlgos(PyObject *, CThostFtdcBrokerTradingAlgosField *, CThostFtdcRspInfoField *, int, bool);
+static inline int TraderSpi_OnRspQueryCFMMCTradingAccountToken(PyObject *, CThostFtdcQueryCFMMCTradingAccountTokenField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRtnFromBankToFutureByBank(PyObject *, CThostFtdcRspTransferField *);
 static inline int TraderSpi_OnRtnFromFutureToBankByBank(PyObject *, CThostFtdcRspTransferField *);
 static inline int TraderSpi_OnRtnRepealFromBankToFutureByBank(PyObject *, CThostFtdcRspRepealField *);
@@ -194,6 +202,10 @@ public:
 		X_CALL(TraderSpi_OnRspQryExchange(self, pExchange, pRspInfo, nRequestID, bIsLast));
 	}
 
+	virtual void OnRspQryProduct(CThostFtdcProductField *pProduct, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
+		X_CALL(TraderSpi_OnRspQryProduct(self, pProduct, pRspInfo, nRequestID, bIsLast));
+	}
+
 	virtual void OnRspQryInstrument(CThostFtdcInstrumentField *pInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
 		X_CALL(TraderSpi_OnRspQryInstrument(self, pInstrument, pRspInfo, nRequestID, bIsLast));
 	}
@@ -232,6 +244,26 @@ public:
 
 	virtual void OnRspQryEWarrantOffset(CThostFtdcEWarrantOffsetField *pEWarrantOffset, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
 		X_CALL(TraderSpi_OnRspQryEWarrantOffset(self, pEWarrantOffset, pRspInfo, nRequestID, bIsLast));
+	}
+
+	virtual void OnRspQryInvestorProductGroupMargin(CThostFtdcInvestorProductGroupMarginField *pInvestorProductGroupMargin, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
+		X_CALL(TraderSpi_OnRspQryInvestorProductGroupMargin(self, pInvestorProductGroupMargin, pRspInfo, nRequestID, bIsLast));
+	}
+
+	virtual void OnRspQryExchangeMarginRate(CThostFtdcExchangeMarginRateField *pExchangeMarginRate, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
+		X_CALL(TraderSpi_OnRspQryExchangeMarginRate(self, pExchangeMarginRate, pRspInfo, nRequestID, bIsLast));
+	}
+
+	virtual void OnRspQryExchangeMarginRateAdjust(CThostFtdcExchangeMarginRateAdjustField *pExchangeMarginRateAdjust, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
+		X_CALL(TraderSpi_OnRspQryExchangeMarginRateAdjust(self, pExchangeMarginRateAdjust, pRspInfo, nRequestID, bIsLast));
+	}
+
+	virtual void OnRspQryExchangeRate(CThostFtdcExchangeRateField *pExchangeRate, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
+		X_CALL(TraderSpi_OnRspQryExchangeRate(self, pExchangeRate, pRspInfo, nRequestID, bIsLast));
+	}
+
+	virtual void OnRspQrySecAgentACIDMap(CThostFtdcSecAgentACIDMapField *pSecAgentACIDMap, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
+		X_CALL(TraderSpi_OnRspQrySecAgentACIDMap(self, pSecAgentACIDMap, pRspInfo, nRequestID, bIsLast));
 	}
 
 	virtual void OnRspQryTransferSerial(CThostFtdcTransferSerialField *pTransferSerial, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
@@ -274,6 +306,10 @@ public:
 		X_CALL(TraderSpi_OnRtnErrorConditionalOrder(self, pErrorConditionalOrder));
 	}
 
+	virtual void OnRtnCFMMCTradingAccountToken(CThostFtdcCFMMCTradingAccountTokenField *pCFMMCTradingAccountToken) {
+		X_CALL(TraderSpi_OnRtnCFMMCTradingAccountToken(self, pCFMMCTradingAccountToken));
+	}
+
 	virtual void OnRspQryContractBank(CThostFtdcContractBankField *pContractBank, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
 		X_CALL(TraderSpi_OnRspQryContractBank(self, pContractBank, pRspInfo, nRequestID, bIsLast));
 	}
@@ -296,6 +332,10 @@ public:
 
 	virtual void OnRspQryBrokerTradingAlgos(CThostFtdcBrokerTradingAlgosField *pBrokerTradingAlgos, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
 		X_CALL(TraderSpi_OnRspQryBrokerTradingAlgos(self, pBrokerTradingAlgos, pRspInfo, nRequestID, bIsLast));
+	}
+
+	virtual void OnRspQueryCFMMCTradingAccountToken(CThostFtdcQueryCFMMCTradingAccountTokenField *pQueryCFMMCTradingAccountToken, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
+		X_CALL(TraderSpi_OnRspQueryCFMMCTradingAccountToken(self, pQueryCFMMCTradingAccountToken, pRspInfo, nRequestID, bIsLast));
 	}
 
 	virtual void OnRtnFromBankToFutureByBank(CThostFtdcRspTransferField *pRspTransfer) {
@@ -454,6 +494,7 @@ static PyMethodDef _init_method = {"_init", _init, METH_O, NULL};
 #define S_BrokerTradingAlgos "BrokerTradingAlgos"
 #define S_BrokerTradingParams "BrokerTradingParams"
 #define S_CFMMCTradingAccountKey "CFMMCTradingAccountKey"
+#define S_CFMMCTradingAccountToken "CFMMCTradingAccountToken"
 #define S_CancelAccount "CancelAccount"
 #define S_ChangeAccount "ChangeAccount"
 #define S_ContractBank "ContractBank"
@@ -461,6 +502,9 @@ static PyMethodDef _init_method = {"_init", _init, METH_O, NULL};
 #define S_EWarrantOffset "EWarrantOffset"
 #define S_ErrorConditionalOrder "ErrorConditionalOrder"
 #define S_Exchange "Exchange"
+#define S_ExchangeMarginRate "ExchangeMarginRate"
+#define S_ExchangeMarginRateAdjust "ExchangeMarginRateAdjust"
+#define S_ExchangeRate "ExchangeRate"
 #define S_InputOrder "InputOrder"
 #define S_InputOrderAction "InputOrderAction"
 #define S_Instrument "Instrument"
@@ -471,6 +515,7 @@ static PyMethodDef _init_method = {"_init", _init, METH_O, NULL};
 #define S_InvestorPosition "InvestorPosition"
 #define S_InvestorPositionCombineDetail "InvestorPositionCombineDetail"
 #define S_InvestorPositionDetail "InvestorPositionDetail"
+#define S_InvestorProductGroupMargin "InvestorProductGroupMargin"
 #define S_Notice "Notice"
 #define S_NotifyQueryAccount "NotifyQueryAccount"
 #define S_OpenAccount "OpenAccount"
@@ -478,6 +523,8 @@ static PyMethodDef _init_method = {"_init", _init, METH_O, NULL};
 #define S_OrderAction "OrderAction"
 #define S_ParkedOrder "ParkedOrder"
 #define S_ParkedOrderAction "ParkedOrderAction"
+#define S_Product "Product"
+#define S_QueryCFMMCTradingAccountToken "QueryCFMMCTradingAccountToken"
 #define S_QueryMaxOrderVolume "QueryMaxOrderVolume"
 #define S_RemoveParkedOrder "RemoveParkedOrder"
 #define S_RemoveParkedOrderAction "RemoveParkedOrderAction"
@@ -489,6 +536,7 @@ static PyMethodDef _init_method = {"_init", _init, METH_O, NULL};
 #define S_RspRepeal "RspRepeal"
 #define S_RspTransfer "RspTransfer"
 #define S_RspUserLogin "RspUserLogin"
+#define S_SecAgentACIDMap "SecAgentACIDMap"
 #define S_SettlementInfo "SettlementInfo"
 #define S_SettlementInfoConfirm "SettlementInfoConfirm"
 #define S_Trade "Trade"

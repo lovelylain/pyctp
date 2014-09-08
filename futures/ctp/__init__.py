@@ -4,6 +4,7 @@ from __future__ import absolute_import as _init
 
 __author__ = 'lovelylain'
 __version__ = '0.2.1'
+API_VERSION = 'v6.2.5_20140811'
 
 __all__ = ['ApiStruct', 'MdApi', 'TraderApi']
 
@@ -283,6 +284,10 @@ class TraderApi(object):
         """请求查询交易所"""
         return 0
 
+    def ReqQryProduct(self, pQryProduct, nRequestID):
+        """请求查询产品"""
+        return 0
+
     def ReqQryInstrument(self, pQryInstrument, nRequestID):
         """请求查询合约"""
         return 0
@@ -323,6 +328,26 @@ class TraderApi(object):
         """请求查询仓单折抵信息"""
         return 0
 
+    def ReqQryInvestorProductGroupMargin(self, pQryInvestorProductGroupMargin, nRequestID):
+        """请求查询投资者品种/跨品种保证金"""
+        return 0
+
+    def ReqQryExchangeMarginRate(self, pQryExchangeMarginRate, nRequestID):
+        """请求查询交易所保证金率"""
+        return 0
+
+    def ReqQryExchangeMarginRateAdjust(self, pQryExchangeMarginRateAdjust, nRequestID):
+        """请求查询交易所调整保证金率"""
+        return 0
+
+    def ReqQryExchangeRate(self, pQryExchangeRate, nRequestID):
+        """请求查询汇率"""
+        return 0
+
+    def ReqQrySecAgentACIDMap(self, pQrySecAgentACIDMap, nRequestID):
+        """请求查询二级代理操作员银期权限"""
+        return 0
+
     def ReqQryTransferSerial(self, pQryTransferSerial, nRequestID):
         """请求查询转帐流水"""
         return 0
@@ -353,6 +378,10 @@ class TraderApi(object):
 
     def ReqQryBrokerTradingAlgos(self, pQryBrokerTradingAlgos, nRequestID):
         """请求查询经纪公司交易算法"""
+        return 0
+
+    def ReqQueryCFMMCTradingAccountToken(self, pQueryCFMMCTradingAccountToken, nRequestID):
+        """请求查询监控中心用户令牌"""
         return 0
 
     def ReqFromBankToFutureByFuture(self, pReqTransfer, nRequestID):
@@ -451,6 +480,9 @@ class TraderApi(object):
     def OnRspQryExchange(self, pExchange, pRspInfo, nRequestID, bIsLast):
         """请求查询交易所响应"""
 
+    def OnRspQryProduct(self, pProduct, pRspInfo, nRequestID, bIsLast):
+        """请求查询产品响应"""
+
     def OnRspQryInstrument(self, pInstrument, pRspInfo, nRequestID, bIsLast):
         """请求查询合约响应"""
 
@@ -480,6 +512,21 @@ class TraderApi(object):
 
     def OnRspQryEWarrantOffset(self, pEWarrantOffset, pRspInfo, nRequestID, bIsLast):
         """请求查询仓单折抵信息响应"""
+
+    def OnRspQryInvestorProductGroupMargin(self, pInvestorProductGroupMargin, pRspInfo, nRequestID, bIsLast):
+        """请求查询投资者品种/跨品种保证金响应"""
+
+    def OnRspQryExchangeMarginRate(self, pExchangeMarginRate, pRspInfo, nRequestID, bIsLast):
+        """请求查询交易所保证金率响应"""
+
+    def OnRspQryExchangeMarginRateAdjust(self, pExchangeMarginRateAdjust, pRspInfo, nRequestID, bIsLast):
+        """请求查询交易所调整保证金率响应"""
+
+    def OnRspQryExchangeRate(self, pExchangeRate, pRspInfo, nRequestID, bIsLast):
+        """请求查询汇率响应"""
+
+    def OnRspQrySecAgentACIDMap(self, pSecAgentACIDMap, pRspInfo, nRequestID, bIsLast):
+        """请求查询二级代理操作员银期权限响应"""
 
     def OnRspQryTransferSerial(self, pTransferSerial, pRspInfo, nRequestID, bIsLast):
         """请求查询转帐流水响应"""
@@ -511,6 +558,9 @@ class TraderApi(object):
     def OnRtnErrorConditionalOrder(self, pErrorConditionalOrder):
         """提示条件单校验错误"""
 
+    def OnRtnCFMMCTradingAccountToken(self, pCFMMCTradingAccountToken):
+        """保证金监控中心用户令牌"""
+
     def OnRspQryContractBank(self, pContractBank, pRspInfo, nRequestID, bIsLast):
         """请求查询签约银行响应"""
 
@@ -528,6 +578,9 @@ class TraderApi(object):
 
     def OnRspQryBrokerTradingAlgos(self, pBrokerTradingAlgos, pRspInfo, nRequestID, bIsLast):
         """请求查询经纪公司交易算法响应"""
+
+    def OnRspQueryCFMMCTradingAccountToken(self, pQueryCFMMCTradingAccountToken, pRspInfo, nRequestID, bIsLast):
+        """请求查询监控中心用户令牌"""
 
     def OnRtnFromBankToFutureByBank(self, pRspTransfer):
         """银行发起银行资金转期货通知"""
