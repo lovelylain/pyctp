@@ -5,6 +5,7 @@ TASKS = (
     ('futures', None, 'ctp'),
     ('option', None, 'ctp'),
     ('stock2' if sys.platform == 'win32' else 'stock', 'stock', 'ctp'),
+    ('lts', None, 'ctp'),
 )
 
 dir = 'lib.%s-%s' % (get_platform(), sys.version[0:3])
