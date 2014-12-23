@@ -1,6 +1,6 @@
 from distutils.core import setup
+from distutils.util import get_platform
 from distutils.extension import Extension
-from sys import platform
 import re, sys, os, struct, shutil
 fp = open('ctp/__init__.py', 'rb'); data = fp.read(); fp.close()
 if sys.version_info[0] >= 3: data = data.decode('utf-8')
@@ -14,7 +14,7 @@ BUILD = (
     ('Level2Api', 'level2userapi'),
 )
 
-if platform != 'win32': platform = 'linux' + str(struct.calcsize('P') * 8)
+platform = get_platform()
 api_dir = PREFIX+'api/%s'%platform
 include_dirs = [PREFIX+'ctp', api_dir]
 library_dirs = [api_dir]
@@ -25,7 +25,7 @@ for k,v in BUILD:
         libraries=[v], sources=['ctp/%s.cpp'%k],
     )
     ext_modules.append(extm)
-    if platform == 'win32':
+    if platform.startswith('win'):
         k = '%s.dll'%v
     else:
         extm.extra_link_args = ['-Wl,-rpath,$ORIGIN']
