@@ -1,0 +1,25 @@
+在干净的XP环境下搭建pyctp2运行环境
+
+1. 设定python环境(python3.3.X)
+A.下载并安装 python3.3.5
+
+B. 设定环境变量
+    PYTHON_HOME = 安装目录
+    PATH 中添加 %PYTHON_HOME%
+
+2. 设定pyctp2环境
+下载并解压pyctp2,  父目录为applications
+执行pyctp2/ctp_api下 的 vcredist_x86.exe
+因为版上附件限制，现在这个文件单附。
+
+3. 配置自己的ctp参数
+更改 my目录下的ports.py文件
+将相应的IP地址更改为 自己期货公司提供的 行情及交易端 IP地址
+
+4. 执行
+工作目录为applications目录
+A. 行情记录
+python red.py pyctp2.sbin.md2 md_exec
+
+B. 交易(示例，开多5tick后马上平仓)
+python red.py pyctp2.sbin.xtrader play1
