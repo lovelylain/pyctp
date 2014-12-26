@@ -1,13 +1,13 @@
-#-*- coding:utf-8 -*-
+#-*- coding:gbk -*-
 
 '''
-    ctp marketdata ç›‘å¬
-    ä¸ctp_apiæ‰“äº¤é“çš„åº•å±‚æ¨¡å—
-    é¡»ä¿è¯ä¸ctp_apiè¡Œæƒ…ç›¸å…³éƒ¨åˆ†å‡å°è£…äºæœ¬æ¨¡å—
+    ctp marketdata ¼àÌı
+    Óëctp_api´ò½»µÀµÄµ×²ãÄ£¿é
+    Ğë±£Ö¤Óëctp_apiĞĞÇéÏà¹Ø²¿·Ö¾ù·â×°ÓÚ±¾Ä£¿é
 
     TODO:
-        è€ƒè™‘åˆ°ç‰¹æ®Šæƒ…å†µ, é¡»å°†æ¯æ—¥15:20-17:00ä½œä¸ºä¸å¯æ¥æ”¶æ—¶æ®µ,ä»¥ä¾¿æ•°æ®å¤„ç†. ä¸è¿‡éœ€è¦æ…é‡è€ƒè™‘æ˜¯å¦éœ€è¦. 
-        ç›®å‰è§‚å¯Ÿ
+        ¿¼ÂÇµ½ÌØÊâÇé¿ö, Ğë½«Ã¿ÈÕ15:20-17:00×÷Îª²»¿É½ÓÊÕÊ±¶Î,ÒÔ±ãÊı¾İ´¦Àí. ²»¹ıĞèÒªÉ÷ÖØ¿¼ÂÇÊÇ·ñĞèÒª. 
+        Ä¿Ç°¹Û²ì
         
 
 '''
@@ -18,31 +18,31 @@ import logging
 
 from ..common import base
 from ..common import utils
-from ..ctp_api import UserApiStruct as ustruct
-from ..ctp_api import UserApiType as utype
-from ..ctp_api.MdApi import MdApi, MdSpi
+from ctp.futures import ApiStruct as ustruct
+from ctp.futures import ApiStruct as utype
+from ctp.futures import MdApi
 
-class MdSpiDelegate(MdSpi):
+class MdSpiDelegate(MdApi):
     '''
-        å°†è¡Œæƒ…ä¿¡æ¯è½¬å‘åˆ°Controller
-        å…¶ä¸­éœ€è¦å°†è¡Œæƒ…ä¸­çš„åˆçº¦åæ›¿æ¢ä¸ºæ ‡å‡†å
-        ç›®å‰CTPæ‰€æä¾›çš„å³ä¸ºæ ‡å‡†å,æ•…ä¸éœ€è¦æ›¿æ¢
+        ½«ĞĞÇéĞÅÏ¢×ª·¢µ½Controller
+        ÆäÖĞĞèÒª½«ĞĞÇéÖĞµÄºÏÔ¼ÃûÌæ»»Îª±ê×¼Ãû
+        Ä¿Ç°CTPËùÌá¹©µÄ¼´Îª±ê×¼Ãû,¹Ê²»ĞèÒªÌæ»»
     '''
     logger = logging.getLogger('ctp.MdSpiDelegate')
     
     def __init__(self,
             name,
-            broker_id,   #æœŸè´§å…¬å¸ID
-            investor_id, #æŠ•èµ„è€…ID
-            passwd, #å£ä»¤
-            controller,  #å®é™…æ“ä½œè€…
+            broker_id,   #ÆÚ»õ¹«Ë¾ID
+            investor_id, #Í¶×ÊÕßID
+            passwd, #¿ÚÁî
+            controller,  #Êµ¼Ê²Ù×÷Õß
         ):       
         self._name = name
         self._instruments = set()
         self._broker_id =broker_id
         self._investor_id = investor_id
         self._passwd = passwd
-        self._cur_day = 0    #int(time.strftime('%Y%m%d'))   #å°½å¯èƒ½ä¸ä¾èµ–äºå½“å‰ç³»ç»Ÿçš„æ—¥æœŸ! #å½“å‰çš„å®é™…äº¤æ˜“æ—¥. å¤œç›˜å½’å…¥å½“æ—¥,è€Œéæ¬¡æ—¥!!
+        self._cur_day = 0    #int(time.strftime('%Y%m%d'))   #¾¡¿ÉÄÜ²»ÒÀÀµÓÚµ±Ç°ÏµÍ³µÄÈÕÆÚ! #µ±Ç°µÄÊµ¼Ê½»Ò×ÈÕ. Ò¹ÅÌ¹éÈëµ±ÈÕ,¶ø·Ç´ÎÈÕ!!
         self._controller = controller
         self._request_id = 0
 
@@ -68,32 +68,32 @@ class MdSpiDelegate(MdSpi):
 
     def user_login(self, broker_id, investor_id, passwd):
         req = ustruct.ReqUserLogin(BrokerID=broker_id, UserID=investor_id, Password=passwd)
-        r=self.api.ReqUserLogin(req,self.inc_request_id())
+        r=self.ReqUserLogin(req,self.inc_request_id())
 
     def OnRspUserLogin(self, userlogin, info, rid, is_last):
         self.logger.info('MD:user login:%s,info:%s,rid:%s,is_last:%s' % (userlogin,info,rid,is_last))
         logging.info(self._instruments)
         logging.info('is_last=%s,errorCheck:%s' % (is_last,self.checkErrorRspInfo(info)))
         if is_last and not self.checkErrorRspInfo(info):
-            self.logger.info("MD:get today's trading day:%s" % repr(self.api.GetTradingDay()))
+            self.logger.info("MD:get today's trading day:%s" % repr(self.GetTradingDay()))
             self.subscribe_market_data(self._instruments)
 
     def subscribe_market_data(self, instruments):
         if instruments:
-            self.api.SubscribeMarketData(list(instruments))
+            self.SubscribeMarketData(list(instruments))
 
     def unsubscribe_market_data(self, instruments):
         if instruments:
-            self.api.UnSubscribeMarketData(list(instruments))
+            self.UnSubscribeMarketData(list(instruments))
 
     def update_instruments(self,cur_instruments):
         '''
-            å¢è®¢æ–°å¢åˆçº¦
-            é€€è®¢ä¸å†ç›‘å¬çš„åˆçº¦
+            Ôö¶©ĞÂÔöºÏÔ¼
+            ÍË¶©²»ÔÙ¼àÌıµÄºÏÔ¼
         '''
         instruments_new = [ instrument for instrument in cur_instruments if instrument not in self._instruments]
         instruments_discard = [ instrument for instrument in self._instruments if instrument not in cur_instruments]
-        self._instruments.update(instruments_new)    #set æ²¡æœ‰ += çš„è¿ç®—ç¬¦
+        self._instruments.update(instruments_new)    #set Ã»ÓĞ += µÄÔËËã·û
         self.subscribe_market_data(instruments_new)
         self._instruments -= set(instruments_discard)
         self.unsubscribe_market_data(instruments_discard)
@@ -103,22 +103,22 @@ class MdSpiDelegate(MdSpi):
     def OnRtnDepthMarketData(self, depth_market_data):
         #print(depth_market_data.BidPrice1,depth_market_data.BidVolume1,depth_market_data.AskPrice1,depth_market_data.AskVolume1,depth_market_data.LastPrice,depth_market_data.Volume,depth_market_data.UpdateTime,depth_market_data.UpdateMillisec,depth_market_data.InstrumentID)
         #print('on data......\n')
-        try: #é¡»ç¡®ä¿è¿™é‡Œä¸ä¼šå‡ºå•¥é—®é¢˜
+        try: #ĞëÈ·±£ÕâÀï²»»á³öÉ¶ÎÊÌâ
             dp = depth_market_data
-            #print('thread id:',threading.current_thread().ident,dp.InstrumentID,dp.UpdateTime,dp.UpdateMillisec,dp.TradingDay) #å¤œç›˜çš„TradeingDayå±äºæ¬¡æ—¥,ä½†updateTimeæœªå˜
+            #print('thread id:',threading.current_thread().ident,dp.InstrumentID,dp.UpdateTime,dp.UpdateMillisec,dp.TradingDay) #Ò¹ÅÌµÄTradeingDayÊôÓÚ´ÎÈÕ,µ«updateTimeÎ´±ä
             #time.sleep(10)
             if depth_market_data.LastPrice > 999999 or depth_market_data.LastPrice < 10:
-                self.logger.warning('MD:æ”¶åˆ°çš„è¡Œæƒ…æ•°æ®æœ‰è¯¯:%s,LastPrice=:%s' %(depth_market_data.InstrumentID,depth_market_data.LastPrice))
+                self.logger.warning('MD:ÊÕµ½µÄĞĞÇéÊı¾İÓĞÎó:%s,LastPrice=:%s' %(depth_market_data.InstrumentID,depth_market_data.LastPrice))
             if depth_market_data.InstrumentID not in self._instruments:
-                self.logger.warning('MD:æ”¶åˆ°æœªè®¢é˜…çš„è¡Œæƒ…:%s' %(depth_market_data.InstrumentID,))
+                self.logger.warning('MD:ÊÕµ½Î´¶©ÔÄµÄĞĞÇé:%s' %(depth_market_data.InstrumentID,))
                 return
-            #self.logger.debug(u'æ”¶åˆ°è¡Œæƒ…:%s,time=%s:%s' %(depth_market_data.InstrumentID,depth_market_data.UpdateTime,depth_market_data.UpdateMillisec))
+            #self.logger.debug('ÊÕµ½ĞĞÇé:%s,time=%s:%s' %(depth_market_data.InstrumentID,depth_market_data.UpdateTime,depth_market_data.UpdateMillisec))
             #4print(dp.InstrumentID,dp.UpdateTime,dp.UpdateMillisec)
             is_updated = self._controller.check_last(dp.InstrumentID,dp.UpdateTime,dp.UpdateMillisec,dp.Volume)
             if is_updated:
                 ctick = self.market_data2tick(depth_market_data)
                 if ctick:
-                    if ctick.date > self._cur_day:   #è¿™æ ·,cur_dayå®Œå…¨ç”±tické©±åŠ¨
+                    if ctick.date > self._cur_day:   #ÕâÑù,cur_dayÍêÈ«ÓÉtickÇı¶¯
                         self._cur_day = ctick.date
                     self._controller.new_tick(ctick)
             else:
@@ -128,20 +128,20 @@ class MdSpiDelegate(MdSpi):
         
     def market_data2tick(self,market_data):
         """
-            market_dataçš„æ ¼å¼è½¬æ¢å’Œæ•´ç†, äº¤æ˜“æ•°æ®éƒ½è½¬æ¢ä¸ºæ•´æ•°
-            å¤œç›˜åœ¨æ—¥æœŸè®°å½•ä¸Šçš„å½’å±:
-                1. 0:0ä¹‹å‰, å½’å±äºå‰ä¸€äº¤æ˜“æ—¥
-                2. 0:0åŠä¹‹å,å½’å±äºä¸‹ä¸€äº¤æ˜“æ—¥
-                è¿™ä¹ˆåšæ˜¯ä¸ºäº†é¿å… éƒ½å½’äºä¸‹ä¸€äº¤æ˜“æ—¥æ—¶,å‡ºç°çš„è¯¥äº¤æ˜“æ—¥ 23:59çš„æ•°æ®å…ˆäº 00:01å‡ºç°çš„æƒ…å†µ
+            market_dataµÄ¸ñÊ½×ª»»ºÍÕûÀí, ½»Ò×Êı¾İ¶¼×ª»»ÎªÕûÊı
+            Ò¹ÅÌÔÚÈÕÆÚ¼ÇÂ¼ÉÏµÄ¹éÊô:
+                1. 0:0Ö®Ç°, ¹éÊôÓÚÇ°Ò»½»Ò×ÈÕ
+                2. 0:0¼°Ö®ºó,¹éÊôÓÚÏÂÒ»½»Ò×ÈÕ
+                ÕâÃ´×öÊÇÎªÁË±ÜÃâ ¶¼¹éÓÚÏÂÒ»½»Ò×ÈÕÊ±,³öÏÖµÄ¸Ã½»Ò×ÈÕ 23:59µÄÊı¾İÏÈÓÚ 00:01³öÏÖµÄÇé¿ö
         """
         try:
-            state = 'å¼€å§‹'
+            state = '¿ªÊ¼'
             rev = base.TICK(instrument = market_data.InstrumentID,date=self._cur_day)
             rev.min1 = int(market_data.UpdateTime[:2]+market_data.UpdateTime[3:5])
             if len(market_data.TradingDay.strip()) > 0:
                 rev.tdate = int(market_data.TradingDay)
             else:
-                raise ValueError("ä¼ å…¥çš„TradingDayé”™è¯¯,TradingDay=%s" % (market_data.TradingDay,))
+                raise ValueError("´«ÈëµÄTradingDay´íÎó,TradingDay=%s" % (market_data.TradingDay,))
             if rev.min1 >= base.NIGHT_BEGIN:
                 if self._cur_day > 0:
                     rev.date = self._cur_day
@@ -159,21 +159,21 @@ class MdSpiDelegate(MdSpi):
             rev.high = market_data.HighestPrice + base.EPSL
             rev.low = market_data.LowestPrice + base.EPSL
             rev.time = rev.date%10000 * 1000000+ rev.min1*100 + rev.sec
-            #æ·»åŠ rev.tdateæ˜¯ä¸ºäº†å¤„ç†å¤œç›˜æƒ…å†µ
-            state = 'å®Œæˆ:low, market_data.BidPrice1=%d' % (market_data.BidPrice1,)
+            #Ìí¼Órev.tdateÊÇÎªÁË´¦ÀíÒ¹ÅÌÇé¿ö
+            state = 'Íê³É:low, market_data.BidPrice1=%d' % (market_data.BidPrice1,)
             rev.bid_price = market_data.BidPrice1+ base.EPSL
-            state = 'å®Œæˆ:bid_price'
+            state = 'Íê³É:bid_price'
             rev.bid_volume = market_data.BidVolume1
-            state = 'å®Œæˆ:bid_volume'
+            state = 'Íê³É:bid_volume'
             rev.ask_price = market_data.AskPrice1 + base.EPSL
             rev.ask_volume = market_data.AskVolume1
-            #self.logger.warning(u'MD:è¡Œæƒ…æ•°æ®:%s' % market_data)
+            #self.logger.warning('MD:ĞĞÇéÊı¾İ:%s' % market_data)
             if not rev.is_valid():
                 raise ValueError("tick not valid")
         except Exception as inst:
-            self.logger.warning(u'MD:è¡Œæƒ…æ•°æ®è½¬æ¢é”™è¯¯:%s,èµ‹å€¼è¿›ç¨‹=%s' % (str(inst),state))
-            self.logger.warning(u'MD:è¡Œæƒ…æ•°æ®è½¬æ¢é”™è¯¯,æºè®°å½•:%s' % market_data)
-            self.logger.warning('MD:%s è¡Œæƒ…æ•°æ®è½¬æ¢é”™è¯¯:%s,updateTime="%s",msec="%s",tday="%s"' % (market_data.InstrumentID,str(inst),market_data.UpdateTime,market_data.UpdateMillisec,market_data.TradingDay))
+            self.logger.warning('MD:ĞĞÇéÊı¾İ×ª»»´íÎó:%s,¸³Öµ½ø³Ì=%s' % (str(inst),state))
+            self.logger.warning('MD:ĞĞÇéÊı¾İ×ª»»´íÎó,Ô´¼ÇÂ¼:%s' % market_data)
+            self.logger.warning('MD:%s ĞĞÇéÊı¾İ×ª»»´íÎó:%s,updateTime="%s",msec="%s",tday="%s"' % (market_data.InstrumentID,str(inst),market_data.UpdateTime,market_data.UpdateMillisec,market_data.TradingDay))
             return None
         return rev
 

@@ -30,14 +30,14 @@ class XTrader(object):
         controller = self._env._controller
         users = []
         for port in mduser.ports:   #多路注册
-            user = cm.MdApi.CreateMdApi('%s/%s' % (INFO_PATH,mduser.name))
             md_spi = cm.MdSpiDelegate(name=mduser.name,
                                  broker_id=mduser.broker,
                                  investor_id= mduser.investor,
                                  passwd= mduser.passwd,
                                  controller = controller,
                         )
-            user.RegisterSpi(md_spi)
+            user = md_spi
+            user.Create('%s/%s' % (INFO_PATH,mduser.name))
             controller.add_listener(md_spi)
             user.RegisterFront(port)
             #print('before init')

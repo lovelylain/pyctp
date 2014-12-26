@@ -7,22 +7,19 @@
 import logging
 from datetime import datetime
 
-from ..ctp_api import UserApiStruct as UStruct
-from ..ctp_api import UserApiType as UType
+from ctp.futures import TraderApi
+from ctp.futures import ApiStruct as UStruct
+from ctp.futures import ApiStruct as UType
 
 from ..common.base import BaseObject,LONG,SHORT,TICK
 from ..common.base import TEST_PATH as LOG_PATH
 from ..common.contract_type import CM_ALL_TEST as call,ContractInfo
 
 
-class TraderApiStub(object):
+class TraderApiStub(TraderApi):
     logger = logging.getLogger('ctp.TraderApiStub')
 
-    @staticmethod
-    def CreateTraderApi(account,available = 1000000):
-        return TraderApiStub(account,available)
-
-    def __init__(self,account,available):
+    def Create(self,account,available = 1000000):
         self._account = account
         self._trading_day = datetime.now().strftime("%Y%m%d")
         self._exchange = ExchangeStub(self._trading_day,available)
@@ -32,8 +29,8 @@ class TraderApiStub(object):
         self._front_id = 0
         self._session_id = 999999
         self._defaultReqInfo = BaseObject(BrokerID = self._broker_id,InvestorID = self._investor_id)
-        self._suceessRspInfo = UStruct.RspInfo(0,"No errors")
-        self._failureRspInfo = UStruct.RspInfo(1,"Error")
+        self._suceessRspInfo = UStruct.RspInfo(0,b"No errors")
+        self._failureRspInfo = UStruct.RspInfo(1,b"Error")
         self._init_order_ref = 10000000
         self._current_order_sys_id = 20000000
         #self._contracts = dict([(contract.name,contract) for contract in call.current_contracts()])
@@ -68,14 +65,6 @@ class TraderApiStub(object):
     @property
     def available(self):
         return self._exchange._available
-
-    def RegisterSpi(self, pSpi):
-        ''' 注册回调接口
-            @param pSpi 派生自回调接口类的实例
-        '''
-        self.spi = pSpi
-        pSpi.register_api(self)
-        return True
 
     def inc_order_sys_id(self):
         self._current_order_sys_id += 1
@@ -198,7 +187,7 @@ class TraderApiStub(object):
 
     def ReqSettlementInfoConfirm(self, pSettlementInfoConfirm, nRequestID):
         '''投资者结算结果确认'''
-        self.spi.OnRspSettlementInfoConfirm(pSettlementInfoConfirm, self._suceessRspInfo, nRequestID, True)
+        self.OnRspSettlementInfoConfirm(pSettlementInfoConfirm, self._suceessRspInfo, nRequestID, True)
 
     def Join(self, ):
         '''等待接口线程结束运行
@@ -217,7 +206,7 @@ class TraderApiStub(object):
             uprice = 99999999
             lprice = 0
         dmdata = UStruct.DepthMarketData(InstrumentID=pQryDepthMarketData.InstrumentID,TradingDay=self._trading_day,UpperLimitPrice=uprice,LowerLimitPrice=lprice)
-        self.spi.OnRspQryDepthMarketData(dmdata, self._suceessRspInfo, nRequestID, True)
+        self.OnRspQryDepthMarketData(dmdata, self._suceessRspInfo, nRequestID, True)
         self.logger.info("TAStub-RQDMD:%s" % (pQryDepthMarketData.InstrumentID,))
 
     def RegisterFensUserInfo(self, pFensUserInfo):
@@ -240,7 +229,7 @@ class TraderApiStub(object):
         '''请求查询合约保证金率'''
         #print("query marginrate:",pQryInstrumentMarginRate.InstrumentID)
         im = UStruct.InstrumentMarginRate(InstrumentID=pQryInstrumentMarginRate.InstrumentID,LongMarginRatioByMoney=0.1,ShortMarginRatioByMoney=0.1)
-        self.spi.OnRspQryInstrumentMarginRate(im, self._suceessRspInfo, nRequestID, True)
+        self.OnRspQryInstrumentMarginRate(im, self._suceessRspInfo, nRequestID, True)
 
     def ReqOrderInsert(self, pInputOrder, nRequestID):
         '''报单录入请求
@@ -256,7 +245,7 @@ class TraderApiStub(object):
         #print("ROI:1:",pInputOrder.InstrumentID)
         if pInputOrder.InstrumentID[:2] == "XH":    #测试CTP_REJECT专用通道
             #调用CTP_REJECT
-            self.spi.OnRspOrderInsert(pInputOrder, self._failureRspInfo, nRequestID, True)
+            self.OnRspOrderInsert(pInputOrder, self._failureRspInfo, nRequestID, True)
             return
 
         self._orders.append(pInputOrder)
@@ -271,39 +260,39 @@ class TraderApiStub(object):
                                OrderRef = nRequestID,
                                FrontID = self._front_id,
                                SessionID = self._session_id,
-                               OrderStatus = UType.THOST_FTDC_OST_Unknown,
+                               OrderStatus = UType.OST_Unknown,
                                CombOffsetFlag = pInputOrder.CombOffsetFlag,
                             )
         #print(pOrder)
-        #efunc = self._exchange.add if pInputOrder.CombOffsetFlag == UType.THOST_FTDC_OF_Open else self._exchange.remove
-        efunc = self._exchange.lock if pInputOrder.CombOffsetFlag == UType.THOST_FTDC_OF_Open else self._exchange.check_holding
+        #efunc = self._exchange.add if pInputOrder.CombOffsetFlag == UType.OF_Open else self._exchange.remove
+        efunc = self._exchange.lock if pInputOrder.CombOffsetFlag == UType.OF_Open else self._exchange.check_holding
         if not efunc(self._contracts[pInputOrder.InstrumentID],pInputOrder.Direction,pInputOrder.VolumeTotalOriginal,pOrder.LimitPrice):
             #保证金或平仓数不够, CTP拒绝
             logging.warning("TAStub-ROI:CTP拒绝")
             #print("TAStub-ROI:CTP拒绝")
-            self.spi.OnErrRtnOrderInsert(pInputOrder, self._failureRspInfo)
-            pOrder.OrderSubmitStatus = UType.THOST_FTDC_OSS_InsertRejected
-            self.spi.OnRtnOrder(pOrder)
+            self.OnErrRtnOrderInsert(pInputOrder, self._failureRspInfo)
+            pOrder.OrderSubmitStatus = UType.OSS_InsertRejected
+            self.OnRtnOrder(pOrder)
             return
         #print("TAStub-ROI:CTP ACCEPT")
 
         #CTP_ACCEPT
-        pOrder.OrderSubmitStatus = UType.THOST_FTDC_OSS_InsertSubmitted
-        self.spi.OnRtnOrder(pOrder)
+        pOrder.OrderSubmitStatus = UType.OSS_InsertSubmitted
+        self.OnRtnOrder(pOrder)
         #print("ROI CTP ACCEPTED: ",pInputOrder.InstrumentID)
         if pInputOrder.InstrumentID[:2] == "XX":
             #调用EXCHANGE_REJECT,
-            self.spi.OnErrRtnOrderInsert(pInputOrder, self._failureRspInfo)
-            pOrder.OrderSubmitStatus = UType.THOST_FTDC_OSS_InsertRejected
-            self.spi.OnRtnOrder(pOrder) #理论上应该有两次reject调用
+            self.OnErrRtnOrderInsert(pInputOrder, self._failureRspInfo)
+            pOrder.OrderSubmitStatus = UType.OSS_InsertRejected
+            self.OnRtnOrder(pOrder) #理论上应该有两次reject调用
             return
 
         #EXCHANGE_ACCEPT
         #print("ROI EXCHANGE ACCEPTED: ",pInputOrder.InstrumentID)
         pOrder.ExchangeID = self._exchange_id
         pOrder.OrderSysID = self.inc_order_sys_id()
-        pOrder.OrderSubmitStatus = UType.THOST_FTDC_OSS_Accepted
-        self.spi.OnRtnOrder(pOrder) #
+        pOrder.OrderSubmitStatus = UType.OSS_Accepted
+        self.OnRtnOrder(pOrder) #
 
         pOrder.volume_wanted = pInputOrder.VolumeTotalOriginal
         self._wlist.setdefault(pOrder.InstrumentID,[]).append(pOrder)
@@ -329,9 +318,9 @@ class TraderApiStub(object):
 
     def _check_trade_one(self,pOrder,last_tick):
         #print(last_tick.price,pOrder.LimitPrice)
-        if pOrder.Direction == UType.THOST_FTDC_D_Buy and last_tick.price > pOrder.LimitPrice:
+        if pOrder.Direction == UType.D_Buy and last_tick.price > pOrder.LimitPrice:
             return False
-        elif pOrder.Direction == UType.THOST_FTDC_D_Sell and last_tick.price < pOrder.LimitPrice:
+        elif pOrder.Direction == UType.D_Sell and last_tick.price < pOrder.LimitPrice:
             return False
 
         #print("check_trade_one:True")
@@ -341,8 +330,8 @@ class TraderApiStub(object):
 
         #正确完成状态: 全部成功
         pOrder.VolumeTraded = pOrder.volume_wanted
-        pOrder.OrderStatus = UType.THOST_FTDC_OST_AllTraded
-        self.spi.OnRtnOrder(pOrder) #
+        pOrder.OrderStatus = UType.OST_AllTraded
+        self.OnRtnOrder(pOrder) #
 
         #RTN_TRADE
         pTrade = UStruct.Trade(InstrumentID=pOrder.InstrumentID,
@@ -356,8 +345,8 @@ class TraderApiStub(object):
                                Volume = pOrder.VolumeTraded,
                                Price = last_tick.price,
                 )
-        self.spi.OnRtnTrade(pTrade)
-        if pOrder.CombOffsetFlag == UType.THOST_FTDC_OF_Open:
+        self.OnRtnTrade(pTrade)
+        if pOrder.CombOffsetFlag == UType.OF_Open:
             self._exchange.add(self._contracts[pOrder.InstrumentID],pOrder.Direction,pOrder.VolumeTotalOriginal,last_tick.price,pOrder.LimitPrice)
         else:
             self._exchange.remove(self._contracts[pOrder.InstrumentID],pOrder.Direction,pOrder.VolumeTotalOriginal,last_tick.price)
@@ -377,7 +366,7 @@ class TraderApiStub(object):
                                     Balance=self._exchange.balance,
                                     CurrMargin=self._exchange.margin,
                     )
-        self.spi.OnRspQryTradingAccount(ta, self._suceessRspInfo, nRequestID, True)
+        self.OnRspQryTradingAccount(ta, self._suceessRspInfo, nRequestID, True)
 
     def SubscribePublicTopic(self, nResumeType):
         '''订阅公共流。
@@ -425,7 +414,7 @@ class TraderApiStub(object):
         contract = ContractInfo(pQryInstrument.InstrumentID,ctype)
         self._add_contract(contract)
         instr = UStruct.Instrument(InstrumentID=pQryInstrument.InstrumentID,ExchangeID=ctype.exchange_name,PriceTick=ctype.unit,VolumeMultiple=ctype.multiplier)
-        self.spi.OnRspQryInstrument(instr, self._suceessRspInfo, nRequestID, True)
+        self.OnRspQryInstrument(instr, self._suceessRspInfo, nRequestID, True)
 
     def ReqQueryMaxOrderVolume(self, pQueryMaxOrderVolume, nRequestID):
         '''查询最大报单数量请求'''
@@ -446,7 +435,7 @@ class TraderApiStub(object):
         '''用户登录请求'''
         self.logger.info("TAStub-ROI:%s" % (str(pReqUserLoginField),))
         rul = UStruct.RspUserLogin(BrokerID=self._broker_id,FrontID=self._front_id,SessionID=self._session_id,MaxOrderRef=self._init_order_ref,TradingDay=self._trading_day)
-        self.spi.OnRspUserLogin(rul, self._suceessRspInfo, nRequestID, True)
+        self.OnRspUserLogin(rul, self._suceessRspInfo, nRequestID, True)
 
     def Init(self, ):
         '''初始化
@@ -473,13 +462,6 @@ class TraderApiStub(object):
         @retrun 获取到的交易日
         @remark 只有登录成功后,才能得到正确的交易日'''
         return self._trading_day
-
-    #def RegisterSpi(self, pSpi):
-    #    '''注册回调接口
-    #        @param pSpi 派生自回调接口类的实例
-    #    '''
-    #    self.spi = pSpi
-    #    return 1
 
     def ReqQryTradingNotice(self, pQryTradingNotice, nRequestID):
         '''请求查询交易通知'''
@@ -537,22 +519,22 @@ class TraderApiStub(object):
             self._cancelled += 1
             #取消的各种状态
             #莫名失败
-            porder.OrderStatus = UType.THOST_FTDC_OST_NoTradeNotQueueing
-            self.spi.OnRtnOrder(porder) #
+            porder.OrderStatus = UType.OST_NoTradeNotQueueing
+            self.OnRtnOrder(porder) #
             #部分取消
-            porder.OrderStatus = UType.THOST_FTDC_OST_PartTradedNotQueueing
-            self.spi.OnRtnOrder(porder) #
+            porder.OrderStatus = UType.OST_PartTradedNotQueueing
+            self.OnRtnOrder(porder) #
             #全部取消
-            porder.OrderStatus = UType.THOST_FTDC_OST_Canceled
-            self.spi.OnRtnOrder(porder) #
+            porder.OrderStatus = UType.OST_Canceled
+            self.OnRtnOrder(porder) #
         else:   #在CancelInstruction中作了设置,正常不可能进这个分支
             #已经成交
             self._cancel_after_traded += 1
             #print("已经成交,不能撤单")
             pioa = UStruct.InputOrderAction()
-            self.spi.OnRspOrderAction(pioa, self._failureRspInfo, nRequestID, True)
+            self.OnRspOrderAction(pioa, self._failureRspInfo, nRequestID, True)
             poa = UStruct.OrderAction()
-            self.spi.OnErrRtnOrderAction(poa, self._failureRspInfo)
+            self.OnErrRtnOrderAction(poa, self._failureRspInfo)
 
     def Release(self, ):
         '''删除接口对象本身
@@ -562,7 +544,7 @@ class TraderApiStub(object):
     def ReqQrySettlementInfo(self, pQrySettlementInfo, nRequestID):
         '''请求查询投资者结算结果'''
         si = UStruct.SettlementInfo(TradingDay=self._trading_day)
-        self.spi.OnRspQrySettlementInfo(si, self._suceessRspInfo, nRequestID, True)
+        self.OnRspQrySettlementInfo(si, self._suceessRspInfo, nRequestID, True)
 
     def ReqQryTradingCode(self, pQryTradingCode, nRequestID):
         '''请求查询交易编码'''
@@ -621,11 +603,11 @@ class ExchangeStub(object):
 
     def dsignal(self,direction):
         ''' 开仓，对LONG为+, SHORT为-'''
-        return '+' if direction == UType.THOST_FTDC_D_Buy else '-'
+        return '+' if direction == UType.D_Buy else '-'
 
     def ndsignal(self,direction):
         ''' 平仓，对LONG为-, SHORT为+，即平仓需要校验的是相反的持仓,即平空是针对的多仓'''
-        return '-' if direction == UType.THOST_FTDC_D_Buy else '+'
+        return '-' if direction == UType.D_Buy else '+'
 
     def lock(self,contract,direction,volume,price):
         """
@@ -650,7 +632,7 @@ class ExchangeStub(object):
     def add(self,contract,direction,volume,price,locked_price):
         """
         :param contract:    contract_type.ContractInfo 实例
-        :param direction:   UType.THOST_FTDC_D_Buy/Sell
+        :param direction:   UType.D_Buy/Sell
         :param volume:      交易手数
         :param price:       最后一次tick的价格
         :return:            是否成功. 全部成功或者全部不成功

@@ -73,9 +73,9 @@ class DeferTradeCommand(DeferCommand):
     def __lt__(self,other):     #同优先级比较
         #return self._trade_command.priority < other._trade_command.priority
         #print("in lt")
-        if super().__lt__(other):   #如果时间不同则不需要再判断
+        if super(DeferTradeCommand, self).__lt__(other):   #如果时间不同则不需要再判断
             return True
-        elif super().__eq__(other) and isinstance(other,DeferTradeCommand): #只有当时间相同且均为DerferTradeCommand时,才需要继续比较优先级
+        elif super(DeferTradeCommand, self).__eq__(other) and isinstance(other,DeferTradeCommand): #只有当时间相同且均为DerferTradeCommand时,才需要继续比较优先级
             return self._trade_command.priority < other._trade_command.priority
         else:
             return False
@@ -84,9 +84,9 @@ class DeferTradeCommand(DeferCommand):
     def __gt__(self,other): #也可不用
         #return self._trade_command.priority > other._trade_command.priority
         #print("in gt")
-        if super().__gt__(other):   #如果时间不同则不需要再判断
+        if super(DeferTradeCommand, self).__gt__(other):   #如果时间不同则不需要再判断
             return True
-        elif super().__eq__(other) and isinstance(other,DeferTradeCommand): #只有当时间相同且均为DerferTradeCommand时,才需要继续比较优先级
+        elif super(DeferTradeCommand, self).__eq__(other) and isinstance(other,DeferTradeCommand): #只有当时间相同且均为DerferTradeCommand时,才需要继续比较优先级
             return self._trade_command.priority > other._trade_command.priority
         else:
             return False

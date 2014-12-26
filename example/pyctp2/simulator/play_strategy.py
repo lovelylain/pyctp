@@ -42,7 +42,7 @@ class SExampleA(BaseStrategy):
         Strategy示例. 即刻平仓
     """
 
-    def __init__(self,holder:StrategyAgent,max_times_per_day=5):
+    def __init__(self,holder,max_times_per_day=5):
         BaseStrategy.__init__(self,holder)
         self.is_full = False
         self.max_lost = 50      #以最小跳动为单位
@@ -51,7 +51,7 @@ class SExampleA(BaseStrategy):
         self.max_times_per_day = max_times_per_day
         self.ntick = 0
 
-    def check_open(self,ctick,CA:ContractInfo):
+    def check_open(self,ctick,CA):
         """
             直接发出信号
         """
@@ -100,7 +100,7 @@ class SExampleA(BaseStrategy):
             self.is_full = True
             popen.planned = popen.unit = 0
 
-    def _check_close(self,ctick,position,params:CloserParameter,CA):
+    def _check_close(self,ctick,position,params,CA):
         '''
             CA为目标Contract
             params为CloserParameter对象,包含如下内容:
@@ -115,17 +115,17 @@ class SExampleA(BaseStrategy):
 
 
 class  SExampleA5(SExampleA):
-    def __init__(self,holder:StrategyAgent):
+    def __init__(self,holder):
         SExampleA.__init__(self,holder)
         self.xtick = 0
 
-    def check_open(self,ctick,CA:ContractInfo):
+    def check_open(self,ctick,CA):
         rev = SExampleA.check_open(self,ctick,CA)
         if rev:
             self.xtick = self.ntick
         return rev
 
-    def _check_close(self,ctick,position,params:CloserParameter,CA):
+    def _check_close(self,ctick,position,params,CA):
         if self.ntick > self.xtick + 5:
             print("A5 close time:",ctick.time,self.ntick)
             return SExampleA._check_close(self,ctick,position,params,CA)
@@ -138,7 +138,7 @@ class SExampleAB(BaseStrategy):
         比如跟踪CA,CB且比例为1, 则新目标的tick = CA.tick - CB.tick
         这样，实际上target的ticks的长度是 len(CA.ticks) + len(CB.ticks)
     '''
-    def __init__(self,holder:StrategyAgent):
+    def __init__(self,holder):
         BaseStrategy.__init__(self,holder)
         self.is_full = False
         self.max_lost = 50      #以最小跳动为单位
@@ -231,7 +231,7 @@ class SExampleAB(BaseStrategy):
 
 
 class  SExampleAB5(SExampleAB):
-    def __init__(self,holder:StrategyAgent):
+    def __init__(self,holder):
         SExampleAB.__init__(self,holder)
         self.xtick = 0
 

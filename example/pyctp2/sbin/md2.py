@@ -24,14 +24,14 @@ def make_users(mduser,contract_managers):
     tt = ctl.Scheduler(160000,controller.day_finalize,24*60*60)
     users = []
     for port in mduser.ports:   #多路注册
-        user = cm.MdApi.CreateMdApi('%s/%s' % (INFO_PATH,mduser.name))
         md_spi = cm.MdSpiDelegate(name=mduser.name,
                                  broker_id=mduser.broker,
                                  investor_id= mduser.investor,
                                  passwd= mduser.passwd,
                                  controller = controller,
                         )
-        user.RegisterSpi(md_spi)
+        user = md_spi
+        user.Create('%s/%s' % (INFO_PATH,mduser.name))
         controller.add_listener(md_spi)
         user.RegisterFront(port)
         #print('before init')

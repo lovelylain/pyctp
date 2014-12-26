@@ -216,7 +216,7 @@ class Coordinator(ManagedAgent,Updateable):
             if agent != last_agent:
                 agent.s2close_only()
 
-    def transfer(self,agent_from:StrategyAgent,agent_to:StrategyAgent): #将仓位从agent_from移转到agent_to #TODO:TEST
+    def transfer(self,agent_from,agent_to): #将仓位从agent_from移转到agent_to #TODO:TEST
         """
             其中在agent中,按 contracts的顺序对应移转的合约和仓位
         """

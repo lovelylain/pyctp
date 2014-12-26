@@ -5,7 +5,17 @@ import datetime
 import time
 import logging
 
-from inspect import getfullargspec
+from inspect import getargspec
+
+from types import GetSetDescriptorType, MemberDescriptorType
+def with_metaclass(metaclass):
+    """Return a decorator to create a new class with metaclass."""
+    def decorator(cls):
+        d = dict((k,v) for k,v in cls.__dict__.items() if
+            not isinstance(v, GetSetDescriptorType) and
+            not isinstance(v, MemberDescriptorType))
+        return metaclass(cls.__name__, cls.__bases__, d)
+    return decorator
 
 MY_FORMAT = '%(name)s:%(funcName)s:%(lineno)d:%(asctime)s %(levelname)s %(message)s'
 CONSOLE_FORMAT = '**%(message)s'
@@ -169,7 +179,7 @@ class ArgsCached(type): #TODO:TEST, 用在ContractInfo的缓存上
         return inst
 
     def _match_init_args(cls,*args,**kwargs):
-        fspec = getfullargspec(cls.__init__)
+        fspec = getargspec(cls.__init__)
         if fspec.defaults:
             pairs = dict(zip(fspec.args[-len(fspec.defaults):],fspec.defaults))
         else:
@@ -196,7 +206,7 @@ class TList(list):
         以在截断时通知调用者知晓被截断数
     """
     def __init__(self,*args,**kwargs):
-        super().__init__(*args,**kwargs)
+        super(TList, self).__init__(*args,**kwargs)
         self._receivers = {}
 
     def remove_all(self):

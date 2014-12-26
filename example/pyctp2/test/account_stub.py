@@ -9,6 +9,9 @@ from .trader_api_stub import TraderApiStub
 from ..trader.trade_command_queue import TradeCommandQueueStub,BaseTradeCommandQueue
 from ..trader.trade_command import QueryAccountCommand
 
+class TraderSpiStub(TraderSpiDelegate, TraderApiStub):
+    pass
+
 class AccountStub(Account):
     """
         使用真实的SPI,以及Stub的API
@@ -29,14 +32,14 @@ class AccountStub(Account):
 
     def initialize(self,TCQ):
         self._env.register_account(self)
-        self.spi = TraderSpiDelegate(self._ports_info.broker,self._ports_info.investor,self._ports_info.passwd)
+        self.spi = TraderSpiStub(self._ports_info.broker,self._ports_info.investor,self._ports_info.passwd)
 
         self.trade_queue = TCQ(self._env,self)
         self.spi.queue = self.trade_queue
         #print("in trade_spi_stub initialize")
-        self.api = TraderApiStub.CreateTraderApi(self,self._available)
+        self.api = self.spi
         #print("in TAS_RS:Before RegisterSPI")
-        self.api.RegisterSpi(self.spi)
+        self.api.Create(self,self._available)
         #print("in TAS_RS:After RegisterSPI")
         #self.trade_queue.start()
         self.trade_queue.put_command(QueryAccountCommand(self._stamp))

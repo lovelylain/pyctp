@@ -1,11 +1,11 @@
-#-*- coding:utf-8 -*-
+#-*- coding:gbk -*-
 
 import logging
 import threading
 
-from ..ctp_api.TraderApi import TraderSpi
-from ..ctp_api import UserApiStruct as UStruct
-from ..ctp_api import UserApiType as UType
+from ctp.futures import TraderApi
+from ctp.futures import ApiStruct as UStruct
+from ctp.futures import ApiStruct as UType
 
 from ..common.base import (BaseObject,
                            LONG,
@@ -18,11 +18,11 @@ from ..trader.position import ORDER_STATUS
 
 
 
-class TraderSpiDelegate(TraderSpi):
+class TraderSpiDelegate(TraderApi):
     """
-        å°†æœåŠ¡å™¨å›åº”è½¬å‘åˆ°Agent
-        å¹¶è‡ªè¡Œå¤„ç†æ‚åŠ¡
-        SPIå›è°ƒå‡½æ•°ä¸­å¦‚éœ€è¦å†æ¬¡è°ƒç”¨TradeApi, åˆ™ä»éœ€é€šè¿‡trade_command_queue, ä»¥å®ç°ç»Ÿä¸€å…¥å£å’ŒåŒæ­¥
+        ½«·şÎñÆ÷»ØÓ¦×ª·¢µ½Agent
+        ²¢×ÔĞĞ´¦ÀíÔÓÎñ
+        SPI»Øµ÷º¯ÊıÖĞÈçĞèÒªÔÙ´Îµ÷ÓÃTradeApi, ÔòÈÔĞèÍ¨¹ıtrade_command_queue, ÒÔÊµÏÖÍ³Ò»Èë¿ÚºÍÍ¬²½
     """
     logger = logging.getLogger('ctp.TraderSpiDelegate')
     def __init__(self,
@@ -32,12 +32,12 @@ class TraderSpiDelegate(TraderSpi):
         ):
         self._trade_command_queue = None
         #self.macro_command_queue = macro_command_queue
-        #æ›´æ–°æ•°æ®ç”¨
+        #¸üĞÂÊı¾İÓÃ
         self._broker = broker
         self._investor = investor
         self._passwd = passwd
         self.reset_login_info()
-        #order_ref => command çš„æ˜ å°„, ç”¨äºåœ¨å›è°ƒä¸­è·å–ç›¸å…³ä¿¡æ¯
+        #order_ref => command µÄÓ³Éä, ÓÃÓÚÔÚ»Øµ÷ÖĞ»ñÈ¡Ïà¹ØĞÅÏ¢
         self._ref_map = {}
         self._first_login_time = 0
         self._infos = []
@@ -64,7 +64,7 @@ class TraderSpiDelegate(TraderSpi):
     @property
     def queue(self):
         #return self._trade_command_queue
-        raise TypeError("ä¸æ”¯æŒè¯»å–TraderSpiDelegateçš„trade_command_queue")
+        raise TypeError("²»Ö§³Ö¶ÁÈ¡TraderSpiDelegateµÄtrade_command_queue")
 
     @queue.setter
     def queue(self,queue):
@@ -78,7 +78,7 @@ class TraderSpiDelegate(TraderSpi):
             self.login_info.order_ref += 1
             return self.login_info.order_ref
 
-    def peep_next_request_id(self): #ä»…ç”¨äºæµ‹è¯•stubçš„æ–¹æ³•
+    def peep_next_request_id(self): #½öÓÃÓÚ²âÊÔstubµÄ·½·¨
         return self.login_info.order_ref + 1
 
     #def delay_command(self, command, delta):
@@ -92,59 +92,59 @@ class TraderSpiDelegate(TraderSpi):
     def day_finalize(self):
         self.reset_login_info()
 
-    #å›å¤çŠ¶æ€å¤„ç†
+    #»Ø¸´×´Ì¬´¦Àí
     def isRspSuccess(self, RspInfo):
         return RspInfo == None or RspInfo.ErrorID == 0
 
-    def resp_common(self, rsp_info, bIsLast, name='é»˜è®¤'):
+    def resp_common(self, rsp_info, bIsLast, name='Ä¬ÈÏ'):
         #self.logger.debug("resp: %s" % str(rsp_info))
         if not self.isRspSuccess(rsp_info):
-            self.logger.info(u"TD:%så¤±è´¥" % name)
+            self.logger.info("TD:%sÊ§°Ü" % name)
             return -1
         elif bIsLast and self.isRspSuccess(rsp_info):
-            self.logger.info(u"TD:%sæˆåŠŸ" % name)
+            self.logger.info("TD:%s³É¹¦" % name)
             return 1
         else:
-            self.logger.info(u"TD:%sç»“æœ: ç­‰å¾…æ•°æ®æ¥æ”¶å®Œå…¨..." % name)
+            self.logger.info("TD:%s½á¹û: µÈ´ıÊı¾İ½ÓÊÕÍêÈ«..." % name)
             return 0
 
     def OnRspError(self, info, RequestId, IsLast):
-        """ é”™è¯¯åº”ç­”
+        """ ´íÎóÓ¦´ğ
         """
-        self.logger.error(u'TD:requestID:%s, IsLast:%s, info:%s' % (RequestId, IsLast, str(info)))
+        self.logger.error('TD:requestID:%s, IsLast:%s, info:%s' % (RequestId, IsLast, str(info)))
 
-    ##äº¤æ˜“åˆå§‹åŒ–
-    #ç™»é™†,ç¡®è®¤ç»“ç®—å•
+    ##½»Ò×³õÊ¼»¯
+    #µÇÂ½,È·ÈÏ½áËãµ¥
     def OnFrontConnected(self):
         """
-            å½“å®¢æˆ·ç«¯ä¸äº¤æ˜“åå°å»ºç«‹èµ·é€šä¿¡è¿æ¥æ—¶ï¼ˆè¿˜æœªç™»å½•å‰ï¼‰ï¼Œè¯¥æ–¹æ³•è¢«è°ƒç”¨ã€‚
+            µ±¿Í»§¶ËÓë½»Ò×ºóÌ¨½¨Á¢ÆğÍ¨ĞÅÁ¬½ÓÊ±£¨»¹Î´µÇÂ¼Ç°£©£¬¸Ã·½·¨±»µ÷ÓÃ¡£
         """
-        self.logger.info(u'TD:trader front connected')
+        self.logger.info('TD:trader front connected')
         self._trade_command_queue.put_command(trade_command.LOGIN_COMMAND)
 
     def OnFrontDisconnected(self, nReason):
-        self.logger.info(u'TD:trader front disconnected, reason=%s' % (nReason, ))
+        self.logger.info('TD:trader front disconnected, reason=%s' % (nReason, ))
 
     def user_login(self):
-        self.logger.info(u'TD:trader to login')
+        self.logger.info('TD:trader to login')
         req = UStruct.ReqUserLogin(BrokerID=self._broker, UserID=self._investor, Password=self._passwd)
         ref_id = self.inc_request_id()
-        ret = self.api.ReqUserLogin(req, ref_id)
-        self.logger.info(u'TD:trader to login, issued')
+        ret = self.ReqUserLogin(req, ref_id)
+        self.logger.info('TD:trader to login, issued')
         return ret
 
     def OnRspUserLogin(self, pRspUserLogin, pRspInfo, nRequestID, bIsLast):
         self.logger.info("TD:on trader login:%s" % str(pRspUserLogin))
         self.logger.debug("TD:loggin %s" % str(pRspInfo))
         if not self.isRspSuccess(pRspInfo):
-            self.logger.warning(u'TD:trader login failed, errMsg=%s' %(pRspInfo.ErrorMsg, ))
-            print('ç»¼åˆäº¤æ˜“å¹³å°ç™»é™†å¤±è´¥ï¼Œè¯·æ£€æŸ¥ç½‘ç»œæˆ–ç”¨æˆ·å/å£ä»¤')
+            self.logger.warning('TD:trader login failed, errMsg=%s' %(pRspInfo.ErrorMsg, ))
+            print('×ÛºÏ½»Ò×Æ½Ì¨µÇÂ½Ê§°Ü£¬Çë¼ì²éÍøÂç»òÓÃ»§Ãû/¿ÚÁî')
             self.login_info.is_logged = False
             return
         self.login_info.is_logged = True
         if self._first_login_time == 0:
-            self._first_login_time = pRspUserLogin.LoginTime     #æ˜¯ HH:MM:SSæ–¹å¼,è¿˜æ˜¯ hh:mm:ssæ–¹å¼? åè€…æŒ‡æ— å‰å¯¼0
-        self.logger.info(u'TD:trader login success')
+            self._first_login_time = pRspUserLogin.LoginTime     #ÊÇ HH:MM:SS·½Ê½,»¹ÊÇ hh:mm:ss·½Ê½? ºóÕßÖ¸ÎŞÇ°µ¼0
+        self.logger.info('TD:trader login success')
         self._login_success(pRspUserLogin.FrontID, pRspUserLogin.SessionID, pRspUserLogin.MaxOrderRef, pRspUserLogin.TradingDay)
         self._trade_command_queue.on_login_success(pRspUserLogin.TradingDay)
         #self.trade_command_queue.put_command(trade_command.SETTLEMENT_QUERY_COMMAND)
@@ -156,68 +156,68 @@ class TraderSpiDelegate(TraderSpi):
         self.login_info.trading_day = trading_day
 
     def OnRspUserLogout(self, pUserLogout, pRspInfo, nRequestID, bIsLast):
-        """ç™»å‡ºè¯·æ±‚å“åº”"""
-        self.logger.info(u'TD:trader logout')
+        """µÇ³öÇëÇóÏìÓ¦"""
+        self.logger.info('TD:trader logout')
         self.login_info.is_logged = False
 
     def query_settlement_info(self):
-        #ä¸å¡«æ—¥æœŸè¡¨ç¤ºå–ä¸Šä¸€å¤©ç»“ç®—å•, å¹¶åœ¨å“åº”å‡½æ•°ä¸­ç¡®è®¤
-        self.logger.info(u'TD:å–ä¸Šä¸€æ—¥ç»“ç®—å•ä¿¡æ¯å¹¶ç¡®è®¤, BrokerID=%s, investorID=%s' % (self._broker, self._investor))
+        #²»ÌîÈÕÆÚ±íÊ¾È¡ÉÏÒ»Ìì½áËãµ¥, ²¢ÔÚÏìÓ¦º¯ÊıÖĞÈ·ÈÏ
+        self.logger.info('TD:È¡ÉÏÒ»ÈÕ½áËãµ¥ĞÅÏ¢²¢È·ÈÏ, BrokerID=%s, investorID=%s' % (self._broker, self._investor))
         req = UStruct.QrySettlementInfo(BrokerID=self._broker, InvestorID=self._investor, TradingDay='')
-        #time.sleep(1)   #é¿å…æµæ§, å› ä¸ºæ­¤æ—¶ticksæœªå¿…å·²ç»å¼€å§‹åŠ¨ä½œ, æ•…ä¸é‡‡ç”¨macro_command_queueæ–¹å¼. è¿™é‡Œå› ä¸ºä¸å†æŸ¥è¯¢ç»“ç®—å•æ˜¯å¦å·²ç¡®è®¤, æ‰€ä»¥å·²ç»æ²¡æœ‰æµæ§é™åˆ¶
+        #time.sleep(1)   #±ÜÃâÁ÷¿Ø, ÒòÎª´ËÊ±ticksÎ´±ØÒÑ¾­¿ªÊ¼¶¯×÷, ¹Ê²»²ÉÓÃmacro_command_queue·½Ê½. ÕâÀïÒòÎª²»ÔÙ²éÑ¯½áËãµ¥ÊÇ·ñÒÑÈ·ÈÏ, ËùÒÔÒÑ¾­Ã»ÓĞÁ÷¿ØÏŞÖÆ
         ref_id = self.inc_request_id()
-        ret = self.api.ReqQrySettlementInfo(req, ref_id)
+        ret = self.ReqQrySettlementInfo(req, ref_id)
         return ret
 
     def OnRspQrySettlementInfo(self, pSettlementInfo, pRspInfo, nRequestID, bIsLast):
-        """è¯·æ±‚æŸ¥è¯¢æŠ•èµ„è€…ç»“ç®—ä¿¡æ¯å“åº”
-            å½“ç»“ç®—ä¿¡æ¯è¢«åˆ‡åˆ†æˆå‡ æ®µ,ä¸”åˆ‡åˆ†ä½ç½®æ­£å¥½æŠŠä¸€ä¸ªä¸­æ–‡åˆ‡å¼€,æœ‰å¯èƒ½ä¼šå‡ºç°é”™è¯¯
+        """ÇëÇó²éÑ¯Í¶×ÊÕß½áËãĞÅÏ¢ÏìÓ¦
+            µ±½áËãĞÅÏ¢±»ÇĞ·Ö³É¼¸¶Î,ÇÒÇĞ·ÖÎ»ÖÃÕıºÃ°ÑÒ»¸öÖĞÎÄÇĞ¿ª,ÓĞ¿ÉÄÜ»á³öÏÖ´íÎó
         """
-        #print('Rsp ç»“ç®—å•æŸ¥è¯¢')
-        if(self.resp_common(pRspInfo, bIsLast, u'ç»“ç®—å•æŸ¥è¯¢')>0):
-            self.logger.info(u'ç»“ç®—å•æŸ¥è¯¢å®Œæˆ, å‡†å¤‡ç¡®è®¤')
+        #print('Rsp ½áËãµ¥²éÑ¯')
+        if(self.resp_common(pRspInfo, bIsLast, '½áËãµ¥²éÑ¯')>0):
+            self.logger.info('½áËãµ¥²éÑ¯Íê³É, ×¼±¸È·ÈÏ')
             try:
-                self.logger.info(u'TD:ç»“ç®—å•å†…å®¹:%s' % pSettlementInfo.Content)
+                self.logger.info('TD:½áËãµ¥ÄÚÈİ:%s' % pSettlementInfo.Content)
             except Exception as inst:
-                self.logger.warning(u'TD-ORQSI-A ç»“ç®—å•å†…å®¹é”™è¯¯:%s' % str(inst))
-            #self.trade_command_queue.on_query_settlement_info(pSettlementInfo)     #è¿™é‡Œä¸æ˜¯å®Œæ•´å†…å®¹, æ²¡å¿…è¦
+                self.logger.warning('TD-ORQSI-A ½áËãµ¥ÄÚÈİ´íÎó:%s' % str(inst))
+            #self.trade_command_queue.on_query_settlement_info(pSettlementInfo)     #ÕâÀï²»ÊÇÍêÕûÄÚÈİ, Ã»±ØÒª
             self._trade_command_queue.put_command(trade_command.SETTLEMENT_CONFIRM_COMMAND)
-        else:  #è¿™é‡Œæ˜¯æœªå®Œæˆåˆ†æ”¯, éœ€è¦ç›´æ¥å¿½ç•¥
+        else:  #ÕâÀïÊÇÎ´Íê³É·ÖÖ§, ĞèÒªÖ±½ÓºöÂÔ
             try:
-                self.logger.info(u'TD:ç»“ç®—å•æ¥æ”¶ä¸­...:%s' % pSettlementInfo.Content)
+                self.logger.info('TD:½áËãµ¥½ÓÊÕÖĞ...:%s' % pSettlementInfo.Content)
             except Exception as inst:
-                self.logger.warning(u'TD-ORQSI-B ç»“ç®—å•å†…å®¹é”™è¯¯:%s' % str(inst))
+                self.logger.warning('TD-ORQSI-B ½áËãµ¥ÄÚÈİ´íÎó:%s' % str(inst))
 
     def confirm_settlement_info(self):
-        self.logger.info(u'TD-CSI:å‡†å¤‡ç¡®è®¤ç»“ç®—å•')
+        self.logger.info('TD-CSI:×¼±¸È·ÈÏ½áËãµ¥')
         req = UStruct.SettlementInfoConfirm(BrokerID=self._broker, InvestorID=self._investor)
         ref_id = self.inc_request_id()
-        ret = self.api.ReqSettlementInfoConfirm(req, ref_id)
+        ret = self.ReqSettlementInfoConfirm(req, ref_id)
         return ret
 
     def OnRspSettlementInfoConfirm(self, pSettlementInfoConfirm, pRspInfo, nRequestID, bIsLast):
-        """æŠ•èµ„è€…ç»“ç®—ç»“æœç¡®è®¤å“åº”"""
-        if(self.resp_common(pRspInfo, bIsLast, u'ç»“ç®—å•ç¡®è®¤')>0):
+        """Í¶×ÊÕß½áËã½á¹ûÈ·ÈÏÏìÓ¦"""
+        if(self.resp_common(pRspInfo, bIsLast, '½áËãµ¥È·ÈÏ')>0):
             self.login_info.is_settlement_info_confirmed = True
-            self.logger.info(u'TD:ç»“ç®—å•ç¡®è®¤æ—¶é—´: %s-%s' %(pSettlementInfoConfirm.ConfirmDate, pSettlementInfoConfirm.ConfirmTime))
+            self.logger.info('TD:½áËãµ¥È·ÈÏÊ±¼ä: %s-%s' %(pSettlementInfoConfirm.ConfirmDate, pSettlementInfoConfirm.ConfirmTime))
             self._trade_command_queue.on_settlement_info_confirmed()
 
-    #äº¤æ˜“å‡†å¤‡
-    #è·å–å¸æˆ·èµ„é‡‘
+    #½»Ò××¼±¸
+    #»ñÈ¡ÕÊ»§×Ê½ğ
     def fetch_trading_account(self):
-        #è·å–èµ„é‡‘å¸æˆ·
-        logging.info(u'A:è·å–èµ„é‡‘å¸æˆ·..')
+        #»ñÈ¡×Ê½ğÕÊ»§
+        logging.info('A:»ñÈ¡×Ê½ğÕÊ»§..')
         req = UStruct.QryTradingAccount(BrokerID=self._broker, InvestorID=self._investor)
         ref_id = self.inc_request_id()
-        ret = self.api.ReqQryTradingAccount(req,  ref_id)
+        ret = self.ReqQryTradingAccount(req,  ref_id)
         return ret,ref_id
-        #logging.info(u'A:æŸ¥è¯¢èµ„é‡‘è´¦æˆ·, å‡½æ•°å‘å‡ºè¿”å›å€¼:%s' % r)
+        #logging.info('A:²éÑ¯×Ê½ğÕË»§, º¯Êı·¢³ö·µ»ØÖµ:%s' % r)
 
     def OnRspQryTradingAccount(self, pTradingAccount, pRspInfo, nRequestID, bIsLast):
         """
-            è¯·æ±‚æŸ¥è¯¢èµ„é‡‘è´¦æˆ·å“åº”
+            ÇëÇó²éÑ¯×Ê½ğÕË»§ÏìÓ¦
         """
-        self.logger.info(u'TD:èµ„é‡‘è´¦æˆ·å“åº”:%s' % pTradingAccount)
+        self.logger.info('TD:×Ê½ğÕË»§ÏìÓ¦:%s' % pTradingAccount)
         if bIsLast and self.isRspSuccess(pRspInfo):
             pTA = pTradingAccount
             self._trade_command_queue.on_query_trading_account(nRequestID, pTA.Balance, pTA.Available, pTA.CurrMargin, pTA.FrozenMargin)
@@ -225,65 +225,65 @@ class TraderSpiDelegate(TraderSpi):
             #logging
             pass
 
-    # è·å–æŒä»“
+    # »ñÈ¡³Ö²Ö
     def fetch_investor_position(self, instrument_id):
-        #è·å–åˆçº¦çš„å½“å‰æŒä»“
-        logging.info(u'A:è·å–åˆçº¦%sçš„å½“å‰æŒä»“..' % (instrument_id, ))
+        #»ñÈ¡ºÏÔ¼µÄµ±Ç°³Ö²Ö
+        logging.info('A:»ñÈ¡ºÏÔ¼%sµÄµ±Ç°³Ö²Ö..' % (instrument_id, ))
         req = UStruct.QryInvestorPosition(BrokerID=self._broker, InvestorID=self._investor, InstrumentID=instrument_id)
         ref_id = self.inc_request_id()
-        ret = self.api.ReqQryInvestorPosition(req, self.ref_id)
-        #logging.info(u'A:æŸ¥è¯¢æŒä»“, å‡½æ•°å‘å‡ºè¿”å›å€¼:%s' % rP)
+        ret = self.ReqQryInvestorPosition(req, self.ref_id)
+        #logging.info('A:²éÑ¯³Ö²Ö, º¯Êı·¢³ö·µ»ØÖµ:%s' % rP)
         return ret,ref_id
 
     def OnRspQryInvestorPosition(self, pInvestorPosition, pRspInfo, nRequestID, bIsLast):
-        """è¯·æ±‚æŸ¥è¯¢æŠ•èµ„è€…æŒä»“å“åº”"""
-        #print u'æŸ¥è¯¢æŒä»“å“åº”', str(pInvestorPosition), str(pRspInfo)
-        if self.isRspSuccess(pRspInfo): #æ¯æ¬¡ä¸€ä¸ªå•ç‹¬çš„æ•°æ®æŠ¥
+        """ÇëÇó²éÑ¯Í¶×ÊÕß³Ö²ÖÏìÓ¦"""
+        #print '²éÑ¯³Ö²ÖÏìÓ¦', str(pInvestorPosition), str(pRspInfo)
+        if self.isRspSuccess(pRspInfo): #Ã¿´ÎÒ»¸öµ¥¶ÀµÄÊı¾İ±¨
             pass
         else:
             #logging
             pass
 
-    # è·å–æŒä»“æ˜ç»†
+    # »ñÈ¡³Ö²ÖÃ÷Ï¸
     def fetch_investor_position_detail(self, instrument_id):
         """
-            è·å–åˆçº¦çš„å½“å‰æŒä»“æ˜ç»†ï¼Œç›®å‰æ²¡ç”¨
+            »ñÈ¡ºÏÔ¼µÄµ±Ç°³Ö²ÖÃ÷Ï¸£¬Ä¿Ç°Ã»ÓÃ
         """
-        logging.info(u'A:è·å–åˆçº¦%sçš„å½“å‰æŒä»“..' % (instrument_id, ))
+        logging.info('A:»ñÈ¡ºÏÔ¼%sµÄµ±Ç°³Ö²Ö..' % (instrument_id, ))
         req = UStruct.QryInvestorPositionDetail(BrokerID=self._broker, InvestorID=self._investor, InstrumentID=instrument_id)
         ref_id = self.inc_request_id()
-        ret = self.api.ReqQryInvestorPositionDetail(req,  self.ref_id)
-        #logging.info(u'A:æŸ¥è¯¢æŒä»“, å‡½æ•°å‘å‡ºè¿”å›å€¼:%s' % r)
+        ret = self.ReqQryInvestorPositionDetail(req,  self.ref_id)
+        #logging.info('A:²éÑ¯³Ö²Ö, º¯Êı·¢³ö·µ»ØÖµ:%s' % r)
         return ret,ref_id
 
     def OnRspQryInvestorPositionDetail(self, pInvestorPositionDetail, pRspInfo, nRequestID, bIsLast):
-        """è¯·æ±‚æŸ¥è¯¢æŠ•èµ„è€…æŒä»“æ˜ç»†å“åº”"""
+        """ÇëÇó²éÑ¯Í¶×ÊÕß³Ö²ÖÃ÷Ï¸ÏìÓ¦"""
         logging.info(str(pInvestorPositionDetail))
-        if self.isRspSuccess(pRspInfo): #æ¯æ¬¡ä¸€ä¸ªå•ç‹¬çš„æ•°æ®æŠ¥
+        if self.isRspSuccess(pRspInfo): #Ã¿´ÎÒ»¸öµ¥¶ÀµÄÊı¾İ±¨
             pass
         else:
             #logging
             pass
 
-    #è·å–åˆçº¦ä¿è¯é‡‘ç‡
+    #»ñÈ¡ºÏÔ¼±£Ö¤½ğÂÊ
     def fetch_instrument_marginrate(self, instrument_id):
         req = UStruct.QryInstrumentMarginRate(BrokerID=self._broker,
                         InvestorID = self._investor,
                         InstrumentID=instrument_id,
-                        HedgeFlag = UType.THOST_FTDC_HF_Speculation
+                        HedgeFlag = UType.HF_Speculation
                 )
         ref_id = self.inc_request_id()
-        ret= self.api.ReqQryInstrumentMarginRate(req, self.inc_request_id())
-        logging.info(u'A:æŸ¥è¯¢ä¿è¯é‡‘ç‡, å‡½æ•°å‘å‡ºè¿”å›å€¼:%s' % ret)
+        ret= self.ReqQryInstrumentMarginRate(req, self.inc_request_id())
+        logging.info('A:²éÑ¯±£Ö¤½ğÂÊ, º¯Êı·¢³ö·µ»ØÖµ:%s' % ret)
         return ret
 
     def OnRspQryInstrumentMarginRate(self, pInstrumentMarginRate, pRspInfo, nRequestID, bIsLast):
         """
-            ä¿è¯é‡‘ç‡å›æŠ¥ã€‚è¿”å›çš„å¿…ç„¶æ˜¯ç»å¯¹å€¼
-            è¿™é‡Œè¿”å›çš„æ˜¯è°ƒæ•´å(äº¤æ˜“æ‰€æ ¹æ®æŒä»“é‡æŒ‰è§„åˆ™è°ƒæ•´)çš„ä¿è¯é‡‘ç‡
+            ±£Ö¤½ğÂÊ»Ø±¨¡£·µ»ØµÄ±ØÈ»ÊÇ¾ø¶ÔÖµ
+            ÕâÀï·µ»ØµÄÊÇµ÷Õûºó(½»Ò×Ëù¸ù¾İ³Ö²ÖÁ¿°´¹æÔòµ÷Õû)µÄ±£Ö¤½ğÂÊ
         """
         self._infos.append(pInstrumentMarginRate)
-        if not pInstrumentMarginRate:   # ä¹Ÿä¼šå‡ºç°pInstrumentMarginRateå’ŒpRspInfoå‡ä¸ºNoneè¿™ç§æƒ…å†µ,å½“æŸ¥è¯¢ä¸å­˜åœ¨çš„åˆçº¦æ—¶
+        if not pInstrumentMarginRate:   # Ò²»á³öÏÖpInstrumentMarginRateºÍpRspInfo¾ùÎªNoneÕâÖÖÇé¿ö,µ±²éÑ¯²»´æÔÚµÄºÏÔ¼Ê±
             return
         if bIsLast and self.isRspSuccess(pRspInfo):
             pIMR = pInstrumentMarginRate
@@ -292,25 +292,25 @@ class TraderSpiDelegate(TraderSpi):
             #logging
             pass
 
-    #æŸ¥è¯¢åˆçº¦ä¿¡æ¯
+    #²éÑ¯ºÏÔ¼ĞÅÏ¢
     def fetch_instrument(self, instrument_id):
         req = UStruct.QryInstrument(
                         InstrumentID=instrument_id,
                 )
         ref_id = self.inc_request_id()
-        ret = self.api.ReqQryInstrument(req, self.inc_request_id())
-        logging.info(u'A:æŸ¥è¯¢åˆçº¦, å‡½æ•°å‘å‡ºè¿”å›å€¼:%s' % ret)
+        ret = self.ReqQryInstrument(req, self.inc_request_id())
+        logging.info('A:²éÑ¯ºÏÔ¼, º¯Êı·¢³ö·µ»ØÖµ:%s' % ret)
         return ret
 
     def OnRspQryInstrument(self, pInstrument, pRspInfo, nRequestID, bIsLast):
         """
-            åˆçº¦å›æŠ¥ã€‚
-            è¿™é‡Œè¿”å›çš„æ˜¯åŸå§‹ä¿è¯é‡‘ç‡,æ‰€ä»¥æ²¡æœ‰å®é™…ç”¨å¤„
+            ºÏÔ¼»Ø±¨¡£
+            ÕâÀï·µ»ØµÄÊÇÔ­Ê¼±£Ö¤½ğÂÊ,ËùÒÔÃ»ÓĞÊµ¼ÊÓÃ´¦
         """
         self._infos.append(pInstrument)
         self.logger.info("CT_ORQI_1:%s" % pInstrument)
         self.logger.info("CT_ORQI_2:%s" % pRspInfo)
-        #å±…ç„¶å¯èƒ½è¿”å› pInstrumentå’ŒpRespInfoå‡ä¸ºNone,è¿™ä¸ªçŠ¶æ€ä¸å¯¹!!
+        #¾ÓÈ»¿ÉÄÜ·µ»Ø pInstrumentºÍpRespInfo¾ùÎªNone,Õâ¸ö×´Ì¬²»¶Ô!!
         if not pInstrument:
             return
         if bIsLast and self.isRspSuccess(pRspInfo):
@@ -322,7 +322,7 @@ class TraderSpiDelegate(TraderSpi):
                                                          pInstrument.ShortMarginRatio,
                                                     )
             #print pInstrument
-        else:#æ¨¡ç³ŠæŸ¥è¯¢çš„ç»“æœ, è·å¾—äº†å¤šä¸ªåˆçº¦çš„æ•°æ®ï¼Œåªæœ‰æœ€åä¸€ä¸ªçš„bLastæ˜¯True
+        else:#Ä£ºı²éÑ¯µÄ½á¹û, »ñµÃÁË¶à¸öºÏÔ¼µÄÊı¾İ£¬Ö»ÓĞ×îºóÒ»¸öµÄbLastÊÇTrue
             self._trade_command_queue.on_query_instrument(pInstrument.InstrumentID,
                                                          pInstrument.ExchangeID,
                                                          pInstrument.PriceTick,
@@ -332,26 +332,26 @@ class TraderSpiDelegate(TraderSpi):
                                                     )
 
     def OnRtnInstrumentStatus(self, pInstrumentStatus):
-        #pInstrumentStatus.InstrumentID æ˜¯ å“ç§åç§°
+        #pInstrumentStatus.InstrumentID ÊÇ Æ·ÖÖÃû³Æ
         self.logger.info("CWR:ORIS:{id},{time},{status}".format(id=pInstrumentStatus.InstrumentID,time=pInstrumentStatus.EnterTime,status=pInstrumentStatus.InstrumentStatus))
         status = int(pInstrumentStatus.InstrumentStatus)
         #is_on_trading = True if status  == '2' or status =='3' else False
         #self._trade_command_queue.on_instrument_status(pInstrumentStatus.InstrumentID,pInstrumentStatus.EnterTime,is_on_trading)
         self._trade_command_queue.on_instrument_status(pInstrumentStatus.InstrumentID,pInstrumentStatus.EnterTime,status)
 
-    #è·å–è¡Œæƒ…ä¿¡æ¯, ç›®çš„åœ¨äºè·å–å½“æ—¥æ¶¨è·Œåœä»·æ ¼
+    #»ñÈ¡ĞĞÇéĞÅÏ¢, Ä¿µÄÔÚÓÚ»ñÈ¡µ±ÈÕÕÇµøÍ£¼Û¸ñ
     def fetch_depth_market_data(self, instrument_id):
         ref_id = self.inc_request_id()
         req = UStruct.QryDepthMarketData(InstrumentID = instrument_id)
-        ret = self.api.ReqQryDepthMarketData(req, ref_id)
-        logging.info(u'A:æŸ¥è¯¢åˆçº¦è¡Œæƒ…, å‡½æ•°å‘å‡ºè¿”å›å€¼:%s' % ret)
+        ret = self.ReqQryDepthMarketData(req, ref_id)
+        logging.info('A:²éÑ¯ºÏÔ¼ĞĞÇé, º¯Êı·¢³ö·µ»ØÖµ:%s' % ret)
         return ret
 
     def OnRspQryDepthMarketData(self, pDepthMarketData, pRspInfo, nRequestID, bIsLast):
-        """è¯·æ±‚æŸ¥è¯¢è¡Œæƒ…å“åº”
-           ä¸€æ¬¡åªæŸ¥è¯¢ä¸€ä¸ªåˆçº¦çš„, æ•…ä¸€æ¬¡æˆåŠŸ, isLast=1
+        """ÇëÇó²éÑ¯ĞĞÇéÏìÓ¦
+           Ò»´ÎÖ»²éÑ¯Ò»¸öºÏÔ¼µÄ, ¹ÊÒ»´Î³É¹¦, isLast=1
         """
-        self.logger.info(u'TD:æŸ¥è¯¢è¡Œæƒ…å“åº”:%s' % pDepthMarketData)
+        self.logger.info('TD:²éÑ¯ĞĞÇéÏìÓ¦:%s' % pDepthMarketData)
         if bIsLast and self.isRspSuccess(pRspInfo):
             pDMD = pDepthMarketData
             self._trade_command_queue.on_query_market_data(pDMD.InstrumentID,
@@ -359,85 +359,85 @@ class TraderSpiDelegate(TraderSpi):
                                                           pDMD.UpperLimitPrice,
                                                           pDMD.LowerLimitPrice
                                                          )
-        else: #ä¸åº”è¯¥å‡ºç°
+        else: #²»Ó¦¸Ã³öÏÖ
             logging.error('Error on query market data:%s' % (pDepthMarketData.InstrumentID, ))
             pass
 
-    #äº¤æ˜“éƒ¨åˆ†
-    #å¼€ä»“
+    #½»Ò×²¿·Ö
+    #¿ª²Ö
 
     def to_ctp_direction(self,direction):
         #print(direction)
-        return UType.THOST_FTDC_D_Buy if direction == LONG else UType.THOST_FTDC_D_Sell
+        return UType.D_Buy if direction == LONG else UType.D_Sell
 
     def from_ctp_direction(self,ctp_direction):
-        return LONG if ctp_direction == UType.THOST_FTDC_D_Buy else UType.THOST_FTDC_D_Sell
+        return LONG if ctp_direction == UType.D_Buy else UType.D_Sell
 
     def xopen(self, instrument_id, direction, volume, price):
-        #print("spidelegate,xopen",instrument_id,volume,price,self.api)
+        #print("spidelegate,xopen",instrument_id,volume,price,self)
         ref_id = self.inc_request_id()
         req = UStruct.InputOrder(
                 InstrumentID = instrument_id,
                 Direction = self.to_ctp_direction(direction),
                 OrderRef = str(ref_id),
-                LimitPrice = price,    #æœ‰ä¸ªç–‘é—®ï¼Œdoubleç±»å‹å¦‚ä½•ä¿è¯èˆå…¥èˆå‡ºï¼Œåœ¨æœåŠ¡å™¨ç«¯å–æ•´?
+                LimitPrice = price,    #ÓĞ¸öÒÉÎÊ£¬doubleÀàĞÍÈçºÎ±£Ö¤ÉáÈëÉá³ö£¬ÔÚ·şÎñÆ÷¶ËÈ¡Õû?
                 VolumeTotalOriginal = volume,
-                OrderPriceType = UType.THOST_FTDC_OPT_LimitPrice,
-                ContingentCondition = UType.THOST_FTDC_CC_Immediately,
+                OrderPriceType = UType.OPT_LimitPrice,
+                ContingentCondition = UType.CC_Immediately,
 
                 BrokerID = self._broker,
                 InvestorID = self._investor,
-                CombOffsetFlag = UType.THOST_FTDC_OF_Open,          #å¼€ä»“ 5ä½å­—ç¬¦, ä½†æ˜¯åªç”¨åˆ°ç¬¬0ä½
-                CombHedgeFlag = UType.THOST_FTDC_HF_Speculation,    #æŠ•æœº 5ä½å­—ç¬¦, ä½†æ˜¯åªç”¨åˆ°ç¬¬0ä½
+                CombOffsetFlag = UType.OF_Open,          #¿ª²Ö 5Î»×Ö·û, µ«ÊÇÖ»ÓÃµ½µÚ0Î»
+                CombHedgeFlag = UType.HF_Speculation,    #Í¶»ú 5Î»×Ö·û, µ«ÊÇÖ»ÓÃµ½µÚ0Î»
 
-                VolumeCondition = UType.THOST_FTDC_VC_AV,
-                MinVolume = 1,   #è¿™ä¸ªä½œç”¨æœ‰ç‚¹ä¸ç¡®å®š, æœ‰çš„æ–‡æ¡£è®¾æˆ0äº†
-                ForceCloseReason = UType.THOST_FTDC_FCC_NotForceClose,
+                VolumeCondition = UType.VC_AV,
+                MinVolume = 1,   #Õâ¸ö×÷ÓÃÓĞµã²»È·¶¨, ÓĞµÄÎÄµµÉè³É0ÁË
+                ForceCloseReason = UType.FCC_NotForceClose,
                 IsAutoSuspend = 1,
                 UserForceClose = 0,
-                TimeCondition = UType.THOST_FTDC_TC_GFD,
+                TimeCondition = UType.TC_GFD,
             )
-        ret = self.api.ReqOrderInsert(req, ref_id)
+        ret = self.ReqOrderInsert(req, ref_id)
         return ret
 
     def xclose(self, instrument_id, close_type,direction, volume,price):
         """
-            ä¸ŠæœŸæ‰€åŒºåˆ†å¹³æ˜¨å’Œå¹³ä»Š
-                æåçš„è¯å°±ä¼šè¢«CTPç›´æ¥æ‹’ç». å¦‚å¹³æ˜¨æ¥å¹³å½“æ—¥ä»“,ä¸”æ— è¶³å¤Ÿæ˜¨ä»“,å°±ä¼šæŠ¥:ç»¼åˆäº¤æ˜“å¹³å°ï¼šå¹³æ˜¨ä»“ä½ä¸è¶³
+            ÉÏÆÚËùÇø·ÖÆ½×òºÍÆ½½ñ
+                ¸ã·´µÄ»°¾Í»á±»CTPÖ±½Ó¾Ü¾ø. ÈçÆ½×òÀ´Æ½µ±ÈÕ²Ö,ÇÒÎŞ×ã¹»×ò²Ö,¾Í»á±¨:×ÛºÏ½»Ò×Æ½Ì¨£ºÆ½×ò²ÖÎ»²»×ã
         """
         ref_id = self.inc_request_id()
-        close_flag = UType.THOST_FTDC_OF_CloseToday if close_type == XCLOSE_TODAY else UType.THOST_FTDC_OF_Close
+        close_flag = UType.OF_CloseToday if close_type == XCLOSE_TODAY else UType.OF_Close
         req = UStruct.InputOrder(
                 InstrumentID = instrument_id,
                 Direction = self.to_ctp_direction(direction),
                 OrderRef = str(ref_id),
-                LimitPrice = price,    #æœ‰ä¸ªç–‘é—®ï¼Œdoubleç±»å‹å¦‚ä½•ä¿è¯èˆå…¥èˆå‡ºï¼Œåœ¨æœåŠ¡å™¨ç«¯å–æ•´?
+                LimitPrice = price,    #ÓĞ¸öÒÉÎÊ£¬doubleÀàĞÍÈçºÎ±£Ö¤ÉáÈëÉá³ö£¬ÔÚ·şÎñÆ÷¶ËÈ¡Õû?
                 VolumeTotalOriginal = volume,
-                OrderPriceType = UType.THOST_FTDC_OPT_LimitPrice,
+                OrderPriceType = UType.OPT_LimitPrice,
 
                 BrokerID = self._broker,
                 InvestorID = self._investor,
                 CombOffsetFlag = close_flag,
-                CombHedgeFlag = UType.THOST_FTDC_HF_Speculation,    #æŠ•æœº 5ä½å­—ç¬¦, ä½†æ˜¯åªç”¨åˆ°ç¬¬0ä½
+                CombHedgeFlag = UType.HF_Speculation,    #Í¶»ú 5Î»×Ö·û, µ«ÊÇÖ»ÓÃµ½µÚ0Î»
 
-                VolumeCondition = UType.THOST_FTDC_VC_AV,
-                MinVolume = 1,   #è¿™ä¸ªä½œç”¨æœ‰ç‚¹ä¸ç¡®å®š, æœ‰çš„æ–‡æ¡£è®¾æˆ0äº†
-                ForceCloseReason = UType.THOST_FTDC_FCC_NotForceClose,
+                VolumeCondition = UType.VC_AV,
+                MinVolume = 1,   #Õâ¸ö×÷ÓÃÓĞµã²»È·¶¨, ÓĞµÄÎÄµµÉè³É0ÁË
+                ForceCloseReason = UType.FCC_NotForceClose,
                 IsAutoSuspend = 1,
                 UserForceClose = 0,
-                TimeCondition = UType.THOST_FTDC_TC_GFD,
+                TimeCondition = UType.TC_GFD,
             )
-        ret = self.api.ReqOrderInsert(req, ref_id)
+        ret = self.ReqOrderInsert(req, ref_id)
         return ret
 
     def OnRspOrderInsert(self, pInputOrder, pRspInfo, nRequestID, bIsLast):
         """
-            æŠ¥å•æœªé€šè¿‡å‚æ•°æ ¡éªŒ, è¢«CTPæ‹’ç»
-            æ­£å¸¸æƒ…å†µåä¸åº”è¯¥å‡ºç°
-            ä¸ºä¸å¯æ¢å¤çš„é”™è¯¯,åªå…è®¸åœ¨è°ƒè¯•æœŸé—´
+            ±¨µ¥Î´Í¨¹ı²ÎÊıĞ£Ñé, ±»CTP¾Ü¾ø
+            Õı³£Çé¿öºó²»Ó¦¸Ã³öÏÖ
+            Îª²»¿É»Ö¸´µÄ´íÎó,Ö»ÔÊĞíÔÚµ÷ÊÔÆÚ¼ä
         """
         #print('ERROR Order Insert,CTP Reject')
-        self.logger.error('TD:CTPæŠ¥å•å½•å…¥é”™è¯¯å›æŠ¥, æ­£å¸¸åä¸åº”è¯¥å‡ºç°, rspInfo=%s'%(str(pRspInfo), ))
+        self.logger.error('TD:CTP±¨µ¥Â¼Èë´íÎó»Ø±¨, Õı³£ºó²»Ó¦¸Ã³öÏÖ, rspInfo=%s'%(str(pRspInfo), ))
         #self.trade_command_queue.on_rtn_order(pInputOrder.OrderRef,ORDER_STATUS.LOCAL_REJECT)
         self._trade_command_queue.on_reject(pInputOrder.InstrumentID,
                                            self.from_ctp_direction(pInputOrder.Direction),
@@ -449,12 +449,12 @@ class TraderSpiDelegate(TraderSpi):
 
     def OnErrRtnOrderInsert(self, pInputOrder, pRspInfo):
         """
-            äº¤æ˜“æ‰€æŠ¥å•å½•å…¥é”™è¯¯å›æŠ¥
-            æ­£å¸¸æƒ…å†µåä¸åº”è¯¥å‡ºç°
-            ä¸ºä¸å¯æ¢å¤çš„é”™è¯¯,åªå…è®¸åœ¨è°ƒè¯•æœŸé—´
+            ½»Ò×Ëù±¨µ¥Â¼Èë´íÎó»Ø±¨
+            Õı³£Çé¿öºó²»Ó¦¸Ã³öÏÖ
+            Îª²»¿É»Ö¸´µÄ´íÎó,Ö»ÔÊĞíÔÚµ÷ÊÔÆÚ¼ä
         """
         #print('ERROR Order Insert,Exchange Reject')
-        self.logger.error(u'TD:äº¤æ˜“æ‰€æŠ¥å•å½•å…¥é”™è¯¯å›æŠ¥, æ­£å¸¸åä¸åº”è¯¥å‡ºç°, rspInfo=%s'%(str(pRspInfo), ))
+        self.logger.error('TD:½»Ò×Ëù±¨µ¥Â¼Èë´íÎó»Ø±¨, Õı³£ºó²»Ó¦¸Ã³öÏÖ, rspInfo=%s'%(str(pRspInfo), ))
         self.logger.error('%s:%s:%s:%s',pInputOrder.OrderRef, pInputOrder.InstrumentID, pRspInfo.ErrorID, pRspInfo.ErrorMsg)
         #self.trade_command_queue.on_rtn_order(pInputOrder.OrderRef,ORDER_STATUS.EXCHANGE_REJECT)
         self._trade_command_queue.on_reject(pInputOrder.InstrumentID,
@@ -486,114 +486,114 @@ class TraderSpiDelegate(TraderSpi):
         return uid
 
     def OnRtnOrder(self, pOrder):
-        """ æŠ¥å•é€šçŸ¥
-            CTPã€äº¤æ˜“æ‰€æ¥å—æŠ¥å•
+        """ ±¨µ¥Í¨Öª
+            CTP¡¢½»Ò×Ëù½ÓÊÜ±¨µ¥
         """
         self._infos.append(pOrder)
         #print("ORO:direction",pOrder.Direction)
-        #self.logger.info(u'æŠ¥å•å“åº” repr, Order=%s' % repr(pOrder))
+        #self.logger.info('±¨µ¥ÏìÓ¦ repr, Order=%s' % repr(pOrder))
         #print("ORO:",pOrder.ExchangeID)
-        self.logger.info(u'æŠ¥å•å“åº” str, Order=%s' % str(pOrder))
+        self.logger.info('±¨µ¥ÏìÓ¦ str, Order=%s' % str(pOrder))
         if pOrder.FrontID == self.login_info.front_id and pOrder.SessionID != self.login_info.session_id:
-            self.logger.info("æ”¶åˆ°ç™»é™†å‰çš„å§”æ‰˜å›æŠ¥,%s,%s",self.login_info.front_id,self.login_info.session_id)
+            self.logger.info("ÊÕµ½µÇÂ½Ç°µÄÎ¯ÍĞ»Ø±¨,%s,%s",self.login_info.front_id,self.login_info.session_id)
             #self.trade_command_queue.on_pre_rtn_order(pOrder.FrontID,pOrder.SessionID,pOrder.OrderRef,pOrder.InstrumentID,pOrder.InsertTime,pOrder.VolumeTotal,pOrder.VolumeTraded)
             pass
-        elif pOrder.OrderSubmitStatus == UType.THOST_FTDC_OSS_InsertRejected:
-            ##æƒ…å†µ1: åœ¨å¤œç›˜æ—¶å‘å‡ºæœªè¢«å¤œç›˜äº¤æ˜“çš„å“ç§çš„æŠ¥å• #æŠ¥å•æäº¤çŠ¶æ€:æŠ¥å•å·²ç»è¢«æ‹’ç» #çŠ¶æ€ä¿¡æ¯:å·²æ’¤å•æŠ¥å•è¢«æ‹’ç»DCE:è¯¥å“ç§å½“å‰æ˜¯åˆå§‹åŒ–å!#æŠ¥å•çŠ¶æ€:æ’¤å•
-            ##æƒ…å†µ2: æš‚åœäº¤æ˜“æ—¶æ®µä¸‹å•:  #æŠ¥å•æäº¤çŠ¶æ€:æŠ¥å•å·²ç»è¢«æ‹’ç» #çŠ¶æ€ä¿¡æ¯:å·²æ’¤å•æŠ¥å•è¢«æ‹’ç»DCE:è¯¥å“ç§å½“å‰æ˜¯å¼€å¸‚æš‚åœ! #æŠ¥å•çŠ¶æ€:æ’¤å•:
-            ##æƒ…å†µ3: é—­å¸‚åä¸‹å•(15:00/15:15ä¹‹å) #æŠ¥å•æäº¤çŠ¶æ€:æŠ¥å•å·²ç»è¢«æ‹’ç»#çŠ¶æ€ä¿¡æ¯:å·²æ’¤å•æŠ¥å•è¢«æ‹’ç»DCE:è¯¥å“ç§å½“å‰æ˜¯é—­å¸‚! #æŠ¥å•çŠ¶æ€:æ’¤å•
-            ##æ­¤æ—¶,å…ˆæ”¶åˆ° #çŠ¶æ€ä¿¡æ¯:æŠ¥å•å·²æäº¤ çš„RtnOrder,å†æ”¶åˆ° æŠ¥å•è¢«æ‹’ç»çš„ RtnOrder,å°±æ˜¯è¯´æ”¶åˆ°ä¸¤ä¸ªRtnOrder
-            #   ctp.TraderSpiDelegate:OnRtnOrder:493:2014-08-25 13:26:07,602 INFO æŠ¥å•å“åº” str, Order=<æŠ¥å•æ—¥æœŸ:20140825,éƒ‘å•†æ‰€æˆäº¤æ•°é‡:0,ä¹°å–æ–¹å‘:ä¹°,æŠ¥å•æäº¤çŠ¶æ€:å·²ç»æäº¤,ä¼šè¯ç¼–å·:-943256868,æœ€å°æˆäº¤é‡:1,æ•°é‡:1,æ’¤é”€æ—¶é—´:,æ­¢æŸä»·:0.0,å§”æ‰˜æ—¶é—´:13:27:09,ç»çºªå…¬å¸æŠ¥å•ç¼–å·:7866,ä»Šæˆäº¤æ•°é‡:0,åˆçº¦åœ¨äº¤æ˜“æ‰€çš„ä»£ç :m1501,ç»“ç®—ç¼–å·:1,æ¿€æ´»æ—¶é—´:,GTDæ—¥æœŸ:,æŠ¥å•å¼•ç”¨:10040,è§¦å‘æ¡ä»¶:ç«‹å³,æˆäº¤é‡ç±»å‹:ä»»ä½•æ•°é‡,æŠ¥å•ç±»å‹:æ­£å¸¸,æœ¬åœ°æŠ¥å•ç¼–å·:         693,æŠ¥å•æç¤ºåºå·:0,ç›¸å…³æŠ¥å•:,æŠ¥å•ä»·æ ¼æ¡ä»¶:é™ä»·,æŒ‚èµ·æ—¶é—´:,å‰©ä½™æ•°é‡:1,çŠ¶æ€ä¿¡æ¯:æŠ¥å•å·²æäº¤,å®‰è£…ç¼–å·:2,å¼ºå¹³åŸå› :éå¼ºå¹³,åˆçº¦ä»£ç :m1501,å‰ç½®ç¼–å·:2,ç”¨æˆ·å¼ºè¯„æ ‡å¿—:0,æŠ¥å•çŠ¶æ€:æœªçŸ¥,äº¤æ˜“æ‰€ä»£ç :DCE,æŠ¥å•ç¼–å·:,è¯·æ±‚ç¼–å·:0,è‡ªåŠ¨æŒ‚èµ·æ ‡å¿—:1,äº’æ¢å•æ ‡å¿—:0,åºå·:0,ç»„åˆå¼€å¹³æ ‡å¿—:0,æŠ¥å•æ¥æº:æ¥è‡ªå‚ä¸è€…,äº¤æ˜“æ—¥:20140825,ç»“ç®—ä¼šå‘˜ç¼–å·:,æœ‰æ•ˆæœŸç±»å‹:å½“æ—¥æœ‰æ•ˆ,æœ€åä¿®æ”¹æ—¶é—´:,ç”¨æˆ·ç«¯äº§å“ä¿¡æ¯:,ä»·æ ¼:3401.0,ç»„åˆæŠ•æœºå¥—ä¿æ ‡å¿—:1>
-            #   ctp.TraderSpiDelegate:OnRtnOrder:512:2014-08-25 13:26:07,602 INFO TD:CTPæ¥å—Orderï¼Œä½†æœªå‘åˆ°äº¤æ˜“æ‰€
-            #   ctp.TraderSpiDelegate:OnRtnOrder:493:2014-08-25 13:26:07,641 INFO æŠ¥å•å“åº” str, Order=<æŠ¥å•æ—¥æœŸ:20140825,éƒ‘å•†æ‰€æˆäº¤æ•°é‡:0,ä¹°å–æ–¹å‘:ä¹°,æŠ¥å•æäº¤çŠ¶æ€:æŠ¥å•å·²ç»è¢«æ‹’ç»,ä¼šè¯ç¼–å·:-943256868,æœ€å°æˆäº¤é‡:1,æ•°é‡:1,æ’¤é”€æ—¶é—´:,æ­¢æŸä»·:0.0,å§”æ‰˜æ—¶é—´:13:27:09,ç»çºªå…¬å¸æŠ¥å•ç¼–å·:7866,ä»Šæˆäº¤æ•°é‡:0,åˆçº¦åœ¨äº¤æ˜“æ‰€çš„ä»£ç :m1501,ç»“ç®—ç¼–å·:1,æ¿€æ´»æ—¶é—´:,GTDæ—¥æœŸ:,æŠ¥å•å¼•ç”¨:10040,è§¦å‘æ¡ä»¶:ç«‹å³,æˆäº¤é‡ç±»å‹:ä»»ä½•æ•°é‡,æŠ¥å•ç±»å‹:æ­£å¸¸,æœ¬åœ°æŠ¥å•ç¼–å·:         693,æŠ¥å•æç¤ºåºå·:1,ç›¸å…³æŠ¥å•:,æŠ¥å•ä»·æ ¼æ¡ä»¶:é™ä»·,æŒ‚èµ·æ—¶é—´:,å‰©ä½™æ•°é‡:1,çŠ¶æ€ä¿¡æ¯:å·²æ’¤å•æŠ¥å•è¢«æ‹’ç»DCE:è¯¥å“ç§å½“å‰æ˜¯å¼€å¸‚æš‚åœ!,å®‰è£…ç¼–å·:2,å¼ºå¹³åŸå› :éå¼ºå¹³,åˆçº¦ä»£ç :m1501,å‰ç½®ç¼–å·:2,ç”¨æˆ·å¼ºè¯„æ ‡å¿—:0,æŠ¥å•çŠ¶æ€:æ’¤å•,äº¤æ˜“æ‰€ä»£ç :DCE,æŠ¥å•ç¼–å·:,è¯·æ±‚ç¼–å·:0,è‡ªåŠ¨æŒ‚èµ·æ ‡å¿—:1,äº’æ¢å•æ ‡å¿—:0,åºå·:0,ç»„åˆå¼€å¹³æ ‡å¿—:0,æŠ¥å•æ¥æº:æ¥è‡ªå‚ä¸è€…,äº¤æ˜“æ—¥:20140825æœ‰æ•ˆæœŸç±»å‹:å½“æ—¥æœ‰æ•ˆ,æœ€åä¿®æ”¹æ—¶é—´:,ç”¨æˆ·ç«¯äº§å“ä¿¡æ¯:,ä»·æ ¼:3401.0,ç»„åˆæŠ•æœºå¥—ä¿æ ‡å¿—:1>
-            #   ctp.TraderSpiDelegate:OnRtnOrder:501:2014-08-25 13:26:07,641 INFO RTN_REJECT:æŠ¥å•è¢«æ‹’ç»
-            self.logger.info("RTN_REJECT:æŠ¥å•è¢«æ‹’ç»")
+        elif pOrder.OrderSubmitStatus == UType.OSS_InsertRejected:
+            ##Çé¿ö1: ÔÚÒ¹ÅÌÊ±·¢³öÎ´±»Ò¹ÅÌ½»Ò×µÄÆ·ÖÖµÄ±¨µ¥ #±¨µ¥Ìá½»×´Ì¬:±¨µ¥ÒÑ¾­±»¾Ü¾ø #×´Ì¬ĞÅÏ¢:ÒÑ³·µ¥±¨µ¥±»¾Ü¾øDCE:¸ÃÆ·ÖÖµ±Ç°ÊÇ³õÊ¼»¯ºó!#±¨µ¥×´Ì¬:³·µ¥
+            ##Çé¿ö2: ÔİÍ£½»Ò×Ê±¶ÎÏÂµ¥:  #±¨µ¥Ìá½»×´Ì¬:±¨µ¥ÒÑ¾­±»¾Ü¾ø #×´Ì¬ĞÅÏ¢:ÒÑ³·µ¥±¨µ¥±»¾Ü¾øDCE:¸ÃÆ·ÖÖµ±Ç°ÊÇ¿ªÊĞÔİÍ£! #±¨µ¥×´Ì¬:³·µ¥:
+            ##Çé¿ö3: ±ÕÊĞºóÏÂµ¥(15:00/15:15Ö®ºó) #±¨µ¥Ìá½»×´Ì¬:±¨µ¥ÒÑ¾­±»¾Ü¾ø#×´Ì¬ĞÅÏ¢:ÒÑ³·µ¥±¨µ¥±»¾Ü¾øDCE:¸ÃÆ·ÖÖµ±Ç°ÊÇ±ÕÊĞ! #±¨µ¥×´Ì¬:³·µ¥
+            ##´ËÊ±,ÏÈÊÕµ½ #×´Ì¬ĞÅÏ¢:±¨µ¥ÒÑÌá½» µÄRtnOrder,ÔÙÊÕµ½ ±¨µ¥±»¾Ü¾øµÄ RtnOrder,¾ÍÊÇËµÊÕµ½Á½¸öRtnOrder
+            #   ctp.TraderSpiDelegate:OnRtnOrder:493:2014-08-25 13:26:07,602 INFO ±¨µ¥ÏìÓ¦ str, Order=<±¨µ¥ÈÕÆÚ:20140825,Ö£ÉÌËù³É½»ÊıÁ¿:0,ÂòÂô·½Ïò:Âò,±¨µ¥Ìá½»×´Ì¬:ÒÑ¾­Ìá½»,»á»°±àºÅ:-943256868,×îĞ¡³É½»Á¿:1,ÊıÁ¿:1,³·ÏúÊ±¼ä:,Ö¹Ëğ¼Û:0.0,Î¯ÍĞÊ±¼ä:13:27:09,¾­¼Í¹«Ë¾±¨µ¥±àºÅ:7866,½ñ³É½»ÊıÁ¿:0,ºÏÔ¼ÔÚ½»Ò×ËùµÄ´úÂë:m1501,½áËã±àºÅ:1,¼¤»îÊ±¼ä:,GTDÈÕÆÚ:,±¨µ¥ÒıÓÃ:10040,´¥·¢Ìõ¼ş:Á¢¼´,³É½»Á¿ÀàĞÍ:ÈÎºÎÊıÁ¿,±¨µ¥ÀàĞÍ:Õı³£,±¾µØ±¨µ¥±àºÅ:         693,±¨µ¥ÌáÊ¾ĞòºÅ:0,Ïà¹Ø±¨µ¥:,±¨µ¥¼Û¸ñÌõ¼ş:ÏŞ¼Û,¹ÒÆğÊ±¼ä:,Ê£ÓàÊıÁ¿:1,×´Ì¬ĞÅÏ¢:±¨µ¥ÒÑÌá½»,°²×°±àºÅ:2,Ç¿Æ½Ô­Òò:·ÇÇ¿Æ½,ºÏÔ¼´úÂë:m1501,Ç°ÖÃ±àºÅ:2,ÓÃ»§Ç¿ÆÀ±êÖ¾:0,±¨µ¥×´Ì¬:Î´Öª,½»Ò×Ëù´úÂë:DCE,±¨µ¥±àºÅ:,ÇëÇó±àºÅ:0,×Ô¶¯¹ÒÆğ±êÖ¾:1,»¥»»µ¥±êÖ¾:0,ĞòºÅ:0,×éºÏ¿ªÆ½±êÖ¾:0,±¨µ¥À´Ô´:À´×Ô²ÎÓëÕß,½»Ò×ÈÕ:20140825,½áËã»áÔ±±àºÅ:,ÓĞĞ§ÆÚÀàĞÍ:µ±ÈÕÓĞĞ§,×îºóĞŞ¸ÄÊ±¼ä:,ÓÃ»§¶Ë²úÆ·ĞÅÏ¢:,¼Û¸ñ:3401.0,×éºÏÍ¶»úÌ×±£±êÖ¾:1>
+            #   ctp.TraderSpiDelegate:OnRtnOrder:512:2014-08-25 13:26:07,602 INFO TD:CTP½ÓÊÜOrder£¬µ«Î´·¢µ½½»Ò×Ëù
+            #   ctp.TraderSpiDelegate:OnRtnOrder:493:2014-08-25 13:26:07,641 INFO ±¨µ¥ÏìÓ¦ str, Order=<±¨µ¥ÈÕÆÚ:20140825,Ö£ÉÌËù³É½»ÊıÁ¿:0,ÂòÂô·½Ïò:Âò,±¨µ¥Ìá½»×´Ì¬:±¨µ¥ÒÑ¾­±»¾Ü¾ø,»á»°±àºÅ:-943256868,×îĞ¡³É½»Á¿:1,ÊıÁ¿:1,³·ÏúÊ±¼ä:,Ö¹Ëğ¼Û:0.0,Î¯ÍĞÊ±¼ä:13:27:09,¾­¼Í¹«Ë¾±¨µ¥±àºÅ:7866,½ñ³É½»ÊıÁ¿:0,ºÏÔ¼ÔÚ½»Ò×ËùµÄ´úÂë:m1501,½áËã±àºÅ:1,¼¤»îÊ±¼ä:,GTDÈÕÆÚ:,±¨µ¥ÒıÓÃ:10040,´¥·¢Ìõ¼ş:Á¢¼´,³É½»Á¿ÀàĞÍ:ÈÎºÎÊıÁ¿,±¨µ¥ÀàĞÍ:Õı³£,±¾µØ±¨µ¥±àºÅ:         693,±¨µ¥ÌáÊ¾ĞòºÅ:1,Ïà¹Ø±¨µ¥:,±¨µ¥¼Û¸ñÌõ¼ş:ÏŞ¼Û,¹ÒÆğÊ±¼ä:,Ê£ÓàÊıÁ¿:1,×´Ì¬ĞÅÏ¢:ÒÑ³·µ¥±¨µ¥±»¾Ü¾øDCE:¸ÃÆ·ÖÖµ±Ç°ÊÇ¿ªÊĞÔİÍ£!,°²×°±àºÅ:2,Ç¿Æ½Ô­Òò:·ÇÇ¿Æ½,ºÏÔ¼´úÂë:m1501,Ç°ÖÃ±àºÅ:2,ÓÃ»§Ç¿ÆÀ±êÖ¾:0,±¨µ¥×´Ì¬:³·µ¥,½»Ò×Ëù´úÂë:DCE,±¨µ¥±àºÅ:,ÇëÇó±àºÅ:0,×Ô¶¯¹ÒÆğ±êÖ¾:1,»¥»»µ¥±êÖ¾:0,ĞòºÅ:0,×éºÏ¿ªÆ½±êÖ¾:0,±¨µ¥À´Ô´:À´×Ô²ÎÓëÕß,½»Ò×ÈÕ:20140825ÓĞĞ§ÆÚÀàĞÍ:µ±ÈÕÓĞĞ§,×îºóĞŞ¸ÄÊ±¼ä:,ÓÃ»§¶Ë²úÆ·ĞÅÏ¢:,¼Û¸ñ:3401.0,×éºÏÍ¶»úÌ×±£±êÖ¾:1>
+            #   ctp.TraderSpiDelegate:OnRtnOrder:501:2014-08-25 13:26:07,641 INFO RTN_REJECT:±¨µ¥±»¾Ü¾ø
+            self.logger.info("RTN_REJECT:±¨µ¥±»¾Ü¾ø")
             self._trade_command_queue.on_reject(pOrder.InstrumentID,
                                                self.from_ctp_direction(pOrder.Direction),
                                                pOrder.VolumeTotalOriginal,
                                                pOrder.LimitPrice,
-                                               #-1,   #æ²¡æœ‰å…·ä½“åŸå› çš„æ‹’ç»
+                                               #-1,   #Ã»ÓĞ¾ßÌåÔ­ÒòµÄ¾Ü¾ø
                                                TradeError.TIME_ERROR,
                                             )
-        elif pOrder.OrderStatus == UType.THOST_FTDC_OST_Unknown and pOrder.OrderSysID== '' :
-            #CTPæ¥å—ï¼Œä½†æœªå‘åˆ°äº¤æ˜“æ‰€  pOrder.OrderSubmitStatus == UType.THOST_FTDC_OSS_InsertSubmitted.  æœªå¿…!!!.æˆäº¤æ—¶ä¹Ÿæ˜¯å·²æäº¤çŠ¶æ€
-            #print u'CTPæ¥å—Orderï¼Œä½†æœªå‘åˆ°äº¤æ˜“æ‰€, BrokerID=%s, BrokerOrderSeq = %s, TraderID=%s, OrderLocalID=%s' % (pOrder.BrokerID, pOrder.BrokerOrderSeq, pOrder.TraderID, pOrder.OrderLocalID)
-            self.logger.info('TD:CTPæ¥å—Orderï¼Œä½†æœªå‘åˆ°äº¤æ˜“æ‰€, BrokerID=%s, BrokerOrderSeq = %s, TraderID=%s, OrderLocalID=%s' % (pOrder.BrokerID, pOrder.BrokerOrderSeq, pOrder.TraderID, pOrder.OrderLocalID))
-            #print('TD:CTPæ¥å—Orderï¼Œä½†æœªå‘åˆ°äº¤æ˜“æ‰€, BrokerID=%s, BrokerOrderSeq = %s, TraderID=%s, OrderLocalID=%s' % (pOrder.BrokerID, pOrder.BrokerOrderSeq, pOrder.TraderID, pOrder.OrderLocalID))
-            #self._check_accepted(pOrder)   #exchange_idæœªè®¾å®š
-        elif pOrder.OrderStatus == UType.THOST_FTDC_OST_Unknown and pOrder.OrderSysID != '':     #äº¤æ˜“æ‰€æ¥å—å,å¾—åˆ°OrderSysID
-            #print u'äº¤æ˜“æ‰€æ¥å—Order, exchangeID=%s, OrderSysID=%s, TraderID=%s, OrderLocalID=%s' % (pOrder.ExchangeID, pOrder.OrderSysID, pOrder.TraderID, pOrder.OrderLocalID)
-            self.logger.info(u'TD:äº¤æ˜“æ‰€æ¥å—Order, exchangeID=%s, OrderSysID=%s, TraderID=%s, OrderLocalID=%s' % (pOrder.ExchangeID, pOrder.OrderSysID, pOrder.TraderID, pOrder.OrderLocalID))
+        elif pOrder.OrderStatus == UType.OST_Unknown and pOrder.OrderSysID== '' :
+            #CTP½ÓÊÜ£¬µ«Î´·¢µ½½»Ò×Ëù  pOrder.OrderSubmitStatus == UType.OSS_InsertSubmitted.  Î´±Ø!!!.³É½»Ê±Ò²ÊÇÒÑÌá½»×´Ì¬
+            #print 'CTP½ÓÊÜOrder£¬µ«Î´·¢µ½½»Ò×Ëù, BrokerID=%s, BrokerOrderSeq = %s, TraderID=%s, OrderLocalID=%s' % (pOrder.BrokerID, pOrder.BrokerOrderSeq, pOrder.TraderID, pOrder.OrderLocalID)
+            self.logger.info('TD:CTP½ÓÊÜOrder£¬µ«Î´·¢µ½½»Ò×Ëù, BrokerID=%s, BrokerOrderSeq = %s, TraderID=%s, OrderLocalID=%s' % (pOrder.BrokerID, pOrder.BrokerOrderSeq, pOrder.TraderID, pOrder.OrderLocalID))
+            #print('TD:CTP½ÓÊÜOrder£¬µ«Î´·¢µ½½»Ò×Ëù, BrokerID=%s, BrokerOrderSeq = %s, TraderID=%s, OrderLocalID=%s' % (pOrder.BrokerID, pOrder.BrokerOrderSeq, pOrder.TraderID, pOrder.OrderLocalID))
+            #self._check_accepted(pOrder)   #exchange_idÎ´Éè¶¨
+        elif pOrder.OrderStatus == UType.OST_Unknown and pOrder.OrderSysID != '':     #½»Ò×Ëù½ÓÊÜºó,µÃµ½OrderSysID
+            #print '½»Ò×Ëù½ÓÊÜOrder, exchangeID=%s, OrderSysID=%s, TraderID=%s, OrderLocalID=%s' % (pOrder.ExchangeID, pOrder.OrderSysID, pOrder.TraderID, pOrder.OrderLocalID)
+            self.logger.info('TD:½»Ò×Ëù½ÓÊÜOrder, exchangeID=%s, OrderSysID=%s, TraderID=%s, OrderLocalID=%s' % (pOrder.ExchangeID, pOrder.OrderSysID, pOrder.TraderID, pOrder.OrderLocalID))
             self._check_accepted(pOrder)
-        elif pOrder.OrderStatus == UType.THOST_FTDC_OST_PartTradedNotQueueing:
-            uid = self._check_accepted(pOrder)    #å¯èƒ½ç”±äºå„ç§åŸå› å¯¼è‡´æœªå‡ºç°å•ç‹¬çš„Exchange Acceptå›åº”
+        elif pOrder.OrderStatus == UType.OST_PartTradedNotQueueing:
+            uid = self._check_accepted(pOrder)    #¿ÉÄÜÓÉÓÚ¸÷ÖÖÔ­Òòµ¼ÖÂÎ´³öÏÖµ¥¶ÀµÄExchange Accept»ØÓ¦
             #print("ORO:VT:",pOrder.VolumeTraded)
             self._trade_command_queue.on_rtn_order(uid,ORDER_STATUS.PART_SUCCESSED,pOrder.VolumeTraded)
-        elif pOrder.OrderStatus == UType.THOST_FTDC_OST_AllTraded:
-            uid = self._check_accepted(pOrder)    #å¯èƒ½ç”±äºå„ç§åŸå› å¯¼è‡´æœªå‡ºç°å•ç‹¬çš„Exchange Acceptå›åº”
+        elif pOrder.OrderStatus == UType.OST_AllTraded:
+            uid = self._check_accepted(pOrder)    #¿ÉÄÜÓÉÓÚ¸÷ÖÖÔ­Òòµ¼ÖÂÎ´³öÏÖµ¥¶ÀµÄExchange Accept»ØÓ¦
             self._trade_command_queue.on_rtn_order(uid,ORDER_STATUS.SUCCESSED,pOrder.VolumeTraded)
-        elif pOrder.OrderStatus == UType.THOST_FTDC_OST_Canceled or pOrder.OrderStatus == UType.THOST_FTDC_OST_NoTradeNotQueueing:
-            uid = self._check_accepted(pOrder)    #å¯èƒ½ç”±äºå„ç§åŸå› å¯¼è‡´æœªå‡ºç°å•ç‹¬çš„Exchange Acceptå›åº”
+        elif pOrder.OrderStatus == UType.OST_Canceled or pOrder.OrderStatus == UType.OST_NoTradeNotQueueing:
+            uid = self._check_accepted(pOrder)    #¿ÉÄÜÓÉÓÚ¸÷ÖÖÔ­Òòµ¼ÖÂÎ´³öÏÖµ¥¶ÀµÄExchange Accept»ØÓ¦
             self._trade_command_queue.on_rtn_order(uid,ORDER_STATUS.CANCELLED,pOrder.VolumeTraded)
 
     def OnRtnTrade(self, pTrade):
         """
-            æˆäº¤é€šçŸ¥
+            ³É½»Í¨Öª
         """
-        self.logger.info("SPI_OT:æ”¶åˆ°æˆäº¤å›æŠ¥ %s",str(pTrade))
+        self.logger.info("SPI_OT:ÊÕµ½³É½»»Ø±¨ %s",str(pTrade))
         #print("SPI_OT:",pTrade.ExchangeID)
-        #if pTrade.TradeTime < self.first_login_time:       #ä¸å¯èƒ½æ”¶åˆ°ç™»é™†å‰çš„æˆäº¤å›æŠ¥,åªä¼šæ”¶åˆ°å§”æ‰˜å›æŠ¥
-        #    self.logger.info("æ”¶åˆ°ç™»é™†å‰çš„æˆäº¤å›æŠ¥",str(pTrade))
+        #if pTrade.TradeTime < self.first_login_time:       #²»¿ÉÄÜÊÕµ½µÇÂ½Ç°µÄ³É½»»Ø±¨,Ö»»áÊÕµ½Î¯ÍĞ»Ø±¨
+        #    self.logger.info("ÊÕµ½µÇÂ½Ç°µÄ³É½»»Ø±¨",str(pTrade))
         #    self.trade_command_queue.on_pre_trade(pTrade.ExchangeID,pTrade.OrderSysID,pTrade.TradeTime,pTrade.InstrumentId,pTrade.Volume,pTrade.Price)
         #else:
-        self.logger.info("æ”¶åˆ°æˆäº¤å›æŠ¥:%s",str(pTrade))
-        self.logger.info('SPI_TD:æˆäº¤é€šçŸ¥, BrokerID=%s, BrokerOrderSeq = %s, exchangeID=%s, OrderSysID=%s, TraderID=%s, OrderLocalID=%s' %(pTrade.BrokerID, pTrade.BrokerOrderSeq, pTrade.ExchangeID, pTrade.OrderSysID, pTrade.TraderID, pTrade.OrderLocalID))
-        uid = self.r2uid(pTrade.TradingDay, pTrade.ExchangeID, pTrade.OrderSysID)   #å¿…ç„¶ä¹‹å‰å·²ç»å­˜åœ¨OnRtnOrderçš„è°ƒç”¨
+        self.logger.info("ÊÕµ½³É½»»Ø±¨:%s",str(pTrade))
+        self.logger.info('SPI_TD:³É½»Í¨Öª, BrokerID=%s, BrokerOrderSeq = %s, exchangeID=%s, OrderSysID=%s, TraderID=%s, OrderLocalID=%s' %(pTrade.BrokerID, pTrade.BrokerOrderSeq, pTrade.ExchangeID, pTrade.OrderSysID, pTrade.TraderID, pTrade.OrderLocalID))
+        uid = self.r2uid(pTrade.TradingDay, pTrade.ExchangeID, pTrade.OrderSysID)   #±ØÈ»Ö®Ç°ÒÑ¾­´æÔÚOnRtnOrderµÄµ÷ÓÃ
         self._trade_command_queue.on_trade(uid,int(pTrade.TradeDate),pTrade.TradeTime,pTrade.Volume,pTrade.Price)
 
     def xcancel(self,instrument_id,exchange_id,order_sys_id,front_id,session_id,order_ref):
         """
-            å½“ä»¥RESTARTæ–¹å¼è®¢é˜…æµæ—¶,ä¼šæ”¶åˆ°ä¹‹å‰çš„å§”æ‰˜/æˆäº¤å›æŠ¥. åœ¨å§”æ‰˜å›æŠ¥ä¸­,æœ‰å„å§”æ‰˜å•çŠ¶æ€
-                å¦‚æœæ’¤å•çš„æ—¶å€™æ•°æ®å¯¹ä¸ä¸Šå·,å°±ä¼šæœ‰ æ’¤å•æ‰¾ä¸åˆ°ç›¸åº”æŠ¥å• çš„é”™è¯¯
-            æ’¤å•è¯·æ±‚è¿”å›çš„OnRtnOrderæ˜¯è¢«æ’¤å•çš„è¿™ä¸ªpOrderçš„å§”æ‰˜å“åº”çš„çŠ¶æ€æ›´æ–°,ä¸ä¼šæœ‰å•ç‹¬çš„æ’¤å•OnRtnOrder
-                è¯¥OnRtnOrderä¸­, front_id,session_idç­‰éƒ½å¯¹åº”åˆ°è¢«æ’¤çš„é‚£ä¸ªpOrder
-                å¦‚æœæ˜¯é‡æ–°ç™»é™†,é‚£ä¹ˆå‘å‡ºæ’¤å•å‘½ä»¤çš„è¿™ä¸ªsession_idå’ŒOnRtnOrderå“åº”ä¸­çš„session_idæ˜¯ä¸ä¸€æ ·çš„
+            µ±ÒÔRESTART·½Ê½¶©ÔÄÁ÷Ê±,»áÊÕµ½Ö®Ç°µÄÎ¯ÍĞ/³É½»»Ø±¨. ÔÚÎ¯ÍĞ»Ø±¨ÖĞ,ÓĞ¸÷Î¯ÍĞµ¥×´Ì¬
+                Èç¹û³·µ¥µÄÊ±ºòÊı¾İ¶Ô²»ÉÏºÅ,¾Í»áÓĞ ³·µ¥ÕÒ²»µ½ÏàÓ¦±¨µ¥ µÄ´íÎó
+            ³·µ¥ÇëÇó·µ»ØµÄOnRtnOrderÊÇ±»³·µ¥µÄÕâ¸öpOrderµÄÎ¯ÍĞÏìÓ¦µÄ×´Ì¬¸üĞÂ,²»»áÓĞµ¥¶ÀµÄ³·µ¥OnRtnOrder
+                ¸ÃOnRtnOrderÖĞ, front_id,session_idµÈ¶¼¶ÔÓ¦µ½±»³·µÄÄÇ¸öpOrder
+                Èç¹ûÊÇÖØĞÂµÇÂ½,ÄÇÃ´·¢³ö³·µ¥ÃüÁîµÄÕâ¸ösession_idºÍOnRtnOrderÏìÓ¦ÖĞµÄsession_idÊÇ²»Ò»ÑùµÄ
         """
-        self.logger.info('SPI_XC:å–æ¶ˆå‘½ä»¤')
+        self.logger.info('SPI_XC:È¡ÏûÃüÁî')
         ref_id = self.inc_request_id()
-        #orderActionRefæ˜¯ä¸€ä¸ªå¯æœ‰å¯æ— çš„å€¼,è®¾ç½®é”™äº†ä¹Ÿæ— å…³ç´§è¦
+        #orderActionRefÊÇÒ»¸ö¿ÉÓĞ¿ÉÎŞµÄÖµ,ÉèÖÃ´íÁËÒ²ÎŞ¹Ø½ôÒª
         req = UStruct.InputOrderAction(
                 InstrumentID = instrument_id,
                 BrokerID = self._broker,
                 InvestorID = self._investor,
-                ActionFlag = UType.THOST_FTDC_AF_Delete,
-                OrderActionRef = ref_id,    #   è¿™éœ€è¦ä¸€ä¸ªint,çœŸTMçŸ›ç›¾, OrderRefæ˜¯ä¸€ä¸ªString
-                #OrderActionRef = order_ref, #   è¿™ä¸ªrefæ— å…³ç´§è¦,æ ¹æ®æ–‡æ¡£,åº”å½“æ˜¯ref_id
+                ActionFlag = UType.AF_Delete,
+                OrderActionRef = ref_id,    #   ÕâĞèÒªÒ»¸öint,ÕæTMÃ¬¶Ü, OrderRefÊÇÒ»¸öString
+                #OrderActionRef = order_ref, #   Õâ¸örefÎŞ¹Ø½ôÒª,¸ù¾İÎÄµµ,Ó¦µ±ÊÇref_id
             )
-        if exchange_id:   #å·²è®¾ç½®,åˆ™é‡‡ç”¨Exchange_id+orderSysIDæ–¹å¼. è¿™ä¸¤ç§æ–¹å¼å‡å¯æ’¤å½“æ—¥ä»»æ„å•
+        if exchange_id:   #ÒÑÉèÖÃ,Ôò²ÉÓÃExchange_id+orderSysID·½Ê½. ÕâÁ½ÖÖ·½Ê½¾ù¿É³·µ±ÈÕÈÎÒâµ¥
             req.ExchangeID = exchange_id
             req.OrderSysID = order_sys_id
-        else:   #é‡‡ç”¨frontID + sessionID + orderRefæ ‡è¯†çš„æ–¹å¼. è¿™ä¸¤ç§æ–¹å¼å‡å¯æ’¤å½“æ—¥ä»»æ„å•
-            #è¿™ä¸ªåˆ†æ”¯çš„æµ‹è¯• å¿…é¡»åœ¨OnRtnOrderç¬¬ä¸€æ¬¡Callbackæ—¶æ‰èƒ½è§¦å‘. éœ€è¦åœ¨è¯¥å›è°ƒä¸­æµ‹è¯•
+        else:   #²ÉÓÃfrontID + sessionID + orderRef±êÊ¶µÄ·½Ê½. ÕâÁ½ÖÖ·½Ê½¾ù¿É³·µ±ÈÕÈÎÒâµ¥
+            #Õâ¸ö·ÖÖ§µÄ²âÊÔ ±ØĞëÔÚOnRtnOrderµÚÒ»´ÎCallbackÊ±²ÅÄÜ´¥·¢. ĞèÒªÔÚ¸Ã»Øµ÷ÖĞ²âÊÔ
             req.FrontID = front_id
             req.SessionID = session_id
             req.OrderRef = str(order_ref)
-        ret= self.api.ReqOrderAction(req,self.inc_request_id())
+        ret= self.ReqOrderAction(req,self.inc_request_id())
         return ret
 
     def OnRspOrderAction(self, pInputOrderAction, pRspInfo, nRequestID, bIsLast):
         """
-            ctpæ’¤å•æ ¡éªŒé”™è¯¯
+            ctp³·µ¥Ğ£Ñé´íÎó
         """
-        self.logger.warning(u'TD:CTPæ’¤å•å½•å…¥é”™è¯¯å›æŠ¥, æ­£å¸¸åä¸åº”è¯¥å‡ºç°, rspInfo=%s'%(str(pRspInfo), ))
+        self.logger.warning('TD:CTP³·µ¥Â¼Èë´íÎó»Ø±¨, Õı³£ºó²»Ó¦¸Ã³öÏÖ, rspInfo=%s'%(str(pRspInfo), ))
         #self.trade_command_queue.on_rtn_order(pInputOrderAction.OrderRef,ORDER_STATUS.LOCAL_REJECT)
 
     def OnErrRtnOrderAction(self, pOrderAction, pRspInfo):
         """
-            äº¤æ˜“æ‰€æ’¤å•æ“ä½œé”™è¯¯å›æŠ¥
+            ½»Ò×Ëù³·µ¥²Ù×÷´íÎó»Ø±¨
         """
         #print("in CTP_WRAPPER:OEROA")
-        self.logger.warning(u'TD:äº¤æ˜“æ‰€æ’¤å•å½•å…¥é”™è¯¯å›æŠ¥, å¯èƒ½å·²ç»æˆäº¤, rspInfo=%s'%(str(pRspInfo), ))
+        self.logger.warning('TD:½»Ò×Ëù³·µ¥Â¼Èë´íÎó»Ø±¨, ¿ÉÄÜÒÑ¾­³É½», rspInfo=%s'%(str(pRspInfo), ))
         #self.trade_command_queue.on_rtn_order(pOrderAction.OrderRef,ORDER_STATUS.EXCHANGE_REJECT)
 
 

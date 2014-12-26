@@ -16,6 +16,7 @@ from ..common.utils import (fcustom,
                     ArgsCached,
                     TList,
                     next_minute,
+                    with_metaclass
                 )
 from ..core.dac import (MINUTE,
                         MINUTE2D,
@@ -42,7 +43,8 @@ class TradingStatus:
     Closed = 6
 
 
-class Base_ContractType(object,metaclass=ArgsCached):
+@with_metaclass(ArgsCached)
+class Base_ContractType:
     """
         这里采用ArgsCached为metaclass, 只为了在ContractInfo持续化时使用缓存
             也可采用CM_ALL来找回ctype,更加简单.但是不如这个来得完整(ctype_name+exchange_name)
@@ -99,13 +101,14 @@ class Base_ContractType(object,metaclass=ArgsCached):
 #from inspect import getfullargspec
 
 
-class ContractInfo(object,metaclass=ArgsCached):
+@with_metaclass(ArgsCached)
+class ContractInfo:
     """
         同name的ContractInfo只会被创建一次.
         因此,如果存在 名字相同而ymonth不同的合约,就会出现混乱
     """
     _cached_args = ["name"]
-    def __init__(self,name,ymonth,ctype:Base_ContractType):
+    def __init__(self,name,ymonth,ctype):
         """
             ymonth: yyMM表示的月份
         """

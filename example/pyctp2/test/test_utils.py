@@ -14,6 +14,7 @@ from ..common.utils import (
                     TList,
                     ArgsCached,
                     Updateable,
+                    with_metaclass
                 )
 
 from ..common.base import TEST_PATH
@@ -104,19 +105,22 @@ class TListTest(unittest.TestCase):
 
 class ArgsCacheTestCase(unittest.TestCase):
     def setUp(self):
-        class A(object,metaclass=ArgsCached):
+        @with_metaclass(ArgsCached)
+        class A:
             _cached_args = ["name"]
             def __init__(self,name="name1",other="other1"):
                 self.name = name
                 self.other = other
         self.A = A
-        class A1(object,metaclass=ArgsCached):
+        @with_metaclass(ArgsCached)
+        class A1:
             _cached_args = ["name"]
             def __init__(self,name,other="other1"):
                 self.name = name
                 self.other = other
         self.A1 = A1
-        class A2(object,metaclass=ArgsCached):
+        @with_metaclass(ArgsCached)
+        class A2:
             _cached_args = ["name","other"]
             def __init__(self,name,other="other1"):
                 self.name = name

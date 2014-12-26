@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 import inspect
+from ..common.utils import with_metaclass
 
 def singleton(cls):
     instances = {}
@@ -28,7 +29,8 @@ class Singleton(type):
         inst.calc()
         return inst
 
-class MyClass2(object, metaclass=Singleton):
+@with_metaclass(Singleton)
+class MyClass2:
     def __init__(self,x=0):
         print("in myclass init,x=",x)
         self._x = x
@@ -36,7 +38,8 @@ class MyClass2(object, metaclass=Singleton):
     def calc(self):
         print("in calc")
 
-class BaseClass(object,metaclass=Singleton):
+@with_metaclass(Singleton)
+class BaseClass:
     pass
 
 class MyClass3(BaseClass):
@@ -109,7 +112,8 @@ class ParameterizedCached(type):
         return inst
 
 
-class Indicator(list,metaclass=ParameterizedCached):
+@with_metaclass(ParameterizedCached)
+class Indicator(list):
     """
         基类
         因为User-defined classes默认就是hashable的,故不需要特别处理__hash__

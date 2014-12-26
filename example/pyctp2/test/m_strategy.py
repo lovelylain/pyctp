@@ -41,7 +41,7 @@ class SExampleAB(BaseStrategy):
         比如跟踪CA,CB且比例为1, 则新目标的tick = CA.tick - CB.tick
         这样，实际上target的ticks的长度是 len(CA.ticks) + len(CB.ticks)
     '''
-    def __init__(self,holder:StrategyAgent):
+    def __init__(self,holder):
         BaseStrategy.__init__(self,holder)
         self.is_full = False
         self.max_lost = 50      #以最小跳动为单位
@@ -129,7 +129,7 @@ class SExampleAB2(BaseStrategy):
         比如跟踪CA,CB且比例为1, 则新目标的tick = CA.tick - CB.tick
         这样，实际上target的ticks的长度是 len(CA.ticks) + len(CB.ticks)
     '''
-    def __init__(self,holder:StrategyAgent):
+    def __init__(self,holder):
         BaseStrategy.__init__(self,holder)
         self.is_full = False
         self.max_lost = 50      #以最小跳动为单位
@@ -207,7 +207,7 @@ class SExampleAB0(BaseStrategy):
         比如跟踪CA,CB且比例为1, 则新目标的tick = CA.tick - CB.tick
         这样，实际上target的ticks的长度是 len(CA.ticks) + len(CB.ticks)
     '''
-    def __init__(self,holder:StrategyAgent):
+    def __init__(self,holder):
         BaseStrategy.__init__(self,holder)
         self.is_full = False
         self.max_lost = 50      #以最小跳动为单位

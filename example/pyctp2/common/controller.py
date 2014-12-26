@@ -6,7 +6,10 @@ import random
 import logging
 import sched
 import time
-import queue
+try:
+    import queue
+except ImportError:
+    import Queue as queue
 
 from .base import BaseObject,EMPTY_LIST,DAY_FINALIZE_TICK
 from .utils import now2next,TList
@@ -235,7 +238,7 @@ class TController(Controller,threading.Thread):
         self._queue.put(ctick)
 
     def day_finalize(self):
-        super().day_finalize()
+        super(TController, self).day_finalize()
 
     def _new_tick(self,ctick):
         #twaste = time.time() - ctick.create_time
@@ -285,7 +288,8 @@ class Scheduler(object):
         self._target = target
         self._tround = tround
         self._scheduler = sched.scheduler(time.time,time.sleep)
-        self._thread = threading.Thread(target=self._start,daemon=True)
+        self._thread = threading.Thread(target=self._start)
+        self._thread.daemon = True
         self._thread.start()
 
     def _start(self):
@@ -293,12 +297,12 @@ class Scheduler(object):
         seconds = now2next(self._tpoint//10000,self._tpoint%10000//100,self._tpoint%100)
         logging.info('start time trigger %s' % (seconds,))
         print(seconds)
-        self._scheduler.enter(seconds,1,self._func)
+        self._scheduler.enter(seconds,1,self._func,())
         self._scheduler.run()
 
     def _func(self):
         logging.info('in time trigger....')
-        self._scheduler.enter(self._tround,1,self._func)
+        self._scheduler.enter(self._tround,1,self._func,())
         print('next trigger:',self._tround)
         self._target()
         logging.info('time trigger end,next trig:%s' % (self._tround,))

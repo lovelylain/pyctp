@@ -17,5 +17,6 @@ def tsched():
 
 
 def thread_sched():
-    t=threading.Thread(target=tsched,daemon=True)
+    t=threading.Thread(target=tsched)
+    t.daemon = True
     t.start()

@@ -38,7 +38,7 @@ class SExampleA(BaseStrategy):
         同时,因为持久化的原因, close_func函数必须是Strategy的实例方法,否则无法定位
     """
 
-    def __init__(self,holder:StrategyAgent):
+    def __init__(self,holder):
         BaseStrategy.__init__(self,holder)
         self.is_full = False
         self.max_lost = 50      #以最小跳动为单位
@@ -46,7 +46,7 @@ class SExampleA(BaseStrategy):
         self.cur_times = 0
         self.max_times_per_day = 50
 
-    def check_open(self,ctick,CA:ContractInfo):
+    def check_open(self,ctick,CA):
         """
             直接发出信号
         """
@@ -85,7 +85,7 @@ class SExampleA(BaseStrategy):
             self.is_full = True
             popen.planned = popen.unit = 0
 
-    def _check_close(self,ctick,position,params:CloserParameter,CA):
+    def _check_close(self,ctick,position,params,CA):
         '''
             CA为目标Contract
             params为CloserParameter对象,包含如下内容:
@@ -102,12 +102,12 @@ class SExampleA2(BaseStrategy):
         Strategy示例,使用PCLOSE2
     """
 
-    def __init__(self,holder:StrategyAgent):
+    def __init__(self,holder):
         BaseStrategy.__init__(self,holder)
         self.is_full = False
         self.max_lost = 50      #以最小跳动为单位
 
-    def check_open(self,ctick,CA:ContractInfo):
+    def check_open(self,ctick,CA):
         """
             直接发出信号
         """
@@ -141,7 +141,7 @@ class SExampleA2(BaseStrategy):
             popen.planned = 0
             popen.unit = 0
 
-    def _check_close(self,ctick,volume,params:CloserParameter,CA):
+    def _check_close(self,ctick,volume,params,CA):
         '''
             CA为目标Contract
             params为CloserParameter对象,包含如下内容:
@@ -158,12 +158,12 @@ class SExampleA3(BaseStrategy):
         Strategy示例,使用PCLOSE2, 且分两次close
     """
 
-    def __init__(self,holder:StrategyAgent):
+    def __init__(self,holder):
         BaseStrategy.__init__(self,holder)
         self.is_full = False
         self.max_lost = 50      #以最小跳动为单位
 
-    def check_open(self,ctick,CA:ContractInfo):
+    def check_open(self,ctick,CA):
         """
             直接发出信号
         """
@@ -196,7 +196,7 @@ class SExampleA3(BaseStrategy):
             popen.planned = 0
             popen.unit = 0
 
-    def _check_close(self,ctick,volume,params:CloserParameter,CA):
+    def _check_close(self,ctick,volume,params,CA):
         '''
             CA为目标Contract
             params为CloserParameter对象,包含如下内容:

@@ -22,14 +22,14 @@ def make_user(ucfg,contract_manager,fpath='md'):
     mdagent = save_agent.SaveAgent(contract_manager,DATA_PATH)
     controller = ctl.Controller([mdagent])
     tt = ctl.TimeTrigger(152000,controller.day_finalize)
-    user = cm.MdApi.CreateMdApi('%s/%s' % (INFO_PATH,fpath))
     md_spi = cm.MdSpiDelegate(name=ucfg.name,
                              broker_id=ucfg.broker_id,
                              investor_id= ucfg.investor_id,
                              passwd= ucfg.passwd,
                              controller = controller,
                     )
-    user.RegisterSpi(md_spi)
+    user = md_spi
+    user.Create('%s/%s' % (INFO_PATH,fpath))
     controller.add_listener(md_spi)
     controller.update_listened_contracts()
     user.RegisterFront(ucfg.port)
@@ -44,14 +44,14 @@ def make_users(mdusers,contract_manager):
     #tt = ctl.TimeTrigger(223200,controller.day_finalize,30)
     users = []
     for mduser in mdusers:
-        user = cm.MdApi.CreateMdApi('%s/%s' % (INFO_PATH,mduser.name))
         md_spi = cm.MdSpiDelegate(name=mduser.name, 
                                  broker_id=mduser.broker_id,
                                  investor_id= mduser.investor_id,
                                  passwd= mduser.passwd,
                                  controller = controller,
                         )
-        user.RegisterSpi(md_spi)
+        user = md_spi
+        user.Create('%s/%s' % (INFO_PATH,mduser.name))
         controller.add_listener(md_spi)
         user.RegisterFront(mduser.port)
         #print('before init')
@@ -69,14 +69,14 @@ def make_users2(mdusers,contract_manager):
     tt = ctl.Scheduler(160000,controller.day_finalize,12*60*60)
     users = []
     for mduser in mdusers:
-        user = cm.MdApi.CreateMdApi('%s/%s' % (INFO_PATH,mduser.name))
         md_spi = cm.MdSpiDelegate(name=mduser.name, 
                                  broker_id=mduser.broker_id,
                                  investor_id= mduser.investor_id,
                                  passwd= mduser.passwd,
                                  controller = controller,
                         )
-        user.RegisterSpi(md_spi)
+        user = md_spi
+        user.Create('%s/%s' % (INFO_PATH,mduser.name))
         controller.add_listener(md_spi)
         user.RegisterFront(mduser.port)
         #print('before init')
@@ -96,14 +96,14 @@ def make_users_t(mdusers,contract_manager):
     tt = ctl.Scheduler(160000,controller.day_finalize,12*60*60)
     users = []
     for mduser in mdusers:
-        user = cm.MdApi.CreateMdApi('%s/%s' % (INFO_PATH,mduser.name))
         md_spi = cm.MdSpiDelegate(name=mduser.name, 
                                  broker_id=mduser.broker_id,
                                  investor_id= mduser.investor_id,
                                  passwd= mduser.passwd,
                                  controller = controller,
                         )
-        user.RegisterSpi(md_spi)
+        user = md_spi
+        user.Create('%s/%s' % (INFO_PATH,mduser.name))
         controller.add_listener(md_spi)
         user.RegisterFront(mduser.port)
         #print('before init')
@@ -123,14 +123,14 @@ def make_users_t2(mdusers,contract_managers):
     tt = ctl.Scheduler(160000,controller.day_finalize,12*60*60)
     users = []
     for mduser in mdusers:
-        user = cm.MdApi.CreateMdApi('%s/%s' % (INFO_PATH,mduser.name))
         md_spi = cm.MdSpiDelegate(name=mduser.name, 
                                  broker_id=mduser.broker_id,
                                  investor_id= mduser.investor_id,
                                  passwd= mduser.passwd,
                                  controller = controller,
                         )
-        user.RegisterSpi(md_spi)
+        user = md_spi
+        user.Create('%s/%s' % (INFO_PATH,mduser.name))
         controller.add_listener(md_spi)
         user.RegisterFront(mduser.port)
         #print('before init')
@@ -151,14 +151,14 @@ def make_users_c(mdusers,contract_managers):
     #tt = ctl.Scheduler(160000,controller.day_finalize,30)
     users = []
     for mduser in mdusers:
-        user = cm.MdApi.CreateMdApi('%s/%s' % (INFO_PATH,mduser.name))
         md_spi = cm.MdSpiDelegate(name=mduser.name, 
                                  broker_id=mduser.broker_id,
                                  investor_id= mduser.investor_id,
                                  passwd= mduser.passwd,
                                  controller = controller,
                         )
-        user.RegisterSpi(md_spi)
+        user = md_spi
+        user.Create('%s/%s' % (INFO_PATH,mduser.name))
         controller.add_listener(md_spi)
         user.RegisterFront(mduser.port)
         #print('before init')

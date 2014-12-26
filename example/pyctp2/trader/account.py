@@ -3,7 +3,7 @@
 
 import threading
 import time
-from ..ctp_api.TraderApi import TraderApi
+from ctp.futures import TraderApi, ApiStruct
 from ..trader.trade_command_queue import TradeCommandQueue
 from ..trader.trade_command import QueryAccountCommand
 from ..trader.ctp_wrapper import TraderSpiDelegate
@@ -55,13 +55,13 @@ class Account(object):
         self.trade_queue = TradeCommandQueue(self._env,self)
         self.spi.queue = self.trade_queue
         #self.trader = TraderApi.CreateTraderApi(self.investor)
-        self.api = TraderApi.CreateTraderApi("%s/%s" % (INTERNAL_PATH,self._ports_info.name))   #避免泄密
-        self.api.RegisterSpi(self.spi)
-        self.api.SubscribePublicTopic(THOST_TERT_MODE.QUICK)
-        self.api.SubscribePrivateTopic(THOST_TERT_MODE.QUICK)
+        self.api = self.spi
+        self.api.Create("%s/%s" % (INTERNAL_PATH,self._ports_info.name))   #避免泄密
+        self.api.SubscribePublicTopic(ApiStruct.TERT_QUICK)
+        self.api.SubscribePrivateTopic(ApiStruct.TERT_QUICK)
         #会被灌入当日连接前的RtnOrder,可用于确认挂单(同order_ref最后的那一票)
-        #self.api.SubscribePublicTopic(THOST_TERT_MODE.RESTART)
-        #self.api.SubscribePrivateTopic(THOST_TERT_MODE.RESTART)
+        #self.api.SubscribePublicTopic(ApiStruct.TERT_RESTART)
+        #self.api.SubscribePrivateTopic(ApiStruct.TERT_RESTART)
         for port in self._ports_info.ports:
             self.api.RegisterFront(port)
         self._env.register_account(self)

@@ -350,7 +350,7 @@ class StrategyAgent(BaseAgent):
         """
             日结处理
         """
-        super().day_finalize()  #先处理基类
+        super(StrategyAgent, self).day_finalize()  #先处理基类
         self._strategy.day_finalize()
         #self.recalc_state()        #应当由coordinator调用
 

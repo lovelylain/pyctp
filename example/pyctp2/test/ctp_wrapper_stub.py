@@ -1,14 +1,14 @@
-# -*- coding: utf-8 -*-
+# -*- coding:gbk -*-
 """
-        deprecated, ç›´æ¥ä½¿ç”¨TraderSpiDelegate + trader_api_stub
-        Mock TraderSPI, æä¾›ç»Ÿä¸€çš„æ¡©ä½, ç”¨ä»¥æµ‹è¯•TradeCommandQueueæ˜¯å¦æ­£ç¡®
-        ä¸éªŒè¯ä¸Šå±‚å‚æ•°æ˜¯å¦æ­£ç¡®,åªæä¾›é€šé“
+        deprecated, Ö±½ÓÊ¹ÓÃTraderSpiDelegate + trader_api_stub
+        Mock TraderSPI, Ìá¹©Í³Ò»µÄ×®Î», ÓÃÒÔ²âÊÔTradeCommandQueueÊÇ·ñÕıÈ·
+        ²»ÑéÖ¤ÉÏ²ã²ÎÊıÊÇ·ñÕıÈ·,Ö»Ìá¹©Í¨µÀ
 
 """
 import logging
 from datetime import datetime
 
-from ..ctp_api import UserApiType as UType
+from ctp.futures import ApiStruct as UType
 
 from ..trader import trade_command
 from ..common.base import (BaseObject,
@@ -24,13 +24,13 @@ class TraderSpiStub(object):
 
     def __init__(self,available,margin=0,frozen_margin=0):
         self._trade_command_queue = None
-        self._available = available  #å¯ç”¨é‡‘é¢
-        self._margin = margin        #ä¿è¯é‡‘
+        self._available = available  #¿ÉÓÃ½ğ¶î
+        self._margin = margin        #±£Ö¤½ğ
         self._frozen_margin = frozen_margin
         #self._macro_command_queue = macro_command_queue
-        #æ›´æ–°æ•°æ®ç”¨
+        #¸üĞÂÊı¾İÓÃ
         self.reset_login_info()
-        #order_ref => command çš„æ˜ å°„, ç”¨äºåœ¨å›è°ƒä¸­è·å–ç›¸å…³ä¿¡æ¯
+        #order_ref => command µÄÓ³Éä, ÓÃÓÚÔÚ»Øµ÷ÖĞ»ñÈ¡Ïà¹ØĞÅÏ¢
         self._ref_map = {}
         self._first_login_time = 0
         self._infos = []
@@ -60,7 +60,7 @@ class TraderSpiStub(object):
     @property
     def queue(self):
         #return self._trade_command_queue
-        raise TypeError("ä¸æ”¯æŒè¯»å–TraderSpiDelegateçš„trade_command_queue")
+        raise TypeError("²»Ö§³Ö¶ÁÈ¡TraderSpiDelegateµÄtrade_command_queue")
 
     @queue.setter
     def queue(self,queue):
@@ -94,80 +94,80 @@ class TraderSpiStub(object):
     def day_finalize(self):
         self.reset_login_info()
 
-    #å›å¤çŠ¶æ€å¤„ç†
+    #»Ø¸´×´Ì¬´¦Àí
 
-    ##äº¤æ˜“åˆå§‹åŒ–
-    #ç™»é™†,ç¡®è®¤ç»“ç®—å•
+    ##½»Ò×³õÊ¼»¯
+    #µÇÂ½,È·ÈÏ½áËãµ¥
     def OnFrontConnected(self):
         """
-            å½“å®¢æˆ·ç«¯ä¸äº¤æ˜“åå°å»ºç«‹èµ·é€šä¿¡è¿æ¥æ—¶ï¼ˆè¿˜æœªç™»å½•å‰ï¼‰ï¼Œè¯¥æ–¹æ³•è¢«è°ƒç”¨ã€‚
+            µ±¿Í»§¶ËÓë½»Ò×ºóÌ¨½¨Á¢ÆğÍ¨ĞÅÁ¬½ÓÊ±£¨»¹Î´µÇÂ¼Ç°£©£¬¸Ã·½·¨±»µ÷ÓÃ¡£
         """
-        self.logger.info(u'TD:trader front connected')
+        self.logger.info('TD:trader front connected')
         self._trade_command_queue.put_command(trade_command.LOGIN_COMMAND)
 
     def OnFrontDisconnected(self, nReason):
-        self.logger.info(u'TD:trader front disconnected, reason=%s' % (nReason, ))
+        self.logger.info('TD:trader front disconnected, reason=%s' % (nReason, ))
 
     def user_login(self):
-        self.logger.info(u'TD:trader to login')
+        self.logger.info('TD:trader to login')
         ref_id = self.inc_request_id()
-        self.logger.info(u'TD:trader to login, issued')
+        self.logger.info('TD:trader to login, issued')
         self._trade_command_queue.on_login_success(datetime.today().strftime("%Y%m%d"))
         return 0
 
 
     def query_settlement_info(self):
-        #ä¸å¡«æ—¥æœŸè¡¨ç¤ºå–ä¸Šä¸€å¤©ç»“ç®—å•, å¹¶åœ¨å“åº”å‡½æ•°ä¸­ç¡®è®¤
-        self.logger.info(u'TD:å–ä¸Šä¸€æ—¥ç»“ç®—å•ä¿¡æ¯å¹¶ç¡®è®¤, BrokerID=%s, investorID=%s' % (self.broker, self.investor))
-        #time.sleep(1)   #é¿å…æµæ§, å› ä¸ºæ­¤æ—¶ticksæœªå¿…å·²ç»å¼€å§‹åŠ¨ä½œ, æ•…ä¸é‡‡ç”¨macro_command_queueæ–¹å¼. è¿™é‡Œå› ä¸ºä¸å†æŸ¥è¯¢ç»“ç®—å•æ˜¯å¦å·²ç¡®è®¤, æ‰€ä»¥å·²ç»æ²¡æœ‰æµæ§é™åˆ¶
+        #²»ÌîÈÕÆÚ±íÊ¾È¡ÉÏÒ»Ìì½áËãµ¥, ²¢ÔÚÏìÓ¦º¯ÊıÖĞÈ·ÈÏ
+        self.logger.info('TD:È¡ÉÏÒ»ÈÕ½áËãµ¥ĞÅÏ¢²¢È·ÈÏ, BrokerID=%s, investorID=%s' % (self.broker, self.investor))
+        #time.sleep(1)   #±ÜÃâÁ÷¿Ø, ÒòÎª´ËÊ±ticksÎ´±ØÒÑ¾­¿ªÊ¼¶¯×÷, ¹Ê²»²ÉÓÃmacro_command_queue·½Ê½. ÕâÀïÒòÎª²»ÔÙ²éÑ¯½áËãµ¥ÊÇ·ñÒÑÈ·ÈÏ, ËùÒÔÒÑ¾­Ã»ÓĞÁ÷¿ØÏŞÖÆ
         ref_id = self.inc_request_id()
         self._trade_command_queue.put_command(trade_command.SETTLEMENT_CONFIRM_COMMAND)
         return 0
 
     def confirm_settlement_info(self):
-        self.logger.info(u'TD-CSI:å‡†å¤‡ç¡®è®¤ç»“ç®—å•')
+        self.logger.info('TD-CSI:×¼±¸È·ÈÏ½áËãµ¥')
         ref_id = self.inc_request_id()
         self._trade_command_queue.on_settlement_info_confirmed()
         return 0
 
-    #äº¤æ˜“å‡†å¤‡
-    #è·å–å¸æˆ·èµ„é‡‘
+    #½»Ò××¼±¸
+    #»ñÈ¡ÕÊ»§×Ê½ğ
     def fetch_trading_account(self):
-        #è·å–èµ„é‡‘å¸æˆ·
-        logging.info(u'A:è·å–èµ„é‡‘å¸æˆ·..')
+        #»ñÈ¡×Ê½ğÕÊ»§
+        logging.info('A:»ñÈ¡×Ê½ğÕÊ»§..')
         ref_id = self.inc_request_id()
         self._trade_command_queue.on_query_trading_account(ref_id, self.get_balance(), self._available, self._margin, self._frozen_margin)
         return 0,ref_id
 
 
-    # è·å–æŒä»“
+    # »ñÈ¡³Ö²Ö
     def fetch_investor_position(self, instrument_id):
-        #è·å–åˆçº¦çš„å½“å‰æŒä»“
-        logging.info(u'A:è·å–åˆçº¦%sçš„å½“å‰æŒä»“..' % (instrument_id, ))
+        #»ñÈ¡ºÏÔ¼µÄµ±Ç°³Ö²Ö
+        logging.info('A:»ñÈ¡ºÏÔ¼%sµÄµ±Ç°³Ö²Ö..' % (instrument_id, ))
         ref_id = self.inc_request_id()
-        #logging.info(u'A:æŸ¥è¯¢æŒä»“, å‡½æ•°å‘å‡ºè¿”å›å€¼:%s' % rP)
+        #logging.info('A:²éÑ¯³Ö²Ö, º¯Êı·¢³ö·µ»ØÖµ:%s' % rP)
         return 0,ref_id
 
-    # è·å–æŒä»“æ˜ç»†
+    # »ñÈ¡³Ö²ÖÃ÷Ï¸
     def fetch_investor_position_detail(self, instrument_id):
         """
-            è·å–åˆçº¦çš„å½“å‰æŒä»“æ˜ç»†ï¼Œç›®å‰æ²¡ç”¨
+            »ñÈ¡ºÏÔ¼µÄµ±Ç°³Ö²ÖÃ÷Ï¸£¬Ä¿Ç°Ã»ÓÃ
         """
-        logging.info(u'A:è·å–åˆçº¦%sçš„å½“å‰æŒä»“..' % (instrument_id, ))
+        logging.info('A:»ñÈ¡ºÏÔ¼%sµÄµ±Ç°³Ö²Ö..' % (instrument_id, ))
         ref_id = self.inc_request_id()
-        #logging.info(u'A:æŸ¥è¯¢æŒä»“, å‡½æ•°å‘å‡ºè¿”å›å€¼:%s' % r)
+        #logging.info('A:²éÑ¯³Ö²Ö, º¯Êı·¢³ö·µ»ØÖµ:%s' % r)
         return 0,ref_id
 
-    #è·å–åˆçº¦ä¿è¯é‡‘ç‡
+    #»ñÈ¡ºÏÔ¼±£Ö¤½ğÂÊ
     def fetch_instrument_marginrate(self, instrument_id):
         """
-            ä¿è¯é‡‘ç‡éƒ½è®¾å®šä¸º0.1
+            ±£Ö¤½ğÂÊ¶¼Éè¶¨Îª0.1
         """
         ref_id = self.inc_request_id()
         self._trade_command_queue.on_query_instrument_marginrate(instrument_id, 0.1, 0.1)
         return 0
 
-    #æŸ¥è¯¢åˆçº¦ä¿¡æ¯
+    #²éÑ¯ºÏÔ¼ĞÅÏ¢
     def fetch_instrument(self, instrument_id):
         ref_id = self.inc_request_id()
         ctype = call.cname2ctype(instrument_id)
@@ -181,7 +181,7 @@ class TraderSpiStub(object):
         return 0
 
 
-    #è·å–è¡Œæƒ…ä¿¡æ¯, ç›®çš„åœ¨äºè·å–å½“æ—¥æ¶¨è·Œåœä»·æ ¼
+    #»ñÈ¡ĞĞÇéĞÅÏ¢, Ä¿µÄÔÚÓÚ»ñÈ¡µ±ÈÕÕÇµøÍ£¼Û¸ñ
     def fetch_depth_market_data(self, instrument_id):
         ref_id = self.inc_request_id()
         self._trade_command_queue.on_query_market_data(instrument_id,
@@ -191,14 +191,14 @@ class TraderSpiStub(object):
                                                          )
         return 0
 
-    #äº¤æ˜“éƒ¨åˆ†
-    #å¼€ä»“
+    #½»Ò×²¿·Ö
+    #¿ª²Ö
     def r2uid(self,trading_day,exchange_id,order_sys_id):
         uid = "%s:%s:%s" % (trading_day,exchange_id,order_sys_id)
 
     def get_ctp_direction(self,direction):
         #print(direction)
-        return UType.THOST_FTDC_D_Buy if direction == LONG else UType.THOST_FTDC_D_Sell
+        return UType.D_Buy if direction == LONG else UType.D_Sell
 
     def xopen(self, instrument_id, direction, volume,price):
         #print("xopen",instrument_id,volume,price)
@@ -221,8 +221,8 @@ class TraderSpiStub(object):
 
     def xclose(self, instrument_id, close_type,direction, volume,price):
         """
-            ä¸ŠæœŸæ‰€åŒºåˆ†å¹³æ˜¨å’Œå¹³ä»Š
-                æåçš„è¯å°±ä¼šè¢«CTPç›´æ¥æ‹’ç». å¦‚å¹³æ˜¨æ¥å¹³å½“æ—¥ä»“,ä¸”æ— è¶³å¤Ÿæ˜¨ä»“,å°±ä¼šæŠ¥:ç»¼åˆäº¤æ˜“å¹³å°ï¼šå¹³æ˜¨ä»“ä½ä¸è¶³
+            ÉÏÆÚËùÇø·ÖÆ½×òºÍÆ½½ñ
+                ¸ã·´µÄ»°¾Í»á±»CTPÖ±½Ó¾Ü¾ø. ÈçÆ½×òÀ´Æ½µ±ÈÕ²Ö,ÇÒÎŞ×ã¹»×ò²Ö,¾Í»á±¨:×ÛºÏ½»Ò×Æ½Ì¨£ºÆ½×ò²ÖÎ»²»×ã
         """
         order_sys_id = self.inc_order_sys_id()
         uid = self.r2uid(self._trading_day,self._exchange_id,order_sys_id)
@@ -241,10 +241,10 @@ class TraderSpiStub(object):
 
     def xcancel(self,instrument_id,exchange_id,order_sys_id,front_id,session_id,order_ref):
         """
-            Mockä¸­ä¸ä¼šæœ‰ä»»ä½•æ•ˆæœ
+            MockÖĞ²»»áÓĞÈÎºÎĞ§¹û
         """
-        self.logger.info('SPI_XC:å–æ¶ˆå‘½ä»¤')
+        self.logger.info('SPI_XC:È¡ÏûÃüÁî')
         ref_id = self.inc_request_id()
-        #orderActionRefæ˜¯ä¸€ä¸ªå¯æœ‰å¯æ— çš„å€¼,è®¾ç½®é”™äº†ä¹Ÿæ— å…³ç´§è¦
+        #orderActionRefÊÇÒ»¸ö¿ÉÓĞ¿ÉÎŞµÄÖµ,ÉèÖÃ´íÁËÒ²ÎŞ¹Ø½ôÒª
         return 0
 

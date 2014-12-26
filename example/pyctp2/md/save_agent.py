@@ -52,7 +52,7 @@ class SaveAgent(ManagedAgent):
         #self.stwaste += twaste
         #self.nt += 1
         #print(twaste,self.stwaste/self.nt)
-        super()._new_tick(ctick)
+        super(SaveAgent, self)._new_tick(ctick)
         cb = self._cbuffer[ctick.instrument]
         ticks = cb.contract.ticks
         minutes = MINUTE(ticks)
@@ -81,7 +81,7 @@ class SaveAgent(ManagedAgent):
                 objgraph.show_most_common_types(limit=20)
 
     def day_finalize(self):
-        super().day_finalize()
+        super(SaveAgent, self).day_finalize()
         for contract_name,cdata in self._cbuffer.items():
             #完成分钟处理,已经不需要
             #cdata.minutes.day_finalize()
@@ -166,7 +166,10 @@ class SaveAgent(ManagedAgent):
             self._cbuffer[contract.name] = BaseObject(contract=contract)
 
 import threading
-import queue
+try:
+    import queue
+except ImportError:
+    import Queue as queue
 
 class TSaveAgent(SaveAgent,threading.Thread):
     '''

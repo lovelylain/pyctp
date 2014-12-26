@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
 """
     通过元类实现的Indicator
 """
 
 import inspect
+from .utils import with_metaclass
 
 #soft_hash
 def soft_hash1(v):
@@ -76,8 +78,8 @@ class ParameterizedCached(type):
         #return inst
         return rev  #不是返回实例,而是返回calc的返回值, 一般情况下两者相同, 特殊情况下更加符合直观.
 
-
-class Indicator(list,metaclass=ParameterizedCached):
+@with_metaclass(ParameterizedCached)
+class Indicator(list):
     """
         基类
         因为User-defined classes默认就是hashable的,故不需要特别处理__hash__
