@@ -1,5 +1,4 @@
 from distutils.core import setup
-from distutils.util import get_platform
 from distutils.extension import Extension
 import re, sys, os, struct, shutil
 fp = open('ctp/__init__.py', 'rb'); data = fp.read(); fp.close()
@@ -14,7 +13,15 @@ BUILD = (
     ('Level2Api', 'level2userapi'),
 )
 
-platform = get_platform()
+def platform():
+    map1 = {'win32':'win', 'linux2':'linux'}
+    map2 = {'darwin':'ios'}
+    os = sys.platform
+    if os in map1:
+        return '%s%d' % (map1[os], struct.calcsize('P')*8)
+    return map2.get(os, os)
+platform = platform()
+
 api_dir = PREFIX+'api/%s'%platform
 include_dirs = [PREFIX+'ctp', api_dir]
 library_dirs = [api_dir]

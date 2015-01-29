@@ -13,16 +13,16 @@ pwd = os.getcwd()
 build_dir = os.path.join(pwd, 'build', dir, 'ctp')
 
 if sys.version_info[0] >= 3:
-    def execfile(path):
+    def execfile(path, globals):
         fp = open(path, 'U'); data = fp.read(); fp.close()
-        exec(data.rstrip()+'\n')
+        exec(data.rstrip()+'\n', globals)
 
 def build():
     sys.argv[1:] = ('build',)
     if not os.path.isdir(build_dir): os.makedirs(build_dir)
     open(os.path.join(build_dir, '__init__.py'), 'wb').close()
     for d,o,t in TASKS:
-        os.chdir(d); execfile('setup.py')
+        os.chdir(d); execfile('setup.py', type(sys)('__main__').__dict__)
         dir2 = os.path.join(build_dir, o or d)
         if os.path.exists(dir2): shutil.rmtree(dir2)
         shutil.move(os.path.join('build', dir, t), dir2)
