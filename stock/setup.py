@@ -14,7 +14,7 @@ BUILD = (
 )
 
 def platform():
-    map1 = {'win32':'win', 'linux2':'linux'}
+    map1 = {'win32':'win', 'linux2':'linux', 'linux':'linux'}
     map2 = {'darwin':'ios'}
     os = sys.platform
     if os in map1:
