@@ -182,6 +182,10 @@ class TraderApi(object):
         """用户口令更新请求"""
         return 0
 
+    def ReqTradingAccountPasswordUpdate(self, pTradingAccountPasswordUpdate, nRequestID):
+        """资金账户口令更新请求"""
+        return 0
+
     def ReqOrderInsert(self, pInputOrder, nRequestID):
         """报单录入请求"""
         return 0
@@ -267,6 +271,9 @@ class TraderApi(object):
 
     def OnRspUserPasswordUpdate(self, pUserPasswordUpdate, pRspInfo, nRequestID, bIsLast):
         """用户口令更新请求响应"""
+
+    def OnRspTradingAccountPasswordUpdate(self, pTradingAccountPasswordUpdate, pRspInfo, nRequestID, bIsLast):
+        """资金账户口令更新请求响应"""
 
     def OnRspOrderInsert(self, pInputOrder, pRspInfo, nRequestID, bIsLast):
         """报单录入请求响应"""
