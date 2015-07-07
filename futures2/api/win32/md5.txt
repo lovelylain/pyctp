@@ -1,0 +1,10 @@
+
+MD5sums 1.2 freeware for Win9x/ME/NT/2000/XP+
+Copyright (C) 2001-2005 Jem Berkes - http://www.pc-tools.net/
+Type md5sum -h for help
+
+[Path] / filename                              MD5 sum
+-------------------------------------------------------------------------------
+[D:\workspace\vss\交易系统\期权版本\20150515_api\traderapi_win\]
+thostmduserapi.dll                             f8e6148d77abf8c4196a4250b6ae67dc
+thosttraderapi.dll                             e5a2b7b7048f7bc19686f30dd058b634

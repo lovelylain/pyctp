@@ -4,7 +4,6 @@ from __future__ import absolute_import as _init
 
 __author__ = 'lovelylain'
 __version__ = '0.2.1'
-API_VERSION = 'v6.2.5_20140811'
 
 __all__ = ['ApiStruct', 'MdApi', 'TraderApi']
 
@@ -17,6 +16,12 @@ class MdApi(object):
         @return 创建出的UserApi
         modify for udp marketdata
         """
+
+    def GetApiVersion(self):
+        """获取API的版本信息
+        @retrun 获取到的版本号
+        """
+        return ''
 
     def Release(self):
         """删除接口对象本身
@@ -79,6 +84,20 @@ class MdApi(object):
         """
         return 0
 
+    def SubscribeForQuoteRsp(self, pInstrumentIDs):
+        """订阅询价。
+        @param pInstrumentIDs 合约ID列表
+        @remark
+        """
+        return 0
+
+    def UnSubscribeForQuoteRsp(self, pInstrumentIDs):
+        """退订询价。
+        @param pInstrumentIDs 合约ID列表
+        @remark
+        """
+        return 0
+
     def ReqUserLogin(self, pReqUserLogin, nRequestID):
         """用户登录请求"""
         return 0
@@ -120,8 +139,17 @@ class MdApi(object):
     def OnRspUnSubMarketData(self, pSpecificInstrument, pRspInfo, nRequestID, bIsLast):
         """取消订阅行情应答"""
 
+    def OnRspSubForQuoteRsp(self, pSpecificInstrument, pRspInfo, nRequestID, bIsLast):
+        """订阅询价应答"""
+
+    def OnRspUnSubForQuoteRsp(self, pSpecificInstrument, pRspInfo, nRequestID, bIsLast):
+        """取消订阅询价应答"""
+
     def OnRtnDepthMarketData(self, pDepthMarketData):
         """深度行情通知"""
+
+    def OnRtnForQuoteRsp(self, pForQuoteRsp):
+        """询价通知"""
 
 
 class TraderApi(object):
@@ -130,6 +158,12 @@ class TraderApi(object):
         @param pszFlowPath 存贮订阅信息文件的目录，默认为当前目录
         @return 创建出的UserApi
         """
+
+    def GetApiVersion(self):
+        """获取API的版本信息
+        @retrun 获取到的版本号
+        """
+        return ''
 
     def Release(self):
         """删除接口对象本身
@@ -248,6 +282,30 @@ class TraderApi(object):
         """请求删除预埋撤单"""
         return 0
 
+    def ReqExecOrderInsert(self, pInputExecOrder, nRequestID):
+        """执行宣告录入请求"""
+        return 0
+
+    def ReqExecOrderAction(self, pInputExecOrderAction, nRequestID):
+        """执行宣告操作请求"""
+        return 0
+
+    def ReqForQuoteInsert(self, pInputForQuote, nRequestID):
+        """询价录入请求"""
+        return 0
+
+    def ReqQuoteInsert(self, pInputQuote, nRequestID):
+        """报价录入请求"""
+        return 0
+
+    def ReqQuoteAction(self, pInputQuoteAction, nRequestID):
+        """报价操作请求"""
+        return 0
+
+    def ReqCombActionInsert(self, pInputCombAction, nRequestID):
+        """申请组合录入请求"""
+        return 0
+
     def ReqQryOrder(self, pQryOrder, nRequestID):
         """请求查询报单"""
         return 0
@@ -346,6 +404,38 @@ class TraderApi(object):
 
     def ReqQrySecAgentACIDMap(self, pQrySecAgentACIDMap, nRequestID):
         """请求查询二级代理操作员银期权限"""
+        return 0
+
+    def ReqQryProductExchRate(self, pQryProductExchRate, nRequestID):
+        """请求查询产品报价汇率"""
+        return 0
+
+    def ReqQryOptionInstrTradeCost(self, pQryOptionInstrTradeCost, nRequestID):
+        """请求查询期权交易成本"""
+        return 0
+
+    def ReqQryOptionInstrCommRate(self, pQryOptionInstrCommRate, nRequestID):
+        """请求查询期权合约手续费"""
+        return 0
+
+    def ReqQryExecOrder(self, pQryExecOrder, nRequestID):
+        """请求查询执行宣告"""
+        return 0
+
+    def ReqQryForQuote(self, pQryForQuote, nRequestID):
+        """请求查询询价"""
+        return 0
+
+    def ReqQryQuote(self, pQryQuote, nRequestID):
+        """请求查询报价"""
+        return 0
+
+    def ReqQryCombInstrumentGuard(self, pQryCombInstrumentGuard, nRequestID):
+        """请求查询组合合约安全系数"""
+        return 0
+
+    def ReqQryCombAction(self, pQryCombAction, nRequestID):
+        """请求查询申请组合"""
         return 0
 
     def ReqQryTransferSerial(self, pQryTransferSerial, nRequestID):
@@ -453,6 +543,24 @@ class TraderApi(object):
     def OnRspRemoveParkedOrderAction(self, pRemoveParkedOrderAction, pRspInfo, nRequestID, bIsLast):
         """删除预埋撤单响应"""
 
+    def OnRspExecOrderInsert(self, pInputExecOrder, pRspInfo, nRequestID, bIsLast):
+        """执行宣告录入请求响应"""
+
+    def OnRspExecOrderAction(self, pInputExecOrderAction, pRspInfo, nRequestID, bIsLast):
+        """执行宣告操作请求响应"""
+
+    def OnRspForQuoteInsert(self, pInputForQuote, pRspInfo, nRequestID, bIsLast):
+        """询价录入请求响应"""
+
+    def OnRspQuoteInsert(self, pInputQuote, pRspInfo, nRequestID, bIsLast):
+        """报价录入请求响应"""
+
+    def OnRspQuoteAction(self, pInputQuoteAction, pRspInfo, nRequestID, bIsLast):
+        """报价操作请求响应"""
+
+    def OnRspCombActionInsert(self, pInputCombAction, pRspInfo, nRequestID, bIsLast):
+        """申请组合录入请求响应"""
+
     def OnRspQryOrder(self, pOrder, pRspInfo, nRequestID, bIsLast):
         """请求查询报单响应"""
 
@@ -528,6 +636,30 @@ class TraderApi(object):
     def OnRspQrySecAgentACIDMap(self, pSecAgentACIDMap, pRspInfo, nRequestID, bIsLast):
         """请求查询二级代理操作员银期权限响应"""
 
+    def OnRspQryProductExchRate(self, pProductExchRate, pRspInfo, nRequestID, bIsLast):
+        """请求查询产品报价汇率"""
+
+    def OnRspQryOptionInstrTradeCost(self, pOptionInstrTradeCost, pRspInfo, nRequestID, bIsLast):
+        """请求查询期权交易成本响应"""
+
+    def OnRspQryOptionInstrCommRate(self, pOptionInstrCommRate, pRspInfo, nRequestID, bIsLast):
+        """请求查询期权合约手续费响应"""
+
+    def OnRspQryExecOrder(self, pExecOrder, pRspInfo, nRequestID, bIsLast):
+        """请求查询执行宣告响应"""
+
+    def OnRspQryForQuote(self, pForQuote, pRspInfo, nRequestID, bIsLast):
+        """请求查询询价响应"""
+
+    def OnRspQryQuote(self, pQuote, pRspInfo, nRequestID, bIsLast):
+        """请求查询报价响应"""
+
+    def OnRspQryCombInstrumentGuard(self, pCombInstrumentGuard, pRspInfo, nRequestID, bIsLast):
+        """请求查询组合合约安全系数响应"""
+
+    def OnRspQryCombAction(self, pCombAction, pRspInfo, nRequestID, bIsLast):
+        """请求查询申请组合响应"""
+
     def OnRspQryTransferSerial(self, pTransferSerial, pRspInfo, nRequestID, bIsLast):
         """请求查询转帐流水响应"""
 
@@ -558,8 +690,38 @@ class TraderApi(object):
     def OnRtnErrorConditionalOrder(self, pErrorConditionalOrder):
         """提示条件单校验错误"""
 
+    def OnRtnExecOrder(self, pExecOrder):
+        """执行宣告通知"""
+
+    def OnErrRtnExecOrderInsert(self, pInputExecOrder, pRspInfo):
+        """执行宣告录入错误回报"""
+
+    def OnErrRtnExecOrderAction(self, pExecOrderAction, pRspInfo):
+        """执行宣告操作错误回报"""
+
+    def OnErrRtnForQuoteInsert(self, pInputForQuote, pRspInfo):
+        """询价录入错误回报"""
+
+    def OnRtnQuote(self, pQuote):
+        """报价通知"""
+
+    def OnErrRtnQuoteInsert(self, pInputQuote, pRspInfo):
+        """报价录入错误回报"""
+
+    def OnErrRtnQuoteAction(self, pQuoteAction, pRspInfo):
+        """报价操作错误回报"""
+
+    def OnRtnForQuoteRsp(self, pForQuoteRsp):
+        """询价通知"""
+
     def OnRtnCFMMCTradingAccountToken(self, pCFMMCTradingAccountToken):
         """保证金监控中心用户令牌"""
+
+    def OnRtnCombAction(self, pCombAction):
+        """申请组合通知"""
+
+    def OnErrRtnCombActionInsert(self, pInputCombAction, pRspInfo):
+        """申请组合录入错误回报"""
 
     def OnRspQryContractBank(self, pContractBank, pRspInfo, nRequestID, bIsLast):
         """请求查询签约银行响应"""

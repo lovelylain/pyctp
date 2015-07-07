@@ -64,6 +64,7 @@ ICT_SocialID = 'F' #当地社保ID
 ICT_LocalID = 'G' #当地身份证
 ICT_BusinessRegistration = 'H' #商业登记证
 ICT_HKMCIDCard = 'I' #港澳永久性居民身份证
+ICT_AccountsPermits = 'J' #人行开户许可证
 ICT_OtherCard = 'x' #其他证件
 T['OrderLocalID'] = 'char[13]' #本地报单编号
 T['UserName'] = 'char[81]' #用户名称
@@ -192,10 +193,11 @@ ER_Host = '2' #自营
 ER_Maker = '3' #做市商
 T['ProductClass'] = 'char' #产品类型
 PC_Futures = '1' #期货
-PC_Options = '2' #期权
+PC_Options = '2' #期货期权
 PC_Combination = '3' #组合
 PC_Spot = '4' #即期
 PC_EFP = '5' #期转现
+PC_SpotOption = '6' #现货期权
 T['InstLifePhase'] = 'char' #合约生命周期状态
 IP_NotStart = '0' #未上市
 IP_Started = '1' #上市
@@ -248,6 +250,7 @@ OPT_BidPrice1 = 'C' #买一价
 OPT_BidPrice1PlusOneTicks = 'D' #买一价浮动上浮1个ticks
 OPT_BidPrice1PlusTwoTicks = 'E' #买一价浮动上浮2个ticks
 OPT_BidPrice1PlusThreeTicks = 'F' #买一价浮动上浮3个ticks
+OPT_FiveLevelPrice = 'G' #五档价
 T['OffsetFlag'] = 'char' #开平标志
 OF_Open = '0' #开仓
 OF_Close = '1' #平仓
@@ -359,6 +362,7 @@ T['LargeVolume'] = 'double' #大额数量
 T['SequenceSeries'] = 'short' #序列系列号
 T['CommPhaseNo'] = 'short' #通讯时段编号
 T['SequenceLabel'] = 'char[2]' #序列编号
+T['UnderlyingMultiple'] = 'double' #基础商品乘数
 T['Priority'] = 'int' #优先级
 T['ContractCode'] = 'char[41]' #合同编号
 T['City'] = 'char[51]' #市
@@ -421,6 +425,8 @@ ESPI_ExchDelivFeeMode = '9' #交易所交割手续费收取方式
 ESPI_DelivFeeMode = '0' #投资者交割手续费收取方式
 ESPI_CZCEComMarginType = 'A' #郑商所组合持仓保证金收取方式
 ESPI_DceComMarginType = 'B' #大商所套利保证金是否优惠
+ESPI_OptOutDisCountRate = 'a' #虚值期权保证金优惠比率
+ESPI_OptMiniGuarantee = 'b' #最低保障系数
 T['SystemParamID'] = 'char' #系统参数代码
 SPI_InvestorIDMinLength = '1' #投资者代码最小长度
 SPI_AccountIDMinLength = '2' #投资者帐号代码最小长度
@@ -476,6 +482,9 @@ FI_CSRCData = 'R' #上报保证金监控中心数据
 FI_CZCEClose = 'L' #郑商所平仓了结数据
 FI_CZCENoClose = 'N' #郑商所非平仓了结数据
 FI_PositionDtl = 'D' #持仓明细数据
+FI_OptionStrike = 'S' #期权执行文件
+FI_SettlementPriceComparison = 'M' #结算价比对文件
+FI_NonTradePosChange = 'B' #上期所非持仓变动明细
 T['FileName'] = 'char[257]' #文件名称
 T['FileType'] = 'char' #文件上传类型
 FUT_Settlement = '0' #结算
@@ -1419,6 +1428,10 @@ T['CSRCReason'] = 'char[3]' #事由
 T['IsSettlement'] = 'char[2]' #是否为非结算会员
 T['CSRCMoney'] = 'double' #资金
 T['CSRCPrice'] = 'double' #价格
+T['CSRCOptionsType'] = 'char[2]' #期权类型
+T['CSRCStrikePrice'] = 'double' #执行价
+T['CSRCTargetProductID'] = 'char[3]' #标的品种
+T['CSRCTargetInstrID'] = 'char[31]' #标的合约
 T['CommModelName'] = 'char[161]' #手续费率模板名称
 T['CommModelMemo'] = 'char[1025]' #手续费率模板备注
 T['ExprSetMode'] = 'char' #日期表达式设置类型
@@ -1578,7 +1591,6 @@ SRS_CreateFail = '3' #生成报表数据失败
 T['SaveStatus'] = 'char' #数据归档状态
 SSS_UnSaveData = '0' #归档未完成
 SSS_SaveDatad = '1' #归档完成
-T['CombineType'] = 'char[25]' #组合类型
 T['SettArchiveStatus'] = 'char' #结算确认数据归档状态
 SAS_UnArchived = '0' #未归档数据
 SAS_Archiving = '1' #数据归档中
@@ -1601,7 +1613,7 @@ T['CurrencyUnit'] = 'double' #币种单位数量
 T['ExchangeRate'] = 'double' #汇率
 T['SpecProductType'] = 'char' #特殊产品类型
 SPT_CzceHedge = '1' #郑商所套保产品
-SPT_IneForeignCurrency = '2' #能源中心货币质押产品
+SPT_IneForeignCurrency = '2' #货币质押产品
 SPT_DceOpenClose = '3' #大连短线开平仓产品
 T['FundMortgageType'] = 'char' #货币质押类型
 FMT_Mortgage = '1' #质押
@@ -1707,7 +1719,9 @@ CFIOT_FundIO = '0' #出入金
 CFIOT_SwapCurrency = '1' #银期换汇
 T['CusAccountType'] = 'char' #结算账户类型
 CAT_Futures = '1' #期货结算账户
-CAT_Assetmgr = '2' #资管结算账户
+CAT_AssetmgrFuture = '2' #纯期货资管业务下的资管结算账户
+CAT_AssetmgrTrustee = '3' #综合类资管业务下的期货资管托管账户
+CAT_AssetmgrTransfer = '4' #综合类资管业务下的资金中转账户
 T['CSRCNational'] = 'char[4]' #国籍
 T['CSRCSecAgentID'] = 'char[11]' #二级代理ID
 T['LanguageType'] = 'char' #通知语言类型
@@ -1749,6 +1763,132 @@ T['IsCheckPrepa'] = 'int' #是否校验开户可用资金
 T['UOAAssetmgrType'] = 'char' #投资类型
 UOAAT_Futures = '1' #期货类
 UOAAT_SpecialOrgan = '2' #综合类
+T['DirectionEn'] = 'char' #买卖方向
+DEN_Buy = '0' #Buy
+DEN_Sell = '1' #Sell
+T['OffsetFlagEn'] = 'char' #开平标志
+OFEN_Open = '0' #Position Opening
+OFEN_Close = '1' #Position Close
+OFEN_ForceClose = '2' #Forced Liquidation
+OFEN_CloseToday = '3' #Close Today
+OFEN_CloseYesterday = '4' #Close Prev.
+OFEN_ForceOff = '5' #Forced Reduction
+OFEN_LocalForceClose = '6' #Local Forced Liquidation
+T['HedgeFlagEn'] = 'char' #投机套保标志
+HFEN_Speculation = '1' #Speculation
+HFEN_Arbitrage = '2' #Arbitrage
+HFEN_Hedge = '3' #Hedge
+T['FundIOTypeEn'] = 'char' #出入金类型
+FIOTEN_FundIO = '1' #Deposit/Withdrawal
+FIOTEN_Transfer = '2' #Bank-Futures Transfer
+FIOTEN_SwapCurrency = '3' #Bank-Futures FX Exchange
+T['FundTypeEn'] = 'char' #资金类型
+FTEN_Deposite = '1' #Bank Deposit
+FTEN_ItemFund = '2' #Payment/Fee
+FTEN_Company = '3' #Brokerage Adj
+FTEN_InnerTransfer = '4' #Internal Transfer
+T['FundDirectionEn'] = 'char' #出入金方向
+FDEN_In = '1' #Deposit
+FDEN_Out = '2' #Withdrawal
+T['FundMortDirectionEn'] = 'char' #货币质押方向
+FMDEN_In = '1' #Pledge
+FMDEN_Out = '2' #Redemption
+T['SwapBusinessType'] = 'char[3]' #换汇业务种类
+T['OptionsType'] = 'char' #期权类型
+CP_CallOptions = '1' #看涨
+CP_PutOptions = '2' #看跌
+T['StrikeMode'] = 'char' #执行方式
+STM_Continental = '0' #欧式
+STM_American = '1' #美式
+STM_Bermuda = '2' #百慕大
+T['StrikeType'] = 'char' #执行类型
+STT_Hedge = '0' #自身对冲
+STT_Match = '1' #匹配执行
+T['ApplyType'] = 'char' #中金所期权放弃执行申请类型
+APPT_NotStrikeNum = '4' #不执行数量
+T['GiveUpDataSource'] = 'char' #放弃执行申请数据来源
+GUDS_Gen = '0' #系统生成
+GUDS_Hand = '1' #手工添加
+T['ExecOrderSysID'] = 'char[21]' #执行宣告系统编号
+T['ExecResult'] = 'char' #执行结果
+OER_NoExec = 'n' #没有执行
+OER_Canceled = 'c' #已经取消
+OER_OK = '0' #执行成功
+OER_NoPosition = '1' #期权持仓不够
+OER_NoDeposit = '2' #资金不够
+OER_NoParticipant = '3' #会员不存在
+OER_NoClient = '4' #客户不存在
+OER_NoInstrument = '6' #合约不存在
+OER_NoRight = '7' #没有执行权限
+OER_InvalidVolume = '8' #不合理的数量
+OER_NoEnoughHistoryTrade = '9' #没有足够的历史成交
+OER_Unknown = 'a' #未知
+T['StrikeSequence'] = 'int' #执行序号
+T['StrikeTime'] = 'char[13]' #执行时间
+T['CombinationType'] = 'char' #组合类型
+COMBT_Future = '0' #期货组合
+COMBT_BUL = '1' #垂直价差BUL
+COMBT_BER = '2' #垂直价差BER
+COMBT_STD = '3' #跨式组合
+COMBT_STG = '4' #宽跨式组合
+COMBT_PRT = '5' #备兑组合
+COMBT_CLD = '6' #时间价差组合
+T['OptionRoyaltyPriceType'] = 'char' #期权权利金价格类型
+ORPT_PreSettlementPrice = '1' #昨结算价
+ORPT_OpenPrice = '4' #开仓价
+T['BalanceAlgorithm'] = 'char' #权益算法
+BLAG_Default = '1' #不计算期权市值盈亏
+BLAG_IncludeOptValLost = '2' #计算期权市值亏损
+T['ActionType'] = 'char' #执行类型
+ACTP_Exec = '1' #执行
+ACTP_Abandon = '2' #放弃
+T['ForQuoteStatus'] = 'char' #询价状态
+FQST_Submitted = 'a' #已经提交
+FQST_Accepted = 'b' #已经接受
+FQST_Rejected = 'c' #已经被拒绝
+T['ValueMethod'] = 'char' #取值方式
+VM_Absolute = '0' #按绝对值
+VM_Ratio = '1' #按比率
+T['ExecOrderPositionFlag'] = 'char' #期权行权后是否保留期货头寸的标记
+EOPF_Reserve = '0' #保留
+EOPF_UnReserve = '1' #不保留
+T['ExecOrderCloseFlag'] = 'char' #期权行权后生成的头寸是否自动平仓
+EOCF_AutoClose = '0' #自动平仓
+EOCF_NotToClose = '1' #免于自动平仓
+T['ProductType'] = 'char' #产品类型
+PTE_Futures = '1' #期货
+PTE_Options = '2' #期权
+T['CZCEUploadFileName'] = 'char' #郑商所结算文件名
+CUFN_CUFN_O = 'O' #^\d{8}_zz_\d{4}
+CUFN_CUFN_T = 'T' #^\d{8}成交表
+CUFN_CUFN_P = 'P' #^\d{8}单腿持仓表new
+CUFN_CUFN_N = 'N' #^\d{8}非平仓了结表
+CUFN_CUFN_L = 'L' #^\d{8}平仓表
+CUFN_CUFN_F = 'F' #^\d{8}资金表
+CUFN_CUFN_C = 'C' #^\d{8}组合持仓表
+CUFN_CUFN_M = 'M' #^\d{8}保证金参数表
+T['DCEUploadFileName'] = 'char' #大商所结算文件名
+DUFN_DUFN_O = 'O' #^\d{8}_dl_\d{3}
+DUFN_DUFN_T = 'T' #^\d{8}_成交表
+DUFN_DUFN_P = 'P' #^\d{8}_持仓表
+DUFN_DUFN_F = 'F' #^\d{8}_资金结算表
+DUFN_DUFN_C = 'C' #^\d{8}_优惠组合持仓明细表
+DUFN_DUFN_D = 'D' #^\d{8}_持仓明细表
+DUFN_DUFN_M = 'M' #^\d{8}_保证金参数表
+DUFN_DUFN_S = 'S' #^\d{8}_期权执行表
+T['SHFEUploadFileName'] = 'char' #上期所结算文件名
+SUFN_SUFN_O = 'O' #^\d{4}_\d{8}_\d{8}_DailyFundChg
+SUFN_SUFN_T = 'T' #^\d{4}_\d{8}_\d{8}_Trade
+SUFN_SUFN_P = 'P' #^\d{4}_\d{8}_\d{8}_SettlementDetail
+SUFN_SUFN_F = 'F' #^\d{4}_\d{8}_\d{8}_Capital
+T['CFFEXUploadFileName'] = 'char' #中金所结算文件名
+CFUFN_SUFN_T = 'T' #^\d{4}_SG\d{1}_\d{8}_\d{1}_Trade
+CFUFN_SUFN_P = 'P' #^\d{4}_SG\d{1}_\d{8}_\d{1}_SettlementDetail
+CFUFN_SUFN_F = 'F' #^\d{4}_SG\d{1}_\d{8}_\d{1}_Capital
+CFUFN_SUFN_S = 'S' #^\d{4}_SG\d{1}_\d{8}_\d{1}_OptionExec
+T['CombDirection'] = 'char' #组合指令方向
+CMDR_Comb = '0' #申请组合
+CMDR_UnComb = '1' #申请拆分
 
 class BaseStruct(object):
     def __repr__(self):
@@ -1921,7 +2061,7 @@ class Exchange(BaseStruct): #交易所
         self.ExchangeProperty = '' #交易所属性, char
 
 class Product(BaseStruct): #产品
-    def __init__(self, ProductID='', ProductName='', ExchangeID='', ProductClass=PC_Futures, VolumeMultiple=0, PriceTick=0.0, MaxMarketOrderVolume=0, MinMarketOrderVolume=0, MaxLimitOrderVolume=0, MinLimitOrderVolume=0, PositionType=PT_Net, PositionDateType=PDT_UseHistory, CloseDealType=CDT_Normal, TradeCurrencyID='', MortgageFundUseRange=MFUR_None):
+    def __init__(self, ProductID='', ProductName='', ExchangeID='', ProductClass=PC_Futures, VolumeMultiple=0, PriceTick=0.0, MaxMarketOrderVolume=0, MinMarketOrderVolume=0, MaxLimitOrderVolume=0, MinLimitOrderVolume=0, PositionType=PT_Net, PositionDateType=PDT_UseHistory, CloseDealType=CDT_Normal, TradeCurrencyID='', MortgageFundUseRange=MFUR_None, ExchangeProductID='', UnderlyingMultiple=0.0):
         self.ProductID = 'InstrumentID' #产品代码, char[31]
         self.ProductName = '' #产品名称, char[21]
         self.ExchangeID = '' #交易所代码, char[9]
@@ -1937,9 +2077,11 @@ class Product(BaseStruct): #产品
         self.CloseDealType = '' #平仓处理类型, char
         self.TradeCurrencyID = 'CurrencyID' #交易币种类型, char[4]
         self.MortgageFundUseRange = '' #质押资金可用范围, char
+        self.ExchangeProductID = 'InstrumentID' #交易所产品代码, char[31]
+        self.UnderlyingMultiple = '' #合约基础商品乘数, double
 
 class Instrument(BaseStruct): #合约
-    def __init__(self, InstrumentID='', ExchangeID='', InstrumentName='', ExchangeInstID='', ProductID='', ProductClass=PC_Futures, DeliveryYear=0, DeliveryMonth=0, MaxMarketOrderVolume=0, MinMarketOrderVolume=0, MaxLimitOrderVolume=0, MinLimitOrderVolume=0, VolumeMultiple=0, PriceTick=0.0, CreateDate='', OpenDate='', ExpireDate='', StartDelivDate='', EndDelivDate='', InstLifePhase=IP_NotStart, IsTrading=0, PositionType=PT_Net, PositionDateType=PDT_UseHistory, LongMarginRatio=0.0, ShortMarginRatio=0.0, MaxMarginSideAlgorithm=MMSA_NO):
+    def __init__(self, InstrumentID='', ExchangeID='', InstrumentName='', ExchangeInstID='', ProductID='', ProductClass=PC_Futures, DeliveryYear=0, DeliveryMonth=0, MaxMarketOrderVolume=0, MinMarketOrderVolume=0, MaxLimitOrderVolume=0, MinLimitOrderVolume=0, VolumeMultiple=0, PriceTick=0.0, CreateDate='', OpenDate='', ExpireDate='', StartDelivDate='', EndDelivDate='', InstLifePhase=IP_NotStart, IsTrading=0, PositionType=PT_Net, PositionDateType=PDT_UseHistory, LongMarginRatio=0.0, ShortMarginRatio=0.0, MaxMarginSideAlgorithm=MMSA_NO, UnderlyingInstrID='', StrikePrice=0.0, OptionsType=CP_CallOptions, UnderlyingMultiple=0.0, CombinationType=COMBT_Future):
         self.InstrumentID = '' #合约代码, char[31]
         self.ExchangeID = '' #交易所代码, char[9]
         self.InstrumentName = '' #合约名称, char[21]
@@ -1966,6 +2108,11 @@ class Instrument(BaseStruct): #合约
         self.LongMarginRatio = 'Ratio' #多头保证金率, double
         self.ShortMarginRatio = 'Ratio' #空头保证金率, double
         self.MaxMarginSideAlgorithm = '' #是否使用大额单边保证金算法, char
+        self.UnderlyingInstrID = 'InstrumentID' #基础商品代码, char[31]
+        self.StrikePrice = 'Price' #执行价, double
+        self.OptionsType = '' #期权类型, char
+        self.UnderlyingMultiple = '' #合约基础商品乘数, double
+        self.CombinationType = '' #组合类型, char
 
 class Broker(BaseStruct): #经纪公司
     def __init__(self, BrokerID='', BrokerAbbr='', BrokerName='', IsActive=0):
@@ -2083,7 +2230,7 @@ class TradingAccount(BaseStruct): #资金账户
         self.SpecProductExchangeMargin = 'Money' #特殊产品交易所保证金, double
 
 class InvestorPosition(BaseStruct): #投资者持仓
-    def __init__(self, InstrumentID='', BrokerID='', InvestorID='', PosiDirection=PD_Net, HedgeFlag=HF_Speculation, PositionDate=PSD_Today, YdPosition=0, Position=0, LongFrozen=0, ShortFrozen=0, LongFrozenAmount=0.0, ShortFrozenAmount=0.0, OpenVolume=0, CloseVolume=0, OpenAmount=0.0, CloseAmount=0.0, PositionCost=0.0, PreMargin=0.0, UseMargin=0.0, FrozenMargin=0.0, FrozenCash=0.0, FrozenCommission=0.0, CashIn=0.0, Commission=0.0, CloseProfit=0.0, PositionProfit=0.0, PreSettlementPrice=0.0, SettlementPrice=0.0, TradingDay='', SettlementID=0, OpenCost=0.0, ExchangeMargin=0.0, CombPosition=0, CombLongFrozen=0, CombShortFrozen=0, CloseProfitByDate=0.0, CloseProfitByTrade=0.0, TodayPosition=0, MarginRateByMoney=0.0, MarginRateByVolume=0.0):
+    def __init__(self, InstrumentID='', BrokerID='', InvestorID='', PosiDirection=PD_Net, HedgeFlag=HF_Speculation, PositionDate=PSD_Today, YdPosition=0, Position=0, LongFrozen=0, ShortFrozen=0, LongFrozenAmount=0.0, ShortFrozenAmount=0.0, OpenVolume=0, CloseVolume=0, OpenAmount=0.0, CloseAmount=0.0, PositionCost=0.0, PreMargin=0.0, UseMargin=0.0, FrozenMargin=0.0, FrozenCash=0.0, FrozenCommission=0.0, CashIn=0.0, Commission=0.0, CloseProfit=0.0, PositionProfit=0.0, PreSettlementPrice=0.0, SettlementPrice=0.0, TradingDay='', SettlementID=0, OpenCost=0.0, ExchangeMargin=0.0, CombPosition=0, CombLongFrozen=0, CombShortFrozen=0, CloseProfitByDate=0.0, CloseProfitByTrade=0.0, TodayPosition=0, MarginRateByMoney=0.0, MarginRateByVolume=0.0, StrikeFrozen=0, StrikeFrozenAmount=0.0, AbandonFrozen=0):
         self.InstrumentID = '' #合约代码, char[31]
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[13]
@@ -2124,6 +2271,9 @@ class InvestorPosition(BaseStruct): #投资者持仓
         self.TodayPosition = 'Volume' #今日持仓, int
         self.MarginRateByMoney = 'Ratio' #保证金率, double
         self.MarginRateByVolume = 'Ratio' #保证金率(按手数), double
+        self.StrikeFrozen = 'Volume' #执行冻结, int
+        self.StrikeFrozenAmount = 'Money' #执行冻结金额, double
+        self.AbandonFrozen = 'Volume' #放弃执行冻结, int
 
 class InstrumentMarginRate(BaseStruct): #合约保证金率
     def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', HedgeFlag=HF_Speculation, LongMarginRatioByMoney=0.0, LongMarginRatioByVolume=0.0, ShortMarginRatioByMoney=0.0, ShortMarginRatioByVolume=0.0, IsRelative=0):
@@ -2776,7 +2926,7 @@ class SyncingTradingAccount(BaseStruct): #正在同步中的交易账号
         self.SpecProductExchangeMargin = 'Money' #特殊产品交易所保证金, double
 
 class SyncingInvestorPosition(BaseStruct): #正在同步中的投资者持仓
-    def __init__(self, InstrumentID='', BrokerID='', InvestorID='', PosiDirection=PD_Net, HedgeFlag=HF_Speculation, PositionDate=PSD_Today, YdPosition=0, Position=0, LongFrozen=0, ShortFrozen=0, LongFrozenAmount=0.0, ShortFrozenAmount=0.0, OpenVolume=0, CloseVolume=0, OpenAmount=0.0, CloseAmount=0.0, PositionCost=0.0, PreMargin=0.0, UseMargin=0.0, FrozenMargin=0.0, FrozenCash=0.0, FrozenCommission=0.0, CashIn=0.0, Commission=0.0, CloseProfit=0.0, PositionProfit=0.0, PreSettlementPrice=0.0, SettlementPrice=0.0, TradingDay='', SettlementID=0, OpenCost=0.0, ExchangeMargin=0.0, CombPosition=0, CombLongFrozen=0, CombShortFrozen=0, CloseProfitByDate=0.0, CloseProfitByTrade=0.0, TodayPosition=0, MarginRateByMoney=0.0, MarginRateByVolume=0.0):
+    def __init__(self, InstrumentID='', BrokerID='', InvestorID='', PosiDirection=PD_Net, HedgeFlag=HF_Speculation, PositionDate=PSD_Today, YdPosition=0, Position=0, LongFrozen=0, ShortFrozen=0, LongFrozenAmount=0.0, ShortFrozenAmount=0.0, OpenVolume=0, CloseVolume=0, OpenAmount=0.0, CloseAmount=0.0, PositionCost=0.0, PreMargin=0.0, UseMargin=0.0, FrozenMargin=0.0, FrozenCash=0.0, FrozenCommission=0.0, CashIn=0.0, Commission=0.0, CloseProfit=0.0, PositionProfit=0.0, PreSettlementPrice=0.0, SettlementPrice=0.0, TradingDay='', SettlementID=0, OpenCost=0.0, ExchangeMargin=0.0, CombPosition=0, CombLongFrozen=0, CombShortFrozen=0, CloseProfitByDate=0.0, CloseProfitByTrade=0.0, TodayPosition=0, MarginRateByMoney=0.0, MarginRateByVolume=0.0, StrikeFrozen=0, StrikeFrozenAmount=0.0, AbandonFrozen=0):
         self.InstrumentID = '' #合约代码, char[31]
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[13]
@@ -2817,6 +2967,9 @@ class SyncingInvestorPosition(BaseStruct): #正在同步中的投资者持仓
         self.TodayPosition = 'Volume' #今日持仓, int
         self.MarginRateByMoney = 'Ratio' #保证金率, double
         self.MarginRateByVolume = 'Ratio' #保证金率(按手数), double
+        self.StrikeFrozen = 'Volume' #执行冻结, int
+        self.StrikeFrozenAmount = 'Money' #执行冻结金额, double
+        self.AbandonFrozen = 'Volume' #放弃执行冻结, int
 
 class SyncingInstrumentMarginRate(BaseStruct): #正在同步中的合约保证金率
     def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', HedgeFlag=HF_Speculation, LongMarginRatioByMoney=0.0, LongMarginRatioByVolume=0.0, ShortMarginRatioByMoney=0.0, ShortMarginRatioByVolume=0.0, IsRelative=0):
@@ -2981,8 +3134,9 @@ class QryExchange(BaseStruct): #查询交易所
         self.ExchangeID = '' #交易所代码, char[9]
 
 class QryProduct(BaseStruct): #查询产品
-    def __init__(self, ProductID=''):
+    def __init__(self, ProductID='', ProductClass=PC_Futures):
         self.ProductID = 'InstrumentID' #产品代码, char[31]
+        self.ProductClass = '' #产品类型, char
 
 class QryInstrument(BaseStruct): #查询合约
     def __init__(self, InstrumentID='', ExchangeID='', ExchangeInstID='', ProductID=''):
@@ -3056,6 +3210,697 @@ class QryHisOrder(BaseStruct): #查询报单
         self.InsertTimeEnd = 'Time' #结束时间, char[9]
         self.TradingDay = 'Date' #交易日, char[9]
         self.SettlementID = '' #结算编号, int
+
+class OptionInstrMiniMargin(BaseStruct): #当前期权合约最小保证金
+    def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', MinMargin=0.0, ValueMethod=VM_Absolute, IsRelative=0):
+        self.InstrumentID = '' #合约代码, char[31]
+        self.InvestorRange = '' #投资者范围, char
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.MinMargin = 'Money' #单位（手）期权合约最小保证金, double
+        self.ValueMethod = '' #取值方式, char
+        self.IsRelative = 'Bool' #是否跟随交易所收取, int
+
+class OptionInstrMarginAdjust(BaseStruct): #当前期权合约保证金调整系数
+    def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', SShortMarginRatioByMoney=0.0, SShortMarginRatioByVolume=0.0, HShortMarginRatioByMoney=0.0, HShortMarginRatioByVolume=0.0, AShortMarginRatioByMoney=0.0, AShortMarginRatioByVolume=0.0, IsRelative=0):
+        self.InstrumentID = '' #合约代码, char[31]
+        self.InvestorRange = '' #投资者范围, char
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.SShortMarginRatioByMoney = 'Ratio' #投机空头保证金调整系数, double
+        self.SShortMarginRatioByVolume = 'Money' #投机空头保证金调整系数, double
+        self.HShortMarginRatioByMoney = 'Ratio' #保值空头保证金调整系数, double
+        self.HShortMarginRatioByVolume = 'Money' #保值空头保证金调整系数, double
+        self.AShortMarginRatioByMoney = 'Ratio' #套利空头保证金调整系数, double
+        self.AShortMarginRatioByVolume = 'Money' #套利空头保证金调整系数, double
+        self.IsRelative = 'Bool' #是否跟随交易所收取, int
+
+class OptionInstrCommRate(BaseStruct): #当前期权合约手续费的详细内容
+    def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', OpenRatioByMoney=0.0, OpenRatioByVolume=0.0, CloseRatioByMoney=0.0, CloseRatioByVolume=0.0, CloseTodayRatioByMoney=0.0, CloseTodayRatioByVolume=0.0, StrikeRatioByMoney=0.0, StrikeRatioByVolume=0.0):
+        self.InstrumentID = '' #合约代码, char[31]
+        self.InvestorRange = '' #投资者范围, char
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.OpenRatioByMoney = 'Ratio' #开仓手续费率, double
+        self.OpenRatioByVolume = 'Ratio' #开仓手续费, double
+        self.CloseRatioByMoney = 'Ratio' #平仓手续费率, double
+        self.CloseRatioByVolume = 'Ratio' #平仓手续费, double
+        self.CloseTodayRatioByMoney = 'Ratio' #平今手续费率, double
+        self.CloseTodayRatioByVolume = 'Ratio' #平今手续费, double
+        self.StrikeRatioByMoney = 'Ratio' #执行手续费率, double
+        self.StrikeRatioByVolume = 'Ratio' #执行手续费, double
+
+class OptionInstrTradeCost(BaseStruct): #期权交易成本
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', HedgeFlag=HF_Speculation, FixedMargin=0.0, MiniMargin=0.0, Royalty=0.0, ExchFixedMargin=0.0, ExchMiniMargin=0.0):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.InstrumentID = '' #合约代码, char[31]
+        self.HedgeFlag = '' #投机套保标志, char
+        self.FixedMargin = 'Money' #期权合约保证金不变部分, double
+        self.MiniMargin = 'Money' #期权合约最小保证金, double
+        self.Royalty = 'Money' #期权合约权利金, double
+        self.ExchFixedMargin = 'Money' #交易所期权合约保证金不变部分, double
+        self.ExchMiniMargin = 'Money' #交易所期权合约最小保证金, double
+
+class QryOptionInstrTradeCost(BaseStruct): #期权交易成本查询
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', HedgeFlag=HF_Speculation, InputPrice=0.0, UnderlyingPrice=0.0):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.InstrumentID = '' #合约代码, char[31]
+        self.HedgeFlag = '' #投机套保标志, char
+        self.InputPrice = 'Price' #期权合约报价, double
+        self.UnderlyingPrice = 'Price' #标的价格,填0则用昨结算价, double
+
+class QryOptionInstrCommRate(BaseStruct): #期权手续费率查询
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID=''):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.InstrumentID = '' #合约代码, char[31]
+
+class IndexPrice(BaseStruct): #股指现货指数
+    def __init__(self, BrokerID='', InstrumentID='', ClosePrice=0.0):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InstrumentID = '' #合约代码, char[31]
+        self.ClosePrice = 'Price' #指数现货收盘价, double
+
+class InputExecOrder(BaseStruct): #输入的执行宣告
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', ExecOrderRef='', UserID='', Volume=0, RequestID=0, BusinessUnit='', OffsetFlag=OF_Open, HedgeFlag=HF_Speculation, ActionType=ACTP_Exec, PosiDirection=PD_Net, ReservePositionFlag=EOPF_Reserve, CloseFlag=EOCF_AutoClose):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.InstrumentID = '' #合约代码, char[31]
+        self.ExecOrderRef = 'OrderRef' #执行宣告引用, char[13]
+        self.UserID = '' #用户代码, char[16]
+        self.Volume = '' #数量, int
+        self.RequestID = '' #请求编号, int
+        self.BusinessUnit = '' #业务单元, char[21]
+        self.OffsetFlag = '' #开平标志, char
+        self.HedgeFlag = '' #投机套保标志, char
+        self.ActionType = '' #执行类型, char
+        self.PosiDirection = '' #保留头寸申请的持仓方向, char
+        self.ReservePositionFlag = 'ExecOrderPositionFlag' #期权行权后是否保留期货头寸的标记, char
+        self.CloseFlag = 'ExecOrderCloseFlag' #期权行权后生成的头寸是否自动平仓, char
+
+class InputExecOrderAction(BaseStruct): #输入执行宣告操作
+    def __init__(self, BrokerID='', InvestorID='', ExecOrderActionRef=0, ExecOrderRef='', RequestID=0, FrontID=0, SessionID=0, ExchangeID='', ExecOrderSysID='', ActionFlag=AF_Delete, UserID='', InstrumentID=''):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.ExecOrderActionRef = 'OrderActionRef' #执行宣告操作引用, int
+        self.ExecOrderRef = 'OrderRef' #执行宣告引用, char[13]
+        self.RequestID = '' #请求编号, int
+        self.FrontID = '' #前置编号, int
+        self.SessionID = '' #会话编号, int
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.ExecOrderSysID = '' #执行宣告操作编号, char[21]
+        self.ActionFlag = '' #操作标志, char
+        self.UserID = '' #用户代码, char[16]
+        self.InstrumentID = '' #合约代码, char[31]
+
+class ExecOrder(BaseStruct): #执行宣告
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', ExecOrderRef='', UserID='', Volume=0, RequestID=0, BusinessUnit='', OffsetFlag=OF_Open, HedgeFlag=HF_Speculation, ActionType=ACTP_Exec, PosiDirection=PD_Net, ReservePositionFlag=EOPF_Reserve, CloseFlag=EOCF_AutoClose, ExecOrderLocalID='', ExchangeID='', ParticipantID='', ClientID='', ExchangeInstID='', TraderID='', InstallID=0, OrderSubmitStatus=OSS_InsertSubmitted, NotifySequence=0, TradingDay='', SettlementID=0, ExecOrderSysID='', InsertDate='', InsertTime='', CancelTime='', ExecResult=OER_NoExec, ClearingPartID='', SequenceNo=0, FrontID=0, SessionID=0, UserProductInfo='', StatusMsg='', ActiveUserID='', BrokerExecOrderSeq=0):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.InstrumentID = '' #合约代码, char[31]
+        self.ExecOrderRef = 'OrderRef' #执行宣告引用, char[13]
+        self.UserID = '' #用户代码, char[16]
+        self.Volume = '' #数量, int
+        self.RequestID = '' #请求编号, int
+        self.BusinessUnit = '' #业务单元, char[21]
+        self.OffsetFlag = '' #开平标志, char
+        self.HedgeFlag = '' #投机套保标志, char
+        self.ActionType = '' #执行类型, char
+        self.PosiDirection = '' #保留头寸申请的持仓方向, char
+        self.ReservePositionFlag = 'ExecOrderPositionFlag' #期权行权后是否保留期货头寸的标记, char
+        self.CloseFlag = 'ExecOrderCloseFlag' #期权行权后生成的头寸是否自动平仓, char
+        self.ExecOrderLocalID = 'OrderLocalID' #本地执行宣告编号, char[13]
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.ParticipantID = '' #会员代码, char[11]
+        self.ClientID = '' #客户代码, char[11]
+        self.ExchangeInstID = '' #合约在交易所的代码, char[31]
+        self.TraderID = '' #交易所交易员代码, char[21]
+        self.InstallID = '' #安装编号, int
+        self.OrderSubmitStatus = '' #执行宣告提交状态, char
+        self.NotifySequence = 'SequenceNo' #报单提示序号, int
+        self.TradingDay = 'Date' #交易日, char[9]
+        self.SettlementID = '' #结算编号, int
+        self.ExecOrderSysID = '' #执行宣告编号, char[21]
+        self.InsertDate = 'Date' #报单日期, char[9]
+        self.InsertTime = 'Time' #插入时间, char[9]
+        self.CancelTime = 'Time' #撤销时间, char[9]
+        self.ExecResult = '' #执行结果, char
+        self.ClearingPartID = 'ParticipantID' #结算会员编号, char[11]
+        self.SequenceNo = '' #序号, int
+        self.FrontID = '' #前置编号, int
+        self.SessionID = '' #会话编号, int
+        self.UserProductInfo = 'ProductInfo' #用户端产品信息, char[11]
+        self.StatusMsg = 'ErrorMsg' #状态信息, char[81]
+        self.ActiveUserID = 'UserID' #操作用户代码, char[16]
+        self.BrokerExecOrderSeq = 'SequenceNo' #经纪公司报单编号, int
+
+class ExecOrderAction(BaseStruct): #执行宣告操作
+    def __init__(self, BrokerID='', InvestorID='', ExecOrderActionRef=0, ExecOrderRef='', RequestID=0, FrontID=0, SessionID=0, ExchangeID='', ExecOrderSysID='', ActionFlag=AF_Delete, ActionDate='', ActionTime='', TraderID='', InstallID=0, ExecOrderLocalID='', ActionLocalID='', ParticipantID='', ClientID='', BusinessUnit='', OrderActionStatus=OAS_Submitted, UserID='', ActionType=ACTP_Exec, StatusMsg='', InstrumentID=''):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.ExecOrderActionRef = 'OrderActionRef' #执行宣告操作引用, int
+        self.ExecOrderRef = 'OrderRef' #执行宣告引用, char[13]
+        self.RequestID = '' #请求编号, int
+        self.FrontID = '' #前置编号, int
+        self.SessionID = '' #会话编号, int
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.ExecOrderSysID = '' #执行宣告操作编号, char[21]
+        self.ActionFlag = '' #操作标志, char
+        self.ActionDate = 'Date' #操作日期, char[9]
+        self.ActionTime = 'Time' #操作时间, char[9]
+        self.TraderID = '' #交易所交易员代码, char[21]
+        self.InstallID = '' #安装编号, int
+        self.ExecOrderLocalID = 'OrderLocalID' #本地执行宣告编号, char[13]
+        self.ActionLocalID = 'OrderLocalID' #操作本地编号, char[13]
+        self.ParticipantID = '' #会员代码, char[11]
+        self.ClientID = '' #客户代码, char[11]
+        self.BusinessUnit = '' #业务单元, char[21]
+        self.OrderActionStatus = '' #报单操作状态, char
+        self.UserID = '' #用户代码, char[16]
+        self.ActionType = '' #执行类型, char
+        self.StatusMsg = 'ErrorMsg' #状态信息, char[81]
+        self.InstrumentID = '' #合约代码, char[31]
+
+class QryExecOrder(BaseStruct): #执行宣告查询
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', ExchangeID='', ExecOrderSysID='', InsertTimeStart='', InsertTimeEnd=''):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.InstrumentID = '' #合约代码, char[31]
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.ExecOrderSysID = '' #执行宣告编号, char[21]
+        self.InsertTimeStart = 'Time' #开始时间, char[9]
+        self.InsertTimeEnd = 'Time' #结束时间, char[9]
+
+class ExchangeExecOrder(BaseStruct): #交易所执行宣告信息
+    def __init__(self, Volume=0, RequestID=0, BusinessUnit='', OffsetFlag=OF_Open, HedgeFlag=HF_Speculation, ActionType=ACTP_Exec, PosiDirection=PD_Net, ReservePositionFlag=EOPF_Reserve, CloseFlag=EOCF_AutoClose, ExecOrderLocalID='', ExchangeID='', ParticipantID='', ClientID='', ExchangeInstID='', TraderID='', InstallID=0, OrderSubmitStatus=OSS_InsertSubmitted, NotifySequence=0, TradingDay='', SettlementID=0, ExecOrderSysID='', InsertDate='', InsertTime='', CancelTime='', ExecResult=OER_NoExec, ClearingPartID='', SequenceNo=0):
+        self.Volume = '' #数量, int
+        self.RequestID = '' #请求编号, int
+        self.BusinessUnit = '' #业务单元, char[21]
+        self.OffsetFlag = '' #开平标志, char
+        self.HedgeFlag = '' #投机套保标志, char
+        self.ActionType = '' #执行类型, char
+        self.PosiDirection = '' #保留头寸申请的持仓方向, char
+        self.ReservePositionFlag = 'ExecOrderPositionFlag' #期权行权后是否保留期货头寸的标记, char
+        self.CloseFlag = 'ExecOrderCloseFlag' #期权行权后生成的头寸是否自动平仓, char
+        self.ExecOrderLocalID = 'OrderLocalID' #本地执行宣告编号, char[13]
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.ParticipantID = '' #会员代码, char[11]
+        self.ClientID = '' #客户代码, char[11]
+        self.ExchangeInstID = '' #合约在交易所的代码, char[31]
+        self.TraderID = '' #交易所交易员代码, char[21]
+        self.InstallID = '' #安装编号, int
+        self.OrderSubmitStatus = '' #执行宣告提交状态, char
+        self.NotifySequence = 'SequenceNo' #报单提示序号, int
+        self.TradingDay = 'Date' #交易日, char[9]
+        self.SettlementID = '' #结算编号, int
+        self.ExecOrderSysID = '' #执行宣告编号, char[21]
+        self.InsertDate = 'Date' #报单日期, char[9]
+        self.InsertTime = 'Time' #插入时间, char[9]
+        self.CancelTime = 'Time' #撤销时间, char[9]
+        self.ExecResult = '' #执行结果, char
+        self.ClearingPartID = 'ParticipantID' #结算会员编号, char[11]
+        self.SequenceNo = '' #序号, int
+
+class QryExchangeExecOrder(BaseStruct): #交易所执行宣告查询
+    def __init__(self, ParticipantID='', ClientID='', ExchangeInstID='', ExchangeID='', TraderID=''):
+        self.ParticipantID = '' #会员代码, char[11]
+        self.ClientID = '' #客户代码, char[11]
+        self.ExchangeInstID = '' #合约在交易所的代码, char[31]
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.TraderID = '' #交易所交易员代码, char[21]
+
+class QryExecOrderAction(BaseStruct): #执行宣告操作查询
+    def __init__(self, BrokerID='', InvestorID='', ExchangeID=''):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.ExchangeID = '' #交易所代码, char[9]
+
+class ExchangeExecOrderAction(BaseStruct): #交易所执行宣告操作
+    def __init__(self, ExchangeID='', ExecOrderSysID='', ActionFlag=AF_Delete, ActionDate='', ActionTime='', TraderID='', InstallID=0, ExecOrderLocalID='', ActionLocalID='', ParticipantID='', ClientID='', BusinessUnit='', OrderActionStatus=OAS_Submitted, UserID='', ActionType=ACTP_Exec):
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.ExecOrderSysID = '' #执行宣告操作编号, char[21]
+        self.ActionFlag = '' #操作标志, char
+        self.ActionDate = 'Date' #操作日期, char[9]
+        self.ActionTime = 'Time' #操作时间, char[9]
+        self.TraderID = '' #交易所交易员代码, char[21]
+        self.InstallID = '' #安装编号, int
+        self.ExecOrderLocalID = 'OrderLocalID' #本地执行宣告编号, char[13]
+        self.ActionLocalID = 'OrderLocalID' #操作本地编号, char[13]
+        self.ParticipantID = '' #会员代码, char[11]
+        self.ClientID = '' #客户代码, char[11]
+        self.BusinessUnit = '' #业务单元, char[21]
+        self.OrderActionStatus = '' #报单操作状态, char
+        self.UserID = '' #用户代码, char[16]
+        self.ActionType = '' #执行类型, char
+
+class QryExchangeExecOrderAction(BaseStruct): #交易所执行宣告操作查询
+    def __init__(self, ParticipantID='', ClientID='', ExchangeID='', TraderID=''):
+        self.ParticipantID = '' #会员代码, char[11]
+        self.ClientID = '' #客户代码, char[11]
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.TraderID = '' #交易所交易员代码, char[21]
+
+class ErrExecOrder(BaseStruct): #错误执行宣告
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', ExecOrderRef='', UserID='', Volume=0, RequestID=0, BusinessUnit='', OffsetFlag=OF_Open, HedgeFlag=HF_Speculation, ActionType=ACTP_Exec, PosiDirection=PD_Net, ReservePositionFlag=EOPF_Reserve, CloseFlag=EOCF_AutoClose, ErrorID=0, ErrorMsg=''):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.InstrumentID = '' #合约代码, char[31]
+        self.ExecOrderRef = 'OrderRef' #执行宣告引用, char[13]
+        self.UserID = '' #用户代码, char[16]
+        self.Volume = '' #数量, int
+        self.RequestID = '' #请求编号, int
+        self.BusinessUnit = '' #业务单元, char[21]
+        self.OffsetFlag = '' #开平标志, char
+        self.HedgeFlag = '' #投机套保标志, char
+        self.ActionType = '' #执行类型, char
+        self.PosiDirection = '' #保留头寸申请的持仓方向, char
+        self.ReservePositionFlag = 'ExecOrderPositionFlag' #期权行权后是否保留期货头寸的标记, char
+        self.CloseFlag = 'ExecOrderCloseFlag' #期权行权后生成的头寸是否自动平仓, char
+        self.ErrorID = '' #错误代码, int
+        self.ErrorMsg = '' #错误信息, char[81]
+
+class QryErrExecOrder(BaseStruct): #查询错误执行宣告
+    def __init__(self, BrokerID='', InvestorID=''):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+
+class ErrExecOrderAction(BaseStruct): #错误执行宣告操作
+    def __init__(self, BrokerID='', InvestorID='', ExecOrderActionRef=0, ExecOrderRef='', RequestID=0, FrontID=0, SessionID=0, ExchangeID='', ExecOrderSysID='', ActionFlag=AF_Delete, UserID='', InstrumentID='', ErrorID=0, ErrorMsg=''):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.ExecOrderActionRef = 'OrderActionRef' #执行宣告操作引用, int
+        self.ExecOrderRef = 'OrderRef' #执行宣告引用, char[13]
+        self.RequestID = '' #请求编号, int
+        self.FrontID = '' #前置编号, int
+        self.SessionID = '' #会话编号, int
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.ExecOrderSysID = '' #执行宣告操作编号, char[21]
+        self.ActionFlag = '' #操作标志, char
+        self.UserID = '' #用户代码, char[16]
+        self.InstrumentID = '' #合约代码, char[31]
+        self.ErrorID = '' #错误代码, int
+        self.ErrorMsg = '' #错误信息, char[81]
+
+class QryErrExecOrderAction(BaseStruct): #查询错误执行宣告操作
+    def __init__(self, BrokerID='', InvestorID=''):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+
+class OptionInstrTradingRight(BaseStruct): #投资者期权合约交易权限
+    def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', Direction=D_Buy, TradingRight=TR_Allow):
+        self.InstrumentID = '' #合约代码, char[31]
+        self.InvestorRange = '' #投资者范围, char
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.Direction = '' #买卖方向, char
+        self.TradingRight = '' #交易权限, char
+
+class QryOptionInstrTradingRight(BaseStruct): #查询期权合约交易权限
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', Direction=D_Buy):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.InstrumentID = '' #合约代码, char[31]
+        self.Direction = '' #买卖方向, char
+
+class InputForQuote(BaseStruct): #输入的询价
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', ForQuoteRef='', UserID=''):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.InstrumentID = '' #合约代码, char[31]
+        self.ForQuoteRef = 'OrderRef' #询价引用, char[13]
+        self.UserID = '' #用户代码, char[16]
+
+class ForQuote(BaseStruct): #询价
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', ForQuoteRef='', UserID='', ForQuoteLocalID='', ExchangeID='', ParticipantID='', ClientID='', ExchangeInstID='', TraderID='', InstallID=0, InsertDate='', InsertTime='', ForQuoteStatus=FQST_Submitted, FrontID=0, SessionID=0, StatusMsg='', ActiveUserID='', BrokerForQutoSeq=0):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.InstrumentID = '' #合约代码, char[31]
+        self.ForQuoteRef = 'OrderRef' #询价引用, char[13]
+        self.UserID = '' #用户代码, char[16]
+        self.ForQuoteLocalID = 'OrderLocalID' #本地询价编号, char[13]
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.ParticipantID = '' #会员代码, char[11]
+        self.ClientID = '' #客户代码, char[11]
+        self.ExchangeInstID = '' #合约在交易所的代码, char[31]
+        self.TraderID = '' #交易所交易员代码, char[21]
+        self.InstallID = '' #安装编号, int
+        self.InsertDate = 'Date' #报单日期, char[9]
+        self.InsertTime = 'Time' #插入时间, char[9]
+        self.ForQuoteStatus = '' #询价状态, char
+        self.FrontID = '' #前置编号, int
+        self.SessionID = '' #会话编号, int
+        self.StatusMsg = 'ErrorMsg' #状态信息, char[81]
+        self.ActiveUserID = 'UserID' #操作用户代码, char[16]
+        self.BrokerForQutoSeq = 'SequenceNo' #经纪公司询价编号, int
+
+class QryForQuote(BaseStruct): #询价查询
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', ExchangeID='', InsertTimeStart='', InsertTimeEnd=''):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.InstrumentID = '' #合约代码, char[31]
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.InsertTimeStart = 'Time' #开始时间, char[9]
+        self.InsertTimeEnd = 'Time' #结束时间, char[9]
+
+class ExchangeForQuote(BaseStruct): #交易所询价信息
+    def __init__(self, ForQuoteLocalID='', ExchangeID='', ParticipantID='', ClientID='', ExchangeInstID='', TraderID='', InstallID=0, InsertDate='', InsertTime='', ForQuoteStatus=FQST_Submitted):
+        self.ForQuoteLocalID = 'OrderLocalID' #本地询价编号, char[13]
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.ParticipantID = '' #会员代码, char[11]
+        self.ClientID = '' #客户代码, char[11]
+        self.ExchangeInstID = '' #合约在交易所的代码, char[31]
+        self.TraderID = '' #交易所交易员代码, char[21]
+        self.InstallID = '' #安装编号, int
+        self.InsertDate = 'Date' #报单日期, char[9]
+        self.InsertTime = 'Time' #插入时间, char[9]
+        self.ForQuoteStatus = '' #询价状态, char
+
+class QryExchangeForQuote(BaseStruct): #交易所询价查询
+    def __init__(self, ParticipantID='', ClientID='', ExchangeInstID='', ExchangeID='', TraderID=''):
+        self.ParticipantID = '' #会员代码, char[11]
+        self.ClientID = '' #客户代码, char[11]
+        self.ExchangeInstID = '' #合约在交易所的代码, char[31]
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.TraderID = '' #交易所交易员代码, char[21]
+
+class InputQuote(BaseStruct): #输入的报价
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', QuoteRef='', UserID='', AskPrice=0.0, BidPrice=0.0, AskVolume=0, BidVolume=0, RequestID=0, BusinessUnit='', AskOffsetFlag=OF_Open, BidOffsetFlag=OF_Open, AskHedgeFlag=HF_Speculation, BidHedgeFlag=HF_Speculation, AskOrderRef='', BidOrderRef='', ForQuoteSysID=''):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.InstrumentID = '' #合约代码, char[31]
+        self.QuoteRef = 'OrderRef' #报价引用, char[13]
+        self.UserID = '' #用户代码, char[16]
+        self.AskPrice = 'Price' #卖价格, double
+        self.BidPrice = 'Price' #买价格, double
+        self.AskVolume = 'Volume' #卖数量, int
+        self.BidVolume = 'Volume' #买数量, int
+        self.RequestID = '' #请求编号, int
+        self.BusinessUnit = '' #业务单元, char[21]
+        self.AskOffsetFlag = 'OffsetFlag' #卖开平标志, char
+        self.BidOffsetFlag = 'OffsetFlag' #买开平标志, char
+        self.AskHedgeFlag = 'HedgeFlag' #卖投机套保标志, char
+        self.BidHedgeFlag = 'HedgeFlag' #买投机套保标志, char
+        self.AskOrderRef = 'OrderRef' #衍生卖报单引用, char[13]
+        self.BidOrderRef = 'OrderRef' #衍生买报单引用, char[13]
+        self.ForQuoteSysID = 'OrderSysID' #应价编号, char[21]
+
+class InputQuoteAction(BaseStruct): #输入报价操作
+    def __init__(self, BrokerID='', InvestorID='', QuoteActionRef=0, QuoteRef='', RequestID=0, FrontID=0, SessionID=0, ExchangeID='', QuoteSysID='', ActionFlag=AF_Delete, UserID='', InstrumentID=''):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.QuoteActionRef = 'OrderActionRef' #报价操作引用, int
+        self.QuoteRef = 'OrderRef' #报价引用, char[13]
+        self.RequestID = '' #请求编号, int
+        self.FrontID = '' #前置编号, int
+        self.SessionID = '' #会话编号, int
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.QuoteSysID = 'OrderSysID' #报价操作编号, char[21]
+        self.ActionFlag = '' #操作标志, char
+        self.UserID = '' #用户代码, char[16]
+        self.InstrumentID = '' #合约代码, char[31]
+
+class Quote(BaseStruct): #报价
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', QuoteRef='', UserID='', AskPrice=0.0, BidPrice=0.0, AskVolume=0, BidVolume=0, RequestID=0, BusinessUnit='', AskOffsetFlag=OF_Open, BidOffsetFlag=OF_Open, AskHedgeFlag=HF_Speculation, BidHedgeFlag=HF_Speculation, QuoteLocalID='', ExchangeID='', ParticipantID='', ClientID='', ExchangeInstID='', TraderID='', InstallID=0, NotifySequence=0, OrderSubmitStatus=OSS_InsertSubmitted, TradingDay='', SettlementID=0, QuoteSysID='', InsertDate='', InsertTime='', CancelTime='', QuoteStatus=OST_AllTraded, ClearingPartID='', SequenceNo=0, AskOrderSysID='', BidOrderSysID='', FrontID=0, SessionID=0, UserProductInfo='', StatusMsg='', ActiveUserID='', BrokerQuoteSeq=0, AskOrderRef='', BidOrderRef='', ForQuoteSysID=''):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.InstrumentID = '' #合约代码, char[31]
+        self.QuoteRef = 'OrderRef' #报价引用, char[13]
+        self.UserID = '' #用户代码, char[16]
+        self.AskPrice = 'Price' #卖价格, double
+        self.BidPrice = 'Price' #买价格, double
+        self.AskVolume = 'Volume' #卖数量, int
+        self.BidVolume = 'Volume' #买数量, int
+        self.RequestID = '' #请求编号, int
+        self.BusinessUnit = '' #业务单元, char[21]
+        self.AskOffsetFlag = 'OffsetFlag' #卖开平标志, char
+        self.BidOffsetFlag = 'OffsetFlag' #买开平标志, char
+        self.AskHedgeFlag = 'HedgeFlag' #卖投机套保标志, char
+        self.BidHedgeFlag = 'HedgeFlag' #买投机套保标志, char
+        self.QuoteLocalID = 'OrderLocalID' #本地报价编号, char[13]
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.ParticipantID = '' #会员代码, char[11]
+        self.ClientID = '' #客户代码, char[11]
+        self.ExchangeInstID = '' #合约在交易所的代码, char[31]
+        self.TraderID = '' #交易所交易员代码, char[21]
+        self.InstallID = '' #安装编号, int
+        self.NotifySequence = 'SequenceNo' #报价提示序号, int
+        self.OrderSubmitStatus = '' #报价提交状态, char
+        self.TradingDay = 'Date' #交易日, char[9]
+        self.SettlementID = '' #结算编号, int
+        self.QuoteSysID = 'OrderSysID' #报价编号, char[21]
+        self.InsertDate = 'Date' #报单日期, char[9]
+        self.InsertTime = 'Time' #插入时间, char[9]
+        self.CancelTime = 'Time' #撤销时间, char[9]
+        self.QuoteStatus = 'OrderStatus' #报价状态, char
+        self.ClearingPartID = 'ParticipantID' #结算会员编号, char[11]
+        self.SequenceNo = '' #序号, int
+        self.AskOrderSysID = 'OrderSysID' #卖方报单编号, char[21]
+        self.BidOrderSysID = 'OrderSysID' #买方报单编号, char[21]
+        self.FrontID = '' #前置编号, int
+        self.SessionID = '' #会话编号, int
+        self.UserProductInfo = 'ProductInfo' #用户端产品信息, char[11]
+        self.StatusMsg = 'ErrorMsg' #状态信息, char[81]
+        self.ActiveUserID = 'UserID' #操作用户代码, char[16]
+        self.BrokerQuoteSeq = 'SequenceNo' #经纪公司报价编号, int
+        self.AskOrderRef = 'OrderRef' #衍生卖报单引用, char[13]
+        self.BidOrderRef = 'OrderRef' #衍生买报单引用, char[13]
+        self.ForQuoteSysID = 'OrderSysID' #应价编号, char[21]
+
+class QuoteAction(BaseStruct): #报价操作
+    def __init__(self, BrokerID='', InvestorID='', QuoteActionRef=0, QuoteRef='', RequestID=0, FrontID=0, SessionID=0, ExchangeID='', QuoteSysID='', ActionFlag=AF_Delete, ActionDate='', ActionTime='', TraderID='', InstallID=0, QuoteLocalID='', ActionLocalID='', ParticipantID='', ClientID='', BusinessUnit='', OrderActionStatus=OAS_Submitted, UserID='', StatusMsg='', InstrumentID=''):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.QuoteActionRef = 'OrderActionRef' #报价操作引用, int
+        self.QuoteRef = 'OrderRef' #报价引用, char[13]
+        self.RequestID = '' #请求编号, int
+        self.FrontID = '' #前置编号, int
+        self.SessionID = '' #会话编号, int
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.QuoteSysID = 'OrderSysID' #报价操作编号, char[21]
+        self.ActionFlag = '' #操作标志, char
+        self.ActionDate = 'Date' #操作日期, char[9]
+        self.ActionTime = 'Time' #操作时间, char[9]
+        self.TraderID = '' #交易所交易员代码, char[21]
+        self.InstallID = '' #安装编号, int
+        self.QuoteLocalID = 'OrderLocalID' #本地报价编号, char[13]
+        self.ActionLocalID = 'OrderLocalID' #操作本地编号, char[13]
+        self.ParticipantID = '' #会员代码, char[11]
+        self.ClientID = '' #客户代码, char[11]
+        self.BusinessUnit = '' #业务单元, char[21]
+        self.OrderActionStatus = '' #报单操作状态, char
+        self.UserID = '' #用户代码, char[16]
+        self.StatusMsg = 'ErrorMsg' #状态信息, char[81]
+        self.InstrumentID = '' #合约代码, char[31]
+
+class QryQuote(BaseStruct): #报价查询
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', ExchangeID='', QuoteSysID='', InsertTimeStart='', InsertTimeEnd=''):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.InstrumentID = '' #合约代码, char[31]
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.QuoteSysID = 'OrderSysID' #报价编号, char[21]
+        self.InsertTimeStart = 'Time' #开始时间, char[9]
+        self.InsertTimeEnd = 'Time' #结束时间, char[9]
+
+class ExchangeQuote(BaseStruct): #交易所报价信息
+    def __init__(self, AskPrice=0.0, BidPrice=0.0, AskVolume=0, BidVolume=0, RequestID=0, BusinessUnit='', AskOffsetFlag=OF_Open, BidOffsetFlag=OF_Open, AskHedgeFlag=HF_Speculation, BidHedgeFlag=HF_Speculation, QuoteLocalID='', ExchangeID='', ParticipantID='', ClientID='', ExchangeInstID='', TraderID='', InstallID=0, NotifySequence=0, OrderSubmitStatus=OSS_InsertSubmitted, TradingDay='', SettlementID=0, QuoteSysID='', InsertDate='', InsertTime='', CancelTime='', QuoteStatus=OST_AllTraded, ClearingPartID='', SequenceNo=0, AskOrderSysID='', BidOrderSysID='', ForQuoteSysID=''):
+        self.AskPrice = 'Price' #卖价格, double
+        self.BidPrice = 'Price' #买价格, double
+        self.AskVolume = 'Volume' #卖数量, int
+        self.BidVolume = 'Volume' #买数量, int
+        self.RequestID = '' #请求编号, int
+        self.BusinessUnit = '' #业务单元, char[21]
+        self.AskOffsetFlag = 'OffsetFlag' #卖开平标志, char
+        self.BidOffsetFlag = 'OffsetFlag' #买开平标志, char
+        self.AskHedgeFlag = 'HedgeFlag' #卖投机套保标志, char
+        self.BidHedgeFlag = 'HedgeFlag' #买投机套保标志, char
+        self.QuoteLocalID = 'OrderLocalID' #本地报价编号, char[13]
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.ParticipantID = '' #会员代码, char[11]
+        self.ClientID = '' #客户代码, char[11]
+        self.ExchangeInstID = '' #合约在交易所的代码, char[31]
+        self.TraderID = '' #交易所交易员代码, char[21]
+        self.InstallID = '' #安装编号, int
+        self.NotifySequence = 'SequenceNo' #报价提示序号, int
+        self.OrderSubmitStatus = '' #报价提交状态, char
+        self.TradingDay = 'Date' #交易日, char[9]
+        self.SettlementID = '' #结算编号, int
+        self.QuoteSysID = 'OrderSysID' #报价编号, char[21]
+        self.InsertDate = 'Date' #报单日期, char[9]
+        self.InsertTime = 'Time' #插入时间, char[9]
+        self.CancelTime = 'Time' #撤销时间, char[9]
+        self.QuoteStatus = 'OrderStatus' #报价状态, char
+        self.ClearingPartID = 'ParticipantID' #结算会员编号, char[11]
+        self.SequenceNo = '' #序号, int
+        self.AskOrderSysID = 'OrderSysID' #卖方报单编号, char[21]
+        self.BidOrderSysID = 'OrderSysID' #买方报单编号, char[21]
+        self.ForQuoteSysID = 'OrderSysID' #应价编号, char[21]
+
+class QryExchangeQuote(BaseStruct): #交易所报价查询
+    def __init__(self, ParticipantID='', ClientID='', ExchangeInstID='', ExchangeID='', TraderID=''):
+        self.ParticipantID = '' #会员代码, char[11]
+        self.ClientID = '' #客户代码, char[11]
+        self.ExchangeInstID = '' #合约在交易所的代码, char[31]
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.TraderID = '' #交易所交易员代码, char[21]
+
+class QryQuoteAction(BaseStruct): #报价操作查询
+    def __init__(self, BrokerID='', InvestorID='', ExchangeID=''):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.ExchangeID = '' #交易所代码, char[9]
+
+class ExchangeQuoteAction(BaseStruct): #交易所报价操作
+    def __init__(self, ExchangeID='', QuoteSysID='', ActionFlag=AF_Delete, ActionDate='', ActionTime='', TraderID='', InstallID=0, QuoteLocalID='', ActionLocalID='', ParticipantID='', ClientID='', BusinessUnit='', OrderActionStatus=OAS_Submitted, UserID=''):
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.QuoteSysID = 'OrderSysID' #报价操作编号, char[21]
+        self.ActionFlag = '' #操作标志, char
+        self.ActionDate = 'Date' #操作日期, char[9]
+        self.ActionTime = 'Time' #操作时间, char[9]
+        self.TraderID = '' #交易所交易员代码, char[21]
+        self.InstallID = '' #安装编号, int
+        self.QuoteLocalID = 'OrderLocalID' #本地报价编号, char[13]
+        self.ActionLocalID = 'OrderLocalID' #操作本地编号, char[13]
+        self.ParticipantID = '' #会员代码, char[11]
+        self.ClientID = '' #客户代码, char[11]
+        self.BusinessUnit = '' #业务单元, char[21]
+        self.OrderActionStatus = '' #报单操作状态, char
+        self.UserID = '' #用户代码, char[16]
+
+class QryExchangeQuoteAction(BaseStruct): #交易所报价操作查询
+    def __init__(self, ParticipantID='', ClientID='', ExchangeID='', TraderID=''):
+        self.ParticipantID = '' #会员代码, char[11]
+        self.ClientID = '' #客户代码, char[11]
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.TraderID = '' #交易所交易员代码, char[21]
+
+class OptionInstrDelta(BaseStruct): #期权合约delta值
+    def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', Delta=0.0):
+        self.InstrumentID = '' #合约代码, char[31]
+        self.InvestorRange = '' #投资者范围, char
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.Delta = 'Ratio' #Delta值, double
+
+class ForQuoteRsp(BaseStruct): #发给做市商的询价请求
+    def __init__(self, TradingDay='', InstrumentID='', ForQuoteSysID='', ForQuoteTime='', ActionDay='', ExchangeID=''):
+        self.TradingDay = 'Date' #交易日, char[9]
+        self.InstrumentID = '' #合约代码, char[31]
+        self.ForQuoteSysID = 'OrderSysID' #询价编号, char[21]
+        self.ForQuoteTime = 'Time' #询价时间, char[9]
+        self.ActionDay = 'Date' #业务日期, char[9]
+        self.ExchangeID = '' #交易所代码, char[9]
+
+class StrikeOffset(BaseStruct): #当前期权合约执行偏移值的详细内容
+    def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', Offset=0.0):
+        self.InstrumentID = '' #合约代码, char[31]
+        self.InvestorRange = '' #投资者范围, char
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.Offset = 'Money' #执行偏移值, double
+
+class QryStrikeOffset(BaseStruct): #期权执行偏移值查询
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID=''):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.InstrumentID = '' #合约代码, char[31]
+
+class CombInstrumentGuard(BaseStruct): #组合合约安全系数
+    def __init__(self, BrokerID='', InstrumentID='', GuarantRatio=0.0):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InstrumentID = '' #合约代码, char[31]
+        self.GuarantRatio = 'Ratio' #比率, double
+
+class QryCombInstrumentGuard(BaseStruct): #组合合约安全系数查询
+    def __init__(self, BrokerID='', InstrumentID=''):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InstrumentID = '' #合约代码, char[31]
+
+class InputCombAction(BaseStruct): #输入的申请组合
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', CombActionRef='', UserID='', Direction=D_Buy, Volume=0, CombDirection=CMDR_Comb, HedgeFlag=HF_Speculation):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.InstrumentID = '' #合约代码, char[31]
+        self.CombActionRef = 'OrderRef' #组合引用, char[13]
+        self.UserID = '' #用户代码, char[16]
+        self.Direction = '' #买卖方向, char
+        self.Volume = '' #数量, int
+        self.CombDirection = '' #组合指令方向, char
+        self.HedgeFlag = '' #投机套保标志, char
+
+class CombAction(BaseStruct): #申请组合
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', CombActionRef='', UserID='', Direction=D_Buy, Volume=0, CombDirection=CMDR_Comb, HedgeFlag=HF_Speculation, ActionLocalID='', ExchangeID='', ParticipantID='', ClientID='', ExchangeInstID='', TraderID='', InstallID=0, ActionStatus=OAS_Submitted, NotifySequence=0, TradingDay='', SettlementID=0, SequenceNo=0, FrontID=0, SessionID=0, UserProductInfo='', StatusMsg=''):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.InstrumentID = '' #合约代码, char[31]
+        self.CombActionRef = 'OrderRef' #组合引用, char[13]
+        self.UserID = '' #用户代码, char[16]
+        self.Direction = '' #买卖方向, char
+        self.Volume = '' #数量, int
+        self.CombDirection = '' #组合指令方向, char
+        self.HedgeFlag = '' #投机套保标志, char
+        self.ActionLocalID = 'OrderLocalID' #本地申请组合编号, char[13]
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.ParticipantID = '' #会员代码, char[11]
+        self.ClientID = '' #客户代码, char[11]
+        self.ExchangeInstID = '' #合约在交易所的代码, char[31]
+        self.TraderID = '' #交易所交易员代码, char[21]
+        self.InstallID = '' #安装编号, int
+        self.ActionStatus = 'OrderActionStatus' #组合状态, char
+        self.NotifySequence = 'SequenceNo' #报单提示序号, int
+        self.TradingDay = 'Date' #交易日, char[9]
+        self.SettlementID = '' #结算编号, int
+        self.SequenceNo = '' #序号, int
+        self.FrontID = '' #前置编号, int
+        self.SessionID = '' #会话编号, int
+        self.UserProductInfo = 'ProductInfo' #用户端产品信息, char[11]
+        self.StatusMsg = 'ErrorMsg' #状态信息, char[81]
+
+class QryCombAction(BaseStruct): #申请组合查询
+    def __init__(self, BrokerID='', InvestorID='', InstrumentID='', ExchangeID=''):
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.InstrumentID = '' #合约代码, char[31]
+        self.ExchangeID = '' #交易所代码, char[9]
+
+class ExchangeCombAction(BaseStruct): #交易所申请组合信息
+    def __init__(self, Direction=D_Buy, Volume=0, CombDirection=CMDR_Comb, HedgeFlag=HF_Speculation, ActionLocalID='', ExchangeID='', ParticipantID='', ClientID='', ExchangeInstID='', TraderID='', InstallID=0, ActionStatus=OAS_Submitted, NotifySequence=0, TradingDay='', SettlementID=0, SequenceNo=0):
+        self.Direction = '' #买卖方向, char
+        self.Volume = '' #数量, int
+        self.CombDirection = '' #组合指令方向, char
+        self.HedgeFlag = '' #投机套保标志, char
+        self.ActionLocalID = 'OrderLocalID' #本地申请组合编号, char[13]
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.ParticipantID = '' #会员代码, char[11]
+        self.ClientID = '' #客户代码, char[11]
+        self.ExchangeInstID = '' #合约在交易所的代码, char[31]
+        self.TraderID = '' #交易所交易员代码, char[21]
+        self.InstallID = '' #安装编号, int
+        self.ActionStatus = 'OrderActionStatus' #组合状态, char
+        self.NotifySequence = 'SequenceNo' #报单提示序号, int
+        self.TradingDay = 'Date' #交易日, char[9]
+        self.SettlementID = '' #结算编号, int
+        self.SequenceNo = '' #序号, int
+
+class QryExchangeCombAction(BaseStruct): #交易所申请组合查询
+    def __init__(self, ParticipantID='', ClientID='', ExchangeInstID='', ExchangeID='', TraderID=''):
+        self.ParticipantID = '' #会员代码, char[11]
+        self.ClientID = '' #客户代码, char[11]
+        self.ExchangeInstID = '' #合约在交易所的代码, char[31]
+        self.ExchangeID = '' #交易所代码, char[9]
+        self.TraderID = '' #交易所交易员代码, char[21]
+
+class ProductExchRate(BaseStruct): #产品报价汇率
+    def __init__(self, ProductID='', QuoteCurrencyID='', ExchangeRate=0.0):
+        self.ProductID = 'InstrumentID' #产品代码, char[31]
+        self.QuoteCurrencyID = 'CurrencyID' #报价币种类型, char[4]
+        self.ExchangeRate = '' #汇率, double
+
+class QryProductExchRate(BaseStruct): #产品报价汇率查询
+    def __init__(self, ProductID=''):
+        self.ProductID = 'InstrumentID' #产品代码, char[31]
 
 class MarketData(BaseStruct): #市场行情
     def __init__(self, TradingDay='', InstrumentID='', ExchangeID='', ExchangeInstID='', LastPrice=0.0, PreSettlementPrice=0.0, PreClosePrice=0.0, PreOpenInterest=0.0, OpenPrice=0.0, HighestPrice=0.0, LowestPrice=0.0, Volume=0, Turnover=0.0, OpenInterest=0.0, ClosePrice=0.0, SettlementPrice=0.0, UpperLimitPrice=0.0, LowerLimitPrice=0.0, PreDelta=0.0, CurrDelta=0.0, UpdateTime='', UpdateMillisec=0, ActionDay=''):
@@ -3306,7 +4151,7 @@ class LoadSettlementInfo(BaseStruct): #装载结算信息
         self.BrokerID = '' #经纪公司代码, char[11]
 
 class BrokerWithdrawAlgorithm(BaseStruct): #经纪公司可提资金算法表
-    def __init__(self, BrokerID='', WithdrawAlgorithm=AG_All, UsingRatio=0.0, IncludeCloseProfit=ICP_Include, AllWithoutTrade=AWT_Enable, AvailIncludeCloseProfit=ICP_Include, IsBrokerUserEvent=0, CurrencyID='', FundMortgageRatio=0.0):
+    def __init__(self, BrokerID='', WithdrawAlgorithm=AG_All, UsingRatio=0.0, IncludeCloseProfit=ICP_Include, AllWithoutTrade=AWT_Enable, AvailIncludeCloseProfit=ICP_Include, IsBrokerUserEvent=0, CurrencyID='', FundMortgageRatio=0.0, BalanceAlgorithm=BLAG_Default):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.WithdrawAlgorithm = 'Algorithm' #可提资金算法, char
         self.UsingRatio = 'Ratio' #资金使用率, double
@@ -3316,6 +4161,7 @@ class BrokerWithdrawAlgorithm(BaseStruct): #经纪公司可提资金算法表
         self.IsBrokerUserEvent = 'Bool' #是否启用用户事件, int
         self.CurrencyID = '' #币种代码, char[4]
         self.FundMortgageRatio = 'Ratio' #货币质押比率, double
+        self.BalanceAlgorithm = '' #权益算法, char
 
 class TradingAccountPasswordUpdateV1(BaseStruct): #资金账户口令变更域
     def __init__(self, BrokerID='', InvestorID='', OldPassword='', NewPassword=''):
@@ -3726,13 +4572,14 @@ class QryBrokerTradingParams(BaseStruct): #查询经纪公司交易参数
         self.CurrencyID = '' #币种代码, char[4]
 
 class BrokerTradingParams(BaseStruct): #经纪公司交易参数
-    def __init__(self, BrokerID='', InvestorID='', MarginPriceType=MPT_PreSettlementPrice, Algorithm=AG_All, AvailIncludeCloseProfit=ICP_Include, CurrencyID=''):
+    def __init__(self, BrokerID='', InvestorID='', MarginPriceType=MPT_PreSettlementPrice, Algorithm=AG_All, AvailIncludeCloseProfit=ICP_Include, CurrencyID='', OptionRoyaltyPriceType=ORPT_PreSettlementPrice):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[13]
         self.MarginPriceType = '' #保证金价格类型, char
         self.Algorithm = '' #盈亏算法, char
         self.AvailIncludeCloseProfit = 'IncludeCloseProfit' #可用是否包含平仓盈利, char
         self.CurrencyID = '' #币种代码, char[4]
+        self.OptionRoyaltyPriceType = '' #期权权利金价格类型, char
 
 class QryBrokerTradingAlgos(BaseStruct): #查询经纪公司交易算法
     def __init__(self, BrokerID='', ExchangeID='', InstrumentID=''):
@@ -5002,7 +5849,7 @@ class TradingAccountReserve(BaseStruct): #资金账户基本准备金
         self.Reserve = 'Money' #基本准备金, double
         self.CurrencyID = '' #币种代码, char[4]
 
-error = {'NONE':0, 0:'CTP:正确', 'INVALID_DATA_SYNC_STATUS':1, 1:'CTP:不在已同步状态', 'INCONSISTENT_INFORMATION':2, 2:'CTP:会话信息不一致', 'INVALID_LOGIN':3, 3:'CTP:不合法的登录', 'USER_NOT_ACTIVE':4, 4:'CTP:用户不活跃', 'DUPLICATE_LOGIN':5, 5:'CTP:重复的登录', 'NOT_LOGIN_YET':6, 6:'CTP:还没有登录', 'NOT_INITED':7, 7:'CTP:还没有初始化', 'FRONT_NOT_ACTIVE':8, 8:'CTP:前置不活跃', 'NO_PRIVILEGE':9, 9:'CTP:无此权限', 'CHANGE_OTHER_PASSWORD':10, 10:'CTP:修改别人的口令', 'USER_NOT_FOUND':11, 11:'CTP:找不到该用户', 'BROKER_NOT_FOUND':12, 12:'CTP:找不到该经纪公司', 'INVESTOR_NOT_FOUND':13, 13:'CTP:找不到投资者', 'OLD_PASSWORD_MISMATCH':14, 14:'CTP:原口令不匹配', 'BAD_FIELD':15, 15:'CTP:报单字段有误', 'INSTRUMENT_NOT_FOUND':16, 16:'CTP:找不到合约', 'INSTRUMENT_NOT_TRADING':17, 17:'CTP:合约不能交易', 'NOT_EXCHANGE_PARTICIPANT':18, 18:'CTP:经纪公司不是交易所的会员', 'INVESTOR_NOT_ACTIVE':19, 19:'CTP:投资者不活跃', 'NOT_EXCHANGE_CLIENT':20, 20:'CTP:投资者未在交易所开户', 'NO_VALID_TRADER_AVAILABLE':21, 21:'CTP:该交易席位未连接到交易所', 'DUPLICATE_ORDER_REF':22, 22:'CTP:报单错误：不允许重复报单', 'BAD_ORDER_ACTION_FIELD':23, 23:'CTP:错误的报单操作字段', 'DUPLICATE_ORDER_ACTION_REF':24, 24:'CTP:撤单已报送，不允许重复撤单', 'ORDER_NOT_FOUND':25, 25:'CTP:撤单找不到相应报单', 'INSUITABLE_ORDER_STATUS':26, 26:'CTP:报单已全成交或已撤销，不能再撤', 'UNSUPPORTED_FUNCTION':27, 27:'CTP:不支持的功能', 'NO_TRADING_RIGHT':28, 28:'CTP:没有报单交易权限', 'CLOSE_ONLY':29, 29:'CTP:只能平仓', 'OVER_CLOSE_POSITION':30, 30:'CTP:平仓量超过持仓量', 'INSUFFICIENT_MONEY':31, 31:'CTP:资金不足', 'DUPLICATE_PK':32, 32:'CTP:主键重复', 'CANNOT_FIND_PK':33, 33:'CTP:找不到主键', 'CAN_NOT_INACTIVE_BROKER':34, 34:'CTP:设置经纪公司不活跃状态失败', 'BROKER_SYNCHRONIZING':35, 35:'CTP:经纪公司正在同步', 'BROKER_SYNCHRONIZED':36, 36:'CTP:经纪公司已同步', 'SHORT_SELL':37, 37:'CTP:现货交易不能卖空', 'INVALID_SETTLEMENT_REF':38, 38:'CTP:不合法的结算引用', 'CFFEX_NETWORK_ERROR':39, 39:'CTP:交易所网络连接失败', 'CFFEX_OVER_REQUEST':40, 40:'CTP:交易所未处理请求超过许可数', 'CFFEX_OVER_REQUEST_PER_SECOND':41, 41:'CTP:交易所每秒发送请求数超过许可数', 'SETTLEMENT_INFO_NOT_CONFIRMED':42, 42:'CTP:结算结果未确认', 'DEPOSIT_NOT_FOUND':43, 43:'CTP:没有对应的入金记录', 'EXCHANG_TRADING':44, 44:'CTP:交易所已经进入连续交易状态', 'PARKEDORDER_NOT_FOUND':45, 45:'CTP:找不到预埋（撤单）单', 'PARKEDORDER_HASSENDED':46, 46:'CTP:预埋（撤单）单已经发送', 'PARKEDORDER_HASDELETE':47, 47:'CTP:预埋（撤单）单已经删除', 'INVALID_INVESTORIDORPASSWORD':48, 48:'CTP:无效的投资者或者密码', 'INVALID_LOGIN_IPADDRESS':49, 49:'CTP:不合法的登录IP地址', 'OVER_CLOSETODAY_POSITION':50, 50:'CTP:平今仓位不足', 'OVER_CLOSEYESTERDAY_POSITION':51, 51:'CTP:平昨仓位不足', 'BROKER_NOT_ENOUGH_CONDORDER':52, 52:'CTP:经纪公司没有足够可用的条件单数量', 'INVESTOR_NOT_ENOUGH_CONDORDER':53, 53:'CTP:投资者没有足够可用的条件单数量', 'BROKER_NOT_SUPPORT_CONDORDER':54, 54:'CTP:经纪公司不支持条件单', 'RESEND_ORDER_BROKERINVESTOR_NOTMATCH':55, 55:'CTP:重发未知单经济公司/投资者不匹配', 'SYC_OTP_FAILED':56, 56:'CTP:同步动态令牌失败', 'OTP_MISMATCH':57, 57:'CTP:动态令牌校验错误', 'OTPPARAM_NOT_FOUND':58, 58:'CTP:找不到动态令牌配置信息', 'UNSUPPORTED_OTPTYPE':59, 59:'CTP:不支持的动态令牌类型', 'SINGLEUSERSESSION_EXCEED_LIMIT':60, 60:'CTP:用户在线会话超出上限', 'EXCHANGE_UNSUPPORTED_ARBITRAGE':61, 61:'CTP:该交易所不支持套利类型报单', 'NO_CONDITIONAL_ORDER_RIGHT':62, 62:'CTP:没有条件单交易权限', 'AUTH_FAILED':63, 63:'CTP:客户端认证失败', 'NOT_AUTHENT':64, 64:'CTP:客户端未认证', 'SWAPORDER_UNSUPPORTED':65, 65:'CTP:该合约不支持互换类型报单', 'LOGIN_FORBIDDEN':66, 66:'CTP:连续登录失败次数超限，登录被禁止', 'INVALID_TRANSFER_AGENT':67, 67:'CTP:非法银期代理关系', 'NO_FOUND_FUNCTION':68, 68:'CTP:无此功能', 'SEND_EXCHANGEORDER_FAILED':69, 69:'CTP:发送报单失败', 'SEND_EXCHANGEORDERACTION_FAILED':70, 70:'CTP:发送报单操作失败', 'PRICETYPE_NOTSUPPORT_BYEXCHANGE':71, 71:'CTP:交易所不支持的价格类型', 'OPEN_FILE_FAILED':72, 72:'CTP:打开文件失败', 'NEED_RETRY':90, 90:'综合交易平台：查询未就绪，请稍后重试', 'NO_TRADING_RIGHT_IN_SEPC_DR':101, 101:'CTP:用户在本系统没有报单权限', 'NO_DR_NO':102, 102:'CTP:系统缺少灾备标示号', 'SEND_INSTITUTION_CODE_ERROR':1000, 1000:'CTP:银期转账：发送机构代码错误', 'NO_GET_PLATFORM_SN':1001, 1001:'CTP:银期转账：取平台流水号错误', 'ILLEGAL_TRANSFER_BANK':1002, 1002:'CTP:银期转账：不合法的转账银行', 'ALREADY_OPEN_ACCOUNT':1003, 1003:'CTP:银期转账：已经开户', 'NOT_OPEN_ACCOUNT':1004, 1004:'CTP:银期转账：未开户', 'PROCESSING':1005, 1005:'CTP:银期转账：处理中', 'OVERTIME':1006, 1006:'CTP:银期转账：交易超时', 'RECORD_NOT_FOUND':1007, 1007:'CTP:银期转账：找不到记录', 'NO_FOUND_REVERSAL_ORIGINAL_TRANSACTION':1008, 1008:'CTP:银期转账：找不到被冲正的原始交易', 'CONNECT_HOST_FAILED':1009, 1009:'CTP:银期转账：连接主机失败', 'SEND_FAILED':1010, 1010:'CTP:银期转账：发送失败', 'LATE_RESPONSE':1011, 1011:'CTP:银期转账：迟到应答', 'REVERSAL_BANKID_NOT_MATCH':1012, 1012:'CTP:银期转账：冲正交易银行代码错误', 'REVERSAL_BANKACCOUNT_NOT_MATCH':1013, 1013:'CTP:银期转账：冲正交易银行账户错误', 'REVERSAL_BROKERID_NOT_MATCH':1014, 1014:'CTP:银期转账：冲正交易经纪公司代码错误', 'REVERSAL_ACCOUNTID_NOT_MATCH':1015, 1015:'CTP:银期转账：冲正交易资金账户错误', 'REVERSAL_AMOUNT_NOT_MATCH':1016, 1016:'CTP:银期转账：冲正交易交易金额错误', 'DB_OPERATION_FAILED':1017, 1017:'CTP:银期转账：数据库操作错误', 'SEND_ASP_FAILURE':1018, 1018:'CTP:银期转账：发送到交易系统失败', 'NOT_SIGNIN':1019, 1019:'CTP:银期转账：没有签到', 'ALREADY_SIGNIN':1020, 1020:'CTP:银期转账：已经签到', 'AMOUNT_OR_TIMES_OVER':1021, 1021:'CTP:银期转账：金额或次数超限', 'NOT_IN_TRANSFER_TIME':1022, 1022:'CTP:银期转账：这一时间段不能转账', 'BANK_SERVER_ERROR':1023, 1023:'银行主机错', 'BANK_SERIAL_IS_REPEALED':1024, 1024:'CTP:银期转账：银行已经冲正', 'BANK_SERIAL_NOT_EXIST':1025, 1025:'CTP:银期转账：银行流水不存在', 'NOT_ORGAN_MAP':1026, 1026:'CTP:银期转账：机构没有签约', 'EXIST_TRANSFER':1027, 1027:'CTP:银期转账：存在转账，不能销户', 'BANK_FORBID_REVERSAL':1028, 1028:'CTP:银期转账：银行不支持冲正', 'DUP_BANK_SERIAL':1029, 1029:'CTP:银期转账：重复的银行流水', 'FBT_SYSTEM_BUSY':1030, 1030:'CTP:银期转账：转账系统忙，稍后再试', 'MACKEY_SYNCING':1031, 1031:'CTP:银期转账：MAC密钥正在同步', 'ACCOUNTID_ALREADY_REGISTER':1032, 1032:'CTP:银期转账：资金账户已经登记', 'BANKACCOUNT_ALREADY_REGISTER':1033, 1033:'CTP:银期转账：银行账户已经登记', 'DUP_BANK_SERIAL_REDO_OK':1034, 1034:'CTP:银期转账：重复的银行流水,重发成功', 'CURRENCYID_NOT_SUPPORTED':1035, 1035:'CTP:银期转账：该币种代码不支持', 'INVALID_MAC':1036, 1036:'CTP:银期转账：MAC值验证失败', 'NOT_SUPPORT_SECAGENT_BY_BANK':1037, 1037:'CTP:银期转账：不支持银行端发起的二级代理商转账和查询', 'PINKEY_SYNCING':1038, 1038:'CTP:银期转账：PIN密钥正在同步', 'SECAGENT_OPEN_ACCOUNT_BY_CCB':1039, 1039:'CTP:银期转账：建行发起的二级代理商开户前查询', 'NO_VALID_BANKOFFER_AVAILABLE':2000, 2000:'CTP:该报盘未连接到银行', 'PASSWORD_MISMATCH':2001, 2001:'CTP:资金密码错误', 'DUPLATION_BANK_SERIAL':2004, 2004:'CTP:银行流水号重复', 'DUPLATION_OFFER_SERIAL':2005, 2005:'CTP:报盘流水号重复', 'SERIAL_NOT_EXSIT':2006, 2006:'CTP:被冲正流水不存在(冲正交易)', 'SERIAL_IS_REPEALED':2007, 2007:'CTP:原流水已冲正(冲正交易)', 'SERIAL_MISMATCH':2008, 2008:'CTP:与原流水信息不符(冲正交易)', 'IdentifiedCardNo_MISMATCH':2009, 2009:'CTP:证件号码或类型错误', 'ACCOUNT_NOT_FUND':2011, 2011:'CTP:资金账户不存在', 'ACCOUNT_NOT_ACTIVE':2012, 2012:'CTP:资金账户已经销户', 'NOT_ALLOW_REPEAL_BYMANUAL':2013, 2013:'CTP:该交易不能执行手工冲正', 'AMOUNT_OUTOFTHEWAY':2014, 2014:'CTP:转帐金额错误', 'EXCHANGERATE_NOT_FOUND':2015, 2015:'CTP:找不到汇率', 'WAITING_OFFER_RSP':999999, 999999:'CTP:等待银期报盘处理结果', 'FBE_NO_GET_PLATFORM_SN':3001, 3001:'CTP:银期换汇：取平台流水号错误', 'FBE_ILLEGAL_TRANSFER_BANK':3002, 3002:'CTP:银期换汇：不合法的转账银行', 'FBE_PROCESSING':3005, 3005:'CTP:银期换汇：处理中', 'FBE_OVERTIME':3006, 3006:'CTP:银期换汇：交易超时', 'FBE_RECORD_NOT_FOUND':3007, 3007:'CTP:银期换汇：找不到记录', 'FBE_CONNECT_HOST_FAILED':3009, 3009:'CTP:银期换汇：连接主机失败', 'FBE_SEND_FAILED':3010, 3010:'CTP:银期换汇：发送失败', 'FBE_LATE_RESPONSE':3011, 3011:'CTP:银期换汇：迟到应答', 'FBE_DB_OPERATION_FAILED':3017, 3017:'CTP:银期换汇：数据库操作错误', 'FBE_NOT_SIGNIN':3019, 3019:'CTP:银期换汇：没有签到', 'FBE_ALREADY_SIGNIN':3020, 3020:'CTP:银期换汇：已经签到', 'FBE_AMOUNT_OR_TIMES_OVER':3021, 3021:'CTP:银期换汇：金额或次数超限', 'FBE_NOT_IN_TRANSFER_TIME':3022, 3022:'CTP:银期换汇：这一时间段不能换汇', 'FBE_BANK_SERVER_ERROR':3023, 3023:'CTP:银期换汇：银行主机错', 'FBE_NOT_ORGAN_MAP':3026, 3026:'CTP:银期换汇：机构没有签约', 'FBE_SYSTEM_BUSY':3030, 3030:'CTP:银期换汇：换汇系统忙，稍后再试', 'FBE_CURRENCYID_NOT_SUPPORTED':3035, 3035:'CTP:银期换汇：该币种代码不支持', 'FBE_WRONG_BANK_ACCOUNT':3036, 3036:'CTP:银期换汇：银行帐号不正确', 'FBE_BANK_ACCOUNT_NO_FUNDS':3037, 3037:'CTP:银期换汇：银行帐户余额不足', 'FBE_DUP_CERT_NO':3038, 3038:'CTP:银期换汇：凭证号重复'}
+error = {'NONE':0, 0:'CTP:正确', 'INVALID_DATA_SYNC_STATUS':1, 1:'CTP:不在已同步状态', 'INCONSISTENT_INFORMATION':2, 2:'CTP:会话信息不一致', 'INVALID_LOGIN':3, 3:'CTP:不合法的登录', 'USER_NOT_ACTIVE':4, 4:'CTP:用户不活跃', 'DUPLICATE_LOGIN':5, 5:'CTP:重复的登录', 'NOT_LOGIN_YET':6, 6:'CTP:还没有登录', 'NOT_INITED':7, 7:'CTP:还没有初始化', 'FRONT_NOT_ACTIVE':8, 8:'CTP:前置不活跃', 'NO_PRIVILEGE':9, 9:'CTP:无此权限', 'CHANGE_OTHER_PASSWORD':10, 10:'CTP:修改别人的口令', 'USER_NOT_FOUND':11, 11:'CTP:找不到该用户', 'BROKER_NOT_FOUND':12, 12:'CTP:找不到该经纪公司', 'INVESTOR_NOT_FOUND':13, 13:'CTP:找不到投资者', 'OLD_PASSWORD_MISMATCH':14, 14:'CTP:原口令不匹配', 'BAD_FIELD':15, 15:'CTP:报单字段有误', 'INSTRUMENT_NOT_FOUND':16, 16:'CTP:找不到合约', 'INSTRUMENT_NOT_TRADING':17, 17:'CTP:合约不能交易', 'NOT_EXCHANGE_PARTICIPANT':18, 18:'CTP:经纪公司不是交易所的会员', 'INVESTOR_NOT_ACTIVE':19, 19:'CTP:投资者不活跃', 'NOT_EXCHANGE_CLIENT':20, 20:'CTP:投资者未在交易所开户', 'NO_VALID_TRADER_AVAILABLE':21, 21:'CTP:该交易席位未连接到交易所', 'DUPLICATE_ORDER_REF':22, 22:'CTP:报单错误：不允许重复报单', 'BAD_ORDER_ACTION_FIELD':23, 23:'CTP:错误的报单操作字段', 'DUPLICATE_ORDER_ACTION_REF':24, 24:'CTP:撤单已报送，不允许重复撤单', 'ORDER_NOT_FOUND':25, 25:'CTP:撤单找不到相应报单', 'INSUITABLE_ORDER_STATUS':26, 26:'CTP:报单已全成交或已撤销，不能再撤', 'UNSUPPORTED_FUNCTION':27, 27:'CTP:不支持的功能', 'NO_TRADING_RIGHT':28, 28:'CTP:没有报单交易权限', 'CLOSE_ONLY':29, 29:'CTP:只能平仓', 'OVER_CLOSE_POSITION':30, 30:'CTP:平仓量超过持仓量', 'INSUFFICIENT_MONEY':31, 31:'CTP:资金不足', 'DUPLICATE_PK':32, 32:'CTP:主键重复', 'CANNOT_FIND_PK':33, 33:'CTP:找不到主键', 'CAN_NOT_INACTIVE_BROKER':34, 34:'CTP:设置经纪公司不活跃状态失败', 'BROKER_SYNCHRONIZING':35, 35:'CTP:经纪公司正在同步', 'BROKER_SYNCHRONIZED':36, 36:'CTP:经纪公司已同步', 'SHORT_SELL':37, 37:'CTP:现货交易不能卖空', 'INVALID_SETTLEMENT_REF':38, 38:'CTP:不合法的结算引用', 'CFFEX_NETWORK_ERROR':39, 39:'CTP:交易所网络连接失败', 'CFFEX_OVER_REQUEST':40, 40:'CTP:交易所未处理请求超过许可数', 'CFFEX_OVER_REQUEST_PER_SECOND':41, 41:'CTP:交易所每秒发送请求数超过许可数', 'SETTLEMENT_INFO_NOT_CONFIRMED':42, 42:'CTP:结算结果未确认', 'DEPOSIT_NOT_FOUND':43, 43:'CTP:没有对应的入金记录', 'EXCHANG_TRADING':44, 44:'CTP:交易所已经进入连续交易状态', 'PARKEDORDER_NOT_FOUND':45, 45:'CTP:找不到预埋（撤单）单', 'PARKEDORDER_HASSENDED':46, 46:'CTP:预埋（撤单）单已经发送', 'PARKEDORDER_HASDELETE':47, 47:'CTP:预埋（撤单）单已经删除', 'INVALID_INVESTORIDORPASSWORD':48, 48:'CTP:无效的投资者或者密码', 'INVALID_LOGIN_IPADDRESS':49, 49:'CTP:不合法的登录IP地址', 'OVER_CLOSETODAY_POSITION':50, 50:'CTP:平今仓位不足', 'OVER_CLOSEYESTERDAY_POSITION':51, 51:'CTP:平昨仓位不足', 'BROKER_NOT_ENOUGH_CONDORDER':52, 52:'CTP:经纪公司没有足够可用的条件单数量', 'INVESTOR_NOT_ENOUGH_CONDORDER':53, 53:'CTP:投资者没有足够可用的条件单数量', 'BROKER_NOT_SUPPORT_CONDORDER':54, 54:'CTP:经纪公司不支持条件单', 'RESEND_ORDER_BROKERINVESTOR_NOTMATCH':55, 55:'CTP:重发未知单经济公司/投资者不匹配', 'SYC_OTP_FAILED':56, 56:'CTP:同步动态令牌失败', 'OTP_MISMATCH':57, 57:'CTP:动态令牌校验错误', 'OTPPARAM_NOT_FOUND':58, 58:'CTP:找不到动态令牌配置信息', 'UNSUPPORTED_OTPTYPE':59, 59:'CTP:不支持的动态令牌类型', 'SINGLEUSERSESSION_EXCEED_LIMIT':60, 60:'CTP:用户在线会话超出上限', 'EXCHANGE_UNSUPPORTED_ARBITRAGE':61, 61:'CTP:该交易所不支持套利类型报单', 'NO_CONDITIONAL_ORDER_RIGHT':62, 62:'CTP:没有条件单交易权限', 'AUTH_FAILED':63, 63:'CTP:客户端认证失败', 'NOT_AUTHENT':64, 64:'CTP:客户端未认证', 'SWAPORDER_UNSUPPORTED':65, 65:'CTP:该合约不支持互换类型报单', 'OPTIONS_ONLY_SUPPORT_SPEC':66, 66:'CTP:该期权合约只支持投机类型报单', 'DUPLICATE_EXECORDER_REF':67, 67:'CTP:执行宣告错误，不允许重复执行', 'RESEND_EXECORDER_BROKERINVESTOR_NOTMATCH':68, 68:'CTP:重发未知执行宣告经纪公司/投资者不匹配', 'EXECORDER_NOTOPTIONS':69, 69:'CTP:只有期权合约可执行', 'OPTIONS_NOT_SUPPORT_EXEC':70, 70:'CTP:该期权合约不支持执行', 'BAD_EXECORDER_ACTION_FIELD':71, 71:'CTP:执行宣告字段有误', 'DUPLICATE_EXECORDER_ACTION_REF':72, 72:'CTP:执行宣告撤单已报送，不允许重复撤单', 'EXECORDER_NOT_FOUND':73, 73:'CTP:执行宣告撤单找不到相应执行宣告', 'OVER_EXECUTE_POSITION':74, 74:'CTP:执行仓位不足', 'LOGIN_FORBIDDEN':75, 75:'CTP:连续登录失败次数超限，登录被禁止', 'INVALID_TRANSFER_AGENT':76, 76:'CTP:非法银期代理关系', 'NO_FOUND_FUNCTION':77, 77:'CTP:无此功能', 'SEND_EXCHANGEORDER_FAILED':78, 78:'CTP:发送报单失败', 'SEND_EXCHANGEORDERACTION_FAILED':79, 79:'CTP:发送报单操作失败', 'PRICETYPE_NOTSUPPORT_BYEXCHANGE':80, 80:'CTP:交易所不支持的价格类型', 'BAD_EXECUTE_TYPE':81, 81:'CTP:错误的执行类型', 'BAD_OPTION_INSTR':82, 82:'CTP:无效的组合合约', 'INSTR_NOTSUPPORT_FORQUOTE':83, 83:'CTP:该合约不支持询价', 'RESEND_QUOTE_BROKERINVESTOR_NOTMATCH':84, 84:'CTP:重发未知报价经纪公司/投资者不匹配', 'INSTR_NOTSUPPORT_QUOTE':85, 85:'CTP:该合约不支持报价', 'QUOTE_NOT_FOUND':86, 86:'CTP:报价撤单找不到相应报价', 'OPTIONS_NOT_SUPPORT_ABANDON':87, 87:'CTP:该期权合约不支持放弃执行', 'COMBOPTIONS_SUPPORT_IOC_ONLY':88, 88:'CTP:该组合期权合约只支持IOC', 'OPEN_FILE_FAILED':89, 89:'CTP:打开文件失败', 'NEED_RETRY':90, 90:'CTP：查询未就绪，请稍后重试', 'EXCHANGE_RTNERROR':91, 91:'CTP：交易所返回的错误', 'QUOTE_DERIVEDORDER_ACTIONERROR':92, 92:'CTP:报价衍生单要等待交易所返回才能撤单', 'INSTRUMENTMAP_NOT_FOUND':93, 93:'CTP:找不到组合合约映射', 'NO_TRADING_RIGHT_IN_SEPC_DR':101, 101:'CTP:用户在本系统没有报单权限', 'NO_DR_NO':102, 102:'CTP:系统缺少灾备标示号', 'SEND_INSTITUTION_CODE_ERROR':1000, 1000:'CTP:银期转账：发送机构代码错误', 'NO_GET_PLATFORM_SN':1001, 1001:'CTP:银期转账：取平台流水号错误', 'ILLEGAL_TRANSFER_BANK':1002, 1002:'CTP:银期转账：不合法的转账银行', 'ALREADY_OPEN_ACCOUNT':1003, 1003:'CTP:银期转账：已经开户', 'NOT_OPEN_ACCOUNT':1004, 1004:'CTP:银期转账：未开户', 'PROCESSING':1005, 1005:'CTP:银期转账：处理中', 'OVERTIME':1006, 1006:'CTP:银期转账：交易超时', 'RECORD_NOT_FOUND':1007, 1007:'CTP:银期转账：找不到记录', 'NO_FOUND_REVERSAL_ORIGINAL_TRANSACTION':1008, 1008:'CTP:银期转账：找不到被冲正的原始交易', 'CONNECT_HOST_FAILED':1009, 1009:'CTP:银期转账：连接主机失败', 'SEND_FAILED':1010, 1010:'CTP:银期转账：发送失败', 'LATE_RESPONSE':1011, 1011:'CTP:银期转账：迟到应答', 'REVERSAL_BANKID_NOT_MATCH':1012, 1012:'CTP:银期转账：冲正交易银行代码错误', 'REVERSAL_BANKACCOUNT_NOT_MATCH':1013, 1013:'CTP:银期转账：冲正交易银行账户错误', 'REVERSAL_BROKERID_NOT_MATCH':1014, 1014:'CTP:银期转账：冲正交易经纪公司代码错误', 'REVERSAL_ACCOUNTID_NOT_MATCH':1015, 1015:'CTP:银期转账：冲正交易资金账户错误', 'REVERSAL_AMOUNT_NOT_MATCH':1016, 1016:'CTP:银期转账：冲正交易交易金额错误', 'DB_OPERATION_FAILED':1017, 1017:'CTP:银期转账：数据库操作错误', 'SEND_ASP_FAILURE':1018, 1018:'CTP:银期转账：发送到交易系统失败', 'NOT_SIGNIN':1019, 1019:'CTP:银期转账：没有签到', 'ALREADY_SIGNIN':1020, 1020:'CTP:银期转账：已经签到', 'AMOUNT_OR_TIMES_OVER':1021, 1021:'CTP:银期转账：金额或次数超限', 'NOT_IN_TRANSFER_TIME':1022, 1022:'CTP:银期转账：这一时间段不能转账', 'BANK_SERVER_ERROR':1023, 1023:'银行主机错', 'BANK_SERIAL_IS_REPEALED':1024, 1024:'CTP:银期转账：银行已经冲正', 'BANK_SERIAL_NOT_EXIST':1025, 1025:'CTP:银期转账：银行流水不存在', 'NOT_ORGAN_MAP':1026, 1026:'CTP:银期转账：机构没有签约', 'EXIST_TRANSFER':1027, 1027:'CTP:银期转账：存在转账，不能销户', 'BANK_FORBID_REVERSAL':1028, 1028:'CTP:银期转账：银行不支持冲正', 'DUP_BANK_SERIAL':1029, 1029:'CTP:银期转账：重复的银行流水', 'FBT_SYSTEM_BUSY':1030, 1030:'CTP:银期转账：转账系统忙，稍后再试', 'MACKEY_SYNCING':1031, 1031:'CTP:银期转账：MAC密钥正在同步', 'ACCOUNTID_ALREADY_REGISTER':1032, 1032:'CTP:银期转账：资金账户已经登记', 'BANKACCOUNT_ALREADY_REGISTER':1033, 1033:'CTP:银期转账：银行账户已经登记', 'DUP_BANK_SERIAL_REDO_OK':1034, 1034:'CTP:银期转账：重复的银行流水,重发成功', 'CURRENCYID_NOT_SUPPORTED':1035, 1035:'CTP:银期转账：该币种代码不支持', 'INVALID_MAC':1036, 1036:'CTP:银期转账：MAC值验证失败', 'NOT_SUPPORT_SECAGENT_BY_BANK':1037, 1037:'CTP:银期转账：不支持银行端发起的二级代理商转账和查询', 'PINKEY_SYNCING':1038, 1038:'CTP:银期转账：PIN密钥正在同步', 'SECAGENT_QUERY_BY_CCB':1039, 1039:'CTP:银期转账：建行发起的二级代理商查询', 'NO_VALID_BANKOFFER_AVAILABLE':2000, 2000:'CTP:该报盘未连接到银行', 'PASSWORD_MISMATCH':2001, 2001:'CTP:资金密码错误', 'DUPLATION_BANK_SERIAL':2004, 2004:'CTP:银行流水号重复', 'DUPLATION_OFFER_SERIAL':2005, 2005:'CTP:报盘流水号重复', 'SERIAL_NOT_EXSIT':2006, 2006:'CTP:被冲正流水不存在(冲正交易)', 'SERIAL_IS_REPEALED':2007, 2007:'CTP:原流水已冲正(冲正交易)', 'SERIAL_MISMATCH':2008, 2008:'CTP:与原流水信息不符(冲正交易)', 'IdentifiedCardNo_MISMATCH':2009, 2009:'CTP:证件号码或类型错误', 'ACCOUNT_NOT_FUND':2011, 2011:'CTP:资金账户不存在', 'ACCOUNT_NOT_ACTIVE':2012, 2012:'CTP:资金账户已经销户', 'NOT_ALLOW_REPEAL_BYMANUAL':2013, 2013:'CTP:该交易不能执行手工冲正', 'AMOUNT_OUTOFTHEWAY':2014, 2014:'CTP:转帐金额错误', 'EXCHANGERATE_NOT_FOUND':2015, 2015:'CTP:找不到汇率', 'WAITING_OFFER_RSP':999999, 999999:'CTP:等待银期报盘处理结果', 'FBE_NO_GET_PLATFORM_SN':3001, 3001:'CTP:银期换汇：取平台流水号错误', 'FBE_ILLEGAL_TRANSFER_BANK':3002, 3002:'CTP:银期换汇：不合法的转账银行', 'FBE_PROCESSING':3005, 3005:'CTP:银期换汇：处理中', 'FBE_OVERTIME':3006, 3006:'CTP:银期换汇：交易超时', 'FBE_RECORD_NOT_FOUND':3007, 3007:'CTP:银期换汇：找不到记录', 'FBE_CONNECT_HOST_FAILED':3009, 3009:'CTP:银期换汇：连接主机失败', 'FBE_SEND_FAILED':3010, 3010:'CTP:银期换汇：发送失败', 'FBE_LATE_RESPONSE':3011, 3011:'CTP:银期换汇：迟到应答', 'FBE_DB_OPERATION_FAILED':3017, 3017:'CTP:银期换汇：数据库操作错误', 'FBE_NOT_SIGNIN':3019, 3019:'CTP:银期换汇：没有签到', 'FBE_ALREADY_SIGNIN':3020, 3020:'CTP:银期换汇：已经签到', 'FBE_AMOUNT_OR_TIMES_OVER':3021, 3021:'CTP:银期换汇：金额或次数超限', 'FBE_NOT_IN_TRANSFER_TIME':3022, 3022:'CTP:银期换汇：这一时间段不能换汇', 'FBE_BANK_SERVER_ERROR':3023, 3023:'CTP:银期换汇：银行主机错', 'FBE_NOT_ORGAN_MAP':3026, 3026:'CTP:银期换汇：机构没有签约', 'FBE_SYSTEM_BUSY':3030, 3030:'CTP:银期换汇：换汇系统忙，稍后再试', 'FBE_CURRENCYID_NOT_SUPPORTED':3035, 3035:'CTP:银期换汇：该币种代码不支持', 'FBE_WRONG_BANK_ACCOUNT':3036, 3036:'CTP:银期换汇：银行帐号不正确', 'FBE_BANK_ACCOUNT_NO_FUNDS':3037, 3037:'CTP:银期换汇：银行帐户余额不足', 'FBE_DUP_CERT_NO':3038, 3038:'CTP:银期换汇：凭证号重复'}
 
 def _init():
     import re, sys
@@ -5020,7 +5867,7 @@ def _init():
     else:
         for k in error:
             if not isinstance(k, str): error[k] = error[k].decode('utf-8')
-    edvs = {'ContingentCondition':CC_Immediately, 'MortgageFundUseRange':MFUR_None, 'AllWithoutTrade':AWT_Enable, 'PositionDateType':PDT_UseHistory, 'TradingRight':TR_Allow, 'UserRightType':URT_Logon, 'InstitutionType':TS_Bank, 'FindMarginRateAlgoID':FMRA_Base, 'HedgeFlag':HF_Speculation, 'TraderConnectStatus':TCS_NotConnected, 'CustType':CUSTT_Person, 'TradeType':TRDT_SplitCombination, 'PositionType':PT_Net, 'ProductClass':PC_Futures, 'UserType':UT_Investor, 'ClientIDType':CIDT_Speculation, 'ParkedOrderStatus':PAOS_NotSend, 'YesNoIndicator':YNI_Yes, 'HandlePositionAlgoID':HPA_Base, 'Direction':D_Buy, 'OffsetFlag':OF_Open, 'PosiDirection':PD_Net, 'PwdFlag':BPWDF_NoCheck, 'CloseDealType':CDT_Normal, 'PersonType':PST_Order, 'ExchangeProperty':EXP_Normal, 'OrderPriceType':OPT_AnyPrice, 'TimeCondition':TC_IOC, 'OrderStatus':OST_AllTraded, 'MaxMarginSideAlgorithm':MMSA_NO, 'OrderSubmitStatus':OSS_InsertSubmitted, 'DataSyncStatus':DS_Asynchronous, 'TransferValidFlag':TVF_Invalid, 'AvailabilityFlag':AVAF_Invalid, 'InstStatusEnterReason':IER_Automatic, 'PositionDate':PSD_Today, 'ActionFlag':AF_Delete, 'Algorithm':AG_All, 'ForceCloseReason':FCC_NotForceClose, 'OrderType':ORDT_Normal, 'FeePayFlag':FPF_BEN, 'FuturePwdFlag':FPWD_UnCheck, 'Gender':GD_Unknown, 'FunctionCode':FC_DataAsync, 'OrderSource':OSRC_Participant, 'CashExchangeCode':CEC_Exchange, 'BrokerRepealFlag':BRORF_BrokerNotNeedRepeal, 'InstrumentStatus':IS_BeforeTrading, 'OpenOrDestroy':OOD_Open, 'BankRepealFlag':BRF_BankNotNeedRepeal, 'HandleTradingAccountAlgoID':HTAA_Base, 'IdCardType':ICT_EID, 'MarginPriceType':MPT_PreSettlementPrice, 'FileBusinessCode':FBC_Others, 'IncludeCloseProfit':ICP_Include, 'CFMMCKeyKind':CFMMCKK_REQUEST, 'BankAccType':BAT_BankBook, 'LastFragment':LF_Yes, 'InstLifePhase':IP_NotStart, 'FutureAccType':FAT_BankBook, 'LoginMode':LM_Trade, 'VolumeCondition':VC_AV, 'MoneyAccountStatus':MAS_Normal, 'OTPType':OTP_NONE, 'UserEventType':UET_Login, 'InvestorRange':IR_All, 'TransferStatus':TRFS_Normal, 'TradeSource':TSRC_NORMAL, 'PriceSource':PSRC_LastPrice, 'TradingRole':ER_Broker, 'BrokerFunctionCode':BFC_ForceUserLogout, 'OrderActionStatus':OAS_Submitted}
+    edvs = {'ContingentCondition':CC_Immediately, 'MortgageFundUseRange':MFUR_None, 'AllWithoutTrade':AWT_Enable, 'PositionDateType':PDT_UseHistory, 'TradingRight':TR_Allow, 'UserRightType':URT_Logon, 'InstitutionType':TS_Bank, 'ValueMethod':VM_Absolute, 'HedgeFlag':HF_Speculation, 'TraderConnectStatus':TCS_NotConnected, 'ExecResult':OER_NoExec, 'TradeType':TRDT_SplitCombination, 'PositionType':PT_Net, 'ProductClass':PC_Futures, 'ClientIDType':CIDT_Speculation, 'CombDirection':CMDR_Comb, 'OrderPriceType':OPT_AnyPrice, 'ParkedOrderStatus':PAOS_NotSend, 'YesNoIndicator':YNI_Yes, 'CustType':CUSTT_Person, 'HandlePositionAlgoID':HPA_Base, 'Direction':D_Buy, 'OffsetFlag':OF_Open, 'PosiDirection':PD_Net, 'PwdFlag':BPWDF_NoCheck, 'OptionRoyaltyPriceType':ORPT_PreSettlementPrice, 'CloseDealType':CDT_Normal, 'BalanceAlgorithm':BLAG_Default, 'PersonType':PST_Order, 'ExchangeProperty':EXP_Normal, 'UserType':UT_Investor, 'TimeCondition':TC_IOC, 'ActionType':ACTP_Exec, 'OrderStatus':OST_AllTraded, 'MaxMarginSideAlgorithm':MMSA_NO, 'OrderSubmitStatus':OSS_InsertSubmitted, 'DataSyncStatus':DS_Asynchronous, 'TransferValidFlag':TVF_Invalid, 'AvailabilityFlag':AVAF_Invalid, 'InstStatusEnterReason':IER_Automatic, 'PositionDate':PSD_Today, 'ExecOrderCloseFlag':EOCF_AutoClose, 'ActionFlag':AF_Delete, 'Algorithm':AG_All, 'ForceCloseReason':FCC_NotForceClose, 'OrderType':ORDT_Normal, 'FeePayFlag':FPF_BEN, 'HandleTradingAccountAlgoID':HTAA_Base, 'FuturePwdFlag':FPWD_UnCheck, 'OptionsType':CP_CallOptions, 'Gender':GD_Unknown, 'FunctionCode':FC_DataAsync, 'OrderSource':OSRC_Participant, 'CashExchangeCode':CEC_Exchange, 'BrokerRepealFlag':BRORF_BrokerNotNeedRepeal, 'InstrumentStatus':IS_BeforeTrading, 'OpenOrDestroy':OOD_Open, 'BankRepealFlag':BRF_BankNotNeedRepeal, 'CombinationType':COMBT_Future, 'IdCardType':ICT_EID, 'MarginPriceType':MPT_PreSettlementPrice, 'FileBusinessCode':FBC_Others, 'IncludeCloseProfit':ICP_Include, 'CFMMCKeyKind':CFMMCKK_REQUEST, 'BankAccType':BAT_BankBook, 'ExecOrderPositionFlag':EOPF_Reserve, 'LastFragment':LF_Yes, 'InstLifePhase':IP_NotStart, 'FutureAccType':FAT_BankBook, 'LoginMode':LM_Trade, 'VolumeCondition':VC_AV, 'MoneyAccountStatus':MAS_Normal, 'OTPType':OTP_NONE, 'UserEventType':UET_Login, 'InvestorRange':IR_All, 'ForQuoteStatus':FQST_Submitted, 'FindMarginRateAlgoID':FMRA_Base, 'TransferStatus':TRFS_Normal, 'TradeSource':TSRC_NORMAL, 'PriceSource':PSRC_LastPrice, 'TradingRole':ER_Broker, 'BrokerFunctionCode':BFC_ForceUserLogout, 'OrderActionStatus':OAS_Submitted}
     Structs = [v for v in G.values() if isinstance(v,type) and issubclass(v,Base)]
     Base = G['BaseStruct'] = type('BaseStruct', (Structure,), dict((k,v)
             for k,v in Base.__dict__.items() if

@@ -4,7 +4,6 @@ from __future__ import absolute_import as _init
 
 __author__ = 'lovelylain'
 __version__ = '0.2.1'
-API_VERSION = 'v6.3.0_20140521'
 
 __all__ = ['ApiStruct', 'MdApi', 'TraderApi']
 
@@ -17,6 +16,12 @@ class MdApi(object):
         @return 创建出的UserApi
         modify for udp marketdata
         """
+
+    def GetApiVersion(self):
+        """获取API的版本信息
+        @retrun 获取到的版本号
+        """
+        return ''
 
     def Release(self):
         """删除接口对象本身
@@ -153,6 +158,12 @@ class TraderApi(object):
         @param pszFlowPath 存贮订阅信息文件的目录，默认为当前目录
         @return 创建出的UserApi
         """
+
+    def GetApiVersion(self):
+        """获取API的版本信息
+        @retrun 获取到的版本号
+        """
+        return ''
 
     def Release(self):
         """删除接口对象本身
@@ -291,6 +302,14 @@ class TraderApi(object):
         """报价操作请求"""
         return 0
 
+    def ReqLockInsert(self, pInputLock, nRequestID):
+        """锁定请求"""
+        return 0
+
+    def ReqCombActionInsert(self, pInputCombAction, nRequestID):
+        """申请组合录入请求"""
+        return 0
+
     def ReqQryOrder(self, pQryOrder, nRequestID):
         """请求查询报单"""
         return 0
@@ -391,6 +410,10 @@ class TraderApi(object):
         """请求查询二级代理操作员银期权限"""
         return 0
 
+    def ReqQryProductExchRate(self, pQryProductExchRate, nRequestID):
+        """请求查询产品报价汇率"""
+        return 0
+
     def ReqQryOptionInstrTradeCost(self, pQryOptionInstrTradeCost, nRequestID):
         """请求查询期权交易成本"""
         return 0
@@ -409,6 +432,22 @@ class TraderApi(object):
 
     def ReqQryQuote(self, pQryQuote, nRequestID):
         """请求查询报价"""
+        return 0
+
+    def ReqQryLock(self, pQryLock, nRequestID):
+        """请求查询锁定"""
+        return 0
+
+    def ReqQryLockPosition(self, pQryLockPosition, nRequestID):
+        """请求查询锁定证券仓位"""
+        return 0
+
+    def ReqQryCombInstrumentGuard(self, pQryCombInstrumentGuard, nRequestID):
+        """请求查询组合合约安全系数"""
+        return 0
+
+    def ReqQryCombAction(self, pQryCombAction, nRequestID):
+        """请求查询申请组合"""
         return 0
 
     def ReqQryTransferSerial(self, pQryTransferSerial, nRequestID):
@@ -441,6 +480,10 @@ class TraderApi(object):
 
     def ReqQryBrokerTradingAlgos(self, pQryBrokerTradingAlgos, nRequestID):
         """请求查询经纪公司交易算法"""
+        return 0
+
+    def ReqQueryCFMMCTradingAccountToken(self, pQueryCFMMCTradingAccountToken, nRequestID):
+        """请求查询监控中心用户令牌"""
         return 0
 
     def ReqFromBankToFutureByFuture(self, pReqTransfer, nRequestID):
@@ -527,6 +570,12 @@ class TraderApi(object):
     def OnRspQuoteAction(self, pInputQuoteAction, pRspInfo, nRequestID, bIsLast):
         """报价操作请求响应"""
 
+    def OnRspLockInsert(self, pInputLock, pRspInfo, nRequestID, bIsLast):
+        """锁定应答"""
+
+    def OnRspCombActionInsert(self, pInputCombAction, pRspInfo, nRequestID, bIsLast):
+        """申请组合录入请求响应"""
+
     def OnRspQryOrder(self, pOrder, pRspInfo, nRequestID, bIsLast):
         """请求查询报单响应"""
 
@@ -602,6 +651,9 @@ class TraderApi(object):
     def OnRspQrySecAgentACIDMap(self, pSecAgentACIDMap, pRspInfo, nRequestID, bIsLast):
         """请求查询二级代理操作员银期权限响应"""
 
+    def OnRspQryProductExchRate(self, pProductExchRate, pRspInfo, nRequestID, bIsLast):
+        """请求查询产品报价汇率"""
+
     def OnRspQryOptionInstrTradeCost(self, pOptionInstrTradeCost, pRspInfo, nRequestID, bIsLast):
         """请求查询期权交易成本响应"""
 
@@ -616,6 +668,18 @@ class TraderApi(object):
 
     def OnRspQryQuote(self, pQuote, pRspInfo, nRequestID, bIsLast):
         """请求查询报价响应"""
+
+    def OnRspQryLock(self, pLock, pRspInfo, nRequestID, bIsLast):
+        """请求查询锁定应答"""
+
+    def OnRspQryLockPosition(self, pLockPosition, pRspInfo, nRequestID, bIsLast):
+        """请求查询锁定证券仓位应答"""
+
+    def OnRspQryCombInstrumentGuard(self, pCombInstrumentGuard, pRspInfo, nRequestID, bIsLast):
+        """请求查询组合合约安全系数响应"""
+
+    def OnRspQryCombAction(self, pCombAction, pRspInfo, nRequestID, bIsLast):
+        """请求查询申请组合响应"""
 
     def OnRspQryTransferSerial(self, pTransferSerial, pRspInfo, nRequestID, bIsLast):
         """请求查询转帐流水响应"""
@@ -671,6 +735,21 @@ class TraderApi(object):
     def OnRtnForQuoteRsp(self, pForQuoteRsp):
         """询价通知"""
 
+    def OnRtnCFMMCTradingAccountToken(self, pCFMMCTradingAccountToken):
+        """保证金监控中心用户令牌"""
+
+    def OnRtnLock(self, pLock):
+        """锁定通知"""
+
+    def OnErrRtnLockInsert(self, pInputLock, pRspInfo):
+        """锁定错误通知"""
+
+    def OnRtnCombAction(self, pCombAction):
+        """申请组合通知"""
+
+    def OnErrRtnCombActionInsert(self, pInputCombAction, pRspInfo):
+        """申请组合录入错误回报"""
+
     def OnRspQryContractBank(self, pContractBank, pRspInfo, nRequestID, bIsLast):
         """请求查询签约银行响应"""
 
@@ -688,6 +767,9 @@ class TraderApi(object):
 
     def OnRspQryBrokerTradingAlgos(self, pBrokerTradingAlgos, pRspInfo, nRequestID, bIsLast):
         """请求查询经纪公司交易算法响应"""
+
+    def OnRspQueryCFMMCTradingAccountToken(self, pQueryCFMMCTradingAccountToken, pRspInfo, nRequestID, bIsLast):
+        """请求查询监控中心用户令牌"""
 
     def OnRtnFromBankToFutureByBank(self, pRspTransfer):
         """银行发起银行资金转期货通知"""

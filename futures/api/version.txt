@@ -1,5 +1,3 @@
 http://www.sfit.com.cn/5_2_DocumentDown.htm
-win32: v6.2.5_20140811
-linux32: 20130312
-linux64: v6.2.5_20140811
-ios: v5.5.5
+MdApi().GetApiVersion()
+TraderApi().GetApiVersion()

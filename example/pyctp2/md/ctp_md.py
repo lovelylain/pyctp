@@ -18,6 +18,7 @@ import logging
 
 from ..common import base
 from ..common import utils
+from ..common.utils import tob, tos
 from ctp.futures import ApiStruct as ustruct
 from ctp.futures import ApiStruct as utype
 from ctp.futures import MdApi
@@ -53,7 +54,7 @@ class MdSpiDelegate(MdApi):
     def checkErrorRspInfo(self, info):
         logging.debug(info)
         if info.ErrorID !=0:
-            self.logger.error("MD:ErrorID:%s,ErrorMsg:%s" %(info.ErrorID,info.ErrorMsg))
+            self.logger.error("MD:ErrorID:%s,ErrorMsg:%s" %(info.ErrorID,tos(info.ErrorMsg)))
         return info.ErrorID !=0
 
     def OnRspError(self, info, RequestId, IsLast):
@@ -67,7 +68,7 @@ class MdSpiDelegate(MdApi):
         self.user_login(self._broker_id, self._investor_id, self._passwd)
 
     def user_login(self, broker_id, investor_id, passwd):
-        req = ustruct.ReqUserLogin(BrokerID=broker_id, UserID=investor_id, Password=passwd)
+        req = ustruct.ReqUserLogin(BrokerID=tob(broker_id), UserID=tob(investor_id), Password=tob(passwd))
         r=self.ReqUserLogin(req,self.inc_request_id())
 
     def OnRspUserLogin(self, userlogin, info, rid, is_last):
@@ -80,11 +81,11 @@ class MdSpiDelegate(MdApi):
 
     def subscribe_market_data(self, instruments):
         if instruments:
-            self.SubscribeMarketData(list(instruments))
+            self.SubscribeMarketData([tob(i) for i in instruments])
 
     def unsubscribe_market_data(self, instruments):
         if instruments:
-            self.UnSubscribeMarketData(list(instruments))
+            self.UnSubscribeMarketData([tob(i) for i in instruments])
 
     def update_instruments(self,cur_instruments):
         '''
@@ -105,16 +106,17 @@ class MdSpiDelegate(MdApi):
         #print('on data......\n')
         try: #须确保这里不会出啥问题
             dp = depth_market_data
+            InstrumentID = tos(dp.InstrumentID)
             #print('thread id:',threading.current_thread().ident,dp.InstrumentID,dp.UpdateTime,dp.UpdateMillisec,dp.TradingDay) #夜盘的TradeingDay属于次日,但updateTime未变
             #time.sleep(10)
             if depth_market_data.LastPrice > 999999 or depth_market_data.LastPrice < 10:
-                self.logger.warning('MD:收到的行情数据有误:%s,LastPrice=:%s' %(depth_market_data.InstrumentID,depth_market_data.LastPrice))
-            if depth_market_data.InstrumentID not in self._instruments:
-                self.logger.warning('MD:收到未订阅的行情:%s' %(depth_market_data.InstrumentID,))
+                self.logger.warning('MD:收到的行情数据有误:%s,LastPrice=:%s' %(InstrumentID,depth_market_data.LastPrice))
+            if InstrumentID not in self._instruments:
+                self.logger.warning('MD:收到未订阅的行情:%s' %(InstrumentID,))
                 return
-            #self.logger.debug('收到行情:%s,time=%s:%s' %(depth_market_data.InstrumentID,depth_market_data.UpdateTime,depth_market_data.UpdateMillisec))
-            #4print(dp.InstrumentID,dp.UpdateTime,dp.UpdateMillisec)
-            is_updated = self._controller.check_last(dp.InstrumentID,dp.UpdateTime,dp.UpdateMillisec,dp.Volume)
+            #self.logger.debug('收到行情:%s,time=%s:%s' %(InstrumentID,depth_market_data.UpdateTime,depth_market_data.UpdateMillisec))
+            #4print(InstrumentID,dp.UpdateTime,dp.UpdateMillisec)
+            is_updated = self._controller.check_last(InstrumentID,tos(dp.UpdateTime),dp.UpdateMillisec,dp.Volume)
             if is_updated:
                 ctick = self.market_data2tick(depth_market_data)
                 if ctick:
@@ -134,14 +136,17 @@ class MdSpiDelegate(MdApi):
                 2. 0:0及之后,归属于下一交易日
                 这么做是为了避免 都归于下一交易日时,出现的该交易日 23:59的数据先于 00:01出现的情况
         """
+        InstrumentID = tos(market_data.InstrumentID)
+        UpdateTime = tos(market_data.UpdateTime)
+        TradingDay = tos(market_data.TradingDay)
         try:
             state = '开始'
-            rev = base.TICK(instrument = market_data.InstrumentID,date=self._cur_day)
-            rev.min1 = int(market_data.UpdateTime[:2]+market_data.UpdateTime[3:5])
-            if len(market_data.TradingDay.strip()) > 0:
-                rev.tdate = int(market_data.TradingDay)
+            rev = base.TICK(instrument = InstrumentID,date=self._cur_day)
+            rev.min1 = int(UpdateTime[:2]+UpdateTime[3:5])
+            if len(TradingDay.strip()) > 0:
+                rev.tdate = int(TradingDay)
             else:
-                raise ValueError("传入的TradingDay错误,TradingDay=%s" % (market_data.TradingDay,))
+                raise ValueError("传入的TradingDay错误,TradingDay=%s" % (TradingDay,))
             if rev.min1 >= base.NIGHT_BEGIN:
                 if self._cur_day > 0:
                     rev.date = self._cur_day
@@ -150,7 +155,7 @@ class MdSpiDelegate(MdApi):
             else:
                 rev.date = rev.tdate
 
-            rev.sec = int(market_data.UpdateTime[-2:])
+            rev.sec = int(UpdateTime[-2:])
             rev.msec = int(market_data.UpdateMillisec)
             rev.holding = int(market_data.OpenInterest+0.1)
             rev.dvolume = market_data.Volume
@@ -173,7 +178,7 @@ class MdSpiDelegate(MdApi):
         except Exception as inst:
             self.logger.warning('MD:行情数据转换错误:%s,赋值进程=%s' % (str(inst),state))
             self.logger.warning('MD:行情数据转换错误,源记录:%s' % market_data)
-            self.logger.warning('MD:%s 行情数据转换错误:%s,updateTime="%s",msec="%s",tday="%s"' % (market_data.InstrumentID,str(inst),market_data.UpdateTime,market_data.UpdateMillisec,market_data.TradingDay))
+            self.logger.warning('MD:%s 行情数据转换错误:%s,updateTime="%s",msec="%s",tday="%s"' % (InstrumentID,str(inst),UpdateTime,market_data.UpdateMillisec,TradingDay))
             return None
         return rev
 

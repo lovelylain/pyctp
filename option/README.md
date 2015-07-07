@@ -3,7 +3,7 @@ pyctp
 
 ctp wrapper for python (期权版)
 
-CTP版本：v6.3.0_20140521
+CTP版本：MdApi().GetApiVersion(), TraderApi().GetApiVersion()
 
 环境：python2.5 ~ python3.4，Windows或者Linux
 

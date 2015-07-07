@@ -1,2 +1,2 @@
-deeedf85301f3ef0a4bd0a5a382f867a  thostmduserapi.so
-c4ff5023e26d26c5239f8b28ed0b54c3  thosttraderapi.so
+eef41d6fb85904416b469f2bb0e3c481  thostmduserapi.so
+c75e0a30ab85d066c5fa1d8c20fcbde3  thosttraderapi.so

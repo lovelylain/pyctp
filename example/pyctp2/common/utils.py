@@ -17,6 +17,17 @@ def with_metaclass(metaclass):
         return metaclass(cls.__name__, cls.__bases__, d)
     return decorator
 
+import sys
+def tob(s, enc='gbk'):
+    return s.encode(enc) if isinstance(s, unicode) else bytes(s)
+def tou(s, enc='gbk', err='strict'):
+    return s.decode(enc, err) if isinstance(s, bytes) else unicode(s)
+if sys.version_info[0] >= 3:
+    unicode = str
+    tos = tou
+else:
+    tos = tob
+
 MY_FORMAT = '%(name)s:%(funcName)s:%(lineno)d:%(asctime)s %(levelname)s %(message)s'
 CONSOLE_FORMAT = '**%(message)s'
 

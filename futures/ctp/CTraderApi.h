@@ -21,6 +21,12 @@ static inline int TraderSpi_OnRspQueryMaxOrderVolume(PyObject *, CThostFtdcQuery
 static inline int TraderSpi_OnRspSettlementInfoConfirm(PyObject *, CThostFtdcSettlementInfoConfirmField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspRemoveParkedOrder(PyObject *, CThostFtdcRemoveParkedOrderField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspRemoveParkedOrderAction(PyObject *, CThostFtdcRemoveParkedOrderActionField *, CThostFtdcRspInfoField *, int, bool);
+static inline int TraderSpi_OnRspExecOrderInsert(PyObject *, CThostFtdcInputExecOrderField *, CThostFtdcRspInfoField *, int, bool);
+static inline int TraderSpi_OnRspExecOrderAction(PyObject *, CThostFtdcInputExecOrderActionField *, CThostFtdcRspInfoField *, int, bool);
+static inline int TraderSpi_OnRspForQuoteInsert(PyObject *, CThostFtdcInputForQuoteField *, CThostFtdcRspInfoField *, int, bool);
+static inline int TraderSpi_OnRspQuoteInsert(PyObject *, CThostFtdcInputQuoteField *, CThostFtdcRspInfoField *, int, bool);
+static inline int TraderSpi_OnRspQuoteAction(PyObject *, CThostFtdcInputQuoteActionField *, CThostFtdcRspInfoField *, int, bool);
+static inline int TraderSpi_OnRspCombActionInsert(PyObject *, CThostFtdcInputCombActionField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspQryOrder(PyObject *, CThostFtdcOrderField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspQryTrade(PyObject *, CThostFtdcTradeField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspQryInvestorPosition(PyObject *, CThostFtdcInvestorPositionField *, CThostFtdcRspInfoField *, int, bool);
@@ -46,6 +52,14 @@ static inline int TraderSpi_OnRspQryExchangeMarginRate(PyObject *, CThostFtdcExc
 static inline int TraderSpi_OnRspQryExchangeMarginRateAdjust(PyObject *, CThostFtdcExchangeMarginRateAdjustField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspQryExchangeRate(PyObject *, CThostFtdcExchangeRateField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspQrySecAgentACIDMap(PyObject *, CThostFtdcSecAgentACIDMapField *, CThostFtdcRspInfoField *, int, bool);
+static inline int TraderSpi_OnRspQryProductExchRate(PyObject *, CThostFtdcProductExchRateField *, CThostFtdcRspInfoField *, int, bool);
+static inline int TraderSpi_OnRspQryOptionInstrTradeCost(PyObject *, CThostFtdcOptionInstrTradeCostField *, CThostFtdcRspInfoField *, int, bool);
+static inline int TraderSpi_OnRspQryOptionInstrCommRate(PyObject *, CThostFtdcOptionInstrCommRateField *, CThostFtdcRspInfoField *, int, bool);
+static inline int TraderSpi_OnRspQryExecOrder(PyObject *, CThostFtdcExecOrderField *, CThostFtdcRspInfoField *, int, bool);
+static inline int TraderSpi_OnRspQryForQuote(PyObject *, CThostFtdcForQuoteField *, CThostFtdcRspInfoField *, int, bool);
+static inline int TraderSpi_OnRspQryQuote(PyObject *, CThostFtdcQuoteField *, CThostFtdcRspInfoField *, int, bool);
+static inline int TraderSpi_OnRspQryCombInstrumentGuard(PyObject *, CThostFtdcCombInstrumentGuardField *, CThostFtdcRspInfoField *, int, bool);
+static inline int TraderSpi_OnRspQryCombAction(PyObject *, CThostFtdcCombActionField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspQryTransferSerial(PyObject *, CThostFtdcTransferSerialField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspQryAccountregister(PyObject *, CThostFtdcAccountregisterField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspError(PyObject *, CThostFtdcRspInfoField *, int, bool);
@@ -56,7 +70,17 @@ static inline int TraderSpi_OnErrRtnOrderAction(PyObject *, CThostFtdcOrderActio
 static inline int TraderSpi_OnRtnInstrumentStatus(PyObject *, CThostFtdcInstrumentStatusField *);
 static inline int TraderSpi_OnRtnTradingNotice(PyObject *, CThostFtdcTradingNoticeInfoField *);
 static inline int TraderSpi_OnRtnErrorConditionalOrder(PyObject *, CThostFtdcErrorConditionalOrderField *);
+static inline int TraderSpi_OnRtnExecOrder(PyObject *, CThostFtdcExecOrderField *);
+static inline int TraderSpi_OnErrRtnExecOrderInsert(PyObject *, CThostFtdcInputExecOrderField *, CThostFtdcRspInfoField *);
+static inline int TraderSpi_OnErrRtnExecOrderAction(PyObject *, CThostFtdcExecOrderActionField *, CThostFtdcRspInfoField *);
+static inline int TraderSpi_OnErrRtnForQuoteInsert(PyObject *, CThostFtdcInputForQuoteField *, CThostFtdcRspInfoField *);
+static inline int TraderSpi_OnRtnQuote(PyObject *, CThostFtdcQuoteField *);
+static inline int TraderSpi_OnErrRtnQuoteInsert(PyObject *, CThostFtdcInputQuoteField *, CThostFtdcRspInfoField *);
+static inline int TraderSpi_OnErrRtnQuoteAction(PyObject *, CThostFtdcQuoteActionField *, CThostFtdcRspInfoField *);
+static inline int TraderSpi_OnRtnForQuoteRsp(PyObject *, CThostFtdcForQuoteRspField *);
 static inline int TraderSpi_OnRtnCFMMCTradingAccountToken(PyObject *, CThostFtdcCFMMCTradingAccountTokenField *);
+static inline int TraderSpi_OnRtnCombAction(PyObject *, CThostFtdcCombActionField *);
+static inline int TraderSpi_OnErrRtnCombActionInsert(PyObject *, CThostFtdcInputCombActionField *, CThostFtdcRspInfoField *);
 static inline int TraderSpi_OnRspQryContractBank(PyObject *, CThostFtdcContractBankField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspQryParkedOrder(PyObject *, CThostFtdcParkedOrderField *, CThostFtdcRspInfoField *, int, bool);
 static inline int TraderSpi_OnRspQryParkedOrderAction(PyObject *, CThostFtdcParkedOrderActionField *, CThostFtdcRspInfoField *, int, bool);
@@ -166,6 +190,30 @@ public:
 		X_CALL(TraderSpi_OnRspRemoveParkedOrderAction(self, pRemoveParkedOrderAction, pRspInfo, nRequestID, bIsLast));
 	}
 
+	virtual void OnRspExecOrderInsert(CThostFtdcInputExecOrderField *pInputExecOrder, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
+		X_CALL(TraderSpi_OnRspExecOrderInsert(self, pInputExecOrder, pRspInfo, nRequestID, bIsLast));
+	}
+
+	virtual void OnRspExecOrderAction(CThostFtdcInputExecOrderActionField *pInputExecOrderAction, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
+		X_CALL(TraderSpi_OnRspExecOrderAction(self, pInputExecOrderAction, pRspInfo, nRequestID, bIsLast));
+	}
+
+	virtual void OnRspForQuoteInsert(CThostFtdcInputForQuoteField *pInputForQuote, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
+		X_CALL(TraderSpi_OnRspForQuoteInsert(self, pInputForQuote, pRspInfo, nRequestID, bIsLast));
+	}
+
+	virtual void OnRspQuoteInsert(CThostFtdcInputQuoteField *pInputQuote, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
+		X_CALL(TraderSpi_OnRspQuoteInsert(self, pInputQuote, pRspInfo, nRequestID, bIsLast));
+	}
+
+	virtual void OnRspQuoteAction(CThostFtdcInputQuoteActionField *pInputQuoteAction, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
+		X_CALL(TraderSpi_OnRspQuoteAction(self, pInputQuoteAction, pRspInfo, nRequestID, bIsLast));
+	}
+
+	virtual void OnRspCombActionInsert(CThostFtdcInputCombActionField *pInputCombAction, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
+		X_CALL(TraderSpi_OnRspCombActionInsert(self, pInputCombAction, pRspInfo, nRequestID, bIsLast));
+	}
+
 	virtual void OnRspQryOrder(CThostFtdcOrderField *pOrder, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
 		X_CALL(TraderSpi_OnRspQryOrder(self, pOrder, pRspInfo, nRequestID, bIsLast));
 	}
@@ -266,6 +314,38 @@ public:
 		X_CALL(TraderSpi_OnRspQrySecAgentACIDMap(self, pSecAgentACIDMap, pRspInfo, nRequestID, bIsLast));
 	}
 
+	virtual void OnRspQryProductExchRate(CThostFtdcProductExchRateField *pProductExchRate, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
+		X_CALL(TraderSpi_OnRspQryProductExchRate(self, pProductExchRate, pRspInfo, nRequestID, bIsLast));
+	}
+
+	virtual void OnRspQryOptionInstrTradeCost(CThostFtdcOptionInstrTradeCostField *pOptionInstrTradeCost, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
+		X_CALL(TraderSpi_OnRspQryOptionInstrTradeCost(self, pOptionInstrTradeCost, pRspInfo, nRequestID, bIsLast));
+	}
+
+	virtual void OnRspQryOptionInstrCommRate(CThostFtdcOptionInstrCommRateField *pOptionInstrCommRate, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
+		X_CALL(TraderSpi_OnRspQryOptionInstrCommRate(self, pOptionInstrCommRate, pRspInfo, nRequestID, bIsLast));
+	}
+
+	virtual void OnRspQryExecOrder(CThostFtdcExecOrderField *pExecOrder, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
+		X_CALL(TraderSpi_OnRspQryExecOrder(self, pExecOrder, pRspInfo, nRequestID, bIsLast));
+	}
+
+	virtual void OnRspQryForQuote(CThostFtdcForQuoteField *pForQuote, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
+		X_CALL(TraderSpi_OnRspQryForQuote(self, pForQuote, pRspInfo, nRequestID, bIsLast));
+	}
+
+	virtual void OnRspQryQuote(CThostFtdcQuoteField *pQuote, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
+		X_CALL(TraderSpi_OnRspQryQuote(self, pQuote, pRspInfo, nRequestID, bIsLast));
+	}
+
+	virtual void OnRspQryCombInstrumentGuard(CThostFtdcCombInstrumentGuardField *pCombInstrumentGuard, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
+		X_CALL(TraderSpi_OnRspQryCombInstrumentGuard(self, pCombInstrumentGuard, pRspInfo, nRequestID, bIsLast));
+	}
+
+	virtual void OnRspQryCombAction(CThostFtdcCombActionField *pCombAction, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
+		X_CALL(TraderSpi_OnRspQryCombAction(self, pCombAction, pRspInfo, nRequestID, bIsLast));
+	}
+
 	virtual void OnRspQryTransferSerial(CThostFtdcTransferSerialField *pTransferSerial, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
 		X_CALL(TraderSpi_OnRspQryTransferSerial(self, pTransferSerial, pRspInfo, nRequestID, bIsLast));
 	}
@@ -306,8 +386,48 @@ public:
 		X_CALL(TraderSpi_OnRtnErrorConditionalOrder(self, pErrorConditionalOrder));
 	}
 
+	virtual void OnRtnExecOrder(CThostFtdcExecOrderField *pExecOrder) {
+		X_CALL(TraderSpi_OnRtnExecOrder(self, pExecOrder));
+	}
+
+	virtual void OnErrRtnExecOrderInsert(CThostFtdcInputExecOrderField *pInputExecOrder, CThostFtdcRspInfoField *pRspInfo) {
+		X_CALL(TraderSpi_OnErrRtnExecOrderInsert(self, pInputExecOrder, pRspInfo));
+	}
+
+	virtual void OnErrRtnExecOrderAction(CThostFtdcExecOrderActionField *pExecOrderAction, CThostFtdcRspInfoField *pRspInfo) {
+		X_CALL(TraderSpi_OnErrRtnExecOrderAction(self, pExecOrderAction, pRspInfo));
+	}
+
+	virtual void OnErrRtnForQuoteInsert(CThostFtdcInputForQuoteField *pInputForQuote, CThostFtdcRspInfoField *pRspInfo) {
+		X_CALL(TraderSpi_OnErrRtnForQuoteInsert(self, pInputForQuote, pRspInfo));
+	}
+
+	virtual void OnRtnQuote(CThostFtdcQuoteField *pQuote) {
+		X_CALL(TraderSpi_OnRtnQuote(self, pQuote));
+	}
+
+	virtual void OnErrRtnQuoteInsert(CThostFtdcInputQuoteField *pInputQuote, CThostFtdcRspInfoField *pRspInfo) {
+		X_CALL(TraderSpi_OnErrRtnQuoteInsert(self, pInputQuote, pRspInfo));
+	}
+
+	virtual void OnErrRtnQuoteAction(CThostFtdcQuoteActionField *pQuoteAction, CThostFtdcRspInfoField *pRspInfo) {
+		X_CALL(TraderSpi_OnErrRtnQuoteAction(self, pQuoteAction, pRspInfo));
+	}
+
+	virtual void OnRtnForQuoteRsp(CThostFtdcForQuoteRspField *pForQuoteRsp) {
+		X_CALL(TraderSpi_OnRtnForQuoteRsp(self, pForQuoteRsp));
+	}
+
 	virtual void OnRtnCFMMCTradingAccountToken(CThostFtdcCFMMCTradingAccountTokenField *pCFMMCTradingAccountToken) {
 		X_CALL(TraderSpi_OnRtnCFMMCTradingAccountToken(self, pCFMMCTradingAccountToken));
+	}
+
+	virtual void OnRtnCombAction(CThostFtdcCombActionField *pCombAction) {
+		X_CALL(TraderSpi_OnRtnCombAction(self, pCombAction));
+	}
+
+	virtual void OnErrRtnCombActionInsert(CThostFtdcInputCombActionField *pInputCombAction, CThostFtdcRspInfoField *pRspInfo) {
+		X_CALL(TraderSpi_OnErrRtnCombActionInsert(self, pInputCombAction, pRspInfo));
 	}
 
 	virtual void OnRspQryContractBank(CThostFtdcContractBankField *pContractBank, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
@@ -497,6 +617,8 @@ static PyMethodDef _init_method = {"_init", _init, METH_O, NULL};
 #define S_CFMMCTradingAccountToken "CFMMCTradingAccountToken"
 #define S_CancelAccount "CancelAccount"
 #define S_ChangeAccount "ChangeAccount"
+#define S_CombAction "CombAction"
+#define S_CombInstrumentGuard "CombInstrumentGuard"
 #define S_ContractBank "ContractBank"
 #define S_DepthMarketData "DepthMarketData"
 #define S_EWarrantOffset "EWarrantOffset"
@@ -505,8 +627,18 @@ static PyMethodDef _init_method = {"_init", _init, METH_O, NULL};
 #define S_ExchangeMarginRate "ExchangeMarginRate"
 #define S_ExchangeMarginRateAdjust "ExchangeMarginRateAdjust"
 #define S_ExchangeRate "ExchangeRate"
+#define S_ExecOrder "ExecOrder"
+#define S_ExecOrderAction "ExecOrderAction"
+#define S_ForQuote "ForQuote"
+#define S_ForQuoteRsp "ForQuoteRsp"
+#define S_InputCombAction "InputCombAction"
+#define S_InputExecOrder "InputExecOrder"
+#define S_InputExecOrderAction "InputExecOrderAction"
+#define S_InputForQuote "InputForQuote"
 #define S_InputOrder "InputOrder"
 #define S_InputOrderAction "InputOrderAction"
+#define S_InputQuote "InputQuote"
+#define S_InputQuoteAction "InputQuoteAction"
 #define S_Instrument "Instrument"
 #define S_InstrumentCommissionRate "InstrumentCommissionRate"
 #define S_InstrumentMarginRate "InstrumentMarginRate"
@@ -519,13 +651,18 @@ static PyMethodDef _init_method = {"_init", _init, METH_O, NULL};
 #define S_Notice "Notice"
 #define S_NotifyQueryAccount "NotifyQueryAccount"
 #define S_OpenAccount "OpenAccount"
+#define S_OptionInstrCommRate "OptionInstrCommRate"
+#define S_OptionInstrTradeCost "OptionInstrTradeCost"
 #define S_Order "Order"
 #define S_OrderAction "OrderAction"
 #define S_ParkedOrder "ParkedOrder"
 #define S_ParkedOrderAction "ParkedOrderAction"
 #define S_Product "Product"
+#define S_ProductExchRate "ProductExchRate"
 #define S_QueryCFMMCTradingAccountToken "QueryCFMMCTradingAccountToken"
 #define S_QueryMaxOrderVolume "QueryMaxOrderVolume"
+#define S_Quote "Quote"
+#define S_QuoteAction "QuoteAction"
 #define S_RemoveParkedOrder "RemoveParkedOrder"
 #define S_RemoveParkedOrderAction "RemoveParkedOrderAction"
 #define S_ReqQueryAccount "ReqQueryAccount"

@@ -11,6 +11,7 @@ from ctp.futures import TraderApi
 from ctp.futures import ApiStruct as UStruct
 from ctp.futures import ApiStruct as UType
 
+from ..common.utils import tos
 from ..common.base import BaseObject,LONG,SHORT,TICK
 from ..common.base import TEST_PATH as LOG_PATH
 from ..common.contract_type import CM_ALL_TEST as call,ContractInfo
@@ -207,7 +208,7 @@ class TraderApiStub(TraderApi):
             lprice = 0
         dmdata = UStruct.DepthMarketData(InstrumentID=pQryDepthMarketData.InstrumentID,TradingDay=self._trading_day,UpperLimitPrice=uprice,LowerLimitPrice=lprice)
         self.OnRspQryDepthMarketData(dmdata, self._suceessRspInfo, nRequestID, True)
-        self.logger.info("TAStub-RQDMD:%s" % (pQryDepthMarketData.InstrumentID,))
+        self.logger.info("TAStub-RQDMD:%s" % (tos(pQryDepthMarketData.InstrumentID),))
 
     def RegisterFensUserInfo(self, pFensUserInfo):
         '''注册名字服务器用户信息

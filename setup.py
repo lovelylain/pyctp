@@ -2,7 +2,7 @@ import os, shutil, sys
 from distutils.util import get_platform
 
 TASKS = (
-    ('futures', None, 'ctp'),
+    ('futures2' if sys.platform == 'win32' else 'futures', 'futures', 'ctp'),
     ('option', None, 'ctp'),
     ('stock2' if sys.platform == 'win32' else 'stock', 'stock', 'ctp'),
     ('lts', None, 'ctp'),
