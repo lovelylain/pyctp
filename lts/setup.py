@@ -38,8 +38,7 @@ for k,v in BUILD:
         k = 'lib%s.so'%v
     package_data.append(k)
     v = 'ctp/' + k
-    if not os.path.exists(v):
-        shutil.copy2('%s/%s'%(api_dir,k), v)
+    shutil.copy2('%s/%s'%(api_dir,k), v)
 
 setup(
     name='ctp', version=__version__, author=__author__,
