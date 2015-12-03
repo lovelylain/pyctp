@@ -29,6 +29,7 @@ def build():
         shutil.rmtree('build'); os.chdir(pwd)
 
 def install():
+    build()
     import site
     #print(site.getsitepackages())
     dst = os.path.join(site.getsitepackages()[0], 'ctp')
