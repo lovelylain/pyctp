@@ -29,7 +29,13 @@ def build():
         shutil.rmtree('build'); os.chdir(pwd)
 
 def install():
-    sys.stderr.write('Please copy "%s" manually.\n' % build_dir)
+    build()
+    import site
+    #print(site.getsitepackages())
+    dst = os.path.join(site.getsitepackages()[0], 'ctp')
+    shutil.rmtree(dst, ignore_errors=True)
+    shutil.copytree(build_dir, dst)
+    #sys.stderr.write('Please copy "%s" manually.\n' % build_dir)
 
 def main():
     if len(sys.argv) >= 2:
