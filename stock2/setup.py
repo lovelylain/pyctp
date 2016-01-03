@@ -1,5 +1,10 @@
 from distutils.core import setup
 from distutils.extension import Extension
+try:
+    from Cython.Distutils import build_ext
+    ext = 'pyx'; cmdclass = {'build_ext': build_ext}
+except ImportError:
+    ext = 'cpp'; cmdclass = {}
 import re, sys, os, struct, shutil
 fp = open('ctp/__init__.py', 'rb'); data = fp.read(); fp.close()
 if sys.version_info[0] >= 3: data = data.decode('utf-8')
@@ -28,7 +33,7 @@ ext_modules = []; package_data = []
 for k,v in BUILD:
     extm = Extension(name='ctp._'+k, language='c++',
         include_dirs=include_dirs, library_dirs=library_dirs,
-        libraries=[v], sources=['ctp/%s.cpp'%k],
+        libraries=[v], sources=['ctp/%s.%s'%(k,ext)],
     )
     ext_modules.append(extm)
     if platform.startswith('win'):
@@ -42,6 +47,6 @@ for k,v in BUILD:
 
 setup(
     name='ctp', version=__version__, author=__author__,
-    cmdclass={}, ext_modules=ext_modules,
+    cmdclass=cmdclass, ext_modules=ext_modules,
     packages=['ctp'], package_dir={'ctp':'ctp'}, package_data={'ctp':package_data},
 )
