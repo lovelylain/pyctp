@@ -196,7 +196,9 @@ D_RepayMargin = '6' #卖券还款
 D_RepayStock = '7' #买券还券
 D_DirectRepayMargin = '8' #直接还款
 D_DirectRepayStock = '9' #直接还券
-D_TransferSecurities = 'a' #担保品划转
+D_TransferSecuritiesIn = 'a' #担保品划转入信用账户
+D_TransferSecuritiesOut = 'b' #担保品划转出信用账户
+D_CashIn = 'c' #现金替代，只用作回报
 T['PositionType'] = 'char' #持仓类型
 PT_Net = '1' #净持仓
 PT_Gross = '2' #综合持仓
@@ -450,6 +452,7 @@ T['TradeParamID'] = 'char' #交易系统参数代码
 TPID_EncryptionStandard = 'E' #系统加密算法
 TPID_RiskMode = 'R' #系统风险算法
 TPID_RiskModeGlobal = 'G' #系统风险算法是否全局 0-否 1-是
+TPID_RepayShortSellAlgo = 'S' #融资融券买券还券算法
 T['SettlementParamValue'] = 'char[256]' #参数代码值
 T['CounterID'] = 'char[33]' #计数器代码
 T['InvestorGroupName'] = 'char[41]' #投资者分组名称
@@ -1209,6 +1212,7 @@ EvM_ADD = '1' #增加
 EvM_UPDATE = '2' #修改
 EvM_DELETE = '3' #删除
 EvM_CHECK = '4' #复核
+EvM_Reverse = '7' #冲销
 T['UOAAutoSend'] = 'char' #统一开户申请自动发送
 UOAA_ASR = '1' #自动发送并接收
 UOAA_ASNR = '2' #自动发送，不自动接收
@@ -1276,6 +1280,7 @@ FET_TodayRestriction = '1' #当日转账限额
 FET_Transfer = '2' #期商流水
 FET_Credit = '3' #资金冻结
 FET_InvestorWithdrawAlm = '4' #投资者可提资金比例
+FET_InvestorFundIO = '8' #投资者出入金
 T['AccountSourceType'] = 'char' #资金账户来源
 AST_FBTransfer = '0' #银期同步
 AST_ManualEntry = '1' #手工录入
@@ -1328,6 +1333,10 @@ T['ETFCurrenceReplaceStatus'] = 'char' #ETF现金替代标志
 ETFCRS_Forbidden = '0' #禁止现金替代
 ETFCRS_Allow = '1' #可以现金替代
 ETFCRS_Force = '2' #必须现金替代
+T['RepayShortSellAlgo'] = 'char' #买券还券算法
+SSA_Original = '0' #默认算法
+SSA_Ratio = '1' #按还券比例计算
+SSA_Min = '2' #Min[1,2]
 T['INTEGER'] = 'int' #一般整型
 T['INT3'] = 'int' #三位数整型
 T['INT6'] = 'int' #六位数整型
@@ -1363,6 +1372,44 @@ T['VCHAR80'] = 'char[81]' #八十字节VCHAR
 T['VCHAR255'] = 'char[256]' #二五五字节VCHAR
 T['AuthInfo'] = 'char[129]' #客户端认证信息
 T['AuthCode'] = 'char[17]' #客户端认证码
+T['SysOperType'] = 'char' #系统日志操作类型
+SoT_UpdatePassword = '0' #修改操作员密码
+SoT_UserDepartment = '1' #操作员组织架构关系
+SoT_RoleManager = '2' #角色管理
+SoT_RoleFunction = '3' #角色功能设置
+SoT_BaseParam = '4' #基础参数设置
+SoT_SetUserID = '5' #设置操作员
+SoT_SetUserRole = '6' #用户角色设置
+SoT_UserIpRestriction = '7' #用户IP限制
+SoT_DepartmentManager = '8' #组织架构管理
+SoT_DepartmentCopy = '9' #组织架构向查询分类复制
+SoT_Tradingcode = 'A' #交易编码管理
+SoT_InvestorStatus = 'B' #投资者状态维护
+SoT_InvestorAuthority = 'C' #投资者权限管理
+SoT_PropertySet = 'D' #属性设置
+SoT_ReSetInvestorPasswd = 'E' #重置投资者密码
+SoT_InvestorPersonalityInfo = 'F' #投资者个性信息维护
+T['SysOperMode'] = 'char' #系统日志操作方法
+SoM_Add = '1' #增加
+SoM_Update = '2' #修改
+SoM_Delete = '3' #删除
+SoM_Copy = '4' #复制
+SoM_AcTive = '5' #激活
+SoM_CanCel = '6' #注销
+SoM_ReSet = '7' #重置
+T['CommModelName'] = 'char[161]' #手续费率模板名称
+T['CommModelMemo'] = 'char[1025]' #手续费率模板备注
+T['AutoIncrement'] = 'int' #自增长序号
+T['InstrumentRange'] = 'char' #股票权限分类
+INR_All = '1' #所有
+INR_Product = '2' #产品
+INR_Model = '3' #股票权限模版
+INR_Stock = '4' #股票
+T['RightModelID'] = 'char[31]' #股票权限模版代码
+T['RightModelName'] = 'char[161]' #股票权限模版名称
+T['RightModelMemo'] = 'char[1025]' #股票权限模版备注
+T['Year1'] = 'int' #年份
+T['Month1'] = 'int' #月份
 
 class BaseStruct(object):
     def __repr__(self):
@@ -1550,7 +1597,7 @@ class Product(BaseStruct): #产品
         self.EFTMinTradeVolume = 'Volume' #ETF最小交易单位, int
 
 class Instrument(BaseStruct): #合约
-    def __init__(self, InstrumentID='', ExchangeID='', InstrumentName='', ExchangeInstID='', ProductID='', ProductClass=PC_Futures, DeliveryYear=0, DeliveryMonth=0, MaxMarketOrderVolume=0, MinMarketOrderVolume=0, MaxLimitOrderVolume=0, MinLimitOrderVolume=0, VolumeMultiple=0, PriceTick=0.0, CreateDate='', OpenDate='', ExpireDate='', StartDelivDate='', EndDelivDate='', InstLifePhase=IP_NotStart, IsTrading=0, PositionType=PT_Net, PositionDateType=PDT_UseHistory, LongMarginRatio=0.0, ShortMarginRatio=0.0, OrderCanBeWithdraw=0, MinBuyVolume=0, MinSellVolume=0):
+    def __init__(self, InstrumentID='', ExchangeID='', InstrumentName='', ExchangeInstID='', ProductID='', ProductClass=PC_Futures, DeliveryYear=0, DeliveryMonth=0, MaxMarketOrderVolume=0, MinMarketOrderVolume=0, MaxLimitOrderVolume=0, MinLimitOrderVolume=0, VolumeMultiple=0, PriceTick=0.0, CreateDate='', OpenDate='', ExpireDate='', StartDelivDate='', EndDelivDate='', InstLifePhase=IP_NotStart, IsTrading=0, PositionType=PT_Net, PositionDateType=PDT_UseHistory, OrderCanBeWithdraw=0, MinBuyVolume=0, MinSellVolume=0, RightModelID=''):
         self.InstrumentID = '' #合约代码, char[31]
         self.ExchangeID = '' #交易所代码, char[9]
         self.InstrumentName = '' #合约名称, char[21]
@@ -1574,11 +1621,10 @@ class Instrument(BaseStruct): #合约
         self.IsTrading = 'Bool' #当前是否交易, int
         self.PositionType = '' #持仓类型, char
         self.PositionDateType = '' #持仓日期类型, char
-        self.LongMarginRatio = 'Ratio' #多头保证金率, double
-        self.ShortMarginRatio = 'Ratio' #空头保证金率, double
         self.OrderCanBeWithdraw = 'Bool' #报单能否撤单, int
         self.MinBuyVolume = 'Volume' #最小买下单单位, int
         self.MinSellVolume = 'Volume' #最小卖下单单位, int
+        self.RightModelID = '' #股票权限模版代码, char[31]
 
 class Broker(BaseStruct): #经纪公司
     def __init__(self, BrokerID='', BrokerAbbr='', BrokerName='', IsActive=0):
@@ -1648,7 +1694,7 @@ class InvestorGroup(BaseStruct): #投资者组
         self.InvestorGroupName = '' #投资者分组名称, char[41]
 
 class TradingAccount(BaseStruct): #资金账户
-    def __init__(self, BrokerID='', AccountID='', PreMortgage=0.0, PreCredit=0.0, PreDeposit=0.0, PreBalance=0.0, PreMargin=0.0, InterestBase=0.0, Interest=0.0, Deposit=0.0, Withdraw=0.0, FrozenMargin=0.0, FrozenCash=0.0, FrozenCommission=0.0, CurrMargin=0.0, CashIn=0.0, Commission=0.0, CloseProfit=0.0, PositionProfit=0.0, Balance=0.0, Available=0.0, WithdrawQuota=0.0, Reserve=0.0, TradingDay='', SettlementID=0, Credit=0.0, Mortgage=0.0, ExchangeMargin=0.0, DeliveryMargin=0.0, ExchangeDeliveryMargin=0.0, FrozenTransferFee=0.0, FrozenStampTax=0.0, TransferFee=0.0, StampTax=0.0, ConversionAmount=0.0, CreditAmount=0.0, LowLimitRatio=0.0, MarginTradingAmount=0.0, ShortSellingAmount=0.0, MarginTradingAvail=0.0, ShortSellingAvail=0.0, CreditRatio=0.0, StockValue=0.0):
+    def __init__(self, BrokerID='', AccountID='', PreMortgage=0.0, PreCredit=0.0, PreDeposit=0.0, PreBalance=0.0, PreMargin=0.0, InterestBase=0.0, Interest=0.0, Deposit=0.0, Withdraw=0.0, FrozenMargin=0.0, FrozenCash=0.0, FrozenCommission=0.0, CurrMargin=0.0, CashIn=0.0, Commission=0.0, CloseProfit=0.0, PositionProfit=0.0, Balance=0.0, Available=0.0, WithdrawQuota=0.0, Reserve=0.0, TradingDay='', SettlementID=0, Credit=0.0, Mortgage=0.0, ExchangeMargin=0.0, DeliveryMargin=0.0, ExchangeDeliveryMargin=0.0, FrozenTransferFee=0.0, FrozenStampTax=0.0, TransferFee=0.0, StampTax=0.0, ConversionAmount=0.0, CreditAmount=0.0, LowLimitRatio=0.0, MarginTradingAmount=0.0, ShortSellingAmount=0.0, MarginTradingAvail=0.0, ShortSellingAvail=0.0, CreditRatio=0.0, StockValue=0.0, SSStockValue=0.0, BondRepurchaseValue=0.0):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.AccountID = '' #投资者帐号, char[15]
         self.PreMortgage = 'Money' #上次质押金额, double
@@ -1666,15 +1712,15 @@ class TradingAccount(BaseStruct): #资金账户
         self.CurrMargin = 'Money' #当前保证金总额, double
         self.CashIn = 'Money' #资金差额, double
         self.Commission = 'Money' #手续费, double
-        self.CloseProfit = 'Money' #平仓盈亏, double
-        self.PositionProfit = 'Money' #持仓盈亏, double
+        self.CloseProfit = 'Money' #融券持仓盈亏, double
+        self.PositionProfit = 'Money' #融资持仓盈亏, double
         self.Balance = 'Money' #期货结算准备金, double
-        self.Available = 'Money' #可用资金, double
+        self.Available = 'Money' #现金, double
         self.WithdrawQuota = 'Money' #可取资金, double
         self.Reserve = 'Money' #基本准备金, double
         self.TradingDay = 'Date' #交易日, char[9]
         self.SettlementID = '' #结算编号, int
-        self.Credit = 'Money' #信用额度, double
+        self.Credit = 'Money' #保证金可用余额, double
         self.Mortgage = 'Money' #质押金额, double
         self.ExchangeMargin = 'Money' #交易所保证金, double
         self.DeliveryMargin = 'Money' #投资者交割保证金, double
@@ -1692,9 +1738,11 @@ class TradingAccount(BaseStruct): #资金账户
         self.ShortSellingAvail = 'Money' #融券卖出可用金额, double
         self.CreditRatio = 'Ratio' #维持担保比例, double
         self.StockValue = 'Money' #证券总价值, double
+        self.SSStockValue = 'Money' #融券总市值, double
+        self.BondRepurchaseValue = 'Money' #国债回购占用资金, double
 
 class InvestorPosition(BaseStruct): #投资者持仓
-    def __init__(self, InstrumentID='', BrokerID='', InvestorID='', PosiDirection=PD_Net, HedgeFlag=HF_Speculation, PositionDate=PSD_Today, YdPosition=0, Position=0, LongFrozen=0, ShortFrozen=0, LongFrozenAmount=0.0, ShortFrozenAmount=0.0, OpenVolume=0, CloseVolume=0, OpenAmount=0.0, CloseAmount=0.0, PositionCost=0.0, FrozenCash=0.0, CashIn=0.0, Commission=0.0, CloseProfit=0.0, PositionProfit=0.0, PreSettlementPrice=0.0, SettlementPrice=0.0, TradingDay='', SettlementID=0, OpenCost=0.0, ExchangeMargin=0.0, TodayPosition=0, TransferFee=0.0, StampTax=0.0, TodayPurRedVolume=0, ConversionRate=0.0, ConversionAmount=0.0, MarginTradeVolume=0, MarginTradeAmount=0.0, MarginTradeFrozenVolume=0, MarginTradeFrozenAmount=0.0, MarginTradeConversionAmount=0.0, ShortSellVolume=0, ShortSellAmount=0.0, ShortSellConversionAmount=0.0, ShortSellFrozenVolume=0, ShortSellFrozenAmount=0.0, StockValue=0.0, ExchangeID=''):
+    def __init__(self, InstrumentID='', BrokerID='', InvestorID='', PosiDirection=PD_Net, HedgeFlag=HF_Speculation, PositionDate=PSD_Today, YdPosition=0, Position=0, LongFrozen=0, ShortFrozen=0, LongFrozenAmount=0.0, ShortFrozenAmount=0.0, OpenVolume=0, CloseVolume=0, OpenAmount=0.0, CloseAmount=0.0, PositionCost=0.0, FrozenCash=0.0, CashIn=0.0, Commission=0.0, CloseProfit=0.0, PositionProfit=0.0, PreSettlementPrice=0.0, SettlementPrice=0.0, TradingDay='', SettlementID=0, OpenCost=0.0, ExchangeMargin=0.0, TodayPosition=0, TransferFee=0.0, StampTax=0.0, TodayPurRedVolume=0, ConversionRate=0.0, ConversionAmount=0.0, MarginTradeVolume=0, MarginTradeAmount=0.0, MarginTradeFrozenVolume=0, MarginTradeFrozenAmount=0.0, MarginTradeConversionAmount=0.0, ShortSellVolume=0, ShortSellAmount=0.0, ShortSellConversionAmount=0.0, ShortSellFrozenVolume=0, ShortSellFrozenAmount=0.0, StockValue=0.0, ExchangeID='', TodayMTPosition=0, TodaySSPosition=0, SSStockValue=0.0):
         self.InstrumentID = '' #合约代码, char[31]
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[15]
@@ -1733,14 +1781,17 @@ class InvestorPosition(BaseStruct): #投资者持仓
         self.MarginTradeAmount = 'Money' #融资买入金额, double
         self.MarginTradeFrozenVolume = 'Volume' #融资买入冻结数量, int
         self.MarginTradeFrozenAmount = 'Money' #融资买入冻结金额, double
-        self.MarginTradeConversionAmount = 'Money' #融资买入折算金额, double
+        self.MarginTradeConversionAmount = 'Money' #融资买入盈亏, double
         self.ShortSellVolume = 'Volume' #融券卖出数量, int
         self.ShortSellAmount = 'Money' #融券卖出金额, double
-        self.ShortSellConversionAmount = 'Money' #融券卖出折算金额, double
+        self.ShortSellConversionAmount = 'Money' #融券卖出盈亏, double
         self.ShortSellFrozenVolume = 'Volume' #融券卖出冻结数量, int
         self.ShortSellFrozenAmount = 'Money' #融券卖出冻结金额, double
         self.StockValue = 'Money' #证券价值, double
         self.ExchangeID = '' #交易所代码, char[9]
+        self.TodayMTPosition = 'Volume' #今日融资持仓, int
+        self.TodaySSPosition = 'Volume' #今日融券持仓, int
+        self.SSStockValue = 'Money' #融券总市值, double
 
 class InstrumentMarginRate(BaseStruct): #合约保证金率
     def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', HedgeFlag=HF_Speculation, LongMarginRatioByMoney=0.0, LongMarginRatioByVolume=0.0, ShortMarginRatioByMoney=0.0, ShortMarginRatioByVolume=0.0, IsRelative=0):
@@ -1756,25 +1807,19 @@ class InstrumentMarginRate(BaseStruct): #合约保证金率
         self.IsRelative = 'Bool' #是否相对交易所收取, int
 
 class InstrumentCommissionRate(BaseStruct): #合约手续费率
-    def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', BuyStampTaxRateByMoney=0.0, BuyStampTaxRateByVolume=0.0, SellStampTaxRateByMoney=0.0, SellStampTaxRateByVolume=0.0, BuyTransferFeeRateByMoney=0.0, BuyTransferFeeRateByVolume=0.0, SellTransferFeeRateByMoney=0.0, SellTransferFeeRateByVolume=0.0, BuyTradeFeeByMoney=0.0, BuyTradeFeeByVolume=0.0, SellTradeFeeByMoney=0.0, SellTradeFeeByVolume=0.0, BuyMarginByMoney=0.0, SellMarginByMoney=0.0, MinTradeFee=0.0):
+    def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', Direction=D_Buy, StampTaxRateByMoney=0.0, StampTaxRateByVolume=0.0, TransferFeeRateByMoney=0.0, TransferFeeRateByVolume=0.0, TradeFeeByMoney=0.0, TradeFeeByVolume=0.0, MarginByMoney=0.0, MinTradeFee=0.0):
         self.InstrumentID = '' #合约代码, char[31]
         self.InvestorRange = '' #投资者范围, char
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[15]
-        self.BuyStampTaxRateByMoney = 'Ratio' #买印花税率, double
-        self.BuyStampTaxRateByVolume = 'Ratio' #买印花税率(按手数), double
-        self.SellStampTaxRateByMoney = 'Ratio' #卖印花税率, double
-        self.SellStampTaxRateByVolume = 'Ratio' #卖印花税率(按手数), double
-        self.BuyTransferFeeRateByMoney = 'Ratio' #买过户费率, double
-        self.BuyTransferFeeRateByVolume = 'Ratio' #买过户费率(按手数), double
-        self.SellTransferFeeRateByMoney = 'Ratio' #卖过户费率, double
-        self.SellTransferFeeRateByVolume = 'Ratio' #卖过户费率(按手数), double
-        self.BuyTradeFeeByMoney = 'Ratio' #买交易费, double
-        self.BuyTradeFeeByVolume = 'Ratio' #买交易费(按手数), double
-        self.SellTradeFeeByMoney = 'Ratio' #卖交易费率, double
-        self.SellTradeFeeByVolume = 'Ratio' #卖交易费率(按手数), double
-        self.BuyMarginByMoney = 'Ratio' #买交易附加费率, double
-        self.SellMarginByMoney = 'Ratio' #卖交易附加费率, double
+        self.Direction = '' #买卖方向, char
+        self.StampTaxRateByMoney = 'Ratio' #印花税率, double
+        self.StampTaxRateByVolume = 'Ratio' #印花税率(按手数), double
+        self.TransferFeeRateByMoney = 'Ratio' #过户费率, double
+        self.TransferFeeRateByVolume = 'Ratio' #过户费率(按手数), double
+        self.TradeFeeByMoney = 'Ratio' #交易费, double
+        self.TradeFeeByVolume = 'Ratio' #交易费(按手数), double
+        self.MarginByMoney = 'Ratio' #交易附加费率, double
         self.MinTradeFee = 'Price' #最小过户费, double
 
 class DepthMarketData(BaseStruct): #深度行情
@@ -1824,7 +1869,7 @@ class DepthMarketData(BaseStruct): #深度行情
         self.AveragePrice = 'Price' #当日均价, double
 
 class InstrumentTradingRight(BaseStruct): #投资者合约交易权限
-    def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', Direction=D_Buy, TradingRight=TR_Allow, ExchangeID=''):
+    def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', Direction=D_Buy, TradingRight=TR_Allow, ExchangeID='', InstrumentRange=INR_All):
         self.InstrumentID = '' #合约代码, char[31]
         self.InvestorRange = '' #投资者范围, char
         self.BrokerID = '' #经纪公司代码, char[11]
@@ -1832,6 +1877,7 @@ class InstrumentTradingRight(BaseStruct): #投资者合约交易权限
         self.Direction = '' #买卖, char
         self.TradingRight = '' #交易权限, char
         self.ExchangeID = '' #交易所代码, char[9]
+        self.InstrumentRange = '' #股票权限分类, char
 
 class BrokerUser(BaseStruct): #经纪公司用户
     def __init__(self, BrokerID='', UserID='', UserName='', UserType=UT_Investor, IsActive=0, IsUsingOTP=0):
@@ -2330,7 +2376,7 @@ class SyncingInvestorGroup(BaseStruct): #正在同步中的投资者分组
         self.InvestorGroupName = '' #投资者分组名称, char[41]
 
 class SyncingTradingAccount(BaseStruct): #正在同步中的交易账号
-    def __init__(self, BrokerID='', AccountID='', PreMortgage=0.0, PreCredit=0.0, PreDeposit=0.0, PreBalance=0.0, PreMargin=0.0, InterestBase=0.0, Interest=0.0, Deposit=0.0, Withdraw=0.0, FrozenMargin=0.0, FrozenCash=0.0, FrozenCommission=0.0, CurrMargin=0.0, CashIn=0.0, Commission=0.0, CloseProfit=0.0, PositionProfit=0.0, Balance=0.0, Available=0.0, WithdrawQuota=0.0, Reserve=0.0, TradingDay='', SettlementID=0, Credit=0.0, Mortgage=0.0, ExchangeMargin=0.0, DeliveryMargin=0.0, ExchangeDeliveryMargin=0.0, FrozenTransferFee=0.0, FrozenStampTax=0.0, TransferFee=0.0, StampTax=0.0, ConversionAmount=0.0, CreditAmount=0.0, LowLimitRatio=0.0, MarginTradingAmount=0.0, ShortSellingAmount=0.0, MarginTradingAvail=0.0, ShortSellingAvail=0.0, CreditRatio=0.0, StockValue=0.0):
+    def __init__(self, BrokerID='', AccountID='', PreMortgage=0.0, PreCredit=0.0, PreDeposit=0.0, PreBalance=0.0, PreMargin=0.0, InterestBase=0.0, Interest=0.0, Deposit=0.0, Withdraw=0.0, FrozenMargin=0.0, FrozenCash=0.0, FrozenCommission=0.0, CurrMargin=0.0, CashIn=0.0, Commission=0.0, CloseProfit=0.0, PositionProfit=0.0, Balance=0.0, Available=0.0, WithdrawQuota=0.0, Reserve=0.0, TradingDay='', SettlementID=0, Credit=0.0, Mortgage=0.0, ExchangeMargin=0.0, DeliveryMargin=0.0, ExchangeDeliveryMargin=0.0, FrozenTransferFee=0.0, FrozenStampTax=0.0, TransferFee=0.0, StampTax=0.0, ConversionAmount=0.0, CreditAmount=0.0, LowLimitRatio=0.0, MarginTradingAmount=0.0, ShortSellingAmount=0.0, MarginTradingAvail=0.0, ShortSellingAvail=0.0, CreditRatio=0.0, StockValue=0.0, SSStockValue=0.0, BondRepurchaseValue=0.0):
         self.BrokerID = '' #经纪公司代码, char[11]
         self.AccountID = '' #投资者帐号, char[15]
         self.PreMortgage = 'Money' #上次质押金额, double
@@ -2348,15 +2394,15 @@ class SyncingTradingAccount(BaseStruct): #正在同步中的交易账号
         self.CurrMargin = 'Money' #当前保证金总额, double
         self.CashIn = 'Money' #资金差额, double
         self.Commission = 'Money' #手续费, double
-        self.CloseProfit = 'Money' #平仓盈亏, double
-        self.PositionProfit = 'Money' #持仓盈亏, double
+        self.CloseProfit = 'Money' #融券持仓盈亏, double
+        self.PositionProfit = 'Money' #融资持仓盈亏, double
         self.Balance = 'Money' #期货结算准备金, double
-        self.Available = 'Money' #可用资金, double
+        self.Available = 'Money' #现金, double
         self.WithdrawQuota = 'Money' #可取资金, double
         self.Reserve = 'Money' #基本准备金, double
         self.TradingDay = 'Date' #交易日, char[9]
         self.SettlementID = '' #结算编号, int
-        self.Credit = 'Money' #信用额度, double
+        self.Credit = 'Money' #保证金可用余额, double
         self.Mortgage = 'Money' #质押金额, double
         self.ExchangeMargin = 'Money' #交易所保证金, double
         self.DeliveryMargin = 'Money' #投资者交割保证金, double
@@ -2374,9 +2420,11 @@ class SyncingTradingAccount(BaseStruct): #正在同步中的交易账号
         self.ShortSellingAvail = 'Money' #融券卖出可用金额, double
         self.CreditRatio = 'Ratio' #维持担保比例, double
         self.StockValue = 'Money' #证券总价值, double
+        self.SSStockValue = 'Money' #融券总市值, double
+        self.BondRepurchaseValue = 'Money' #国债回购占用资金, double
 
 class SyncingInvestorPosition(BaseStruct): #正在同步中的投资者持仓
-    def __init__(self, InstrumentID='', BrokerID='', InvestorID='', PosiDirection=PD_Net, HedgeFlag=HF_Speculation, PositionDate=PSD_Today, YdPosition=0, Position=0, LongFrozen=0, ShortFrozen=0, LongFrozenAmount=0.0, ShortFrozenAmount=0.0, OpenVolume=0, CloseVolume=0, OpenAmount=0.0, CloseAmount=0.0, PositionCost=0.0, FrozenCash=0.0, CashIn=0.0, Commission=0.0, CloseProfit=0.0, PositionProfit=0.0, PreSettlementPrice=0.0, SettlementPrice=0.0, TradingDay='', SettlementID=0, OpenCost=0.0, ExchangeMargin=0.0, TodayPosition=0, TransferFee=0.0, StampTax=0.0, TodayPurRedVolume=0, ConversionRate=0.0, ConversionAmount=0.0, MarginTradeVolume=0, MarginTradeAmount=0.0, MarginTradeFrozenVolume=0, MarginTradeFrozenAmount=0.0, MarginTradeConversionAmount=0.0, ShortSellVolume=0, ShortSellAmount=0.0, ShortSellConversionAmount=0.0, ShortSellFrozenVolume=0, ShortSellFrozenAmount=0.0, StockValue=0.0, ExchangeID=''):
+    def __init__(self, InstrumentID='', BrokerID='', InvestorID='', PosiDirection=PD_Net, HedgeFlag=HF_Speculation, PositionDate=PSD_Today, YdPosition=0, Position=0, LongFrozen=0, ShortFrozen=0, LongFrozenAmount=0.0, ShortFrozenAmount=0.0, OpenVolume=0, CloseVolume=0, OpenAmount=0.0, CloseAmount=0.0, PositionCost=0.0, FrozenCash=0.0, CashIn=0.0, Commission=0.0, CloseProfit=0.0, PositionProfit=0.0, PreSettlementPrice=0.0, SettlementPrice=0.0, TradingDay='', SettlementID=0, OpenCost=0.0, ExchangeMargin=0.0, TodayPosition=0, TransferFee=0.0, StampTax=0.0, TodayPurRedVolume=0, ConversionRate=0.0, ConversionAmount=0.0, MarginTradeVolume=0, MarginTradeAmount=0.0, MarginTradeFrozenVolume=0, MarginTradeFrozenAmount=0.0, MarginTradeConversionAmount=0.0, ShortSellVolume=0, ShortSellAmount=0.0, ShortSellConversionAmount=0.0, ShortSellFrozenVolume=0, ShortSellFrozenAmount=0.0, StockValue=0.0, ExchangeID='', TodayMTPosition=0, TodaySSPosition=0, SSStockValue=0.0):
         self.InstrumentID = '' #合约代码, char[31]
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[15]
@@ -2415,14 +2463,17 @@ class SyncingInvestorPosition(BaseStruct): #正在同步中的投资者持仓
         self.MarginTradeAmount = 'Money' #融资买入金额, double
         self.MarginTradeFrozenVolume = 'Volume' #融资买入冻结数量, int
         self.MarginTradeFrozenAmount = 'Money' #融资买入冻结金额, double
-        self.MarginTradeConversionAmount = 'Money' #融资买入折算金额, double
+        self.MarginTradeConversionAmount = 'Money' #融资买入盈亏, double
         self.ShortSellVolume = 'Volume' #融券卖出数量, int
         self.ShortSellAmount = 'Money' #融券卖出金额, double
-        self.ShortSellConversionAmount = 'Money' #融券卖出折算金额, double
+        self.ShortSellConversionAmount = 'Money' #融券卖出盈亏, double
         self.ShortSellFrozenVolume = 'Volume' #融券卖出冻结数量, int
         self.ShortSellFrozenAmount = 'Money' #融券卖出冻结金额, double
         self.StockValue = 'Money' #证券价值, double
         self.ExchangeID = '' #交易所代码, char[9]
+        self.TodayMTPosition = 'Volume' #今日融资持仓, int
+        self.TodaySSPosition = 'Volume' #今日融券持仓, int
+        self.SSStockValue = 'Money' #融券总市值, double
 
 class SyncingInstrumentMarginRate(BaseStruct): #正在同步中的合约保证金率
     def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', HedgeFlag=HF_Speculation, LongMarginRatioByMoney=0.0, LongMarginRatioByVolume=0.0, ShortMarginRatioByMoney=0.0, ShortMarginRatioByVolume=0.0, IsRelative=0):
@@ -2438,29 +2489,23 @@ class SyncingInstrumentMarginRate(BaseStruct): #正在同步中的合约保证�
         self.IsRelative = 'Bool' #是否相对交易所收取, int
 
 class SyncingInstrumentCommissionRate(BaseStruct): #正在同步中的合约手续费率
-    def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', BuyStampTaxRateByMoney=0.0, BuyStampTaxRateByVolume=0.0, SellStampTaxRateByMoney=0.0, SellStampTaxRateByVolume=0.0, BuyTransferFeeRateByMoney=0.0, BuyTransferFeeRateByVolume=0.0, SellTransferFeeRateByMoney=0.0, SellTransferFeeRateByVolume=0.0, BuyTradeFeeByMoney=0.0, BuyTradeFeeByVolume=0.0, SellTradeFeeByMoney=0.0, SellTradeFeeByVolume=0.0, BuyMarginByMoney=0.0, SellMarginByMoney=0.0, MinTradeFee=0.0):
+    def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', Direction=D_Buy, StampTaxRateByMoney=0.0, StampTaxRateByVolume=0.0, TransferFeeRateByMoney=0.0, TransferFeeRateByVolume=0.0, TradeFeeByMoney=0.0, TradeFeeByVolume=0.0, MarginByMoney=0.0, MinTradeFee=0.0):
         self.InstrumentID = '' #合约代码, char[31]
         self.InvestorRange = '' #投资者范围, char
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[15]
-        self.BuyStampTaxRateByMoney = 'Ratio' #买印花税率, double
-        self.BuyStampTaxRateByVolume = 'Ratio' #买印花税率(按手数), double
-        self.SellStampTaxRateByMoney = 'Ratio' #卖印花税率, double
-        self.SellStampTaxRateByVolume = 'Ratio' #卖印花税率(按手数), double
-        self.BuyTransferFeeRateByMoney = 'Ratio' #买过户费率, double
-        self.BuyTransferFeeRateByVolume = 'Ratio' #买过户费率(按手数), double
-        self.SellTransferFeeRateByMoney = 'Ratio' #卖过户费率, double
-        self.SellTransferFeeRateByVolume = 'Ratio' #卖过户费率(按手数), double
-        self.BuyTradeFeeByMoney = 'Ratio' #买交易费, double
-        self.BuyTradeFeeByVolume = 'Ratio' #买交易费(按手数), double
-        self.SellTradeFeeByMoney = 'Ratio' #卖交易费率, double
-        self.SellTradeFeeByVolume = 'Ratio' #卖交易费率(按手数), double
-        self.BuyMarginByMoney = 'Ratio' #买交易附加费率, double
-        self.SellMarginByMoney = 'Ratio' #卖交易附加费率, double
+        self.Direction = '' #买卖方向, char
+        self.StampTaxRateByMoney = 'Ratio' #印花税率, double
+        self.StampTaxRateByVolume = 'Ratio' #印花税率(按手数), double
+        self.TransferFeeRateByMoney = 'Ratio' #过户费率, double
+        self.TransferFeeRateByVolume = 'Ratio' #过户费率(按手数), double
+        self.TradeFeeByMoney = 'Ratio' #交易费, double
+        self.TradeFeeByVolume = 'Ratio' #交易费(按手数), double
+        self.MarginByMoney = 'Ratio' #交易附加费率, double
         self.MinTradeFee = 'Price' #最小过户费, double
 
 class SyncingInstrumentTradingRight(BaseStruct): #正在同步中的合约交易权限
-    def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', Direction=D_Buy, TradingRight=TR_Allow, ExchangeID=''):
+    def __init__(self, InstrumentID='', InvestorRange=IR_All, BrokerID='', InvestorID='', Direction=D_Buy, TradingRight=TR_Allow, ExchangeID='', InstrumentRange=INR_All):
         self.InstrumentID = '' #合约代码, char[31]
         self.InvestorRange = '' #投资者范围, char
         self.BrokerID = '' #经纪公司代码, char[11]
@@ -2468,6 +2513,7 @@ class SyncingInstrumentTradingRight(BaseStruct): #正在同步中的合约交易
         self.Direction = '' #买卖, char
         self.TradingRight = '' #交易权限, char
         self.ExchangeID = '' #交易所代码, char[9]
+        self.InstrumentRange = '' #股票权限分类, char
 
 class QryOrder(BaseStruct): #查询报单
     def __init__(self, BrokerID='', InvestorID='', InstrumentID='', ExchangeID='', OrderSysID='', InsertTimeStart='', InsertTimeEnd=''):
@@ -2677,6 +2723,10 @@ class MarketData(BaseStruct): #市场行情
         self.UpdateTime = 'Time' #最后修改时间, char[9]
         self.UpdateMillisec = 'Millisec' #最后修改毫秒, int
 
+class MarketDataExchange(BaseStruct): #行情交易所代码属性
+    def __init__(self, ExchangeID=''):
+        self.ExchangeID = '' #交易所代码, char[9]
+
 class MarketDataBase(BaseStruct): #行情基础属性
     def __init__(self, TradingDay='', PreSettlementPrice=0.0, PreClosePrice=0.0, PreOpenInterest=0.0, PreDelta=0.0):
         self.TradingDay = 'Date' #交易日, char[9]
@@ -2804,7 +2854,7 @@ class QryInvestorPositionDetail(BaseStruct): #查询投资者持仓明细
         self.InstrumentID = '' #合约代码, char[31]
 
 class InvestorPositionDetail(BaseStruct): #投资者持仓明细
-    def __init__(self, InstrumentID='', BrokerID='', InvestorID='', HedgeFlag=HF_Speculation, Direction=D_Buy, OpenDate='', TradeID='', Volume=0, OpenPrice=0.0, TradingDay='', SettlementID=0, TradeType=TRDT_Common, ExchangeID='', Margin=0.0, ExchMargin=0.0, LastSettlementPrice=0.0, SettlementPrice=0.0, CloseVolume=0, CloseAmount=0.0, TransferFee=0.0, StampTax=0.0, Commission=0.0):
+    def __init__(self, InstrumentID='', BrokerID='', InvestorID='', HedgeFlag=HF_Speculation, Direction=D_Buy, OpenDate='', TradeID='', Volume=0, OpenPrice=0.0, TradingDay='', SettlementID=0, TradeType=TRDT_Common, ExchangeID='', Margin=0.0, ExchMargin=0.0, LastSettlementPrice=0.0, SettlementPrice=0.0, CloseVolume=0, CloseAmount=0.0, TransferFee=0.0, StampTax=0.0, Commission=0.0, Amount=0.0):
         self.InstrumentID = '' #合约代码, char[31]
         self.BrokerID = '' #经纪公司代码, char[11]
         self.InvestorID = '' #投资者代码, char[15]
@@ -2827,6 +2877,7 @@ class InvestorPositionDetail(BaseStruct): #投资者持仓明细
         self.TransferFee = 'Money' #过户费, double
         self.StampTax = 'Money' #印花税, double
         self.Commission = 'Money' #手续费, double
+        self.Amount = 'Money' #融资融券金额, double
 
 class TradingAccountPassword(BaseStruct): #资金账户口令域
     def __init__(self, BrokerID='', AccountID='', Password=''):
@@ -4248,7 +4299,7 @@ class MaxStockPositionAmount(BaseStruct): #客户最大持仓数量
         self.InstrumentID = '' #合约代码, char[31]
         self.MaxAmount = 'Volume' #最大持仓数量, int
 
-error = {'NONE':0, 0:'综合交易平台：正确', 'INVALID_DATA_SYNC_STATUS':1, 1:'综合交易平台：不在已同步状态', 'INCONSISTENT_INFORMATION':2, 2:'综合交易平台：会话信息不一致', 'INVALID_LOGIN':3, 3:'综合交易平台：不合法的登录', 'USER_NOT_ACTIVE':4, 4:'综合交易平台：用户不活跃', 'DUPLICATE_LOGIN':5, 5:'综合交易平台：重复的登录', 'NOT_LOGIN_YET':6, 6:'综合交易平台：还没有登录', 'NOT_INITED':7, 7:'综合交易平台：还没有初始化', 'FRONT_NOT_ACTIVE':8, 8:'综合交易平台：前置不活跃', 'NO_PRIVILEGE':9, 9:'综合交易平台：无此权限', 'CHANGE_OTHER_PASSWORD':10, 10:'综合交易平台：修改别人的口令', 'USER_NOT_FOUND':11, 11:'综合交易平台：找不到该用户', 'BROKER_NOT_FOUND':12, 12:'综合交易平台：找不到该经纪公司', 'INVESTOR_NOT_FOUND':13, 13:'综合交易平台：找不到投资者', 'OLD_PASSWORD_MISMATCH':14, 14:'综合交易平台：原口令不匹配', 'BAD_FIELD':15, 15:'综合交易平台：报单字段有误', 'INSTRUMENT_NOT_FOUND':16, 16:'综合交易平台：找不到合约', 'INSTRUMENT_NOT_TRADING':17, 17:'综合交易平台：合约不能交易', 'NOT_EXCHANGE_PARTICIPANT':18, 18:'综合交易平台：经纪公司不是交易所的会员', 'INVESTOR_NOT_ACTIVE':19, 19:'综合交易平台：投资者不活跃', 'NOT_EXCHANGE_CLIENT':20, 20:'综合交易平台：投资者未在交易所开户', 'NO_VALID_TRADER_AVAILABLE':21, 21:'综合交易平台：该交易席位未连接到交易所', 'DUPLICATE_ORDER_REF':22, 22:'综合交易平台：报单错误：不允许重复报单', 'BAD_ORDER_ACTION_FIELD':23, 23:'综合交易平台：错误的报单操作字段', 'DUPLICATE_ORDER_ACTION_REF':24, 24:'综合交易平台：撤单已报送，不允许重复撤单', 'ORDER_NOT_FOUND':25, 25:'综合交易平台：撤单找不到相应报单', 'INSUITABLE_ORDER_STATUS':26, 26:'综合交易平台：报单已全成交或已撤销，不能再撤', 'UNSUPPORTED_FUNCTION':27, 27:'综合交易平台：不支持的功能', 'NO_TRADING_RIGHT':28, 28:'综合交易平台：没有报单交易权限', 'CLOSE_ONLY':29, 29:'综合交易平台：只能平仓', 'OVER_CLOSE_POSITION':30, 30:'综合交易平台：平仓量超过持仓量', 'INSUFFICIENT_MONEY':31, 31:'综合交易平台：资金不足', 'DUPLICATE_PK':32, 32:'综合交易平台：主键重复', 'CANNOT_FIND_PK':33, 33:'综合交易平台：找不到主键', 'CAN_NOT_INACTIVE_BROKER':34, 34:'综合交易平台：设置经纪公司不活跃状态失败', 'BROKER_SYNCHRONIZING':35, 35:'综合交易平台：经纪公司正在同步', 'BROKER_SYNCHRONIZED':36, 36:'综合交易平台：经纪公司已同步', 'SHORT_SELL':37, 37:'综合交易平台：可卖出数量不足', 'INVALID_SETTLEMENT_REF':38, 38:'综合交易平台：不合法的结算引用', 'CFFEX_NETWORK_ERROR':39, 39:'综合交易平台：中金所网络连接失败', 'CFFEX_OVER_REQUEST':40, 40:'综合交易平台：中金所未处理请求超过许可数', 'CFFEX_OVER_REQUEST_PER_SECOND':41, 41:'综合交易平台：中金所每秒发送请求数超过许可数', 'SETTLEMENT_INFO_NOT_CONFIRMED':42, 42:'综合交易平台：结算结果未确认', 'DEPOSIT_NOT_FOUND':43, 43:'综合交易平台：没有对应的入金记录', 'EXCHANG_TRADING':44, 44:'综合交易平台：交易所已经进入连续交易状态', 'PARKEDORDER_NOT_FOUND':45, 45:'综合交易平台：找不到预埋（撤单）单', 'PARKEDORDER_HASSENDED':46, 46:'综合交易平台：预埋（撤单）单已经发送', 'PARKEDORDER_HASDELETE':47, 47:'综合交易平台：预埋（撤单）单已经删除', 'INVALID_INVESTORIDORPASSWORD':48, 48:'综合交易平台：无效的投资者或者密码', 'INVALID_LOGIN_IPADDRESS':49, 49:'综合交易平台：不合法的登录IP地址', 'OVER_CLOSETODAY_POSITION':50, 50:'综合交易平台：平今仓位不足', 'OVER_CLOSEYESTERDAY_POSITION':51, 51:'综合交易平台：平昨仓位不足', 'BROKER_NOT_ENOUGH_CONDORDER':52, 52:'综合交易平台：经纪公司没有足够可用的条件单数量', 'INVESTOR_NOT_ENOUGH_CONDORDER':53, 53:'综合交易平台：投资者没有足够可用的条件单数量', 'BROKER_NOT_SUPPORT_CONDORDER':54, 54:'综合交易平台：经纪公司不支持条件单', 'RESEND_ORDER_BROKERINVESTOR_NOTMATCH':55, 55:'综合交易平台：重发未知单经济公司/投资者不匹配', 'SYC_OTP_FAILED':56, 56:'综合交易平台：同步动态令牌失败', 'OTP_MISMATCH':57, 57:'综合交易平台：动态令牌校验错误', 'OTPPARAM_NOT_FOUND':58, 58:'综合交易平台：找不到动态令牌配置信息', 'UNSUPPORTED_OTPTYPE':59, 59:'综合交易平台：不支持的动态令牌类型', 'MARKETDATA_NOT_FOUND':60, 60:'综合交易平台：缺少需要的证券行情', 'AUTH_FAILED':61, 61:'综合交易平台：客户端认证失败', 'NOT_AUTHENT':62, 62:'综合交易平台：客户端未认证', 'SEND_INSTITUTION_CODE_ERROR':1000, 1000:'银期转账：发送机构代码错误', 'NO_GET_PLATFORM_SN':1001, 1001:'银期转账：取平台流水号错误', 'ILLEGAL_TRANSFER_BANK':1002, 1002:'银期转账：不合法的转账银行', 'ALREADY_OPEN_ACCOUNT':1003, 1003:'银期转账：已经开户', 'NOT_OPEN_ACCOUNT':1004, 1004:'银期转账：未开户', 'PROCESSING':1005, 1005:'银期转账：处理中', 'OVERTIME':1006, 1006:'银期转账：交易超时', 'RECORD_NOT_FOUND':1007, 1007:'银期转账：找不到记录', 'NO_FOUND_REVERSAL_ORIGINAL_TRANSACTION':1008, 1008:'银期转账：找不到被冲正的原始交易', 'CONNECT_HOST_FAILED':1009, 1009:'银期转账：连接主机失败', 'SEND_FAILED':1010, 1010:'银期转账：发送失败', 'LATE_RESPONSE':1011, 1011:'银期转账：迟到应答', 'REVERSAL_BANKID_NOT_MATCH':1012, 1012:'银期转账：冲正交易银行代码错误', 'REVERSAL_BANKACCOUNT_NOT_MATCH':1013, 1013:'银期转账：冲正交易银行账户错误', 'REVERSAL_BROKERID_NOT_MATCH':1014, 1014:'银期转账：冲正交易经纪公司代码错误', 'REVERSAL_ACCOUNTID_NOT_MATCH':1015, 1015:'银期转账：冲正交易资金账户错误', 'REVERSAL_AMOUNT_NOT_MATCH':1016, 1016:'银期转账：冲正交易交易金额错误', 'DB_OPERATION_FAILED':1017, 1017:'银期转账：数据库操作错误', 'SEND_ASP_FAILURE':1018, 1018:'银期转账：发送到交易系统失败', 'NOT_SIGNIN':1019, 1019:'银期转账：没有签到', 'ALREADY_SIGNIN':1020, 1020:'银期转账：已经签到', 'AMOUNT_OR_TIMES_OVER':1021, 1021:'银期转账：金额或次数超限', 'NOT_IN_TRANSFER_TIME':1022, 1022:'银期转账：这一时间段不能转账', 'BANK_SERVER_ERROR':1023, 1023:'银行主机错', 'BANK_SERIAL_IS_REPEALED':1024, 1024:'银期转账：银行已经冲正', 'BANK_SERIAL_NOT_EXIST':1025, 1025:'银期转账：银行流水不存在', 'NOT_ORGAN_MAP':1026, 1026:'银期转账：机构没有签约', 'EXIST_TRANSFER':1027, 1027:'银期转账：存在转账，不能销户', 'BANK_FORBID_REVERSAL':1028, 1028:'银期转账：银行不支持冲正', 'DUP_BANK_SERIAL':1029, 1029:'银期转账：重复的银行流水', 'FBT_SYSTEM_BUSY':1030, 1030:'银期转账：转账系统忙，稍后再试', 'MACKEY_SYNCING':1031, 1031:'银期转账：MAC密钥正在同步', 'ACCOUNTID_ALREADY_REGISTER':1032, 1032:'银期转账：资金账户已经登记', 'BANKACCOUNT_ALREADY_REGISTER':1033, 1033:'银期转账：银行账户已经登记', 'DUP_BANK_SERIAL_REDO_OK':1034, 1034:'银期转账：重复的银行流水,重发成功', 'NO_VALID_BANKOFFER_AVAILABLE':2000, 2000:'综合交易平台：该报盘未连接到银行', 'PASSWORD_MISMATCH':2001, 2001:'综合交易平台：资金密码错误', 'DUPLATION_BANK_SERIAL':2004, 2004:'综合交易平台：银行流水号重复', 'DUPLATION_OFFER_SERIAL':2005, 2005:'综合交易平台：报盘流水号重复', 'SERIAL_NOT_EXSIT':2006, 2006:'综合交易平台：被冲正流水不存在(冲正交易)', 'SERIAL_IS_REPEALED':2007, 2007:'综合交易平台：原流水已冲正(冲正交易)', 'SERIAL_MISMATCH':2008, 2008:'综合交易平台：与原流水信息不符(冲正交易)', 'IdentifiedCardNo_MISMATCH':2009, 2009:'综合交易平台：证件号码或类型错误', 'ACCOUNT_NOT_FUND':2011, 2011:'综合交易平台：资金账户不存在', 'ACCOUNT_NOT_ACTIVE':2012, 2012:'综合交易平台：资金账户已经销户', 'NOT_ALLOW_REPEAL_BYMANUAL':2013, 2013:'综合交易平台：该交易不能执行手工冲正', 'AMOUNT_OUTOFTHEWAY':2014, 2014:'综合交易平台：转帐金额错误', 'WAITING_OFFER_RSP':999999, 999999:'综合交易平台：等待银期报盘处理结果', 'NON_TRADALE_STOCK_VOLUME_PRICE_NOTMACTH':3000, 3000:'综合交易平台：非交易报单价格数量和业务不匹配', 'INVALID_PRODUCT':3001, 3001:'综合交易平台：找不到产品信息', 'INVALID_BUY_VOLUME':3002, 3002:'综合交易平台：不合法的买入数量', 'INVALID_SELL_VOLUME':3003, 3003:'综合交易平台：不合法的卖出数量', 'ONLY_ETF_CAN_PURRED':3004, 3004:'综合交易平台：非ETF产品不能申购赎回', 'INVALID_ETF_VOLUME':3005, 3005:'综合交易平台：ETF申购赎回数量错误', 'NOT_ENOUGH_ETF_PUR_VOLUME':3006, 3006:'综合交易平台：ETF申购无足够股票', 'NOT_ENOUGH_ETF_RED_VOLUME':3007, 3007:'综合交易平台：ETF赎回无足够基金', 'UNAUTHENTNOTVALIDFORTRADE':3008, 3008:'综合交易平台：未认证的用户没有下单权限', 'OVERAMOUNTLIMIT':3009, 3009:'综合交易平台：买入超过持仓数量限制', 'OVERETFCASHRATIO':3010, 3010:'综合交易平台：现金替换金额超过限制', 'ETF_PURRED_NOTSUPCALCEL':3011, 3011:'综合交易平台：ETF申赎不能撤单', 'INVALID_FOR_CREDITACCOUNT':3012, 3012:'综合交易平台：非信用账户不支持此类交易'}
+error = {'NONE':0, 0:'综合交易平台：正确', 'INVALID_DATA_SYNC_STATUS':1, 1:'综合交易平台：不在已同步状态', 'INCONSISTENT_INFORMATION':2, 2:'综合交易平台：会话信息不一致', 'INVALID_LOGIN':3, 3:'综合交易平台：不合法的登录', 'USER_NOT_ACTIVE':4, 4:'综合交易平台：用户不活跃', 'DUPLICATE_LOGIN':5, 5:'综合交易平台：重复的登录', 'NOT_LOGIN_YET':6, 6:'综合交易平台：还没有登录', 'NOT_INITED':7, 7:'综合交易平台：还没有初始化', 'FRONT_NOT_ACTIVE':8, 8:'综合交易平台：前置不活跃', 'NO_PRIVILEGE':9, 9:'综合交易平台：无此权限', 'CHANGE_OTHER_PASSWORD':10, 10:'综合交易平台：修改别人的口令', 'USER_NOT_FOUND':11, 11:'综合交易平台：找不到该用户', 'BROKER_NOT_FOUND':12, 12:'综合交易平台：找不到该经纪公司', 'INVESTOR_NOT_FOUND':13, 13:'综合交易平台：找不到投资者', 'OLD_PASSWORD_MISMATCH':14, 14:'综合交易平台：原口令不匹配', 'BAD_FIELD':15, 15:'综合交易平台：报单字段有误', 'INSTRUMENT_NOT_FOUND':16, 16:'综合交易平台：找不到合约', 'INSTRUMENT_NOT_TRADING':17, 17:'综合交易平台：合约不能交易', 'NOT_EXCHANGE_PARTICIPANT':18, 18:'综合交易平台：经纪公司不是交易所的会员', 'INVESTOR_NOT_ACTIVE':19, 19:'综合交易平台：投资者不活跃', 'NOT_EXCHANGE_CLIENT':20, 20:'综合交易平台：投资者未在交易所开户', 'NO_VALID_TRADER_AVAILABLE':21, 21:'综合交易平台：该交易席位未连接到交易所', 'DUPLICATE_ORDER_REF':22, 22:'综合交易平台：报单错误：不允许重复报单', 'BAD_ORDER_ACTION_FIELD':23, 23:'综合交易平台：错误的报单操作字段', 'DUPLICATE_ORDER_ACTION_REF':24, 24:'综合交易平台：撤单已报送，不允许重复撤单', 'ORDER_NOT_FOUND':25, 25:'综合交易平台：撤单找不到相应报单', 'INSUITABLE_ORDER_STATUS':26, 26:'综合交易平台：报单已全成交或已撤销，不能再撤', 'UNSUPPORTED_FUNCTION':27, 27:'综合交易平台：不支持的功能', 'NO_TRADING_RIGHT':28, 28:'综合交易平台：没有报单交易权限', 'CLOSE_ONLY':29, 29:'综合交易平台：只能平仓', 'OVER_CLOSE_POSITION':30, 30:'综合交易平台：平仓量超过持仓量', 'INSUFFICIENT_MONEY':31, 31:'综合交易平台：资金不足', 'DUPLICATE_PK':32, 32:'综合交易平台：主键重复', 'CANNOT_FIND_PK':33, 33:'综合交易平台：找不到主键', 'CAN_NOT_INACTIVE_BROKER':34, 34:'综合交易平台：设置经纪公司不活跃状态失败', 'BROKER_SYNCHRONIZING':35, 35:'综合交易平台：经纪公司正在同步', 'BROKER_SYNCHRONIZED':36, 36:'综合交易平台：经纪公司已同步', 'SHORT_SELL':37, 37:'综合交易平台：可卖出数量不足', 'INVALID_SETTLEMENT_REF':38, 38:'综合交易平台：不合法的结算引用', 'CFFEX_NETWORK_ERROR':39, 39:'综合交易平台：中金所网络连接失败', 'CFFEX_OVER_REQUEST':40, 40:'综合交易平台：中金所未处理请求超过许可数', 'CFFEX_OVER_REQUEST_PER_SECOND':41, 41:'综合交易平台：中金所每秒发送请求数超过许可数', 'SETTLEMENT_INFO_NOT_CONFIRMED':42, 42:'综合交易平台：结算结果未确认', 'DEPOSIT_NOT_FOUND':43, 43:'综合交易平台：没有对应的入金记录', 'EXCHANG_TRADING':44, 44:'综合交易平台：交易所已经进入连续交易状态', 'PARKEDORDER_NOT_FOUND':45, 45:'综合交易平台：找不到预埋（撤单）单', 'PARKEDORDER_HASSENDED':46, 46:'综合交易平台：预埋（撤单）单已经发送', 'PARKEDORDER_HASDELETE':47, 47:'综合交易平台：预埋（撤单）单已经删除', 'INVALID_INVESTORIDORPASSWORD':48, 48:'综合交易平台：无效的投资者或者密码', 'INVALID_LOGIN_IPADDRESS':49, 49:'综合交易平台：不合法的登录IP地址', 'OVER_CLOSETODAY_POSITION':50, 50:'综合交易平台：平今仓位不足', 'OVER_CLOSEYESTERDAY_POSITION':51, 51:'综合交易平台：平昨仓位不足', 'BROKER_NOT_ENOUGH_CONDORDER':52, 52:'综合交易平台：经纪公司没有足够可用的条件单数量', 'INVESTOR_NOT_ENOUGH_CONDORDER':53, 53:'综合交易平台：投资者没有足够可用的条件单数量', 'BROKER_NOT_SUPPORT_CONDORDER':54, 54:'综合交易平台：经纪公司不支持条件单', 'RESEND_ORDER_BROKERINVESTOR_NOTMATCH':55, 55:'综合交易平台：重发未知单经济公司/投资者不匹配', 'SYC_OTP_FAILED':56, 56:'综合交易平台：同步动态令牌失败', 'OTP_MISMATCH':57, 57:'综合交易平台：动态令牌校验错误', 'OTPPARAM_NOT_FOUND':58, 58:'综合交易平台：找不到动态令牌配置信息', 'UNSUPPORTED_OTPTYPE':59, 59:'综合交易平台：不支持的动态令牌类型', 'MARKETDATA_NOT_FOUND':60, 60:'综合交易平台：缺少需要的证券行情', 'AUTH_FAILED':61, 61:'综合交易平台：客户端认证失败', 'NOT_AUTHENT':62, 62:'综合交易平台：客户端未认证', 'NO_SHORTSELL':63, 63:'综合交易平台：没有对应的融券卖出记录', 'NO_CREDITINFO':64, 64:'综合交易平台：缺少必要的信用交易信息', 'SEND_INSTITUTION_CODE_ERROR':1000, 1000:'银期转账：发送机构代码错误', 'NO_GET_PLATFORM_SN':1001, 1001:'银期转账：取平台流水号错误', 'ILLEGAL_TRANSFER_BANK':1002, 1002:'银期转账：不合法的转账银行', 'ALREADY_OPEN_ACCOUNT':1003, 1003:'银期转账：已经开户', 'NOT_OPEN_ACCOUNT':1004, 1004:'银期转账：未开户', 'PROCESSING':1005, 1005:'银期转账：处理中', 'OVERTIME':1006, 1006:'银期转账：交易超时', 'RECORD_NOT_FOUND':1007, 1007:'银期转账：找不到记录', 'NO_FOUND_REVERSAL_ORIGINAL_TRANSACTION':1008, 1008:'银期转账：找不到被冲正的原始交易', 'CONNECT_HOST_FAILED':1009, 1009:'银期转账：连接主机失败', 'SEND_FAILED':1010, 1010:'银期转账：发送失败', 'LATE_RESPONSE':1011, 1011:'银期转账：迟到应答', 'REVERSAL_BANKID_NOT_MATCH':1012, 1012:'银期转账：冲正交易银行代码错误', 'REVERSAL_BANKACCOUNT_NOT_MATCH':1013, 1013:'银期转账：冲正交易银行账户错误', 'REVERSAL_BROKERID_NOT_MATCH':1014, 1014:'银期转账：冲正交易经纪公司代码错误', 'REVERSAL_ACCOUNTID_NOT_MATCH':1015, 1015:'银期转账：冲正交易资金账户错误', 'REVERSAL_AMOUNT_NOT_MATCH':1016, 1016:'银期转账：冲正交易交易金额错误', 'DB_OPERATION_FAILED':1017, 1017:'银期转账：数据库操作错误', 'SEND_ASP_FAILURE':1018, 1018:'银期转账：发送到交易系统失败', 'NOT_SIGNIN':1019, 1019:'银期转账：没有签到', 'ALREADY_SIGNIN':1020, 1020:'银期转账：已经签到', 'AMOUNT_OR_TIMES_OVER':1021, 1021:'银期转账：金额或次数超限', 'NOT_IN_TRANSFER_TIME':1022, 1022:'银期转账：这一时间段不能转账', 'BANK_SERVER_ERROR':1023, 1023:'银行主机错', 'BANK_SERIAL_IS_REPEALED':1024, 1024:'银期转账：银行已经冲正', 'BANK_SERIAL_NOT_EXIST':1025, 1025:'银期转账：银行流水不存在', 'NOT_ORGAN_MAP':1026, 1026:'银期转账：机构没有签约', 'EXIST_TRANSFER':1027, 1027:'银期转账：存在转账，不能销户', 'BANK_FORBID_REVERSAL':1028, 1028:'银期转账：银行不支持冲正', 'DUP_BANK_SERIAL':1029, 1029:'银期转账：重复的银行流水', 'FBT_SYSTEM_BUSY':1030, 1030:'银期转账：转账系统忙，稍后再试', 'MACKEY_SYNCING':1031, 1031:'银期转账：MAC密钥正在同步', 'ACCOUNTID_ALREADY_REGISTER':1032, 1032:'银期转账：资金账户已经登记', 'BANKACCOUNT_ALREADY_REGISTER':1033, 1033:'银期转账：银行账户已经登记', 'DUP_BANK_SERIAL_REDO_OK':1034, 1034:'银期转账：重复的银行流水,重发成功', 'NO_VALID_BANKOFFER_AVAILABLE':2000, 2000:'综合交易平台：该报盘未连接到银行', 'PASSWORD_MISMATCH':2001, 2001:'综合交易平台：资金密码错误', 'DUPLATION_BANK_SERIAL':2004, 2004:'综合交易平台：银行流水号重复', 'DUPLATION_OFFER_SERIAL':2005, 2005:'综合交易平台：报盘流水号重复', 'SERIAL_NOT_EXSIT':2006, 2006:'综合交易平台：被冲正流水不存在(冲正交易)', 'SERIAL_IS_REPEALED':2007, 2007:'综合交易平台：原流水已冲正(冲正交易)', 'SERIAL_MISMATCH':2008, 2008:'综合交易平台：与原流水信息不符(冲正交易)', 'IdentifiedCardNo_MISMATCH':2009, 2009:'综合交易平台：证件号码或类型错误', 'ACCOUNT_NOT_FUND':2011, 2011:'综合交易平台：资金账户不存在', 'ACCOUNT_NOT_ACTIVE':2012, 2012:'综合交易平台：资金账户已经销户', 'NOT_ALLOW_REPEAL_BYMANUAL':2013, 2013:'综合交易平台：该交易不能执行手工冲正', 'AMOUNT_OUTOFTHEWAY':2014, 2014:'综合交易平台：转帐金额错误', 'WAITING_OFFER_RSP':999999, 999999:'综合交易平台：等待银期报盘处理结果', 'NON_TRADALE_STOCK_VOLUME_PRICE_NOTMACTH':3000, 3000:'综合交易平台：非交易报单价格数量和业务不匹配', 'INVALID_PRODUCT':3001, 3001:'综合交易平台：找不到产品信息', 'INVALID_BUY_VOLUME':3002, 3002:'综合交易平台：不合法的买入数量', 'INVALID_SELL_VOLUME':3003, 3003:'综合交易平台：不合法的卖出数量', 'ONLY_ETF_CAN_PURRED':3004, 3004:'综合交易平台：非ETF产品不能申购赎回', 'INVALID_ETF_VOLUME':3005, 3005:'综合交易平台：ETF申购赎回数量错误', 'NOT_ENOUGH_ETF_PUR_VOLUME':3006, 3006:'综合交易平台：ETF申购无足够股票', 'NOT_ENOUGH_ETF_RED_VOLUME':3007, 3007:'综合交易平台：ETF赎回无足够基金', 'UNAUTHENTNOTVALIDFORTRADE':3008, 3008:'综合交易平台：未认证的用户没有下单权限', 'OVERAMOUNTLIMIT':3009, 3009:'综合交易平台：买入超过持仓数量限制', 'OVERETFCASHRATIO':3010, 3010:'综合交易平台：现金替换金额超过限制', 'ETF_PURRED_NOTSUPCALCEL':3011, 3011:'综合交易平台：ETF申赎不能撤单', 'INVALID_FOR_CREDITACCOUNT':3012, 3012:'综合交易平台：非信用账户不支持此类交易', 'CONVERSIONRATE_NOT_FOUND':3013, 3013:'综合交易平台：无法找到此产品的折扣率', 'INSTEUMENT_CANNOT_MT':3014, 3014:'综合交易平台：此合约不能融资交易', 'INSTEUMENT_CANNOT_SS':3015, 3015:'综合交易平台：此合约不能融券交易', 'INSUFFICIENT_MARGINCREDIT':3016, 3016:'综合交易平台：融资金额超过上限'}
 
 def _init():
     import re, sys
@@ -4266,7 +4317,7 @@ def _init():
     else:
         for k in error:
             if not isinstance(k, str): error[k] = error[k].decode('utf-8')
-    edvs = {'ContingentCondition':CC_Immediately, 'TradeType':TRDT_Common, 'AllWithoutTrade':AWT_Enable, 'PositionDateType':PDT_UseHistory, 'TradingRight':TR_Allow, 'UserRightType':URT_Logon, 'InstitutionType':TS_Bank, 'FindMarginRateAlgoID':FMRA_Base, 'HedgeFlag':HF_Speculation, 'TraderConnectStatus':TCS_NotConnected, 'CustType':CUSTT_Person, 'PositionType':PT_Net, 'ProductClass':PC_Futures, 'OrderPriceType':OPT_AnyPrice, 'ParkedOrderStatus':PAOS_NotSend, 'YesNoIndicator':YNI_Yes, 'HandlePositionAlgoID':HPA_Base, 'Direction':D_Buy, 'OffsetFlag':OF_Open, 'PosiDirection':PD_Net, 'PwdFlag':BPWDF_NoCheck, 'PersonType':PST_Order, 'ExchangeProperty':EXP_Normal, 'UserType':UT_Investor, 'TimeCondition':TC_IOC, 'OrderStatus':OST_AllTraded, 'ActionFlag':AF_Delete, 'OrderSubmitStatus':OSS_InsertSubmitted, 'DataSyncStatus':DS_Asynchronous, 'TransferValidFlag':TVF_Invalid, 'AvailabilityFlag':AVAF_Invalid, 'InstStatusEnterReason':IER_Automatic, 'PositionDate':PSD_Today, 'Algorithm':AG_All, 'ForceCloseReason':FCC_NotForceClose, 'OrderType':ORDT_Normal, 'FeePayFlag':FPF_BEN, 'FuturePwdFlag':FPWD_UnCheck, 'Gender':GD_Unknown, 'FunctionCode':FC_DataAsync, 'OrderSource':OSRC_Participant, 'CashExchangeCode':CEC_Exchange, 'BrokerRepealFlag':BRORF_BrokerNotNeedRepeal, 'InstrumentStatus':IS_BeforeTrading, 'BankRepealFlag':BRF_BankNotNeedRepeal, 'HandleTradingAccountAlgoID':HTAA_Base, 'IdCardType':ICT_EID, 'MarginPriceType':MPT_PreSettlementPrice, 'FileBusinessCode':FBC_Others, 'IncludeCloseProfit':ICP_Include, 'CFMMCKeyKind':CFMMCKK_REQUEST, 'BankAccType':BAT_BankBook, 'LastFragment':LF_Yes, 'InstLifePhase':IP_NotStart, 'FutureAccType':FAT_BankBook, 'VolumeCondition':VC_AV, 'MoneyAccountStatus':MAS_Normal, 'OTPType':OTP_NONE, 'UserEventType':UET_All, 'InvestorRange':IR_All, 'TransferStatus':TRFS_Normal, 'PriceSource':PSRC_LastPrice, 'TradingRole':ER_Broker, 'BrokerFunctionCode':BFC_ForceUserLogout, 'OrderActionStatus':OAS_Submitted}
+    edvs = {'ContingentCondition':CC_Immediately, 'TradeType':TRDT_Common, 'AllWithoutTrade':AWT_Enable, 'InstrumentRange':INR_All, 'TradingRight':TR_Allow, 'UserRightType':URT_Logon, 'InstitutionType':TS_Bank, 'FindMarginRateAlgoID':FMRA_Base, 'HedgeFlag':HF_Speculation, 'TraderConnectStatus':TCS_NotConnected, 'CustType':CUSTT_Person, 'PositionType':PT_Net, 'ProductClass':PC_Futures, 'OrderPriceType':OPT_AnyPrice, 'ParkedOrderStatus':PAOS_NotSend, 'PositionDateType':PDT_UseHistory, 'HandlePositionAlgoID':HPA_Base, 'Direction':D_Buy, 'OffsetFlag':OF_Open, 'PosiDirection':PD_Net, 'YesNoIndicator':YNI_Yes, 'PersonType':PST_Order, 'ExchangeProperty':EXP_Normal, 'UserType':UT_Investor, 'TimeCondition':TC_IOC, 'OrderStatus':OST_AllTraded, 'ActionFlag':AF_Delete, 'OrderSubmitStatus':OSS_InsertSubmitted, 'DataSyncStatus':DS_Asynchronous, 'TransferValidFlag':TVF_Invalid, 'AvailabilityFlag':AVAF_Invalid, 'InstStatusEnterReason':IER_Automatic, 'PositionDate':PSD_Today, 'Algorithm':AG_All, 'ForceCloseReason':FCC_NotForceClose, 'OrderType':ORDT_Normal, 'FeePayFlag':FPF_BEN, 'FuturePwdFlag':FPWD_UnCheck, 'Gender':GD_Unknown, 'FunctionCode':FC_DataAsync, 'OrderSource':OSRC_Participant, 'CashExchangeCode':CEC_Exchange, 'BrokerRepealFlag':BRORF_BrokerNotNeedRepeal, 'InstrumentStatus':IS_BeforeTrading, 'BankRepealFlag':BRF_BankNotNeedRepeal, 'HandleTradingAccountAlgoID':HTAA_Base, 'IdCardType':ICT_EID, 'MarginPriceType':MPT_PreSettlementPrice, 'FileBusinessCode':FBC_Others, 'IncludeCloseProfit':ICP_Include, 'CFMMCKeyKind':CFMMCKK_REQUEST, 'BankAccType':BAT_BankBook, 'LastFragment':LF_Yes, 'InstLifePhase':IP_NotStart, 'FutureAccType':FAT_BankBook, 'PwdFlag':BPWDF_NoCheck, 'VolumeCondition':VC_AV, 'MoneyAccountStatus':MAS_Normal, 'OTPType':OTP_NONE, 'UserEventType':UET_All, 'InvestorRange':IR_All, 'TransferStatus':TRFS_Normal, 'PriceSource':PSRC_LastPrice, 'TradingRole':ER_Broker, 'BrokerFunctionCode':BFC_ForceUserLogout, 'OrderActionStatus':OAS_Submitted}
     Structs = [v for v in G.values() if isinstance(v,type) and issubclass(v,Base)]
     Base = G['BaseStruct'] = type('BaseStruct', (Structure,), dict((k,v)
             for k,v in Base.__dict__.items() if

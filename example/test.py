@@ -60,12 +60,22 @@ class MyMdApi(MdApi):
         print('OnRtnDepthMarketData:', pDepthMarketData)
 
 if __name__ == '__main__':
-    mdapi = MyMdApi(b'0000', b'00000000', b'000000', [b'00000'])
-    mdapi.RegisterFront(b'tcp://000.000.000.000:0000')
+    mdapi = MyMdApi(b'6000', b'gdqh', b'gdqh', [b'au1512'])
+    mdapi.RegisterFront(b'tcp://112.64.143.36:41213')
     mdapi.Init()
 
+#    mdapi = MyMdApi(b'2030', b'00092', b'888888', [b'au1512'])
+#    mdapi.RegisterFront(b'tcp://asp-sim2-md1.financial-trading-platform.com:26213')
+#    mdapi.Init()
     try:
         while 1:
             time.sleep(1)
     except KeyboardInterrupt:
         pass
+
+    # parameter for test trader
+    # broker_id = '2030'
+    # investor_id = '354079'
+    # password = '481531'
+    # instrument_id = 'cu1408'
+    # front_addr = "tcp://asp-sim2-front1.financial-trading-platform.com:26205"
